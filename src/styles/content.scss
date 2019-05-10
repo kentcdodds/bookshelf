@@ -24,10 +24,10 @@
 .item__reading-list {
   display: grid;
   grid-template-columns: 1fr 5fr 2fr 0.2fr;
-  grid-gap: 1em;
+  grid-gap: 2em;
   border: 1px solid $gray;
   color: $text;
-  padding: 1.5em;
+  padding: 1.25em;
   border-radius: 3px;
   @include respond-to('small') {
     grid-template-columns: 1fr;
@@ -42,9 +42,9 @@
   margin: 0;
 }
 .item__image {
-  height: 80px;
+  height: 160px;
   @include respond-to('small') {
-    height: 150px;
+    height: 200px;
   }
   img {
     max-height: 100%;

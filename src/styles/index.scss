@@ -77,11 +77,14 @@ input {
 }
 
 nav {
+  position: sticky;
+  top: 2em;
   padding: 2em 1.5em;
   border: 1px solid $gray-10;
   border-radius: 3px;
   @include respond-to('small') {
     padding: 0.5em 1em;
+    position: static;
   }
   ul {
     list-style: none;

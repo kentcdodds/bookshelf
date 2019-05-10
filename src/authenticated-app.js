@@ -17,7 +17,6 @@ function AuthenticatedApp() {
           {user.username}
           <button onClick={logout}>Logout</button>
         </div>
-
         <Nav />
       </div>
       <main>
