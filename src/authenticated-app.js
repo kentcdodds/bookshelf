@@ -14,7 +14,7 @@ function AuthenticatedApp() {
     <div className="wrapper">
       <div>
         <div className="logout">
-          {user.username && `Hi ${user.username}!`}
+          {user.username}
           <button onClick={logout}>Logout</button>
         </div>
 

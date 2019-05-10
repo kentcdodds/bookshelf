@@ -1,6 +1,8 @@
 import React from 'react'
 import Rating from '../components/rating'
-import {FaPlus} from 'react-icons/fa'
+import {FaPlus, FaCheckCircle} from 'react-icons/fa'
+import {Link} from '@reach/router'
+import Tooltip from '@reach/tooltip'
 
 const ReadingListItem = ({
   title = 'A Tale of Two Cities',
@@ -10,7 +12,7 @@ const ReadingListItem = ({
 }) => {
   return (
     <li>
-      <a href="/book" className="item item__reading-list">
+      <Link to="/book" className="item item__reading-list">
         <div className="item__image">
           <img src={image} alt={`${title} book cover`} />
         </div>
@@ -19,9 +21,13 @@ const ReadingListItem = ({
           <Rating />
           <p>{notes}</p>
         </div>
-        <div className="author">{author}</div>
-        <input type="checkbox" />
-      </a>
+        <div className="author author--mt">{author}</div>
+      </Link>
+      <Tooltip label="Mark as read">
+        <button className="button--circle button--mark-as-read">
+          <FaCheckCircle />
+        </button>
+      </Tooltip>
     </li>
   )
 }

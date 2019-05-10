@@ -1,6 +1,6 @@
 import React from 'react'
 import Rating from '../components/rating'
-import {FaCalendar, FaRegCalendarAlt} from 'react-icons/fa'
+import {FaRegCalendarAlt} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
 
 function BookScreen({
@@ -16,7 +16,8 @@ function BookScreen({
         <img src={image} alt={`${title} book cover`} />
         <div>
           <h1>{title}</h1>
-          <div className="book__rating">
+          <i>{author}</i>
+          <div className="book__interactions">
             <Rating />
             <Tooltip label="Date read">
               <div>

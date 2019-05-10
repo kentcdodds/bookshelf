@@ -17,7 +17,7 @@
   @extend %button;
 }
 
-.button--close {
+.button--circle {
   border-radius: 30px;
   padding: 0;
   width: 40px;
@@ -30,6 +30,9 @@
   color: $text;
   border: 1px solid $gray-10;
 }
+.button--circle:hover {
+  color: $base;
+}
 
 .button--icon {
   @extend %button;
@@ -39,4 +42,20 @@
     display: flex;
     align-items: center;
   }
+}
+
+.button--mark-as-read {
+  margin-left: 20px;
+  position: absolute;
+  color: $gray-80;
+}
+.button--mark-as-read:hover {
+  color: $green;
+}
+
+.button--search {
+  border: 0;
+  position: relative;
+  margin-left: -35px;
+  background: transparent;
 }

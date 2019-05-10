@@ -29,6 +29,10 @@
   }
 }
 
+span[role='img'] {
+  color: $gray-80;
+}
+
 button,
 input {
   border-radius: 3px;
@@ -74,9 +78,11 @@ input {
 
 nav {
   padding: 2em 1.5em;
-  //background: $gray-10;
   border: 1px solid $gray-10;
   border-radius: 3px;
+  @include respond-to('small') {
+    padding: 0.5em 1em;
+  }
   ul {
     list-style: none;
     padding: 0;

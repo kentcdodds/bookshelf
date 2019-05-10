@@ -41,7 +41,7 @@ function Modal({buttonText, children}) {
       <button onClick={() => setIsOpen(true)}>{buttonText}</button>
       <Dialog isOpen={isOpen}>
         <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-          <button className="button--close" onClick={() => setIsOpen(false)}>
+          <button className="button--circle" onClick={() => setIsOpen(false)}>
             <VisuallyHidden>Close</VisuallyHidden>
             <span aria-hidden>×</span>
           </button>

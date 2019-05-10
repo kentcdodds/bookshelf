@@ -40,10 +40,10 @@ function DiscoverBooksScreen() {
   return (
     <div>
       <div>
-        <input ref={queryRef} id="search" />
+        <input ref={queryRef} placeholder="Search books..." id="search" />
         <Tooltip label="Search Books">
           <label htmlFor="search">
-            <button onClick={handleSearchClick}>
+            <button className="button--search" onClick={handleSearchClick}>
               <span role="img" aria-label="search">
                 🔎
               </span>
@@ -82,9 +82,13 @@ function BookRow({book}) {
       </div>
       <div>
         <h3>{book.title}</h3>
-        <div className="author">{book.author}</div>
-        {/* <pre>{JSON.stringify(book, null, 2)}</pre> */}
+        <div className="author">
+          <h4>{book.author}</h4>
+        </div>
+        <small>{book.publisher}</small>
+        <small>{book.synopsis.substring(0, 500)}...</small>
       </div>
+      {/* <pre>{JSON.stringify(book, null, 2)}</pre> */}
     </div>
   )
 }

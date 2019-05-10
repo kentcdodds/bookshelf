@@ -3,24 +3,22 @@
 @import './forms.scss';
 @import './buttons.scss';
 
-.item {
-  &:hover {
-    text-decoration: none;
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.08);
-    color: inherit;
-    h2 {
-      color: $indigo;
-    }
-  }
-}
+// Reading list
+
 .reading-list {
   margin-top: 1em;
+
   ul {
     list-style: none;
     padding: 0;
     display: grid;
     grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
     grid-gap: 1em;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 }
 .item__reading-list {
@@ -38,9 +36,6 @@
     margin-top: 0.5em;
     margin-bottom: 0;
   }
-  input[type='checkbox'] {
-    margin-top: 0.4em;
-  }
 }
 .item__title {
   font-size: 1.25em;
@@ -55,7 +50,25 @@
     max-height: 100%;
   }
 }
+
+// Global
+
+.item {
+  flex-grow: 2;
+  &:hover {
+    text-decoration: none;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.08);
+    color: inherit;
+    h2 {
+      color: $indigo;
+    }
+  }
+}
+
 .author {
+  font-style: italic;
   font-size: 0.85em;
+}
+.author--mt {
   margin-top: 0.4em;
 }
