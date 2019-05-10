@@ -1,0 +1,12 @@
+.discover__row {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-gap: 1em;
+  margin-bottom: 1em;
+}
+
+.discover__image {
+  img {
+    width: 100%;
+  }
+}
