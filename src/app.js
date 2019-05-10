@@ -4,8 +4,8 @@ import AuthenticatedApp from './authenticated-app'
 import UnauthenticatedApp from './unauthenticated-app'
 
 function App() {
-  const {isLoading, user} = useAuth()
-  return isLoading ? (
+  const {isInitializing, user} = useAuth()
+  return isInitializing ? (
     '...'
   ) : user ? (
     <AuthenticatedApp />

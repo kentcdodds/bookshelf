@@ -5,6 +5,7 @@ import {Dialog} from '@reach/dialog'
 import {useAuth} from './context/auth-context'
 
 function LoginForm({onSubmit, buttonText}) {
+  const {isLoading, error} = useAuth()
   function handleSubmit(event) {
     event.preventDefault()
     const {username, password} = event.target.elements
@@ -26,16 +27,37 @@ function LoginForm({onSubmit, buttonText}) {
       </div>
       <div>
         <button type="submit" className="button">
-          {/* this could be "Login" or "Register" insted of Submit */}
-          Submit
+          {buttonText} {isLoading ? '...' : null}
         </button>
       </div>
+      <div style={{color: 'red'}}>{error ? error.message : null}</div>
     </form>
   )
 }
 
+function useUpdateEffect(effect, deps) {
+  const mounted = React.useRef(false)
+  React.useEffect(() => {
+    if (mounted.current) {
+      effect()
+    } else {
+      mounted.current = true
+    }
+    // we're using it right, I promise...
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps)
+}
+
 function Modal({buttonText, children}) {
+  const {clearError} = useAuth()
   const [isOpen, setIsOpen] = React.useState(false)
+
+  useUpdateEffect(() => {
+    if (!isOpen) {
+      clearError()
+    }
+  }, [isOpen])
+
   return (
     <>
       <button onClick={() => setIsOpen(true)}>{buttonText}</button>
@@ -62,11 +84,11 @@ function UnauthenticatedApp() {
       <div className="landing">
         <Modal buttonText="Login">
           <h3>Login</h3>
-          <LoginForm onSubmit={login} />
+          <LoginForm onSubmit={login} buttonText="Login" />
         </Modal>
         <Modal buttonText="Register">
           <h3>Register</h3>
-          <LoginForm onSubmit={register} />
+          <LoginForm onSubmit={register} buttonText="Register" />
         </Modal>
       </div>
     </div>

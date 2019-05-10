@@ -3,7 +3,8 @@
 // little app that doesn't actually have any server element.
 import qs from 'querystringify'
 import matchSorter from 'match-sorter'
-import allBooks from './books.json'
+import allBooks from './data/books.json'
+import * as users from './data/users'
 
 const originalFetch = window.fetch
 
@@ -15,30 +16,42 @@ const isApi = endpoint => url =>
 
 const fakeResponses = [
   {
-    test: url => isApi('login')(url) || isApi('register')(url),
-    handler: async (url, config) => {
+    test: isApi('login'),
+    async handler(url, config) {
       await sleep()
       const body = JSON.parse(config.body)
-      if (body.password === 'fail') {
-        return {
-          status: 400,
-          json: () =>
-            Promise.reject({errors: ['Incorrect username or password']}),
-        }
-      } else {
-        return {
-          status: 200,
-          json: async () => ({
-            token: btoa(body.username),
+      return {
+        status: 200,
+        json: async () =>
+          users.authenticate({
             username: body.username,
+            password: body.password,
           }),
-        }
+      }
+    },
+  },
+  {
+    test: isApi('register'),
+    async handler(url, config) {
+      await sleep()
+      const {username, password} = JSON.parse(config.body)
+      if (!username) {
+        throw new Error('A username is required')
+      }
+      if (!password) {
+        throw new Error('A password is required')
+      }
+      const userFields = {username, password}
+      users.create(userFields)
+      return {
+        status: 200,
+        json: async () => users.authenticate(userFields),
       }
     },
   },
   {
     test: isApi('me'),
-    handler: async (url, config) => {
+    async handler(url, config) {
       await sleep()
       const token = config.headers.Authorization.replace('Bearer ', '')
       if (!token) {
@@ -49,9 +62,7 @@ const fakeResponses = [
       }
       return {
         status: 200,
-        json: async () => ({
-          username: atob(token),
-        }),
+        json: async () => users.read(atob(token)),
       }
     },
   },
@@ -63,7 +74,7 @@ const fakeResponses = [
       const {search} = new window.URL(url)
       return qs.parse(search).hasOwnProperty('query')
     },
-    handler: async (url, config) => {
+    async handler(url, config) {
       const {query} = qs.parse(new window.URL(url).search)
       const matchingBooks = matchSorter(allBooks, query, {
         keys: [

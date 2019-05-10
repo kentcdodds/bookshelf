@@ -6,16 +6,25 @@ const AuthContext = React.createContext()
 function authReducer(state, action) {
   switch (action.type) {
     case 'fetching': {
-      return {isLoading: true, user: null, error: null}
+      return {...state, isLoading: true, user: null, error: null}
     }
     case 'success': {
-      return {isLoading: false, user: action.user, error: null}
+      return {...state, isLoading: false, user: action.user, error: null}
     }
     case 'error': {
-      return {isLoading: false, user: null, error: action.error}
+      return {...state, isLoading: false, user: null, error: action.error}
     }
     case 'logout': {
-      return {isLoading: false, user: null, error: null}
+      return {...state, isLoading: false, user: null, error: null}
+    }
+    case 'initializing': {
+      return {...state, isInitializing: true}
+    }
+    case 'initialized': {
+      return {...state, isInitializing: false}
+    }
+    case 'clear error': {
+      return {...state, error: null}
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`)
@@ -25,16 +34,23 @@ function authReducer(state, action) {
 
 function useAuthContextValue() {
   const [state, dispatch] = React.useReducer(authReducer, {
+    isInitializing: false,
     isLoading: false,
     user: null,
     error: null,
   })
-  const {isLoading, user, error} = state
-  React.useDebugValue(isLoading ? 'loading' : error || user || 'no user')
+  const {isLoading, isInitializing, user, error} = state
+  React.useDebugValue(
+    isInitializing
+      ? 'initializing'
+      : isLoading
+      ? 'loading'
+      : error || user || 'no user',
+  )
 
   const run = React.useCallback(promise => {
     dispatch({type: 'fetching'})
-    promise.then(
+    return promise.then(
       receivedUser => dispatch({type: 'success', user: receivedUser}),
       error => dispatch({type: 'error', error}),
     )
@@ -43,7 +59,10 @@ function useAuthContextValue() {
   const hasUser = Boolean(user)
   React.useLayoutEffect(() => {
     if (!hasUser && auth.getToken()) {
-      run(auth.getUser())
+      dispatch({type: 'initializing'})
+      run(auth.getUser()).finally(() => {
+        dispatch({type: 'initialized'})
+      })
     }
   }, [hasUser, run])
 
@@ -61,9 +80,22 @@ function useAuthContextValue() {
     dispatch({type: 'logout'})
   }
 
+  function clearError() {
+    dispatch({type: 'clear error'})
+  }
+
   const value = React.useMemo(() => {
-    return {user, error, isLoading, login, register, logout}
-  }, [error, isLoading, login, register, user])
+    return {
+      user,
+      error,
+      isLoading,
+      isInitializing,
+      login,
+      register,
+      logout,
+      clearError,
+    }
+  }, [error, isInitializing, isLoading, login, register, user])
   return value
 }
 

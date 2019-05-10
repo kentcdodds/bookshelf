@@ -8,7 +8,10 @@ function handleUserResponse({token, ...user}) {
 }
 
 function getUser() {
-  return client('me')
+  return client('me').catch(error => {
+    logout()
+    return Promise.reject(error)
+  })
 }
 
 function login({username, password}) {
