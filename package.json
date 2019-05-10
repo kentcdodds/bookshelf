@@ -1,0 +1,51 @@
+{
+  "name": "bookshelf",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://the-react-bookshelf.netlify.com/",
+  "dependencies": {
+    "@reach/dialog": "^0.2.8",
+    "@reach/menu-button": "^0.1.17",
+    "@reach/router": "^1.2.1",
+    "@reach/tabs": "^0.1.5",
+    "@reach/tooltip": "^0.2.0",
+    "@reach/visually-hidden": "^0.1.4",
+    "jest-dom": "^3.2.2",
+    "match-sorter": "^3.0.0",
+    "normalize.css": "^8.0.1",
+    "querystringify": "^2.1.1",
+    "react": "^16.8.6",
+    "react-async": "^6.2.0",
+    "react-dom": "^16.8.6",
+    "react-scripts": "^3.0.1",
+    "react-testing-library": "^7.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test:coverage": "npm run test -- --watchAll false --coverage",
+    "lint": "eslint . --cache-location node_modules/.cache/eslint",
+    "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\"",
+    "validate": "npm run lint && npm run test:coverage && npm run build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run build"
+    }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "husky": "^2.2.0",
+    "lint-staged": "^8.1.6",
+    "prettier": "^1.17.0"
+  }
+}
