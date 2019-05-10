@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "vojtaholik",
+      "name": "Vojta Holik",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/25487857?v=4",
+      "profile": "http://vojta.io",
+      "contributions": [
+        "design",
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "bookshelf",
+  "projectOwner": "kentcdodds",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
