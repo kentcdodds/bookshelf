@@ -1,0 +1,61 @@
+@import './colors.scss';
+@import './breakpoints.scss';
+@import './forms.scss';
+@import './buttons.scss';
+
+.item {
+  &:hover {
+    text-decoration: none;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.08);
+    color: inherit;
+    h2 {
+      color: $indigo;
+    }
+  }
+}
+.reading-list {
+  margin-top: 1em;
+  ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
+    grid-gap: 1em;
+  }
+}
+.item__reading-list {
+  display: grid;
+  grid-template-columns: 1fr 5fr 2fr 0.2fr;
+  grid-gap: 1em;
+  border: 1px solid $gray;
+  color: $text;
+  padding: 1.5em;
+  border-radius: 3px;
+  @include respond-to('small') {
+    grid-template-columns: 1fr;
+  }
+  p {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+  input[type='checkbox'] {
+    margin-top: 0.4em;
+  }
+}
+.item__title {
+  font-size: 1.25em;
+  margin: 0;
+}
+.item__image {
+  height: 80px;
+  @include respond-to('small') {
+    height: 150px;
+  }
+  img {
+    max-height: 100%;
+  }
+}
+.author {
+  font-size: 0.85em;
+  margin-top: 0.4em;
+}

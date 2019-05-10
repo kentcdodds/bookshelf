@@ -1,0 +1,25 @@
+.book__cover {
+  img {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+.book__header {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 2em;
+  margin-bottom: 1em;
+}
+
+.book__rating {
+  //   display: flex;
+  //   align-items: center;
+  //   flex-wrap: wrap;]
+  div {
+    margin-top: 5px;
+  }
+  svg {
+    margin-right: 5px;
+  }
+}
