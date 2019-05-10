@@ -30,14 +30,14 @@
     "lint": "eslint . --cache-location node_modules/.cache/eslint",
     "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\"",
     "setup": "node ./scripts/setup && npm run validate",
-    "validate": "npm run lint && npm run test:coverage && npm run build"
+    "validate": "npm-run-all --parallel lint test:coverage build"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run build"
+      "pre-commit": "npm run validate"
     }
   },
   "browserslist": [
@@ -48,7 +48,7 @@
   ],
   "devDependencies": {
     "husky": "^2.2.0",
-    "lint-staged": "^8.1.6",
+    "npm-run-all": "^4.1.5",
     "prettier": "^1.17.0"
   }
 }
