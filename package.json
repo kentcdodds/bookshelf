@@ -29,6 +29,7 @@
     "test:coverage": "npm run test -- --watchAll false --coverage",
     "lint": "eslint . --cache-location node_modules/.cache/eslint",
     "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\"",
+    "setup": "node ./scripts/setup && npm run validate",
     "validate": "npm run lint && npm run test:coverage && npm run build"
   },
   "eslintConfig": {
