@@ -1,0 +1,27 @@
+.book__cover {
+  img {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+.book__header {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 2em;
+  margin-bottom: 1em;
+  @include respond-to('small') {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.book__interactions {
+  margin-top: 25px;
+  div {
+    margin-top: 5px;
+  }
+  svg {
+    margin-right: 5px;
+  }
+}

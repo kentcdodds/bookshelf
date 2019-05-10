@@ -40,10 +40,10 @@ function DiscoverBooksScreen() {
   return (
     <div>
       <div>
-        <input ref={queryRef} id="search" />
+        <input ref={queryRef} placeholder="Search books..." id="search" />
         <Tooltip label="Search Books">
           <label htmlFor="search">
-            <button onClick={handleSearchClick}>
+            <button className="button--search" onClick={handleSearchClick}>
               <span role="img" aria-label="search">
                 🔎
               </span>
@@ -65,6 +65,7 @@ function DiscoverBooksScreen() {
         ) : null}
       </div>
       <div>
+        <br />
         {books.map(book => (
           <BookRow key={book.id} book={book} />
         ))}
@@ -75,10 +76,19 @@ function DiscoverBooksScreen() {
 
 function BookRow({book}) {
   return (
-    <div>
-      <img src={book.coverImageUrl} alt={`${book.title} cover`} />
-      <pre>{JSON.stringify(book, null, 2)}</pre>
-      <hr />
+    <div className="discover__row">
+      <div className="discover__image">
+        <img src={book.coverImageUrl} alt={`${book.title} cover`} />
+      </div>
+      <div>
+        <h3>{book.title}</h3>
+        <div className="author">
+          <h4>{book.author}</h4>
+        </div>
+        <small>{book.publisher}</small>
+        <small>{book.synopsis.substring(0, 500)}...</small>
+      </div>
+      {/* <pre>{JSON.stringify(book, null, 2)}</pre> */}
     </div>
   )
 }

@@ -1,0 +1,61 @@
+@import './colors.scss';
+
+%button {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  background: $indigo;
+  color: $base;
+  border: 0;
+  line-height: 1;
+  &:hover {
+    background: $indigo-darken-10;
+  }
+}
+
+.button {
+  @extend %button;
+}
+
+.button--circle {
+  border-radius: 30px;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $base;
+  color: $text;
+  border: 1px solid $gray-10;
+}
+.button--circle:hover {
+  color: $base;
+}
+
+.button--icon {
+  @extend %button;
+  svg {
+    fill: $indigo-lighten-80;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.button--mark-as-read {
+  margin-left: 20px;
+  position: absolute;
+  color: $gray-80;
+}
+.button--mark-as-read:hover {
+  color: $green;
+}
+
+.button--search {
+  border: 0;
+  position: relative;
+  margin-left: -35px;
+  background: transparent;
+}

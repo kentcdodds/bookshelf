@@ -12,11 +12,13 @@
     "@reach/visually-hidden": "^0.1.4",
     "jest-dom": "^3.2.2",
     "match-sorter": "^3.0.0",
+    "node-sass": "^4.12.0",
     "normalize.css": "^8.0.1",
     "querystringify": "^2.1.1",
     "react": "^16.8.6",
     "react-async": "^6.2.0",
     "react-dom": "^16.8.6",
+    "react-icons": "^3.7.0",
     "react-scripts": "^3.0.1",
     "react-testing-library": "^7.0.0"
   },

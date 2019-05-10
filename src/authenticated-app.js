@@ -5,17 +5,24 @@ import ReadingListScreen from './screens/list'
 import FinishedBooksScreen from './screens/finished'
 import HomeScreen from './screens/home'
 import DiscoverBooksScreen from './screens/discover'
+import BookScreen from './screens/book'
 import NotFound from './screens/not-found'
 
 function AuthenticatedApp() {
   const {user, logout} = useAuth()
   return (
-    <div>
+    <div className="wrapper">
       <div>
-        {user.username} <button onClick={logout}>Logout</button>
+        <div className="logout">
+          {user.username}
+          <button onClick={logout}>Logout</button>
+        </div>
+        <Nav />
       </div>
-      <Nav />
-      <Routes />
+      <main>
+        <Routes />
+      </main>
+      <footer />
     </div>
   )
 }
@@ -48,6 +55,7 @@ function Routes() {
       <ReadingListScreen path="/list" />
       <FinishedBooksScreen path="/finished" />
       <DiscoverBooksScreen path="/discover" />
+      <BookScreen path="/book" />
       <NotFound default />
     </Router>
   )
