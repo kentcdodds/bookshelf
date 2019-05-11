@@ -9,6 +9,8 @@
     "yarn": ">=1"
   },
   "dependencies": {
+    "@emotion/core": "^10.0.10",
+    "@emotion/styled": "^10.0.11",
     "@reach/dialog": "^0.2.8",
     "@reach/menu-button": "^0.1.17",
     "@reach/router": "^1.2.1",
