@@ -25,7 +25,7 @@ function BookRow({book}) {
           display: 'grid',
           gridTemplateColumns: '1fr 5fr 2fr 0.2fr',
           gridGap: '2em',
-          border: `1px solid ${colors.gray}`,
+          border: `1px solid ${colors.gray20}`,
           color: colors.text,
           padding: '1.25em',
           borderRadius: '3px',

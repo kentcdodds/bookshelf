@@ -27,7 +27,6 @@ function AuthProvider(props) {
   }, [isSettled])
 
   if (!firstAttemptFinished) {
-    console.log('rendering pending')
     if (isPending) {
       return '...'
     }
@@ -66,7 +65,6 @@ function AuthProvider(props) {
 
 function useAuth() {
   const context = React.useContext(AuthContext)
-  console.log(context)
   if (context === undefined) {
     throw new Error(`useAuth must be used within a AuthProvider`)
   }
