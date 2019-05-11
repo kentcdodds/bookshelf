@@ -13,6 +13,9 @@
     opacity: 0;
     transition: all 0.2s;
   }
+  .discover__add_button:focus {
+    opacity: 1;
+  }
   img {
     width: 100%;
     transition: all 0.2s;

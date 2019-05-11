@@ -8,12 +8,14 @@ function handleUserResponse({data: {token, ...user}}) {
 }
 
 function getUser() {
-  return client('me')
-    .then(data => data.user)
-    .catch(error => {
-      logout()
-      return Promise.reject(error)
-    })
+  const token = getToken()
+  if (!token) {
+    return Promise.resolve(null)
+  }
+  return client('me').catch(error => {
+    logout()
+    return Promise.reject(error)
+  })
 }
 
 function login({username, password}) {
@@ -28,6 +30,7 @@ function register({username, password}) {
 
 function logout() {
   window.localStorage.removeItem(localStorageKey)
+  return Promise.resolve()
 }
 
 function getToken() {

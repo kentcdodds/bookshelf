@@ -2,10 +2,10 @@ import React from 'react'
 import Logo from './components/logo'
 import VisuallyHidden from '@reach/visually-hidden'
 import {Dialog} from '@reach/dialog'
-import {useUserState, useUserDispatch} from './context/user-context'
+import {useAuth} from './context/auth-context'
 
 function LoginForm({onSubmit, buttonText}) {
-  const {isLoading, error} = useUserState()
+  const {isPending, error} = useAuth()
   function handleSubmit(event) {
     event.preventDefault()
     const {username, password} = event.target.elements
@@ -27,7 +27,7 @@ function LoginForm({onSubmit, buttonText}) {
       </div>
       <div>
         <button type="submit" className="button">
-          {buttonText} {isLoading ? '...' : null}
+          {buttonText} {isPending ? '...' : null}
         </button>
       </div>
       <div style={{color: 'red'}}>{error ? error.message : null}</div>
@@ -49,12 +49,12 @@ function useUpdateEffect(effect, deps) {
 }
 
 function Modal({buttonText, children}) {
-  const dispatch = useUserDispatch()
+  const {clearError} = useAuth()
   const [isOpen, setIsOpen] = React.useState(false)
 
   useUpdateEffect(() => {
     if (!isOpen) {
-      dispatch({type: 'clear error'})
+      clearError()
     }
   }, [isOpen])
 
@@ -75,7 +75,7 @@ function Modal({buttonText, children}) {
 }
 
 function UnauthenticatedApp() {
-  const dispatch = useUserDispatch()
+  const {login, register} = useAuth()
 
   return (
     <div className="centered">
@@ -84,21 +84,11 @@ function UnauthenticatedApp() {
       <div className="landing">
         <Modal buttonText="Login">
           <h3>Login</h3>
-          <LoginForm
-            onSubmit={({username, password}) =>
-              dispatch({type: 'authenticate', username, password})
-            }
-            buttonText="Login"
-          />
+          <LoginForm onSubmit={login} buttonText="Login" />
         </Modal>
         <Modal buttonText="Register">
           <h3>Register</h3>
-          <LoginForm
-            onSubmit={({username, password}) =>
-              dispatch({type: 'register', username, password})
-            }
-            buttonText="Register"
-          />
+          <LoginForm onSubmit={register} buttonText="Register" />
         </Modal>
       </div>
     </div>

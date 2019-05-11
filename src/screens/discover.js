@@ -2,71 +2,49 @@ import React from 'react'
 import Tooltip from '@reach/tooltip'
 import {FaPlus, FaSearch, FaMinus, FaBook} from 'react-icons/fa'
 import VanillaTilt from 'vanilla-tilt'
-import {useUserState} from '../context/user-context'
+import {useAsync} from 'react-async'
+import {useUser} from '../context/user-context'
 import * as booksClient from '../utils/books'
 import {
   useListItemDispatch,
   useSingleListItemState,
+  addListItem,
+  removeListItem,
 } from '../context/list-item-context'
-
-function bookReducer(state, action) {
-  switch (action.type) {
-    case 'fetching': {
-      return {...state, isLoading: true, error: null}
-    }
-    case 'success': {
-      return {isLoading: false, error: null, books: action.books}
-    }
-    case 'error': {
-      return {isLoading: false, error: action.error, books: state.books}
-    }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`)
-    }
-  }
-}
-
-const initialState = {isLoading: false, error: null, books: []}
 
 function DiscoverBooksScreen() {
   const queryRef = React.useRef()
-  const [state, dispatch] = React.useReducer(bookReducer, initialState)
-  const {books, isLoading, error} = state
+  const {data: books, isPending, isRejected, error, run} = useAsync({
+    deferFn: booksClient.search,
+    initialValue: [],
+  })
 
-  // TODO: remove this
-  React.useEffect(() => {
-    queryRef.current.value = 'lord of the rings'
-    handleSearchClick()
-  }, [])
-
-  function handleSearchClick() {
-    dispatch({type: 'fetching'})
-    const query = queryRef.current.value
-    booksClient
-      .search(query)
-      .then(
-        matchingBooks => dispatch({type: 'success', books: matchingBooks}),
-        error => dispatch({type: 'error', error}),
-      )
+  function handleSearchClick(e) {
+    e.preventDefault()
+    run(queryRef.current.value)
   }
 
   return (
     <div>
       <div>
-        <input ref={queryRef} placeholder="Search books..." id="search" />
-        <Tooltip label="Search Books">
-          <label htmlFor="search">
-            <button className="button--search" onClick={handleSearchClick}>
-              <FaSearch aria-label="search" />
-            </button>
-          </label>
-        </Tooltip>
-        {isLoading ? (
+        <form onSubmit={handleSearchClick}>
+          <input ref={queryRef} placeholder="Search books..." id="search" />
+          <Tooltip label="Search Books">
+            <label htmlFor="search">
+              <button type="submit" className="button--search">
+                <FaSearch aria-label="search" />
+              </button>
+            </label>
+          </Tooltip>
+        </form>
+
+        {isPending ? (
           <span role="img" aria-label="loading">
             🌀
           </span>
         ) : null}
-        {error ? (
+
+        {isRejected ? (
           <div style={{color: 'red'}}>
             <p>There was an error:</p>
             <pre>{error.message}</pre>
@@ -97,24 +75,29 @@ function useTilt(tiltRef) {
   }, [tiltRef])
 }
 
-const noListItem = {
-  isPending: false,
-  isResolved: false,
-  isRejected: false,
-  error: null,
-  data: null,
+function toggleListItem(event, {dispatch, user, book, listItem}) {
+  if (listItem) {
+    return removeListItem(dispatch, listItem.id)
+  } else {
+    return addListItem(dispatch, {ownerId: user.id, bookId: book.id})
+  }
 }
 
 function BookRow({book}) {
   const imgRef = React.useRef()
   useTilt(imgRef)
-  const {user} = useUserState()
+  const user = useUser()
   const readingListDispatch = useListItemDispatch()
-  const {isPending, isRejected, isResolved, error, data: listItem} =
-    useSingleListItemState({
-      bookId: book.id,
-    }) || noListItem
-  console.log(book.id, {isPending, isRejected, isResolved, error, listItem})
+  const listItem = useSingleListItemState({
+    bookId: book.id,
+  })
+  const {isPending, isRejected, run, error} = useAsync({
+    deferFn: toggleListItem,
+    dispatch: readingListDispatch,
+    listItem,
+    user,
+    book,
+  })
 
   return (
     <div className="discover__row">
@@ -126,30 +109,18 @@ function BookRow({book}) {
         />
         {isPending ? (
           <FaBook aria-label="loading" />
-        ) : isResolved ? (
-          <Tooltip label="Remove from Reading List">
-            <button
-              className="discover__add_button"
-              onClick={() =>
-                readingListDispatch({type: 'remove', listItemId: listItem.id})
-              }
-            >
-              <FaMinus aria-label="remove" />
-            </button>
-          </Tooltip>
         ) : (
-          <Tooltip label="Add to Reading List">
-            <button
-              className="discover__add_button"
-              onClick={() =>
-                readingListDispatch({
-                  type: 'create',
-                  ownerId: user.id,
-                  bookId: book.id,
-                })
-              }
-            >
-              <FaPlus aria-label="add" />
+          <Tooltip
+            label={
+              listItem ? 'Remove from Reading List' : 'Add to Reading List'
+            }
+          >
+            <button className="discover__add_button" onClick={run}>
+              {listItem ? (
+                <FaMinus aria-label="remove" />
+              ) : (
+                <FaPlus aria-label="add" />
+              )}
             </button>
           </Tooltip>
         )}
