@@ -1,11 +1,13 @@
 import React from 'react'
 import Tooltip from '@reach/tooltip'
-import {FaPlus, FaTimes, FaSearch, FaMinus, FaBook} from 'react-icons/fa'
+import {FaPlus, FaSearch, FaMinus, FaBook} from 'react-icons/fa'
 import VanillaTilt from 'vanilla-tilt'
-import {useAsync} from 'react-async'
-import {useUser} from '../context/user-context'
-import * as userClient from '../utils/user'
+import {useUserState} from '../context/user-context'
 import * as booksClient from '../utils/books'
+import {
+  useListItemDispatch,
+  useSingleListItemState,
+} from '../context/list-item-context'
 
 function bookReducer(state, action) {
   switch (action.type) {
@@ -30,6 +32,12 @@ function DiscoverBooksScreen() {
   const queryRef = React.useRef()
   const [state, dispatch] = React.useReducer(bookReducer, initialState)
   const {books, isLoading, error} = state
+
+  // TODO: remove this
+  React.useEffect(() => {
+    queryRef.current.value = 'lord of the rings'
+    handleSearchClick()
+  }, [])
 
   function handleSearchClick() {
     dispatch({type: 'fetching'})
@@ -59,11 +67,9 @@ function DiscoverBooksScreen() {
           </span>
         ) : null}
         {error ? (
-          <div>
-            <span role="img" aria-label="error">
-              🚨
-            </span>
-            There was an error
+          <div style={{color: 'red'}}>
+            <p>There was an error:</p>
+            <pre>{error.message}</pre>
           </div>
         ) : null}
       </div>
@@ -91,47 +97,24 @@ function useTilt(tiltRef) {
   }, [tiltRef])
 }
 
-function BookSpinner() {
-  return <FaBook aria-label="loading" />
-}
-
-function ToggleBookButton({bookId, tooltipLabel, icon, deferFn}) {
-  const {updateUser} = useUser()
-  const {isPending, setError, error, run} = useAsync({
-    deferFn: () => deferFn(bookId).then(updatedUser => updateUser(updatedUser)),
-  })
-
-  function handleButtonClick() {
-    if (error) {
-      setError(null)
-    } else {
-      run()
-    }
-  }
-
-  return (
-    <>
-      <Tooltip label={error ? 'Click to try again' : tooltipLabel}>
-        <button className="discover__add_button" onClick={handleButtonClick}>
-          {error ? (
-            <FaTimes aria-label="error" />
-          ) : isPending ? (
-            <BookSpinner />
-          ) : (
-            icon
-          )}
-        </button>
-      </Tooltip>
-      {error ? <div style={{color: 'red'}}>There was an error.</div> : null}
-    </>
-  )
+const noListItem = {
+  isPending: false,
+  isResolved: false,
+  isRejected: false,
+  error: null,
+  data: null,
 }
 
 function BookRow({book}) {
   const imgRef = React.useRef()
   useTilt(imgRef)
-  const {user} = useUser()
-  const bookIsInReadingList = user.readingList.includes(book.id)
+  const {user} = useUserState()
+  const readingListDispatch = useListItemDispatch()
+  const {isPending, isRejected, isResolved, error, data: listItem} =
+    useSingleListItemState({
+      bookId: book.id,
+    }) || noListItem
+  console.log(book.id, {isPending, isRejected, isResolved, error, listItem})
 
   return (
     <div className="discover__row">
@@ -141,21 +124,41 @@ function BookRow({book}) {
           src={book.coverImageUrl}
           alt={`${book.title} cover`}
         />
-        {bookIsInReadingList ? (
-          <ToggleBookButton
-            bookId={book.id}
-            tooltipLabel="Remove from Reading List"
-            icon={<FaMinus aria-label="remove" />}
-            deferFn={userClient.removeBookFromReadingList}
-          />
+        {isPending ? (
+          <FaBook aria-label="loading" />
+        ) : isResolved ? (
+          <Tooltip label="Remove from Reading List">
+            <button
+              className="discover__add_button"
+              onClick={() =>
+                readingListDispatch({type: 'remove', listItemId: listItem.id})
+              }
+            >
+              <FaMinus aria-label="remove" />
+            </button>
+          </Tooltip>
         ) : (
-          <ToggleBookButton
-            bookId={book.id}
-            tooltipLabel="Add to Reading List"
-            icon={<FaPlus aria-label="add" />}
-            deferFn={userClient.addBookToReadingList}
-          />
+          <Tooltip label="Add to Reading List">
+            <button
+              className="discover__add_button"
+              onClick={() =>
+                readingListDispatch({
+                  type: 'create',
+                  ownerId: user.id,
+                  bookId: book.id,
+                })
+              }
+            >
+              <FaPlus aria-label="add" />
+            </button>
+          </Tooltip>
         )}
+        {isRejected ? (
+          <div style={{color: 'red', overflow: 'scroll'}}>
+            <p>There was an error:</p>
+            <pre>{error.message}</pre>
+          </div>
+        ) : null}
       </div>
       <div>
         <h3>{book.title}</h3>

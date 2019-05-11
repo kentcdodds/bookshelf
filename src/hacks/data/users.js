@@ -66,7 +66,7 @@ function hash(str) {
   while (i) {
     hash = (hash * 33) ^ str.charCodeAt(--i)
   }
-  return hash >>> 0
+  return String(hash >>> 0)
 }
 
 export {authenticate, create, read, update, remove}

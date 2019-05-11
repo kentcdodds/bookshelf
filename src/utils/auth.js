@@ -2,16 +2,18 @@ import client from './api-client'
 
 const localStorageKey = '__bookshelf_token__'
 
-function handleUserResponse({token, ...user}) {
+function handleUserResponse({data: {token, ...user}}) {
   window.localStorage.setItem(localStorageKey, token)
   return user
 }
 
 function getUser() {
-  return client('me').catch(error => {
-    logout()
-    return Promise.reject(error)
-  })
+  return client('me')
+    .then(data => data.user)
+    .catch(error => {
+      logout()
+      return Promise.reject(error)
+    })
 }
 
 function login({username, password}) {

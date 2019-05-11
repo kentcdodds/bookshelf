@@ -1,6 +1,6 @@
 import React from 'react'
 import {Router, Link} from '@reach/router'
-import {useUser} from './context/user-context'
+import {useUserState, useUserDispatch} from './context/user-context'
 import ReadingListScreen from './screens/list'
 import FinishedBooksScreen from './screens/finished'
 import HomeScreen from './screens/home'
@@ -9,13 +9,14 @@ import BookScreen from './screens/book'
 import NotFound from './screens/not-found'
 
 function AuthenticatedApp() {
-  const {user, logout} = useUser()
+  const {user} = useUserState()
+  const dispatch = useUserDispatch()
   return (
     <div className="wrapper">
       <div>
         <div className="logout">
           {user.username}
-          <button onClick={logout}>Logout</button>
+          <button onClick={() => dispatch({type: 'logout'})}>Logout</button>
         </div>
         <Nav />
       </div>

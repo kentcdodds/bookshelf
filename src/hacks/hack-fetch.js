@@ -5,33 +5,42 @@ import qs from 'querystringify'
 import matchSorter from 'match-sorter'
 import allBooks from './data/books.json'
 import * as users from './data/users'
+import * as listItems from './data/list-items'
 
 const originalFetch = window.fetch
 
 const sleep = (t = Math.random() * 200 + 300) =>
   new Promise(resolve => setTimeout(resolve, t))
 
-const isApi = endpoint => url =>
-  url === `${process.env.REACT_APP_API_URL}/${endpoint}`
+const apiUrl = new window.URL(process.env.REACT_APP_API_URL)
+const isApi = (endpoint, method = 'GET', queryParam) => (url, config) => {
+  const {origin, pathname, search} = new window.URL(url)
+  return (
+    origin === apiUrl.origin &&
+    pathname.startsWith(`${apiUrl.pathname}/${endpoint}`) &&
+    config.method === method &&
+    (queryParam ? qs.parse(search).hasOwnProperty(queryParam) : true)
+  )
+}
 
 const fakeResponses = [
   {
-    test: isApi('login'),
+    test: isApi('login', 'POST'),
     async handler(url, config) {
       await sleep()
       const body = JSON.parse(config.body)
+      const user = users.authenticate({
+        username: body.username,
+        password: body.password,
+      })
       return {
         status: 200,
-        json: async () =>
-          users.authenticate({
-            username: body.username,
-            password: body.password,
-          }),
+        json: async () => ({user}),
       }
     },
   },
   {
-    test: isApi('register'),
+    test: isApi('register', 'POST'),
     async handler(url, config) {
       await sleep()
       const {username, password} = JSON.parse(config.body)
@@ -43,31 +52,28 @@ const fakeResponses = [
       }
       const userFields = {username, password}
       users.create(userFields)
+      const user = users.authenticate(userFields)
       return {
         status: 200,
-        json: async () => users.authenticate(userFields),
+        json: async () => ({user}),
       }
     },
   },
   {
+    description: 'get the current user',
     test: isApi('me'),
     async handler(url, config) {
       await sleep()
       const user = getUser(config)
       return {
         status: 200,
-        json: async () => user,
+        json: async () => ({user}),
       }
     },
   },
   {
-    test: url => {
-      if (!url.startsWith(`${process.env.REACT_APP_API_URL}/books`)) {
-        return
-      }
-      const {search} = new window.URL(url)
-      return qs.parse(search).hasOwnProperty('query')
-    },
+    description: 'search books',
+    test: isApi('book', 'GET', 'query'),
     async handler(url, config) {
       const {query} = qs.parse(new window.URL(url).search)
       const matchingBooks = matchSorter(allBooks, query, {
@@ -87,13 +93,8 @@ const fakeResponses = [
     },
   },
   {
-    test: url => {
-      if (!url.startsWith(`${process.env.REACT_APP_API_URL}/books`)) {
-        return
-      }
-      const {search} = new window.URL(url)
-      return qs.parse(search).hasOwnProperty('bookIds')
-    },
+    description: 'get books by their id',
+    test: isApi('book', 'GET', 'bookIds'),
     async handler(url, config) {
       const {bookIds} = qs.parse(new window.URL(url).search)
       const books = allBooks.filter(book => bookIds.includes(book.id))
@@ -104,8 +105,52 @@ const fakeResponses = [
     },
   },
   {
-    test: (url, config) =>
-      isApi('user/reading-list')(url) && config.method === 'PUT',
+    description: 'get list items and their book by their id',
+    test: isApi('list-item', 'GET', 'listItemIds'),
+    async handler(url, config) {
+      const {listItemIds} = qs.parse(new window.URL(url).search)
+      const idsToRead = decodeURIComponent(listItemIds).split(',')
+      const user = getUser(config)
+      const lis = listItems.readMany(user.id, idsToRead)
+      const listItemsAndBooks = lis.map(listItem => ({
+        ...listItem,
+        book: allBooks.find(book => book.id === listItem.bookId),
+      }))
+      return {
+        status: 200,
+        json: async () => ({listItems: listItemsAndBooks}),
+      }
+    },
+  },
+  {
+    description: 'get list items and their book by their ownerId',
+    test: isApi('list-item', 'GET', 'ownerId'),
+    async handler(url, config) {
+      const ownerId = decodeURIComponent(
+        qs.parse(new window.URL(url).search).ownerId,
+      )
+      const user = getUser(config)
+      if (user.id !== ownerId) {
+        throw new Error(
+          `User ${
+            user.id
+          } is not authorized to load list items for user ${ownerId}`,
+        )
+      }
+      const lis = listItems.readByOwner(user.id)
+      const listItemsAndBooks = lis.map(listItem => ({
+        ...listItem,
+        book: allBooks.find(book => book.id === listItem.bookId),
+      }))
+      return {
+        status: 200,
+        json: async () => ({listItems: listItemsAndBooks}),
+      }
+    },
+  },
+  {
+    description: 'create a list item',
+    test: isApi('list-item', 'POST'),
     async handler(url, config) {
       await sleep()
       const user = getUser(config)
@@ -114,37 +159,41 @@ const fakeResponses = [
       if (!book) {
         throw new Error(`No book found with the ID of ${bookId}`)
       }
-      const uniqueList = new Set(user.readingList)
-      uniqueList.add(bookId)
-      const updatedUser = users.update(user.id, {
-        readingList: Array.from(uniqueList),
-      })
+      const listItem = listItems.create({ownerId: user.id, bookId: bookId})
       return {
         status: 200,
-        json: async () => updatedUser,
+        json: async () => ({listItem}),
       }
     },
   },
   {
-    test: (url, config) =>
-      url.startsWith(`${process.env.REACT_APP_API_URL}/user/reading-list/`) &&
-      config.method === 'DELETE',
+    description: 'update a list item',
+    test: isApi('list-item', 'PUT'),
     async handler(url, config) {
       await sleep()
       const user = getUser(config)
-      const bookId = url.split(
-        `${process.env.REACT_APP_API_URL}/user/reading-list/`,
-      )[1]
-      const book = allBooks.find(book => book.id === bookId)
-      if (!book) {
-        throw new Error(`No book found with the ID of ${bookId}`)
-      }
-      const updatedUser = users.update(user.id, {
-        readingList: user.readingList.filter(id => id !== bookId),
-      })
+      const listItemId = getSubjectId(url)
+      const updates = JSON.parse(config.body)
+      listItems.authorize(user.id, listItemId)
+      const updatedListItem = listItems.update(listItemId, updates)
       return {
         status: 200,
-        json: async () => updatedUser,
+        json: async () => ({listItem: updatedListItem}),
+      }
+    },
+  },
+  {
+    description: 'delete a list item',
+    test: isApi('list-item', 'DELETE'),
+    async handler(url, config) {
+      await sleep()
+      const user = getUser(config)
+      const listItemId = getSubjectId(url)
+      listItems.authorize(user.id, listItemId)
+      listItems.remove(listItemId)
+      return {
+        status: 200,
+        json: async () => ({success: true}),
       }
     },
   },
@@ -154,6 +203,14 @@ const fakeResponses = [
     handler: (...args) => originalFetch(...args),
   },
 ]
+
+function getSubjectId(url) {
+  const {pathname} = new URL(url)
+  return pathname
+    .split('/')
+    .filter(Boolean)
+    .slice(-1)[0]
+}
 
 function getUser(config) {
   const token = config.headers.Authorization.replace('Bearer ', '')

@@ -2,10 +2,10 @@ import React from 'react'
 import Logo from './components/logo'
 import VisuallyHidden from '@reach/visually-hidden'
 import {Dialog} from '@reach/dialog'
-import {useUser} from './context/user-context'
+import {useUserState, useUserDispatch} from './context/user-context'
 
 function LoginForm({onSubmit, buttonText}) {
-  const {isLoading, error} = useUser()
+  const {isLoading, error} = useUserState()
   function handleSubmit(event) {
     event.preventDefault()
     const {username, password} = event.target.elements
@@ -49,12 +49,12 @@ function useUpdateEffect(effect, deps) {
 }
 
 function Modal({buttonText, children}) {
-  const {clearError} = useUser()
+  const dispatch = useUserDispatch()
   const [isOpen, setIsOpen] = React.useState(false)
 
   useUpdateEffect(() => {
     if (!isOpen) {
-      clearError()
+      dispatch({type: 'clear error'})
     }
   }, [isOpen])
 
@@ -75,7 +75,7 @@ function Modal({buttonText, children}) {
 }
 
 function UnauthenticatedApp() {
-  const {login, register} = useUser()
+  const dispatch = useUserDispatch()
 
   return (
     <div className="centered">
@@ -84,11 +84,21 @@ function UnauthenticatedApp() {
       <div className="landing">
         <Modal buttonText="Login">
           <h3>Login</h3>
-          <LoginForm onSubmit={login} buttonText="Login" />
+          <LoginForm
+            onSubmit={({username, password}) =>
+              dispatch({type: 'authenticate', username, password})
+            }
+            buttonText="Login"
+          />
         </Modal>
         <Modal buttonText="Register">
           <h3>Register</h3>
-          <LoginForm onSubmit={register} buttonText="Register" />
+          <LoginForm
+            onSubmit={({username, password}) =>
+              dispatch({type: 'register', username, password})
+            }
+            buttonText="Register"
+          />
         </Modal>
       </div>
     </div>

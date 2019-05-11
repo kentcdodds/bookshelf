@@ -1,13 +1,19 @@
 import React from 'react'
-import {useUser} from '../context/user-context'
-import {useBookList} from '../context/books-context'
+import {useAsync} from 'react-async'
+import * as listItemsClient from '../utils/list-items'
+import {useUserState} from '../context/user-context'
 import BookRow from '../components/book-row'
 
-function ReadingListScreen() {
-  const {user} = useUser()
-  const {books, error, isLoading} = useBookList(user.readingList)
+const loadReadingList = ({readingList}) => listItemsClient.read(readingList)
 
-  if (error) {
+function ReadingListScreen() {
+  const {user} = useUserState()
+  const {data, isLoading, error, isResolved, isRejected} = useAsync({
+    promiseFn: loadReadingList,
+    readingList: user.readingList,
+  })
+
+  if (isRejected) {
     return (
       <div style={{color: 'red'}}>
         <p>There was an error:</p>
@@ -20,17 +26,20 @@ function ReadingListScreen() {
     return '...'
   }
 
-  return (
-    <div className="reading-list">
-      <ul>
-        {books.map(book => (
-          <li key={book.id}>
-            <BookRow book={book} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
+  if (isResolved) {
+    console.log(data)
+    return (
+      <div className="reading-list">
+        <ul>
+          {data.map(listItem => (
+            <li key={listItem.id}>
+              <BookRow book={listItem.book} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
 }
 
 export default ReadingListScreen
