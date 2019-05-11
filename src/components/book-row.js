@@ -2,6 +2,7 @@
 import {jsx} from '@emotion/core'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
+import {Author} from './lib'
 
 import {FaCheckCircle, FaMinusCircle} from 'react-icons/fa'
 import {Link} from '@reach/router'
@@ -67,7 +68,7 @@ function BookRow({book}) {
             {notes}
           </p>
         </div>
-        <div className="author author--mt">{author}</div>
+        <Author css={{marginTop: '0.4em'}}>{author}</Author>
       </Link>
       <div
         css={{
