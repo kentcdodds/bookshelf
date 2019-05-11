@@ -1,61 +1,34 @@
 import React from 'react'
-import Rating from '../components/rating'
-import {FaPlus, FaCheckCircle} from 'react-icons/fa'
-import {Link} from '@reach/router'
-import Tooltip from '@reach/tooltip'
-
-const ReadingListItem = ({
-  title = 'A Tale of Two Cities',
-  author = 'Charles Dickens',
-  notes = 'Notes',
-  image = 'https://images-na.ssl-images-amazon.com/images/I/51rVPckPtuL._SX311_BO1,204,203,200_.jpg',
-}) => {
-  return (
-    <li>
-      <Link to="/book" className="item item__reading-list">
-        <div className="item__image">
-          <img src={image} alt={`${title} book cover`} />
-        </div>
-        <div>
-          <h2 className="item__title">{title}</h2>
-          <Rating />
-          <p>{notes}</p>
-        </div>
-        <div className="author author--mt">{author}</div>
-      </Link>
-      <Tooltip label="Mark as read">
-        <button className="button--circle button--mark-as-read">
-          <FaCheckCircle />
-        </button>
-      </Tooltip>
-    </li>
-  )
-}
+import {useUser} from '../context/user-context'
+import {useBookList} from '../context/books-context'
+import BookRow from '../components/book-row'
 
 function ReadingListScreen() {
+  const {user} = useUser()
+  const {books, error, isLoading} = useBookList(user.readingList)
+
+  if (error) {
+    return (
+      <div style={{color: 'red'}}>
+        <p>There was an error:</p>
+        <pre>{error.message}</pre>
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return '...'
+  }
+
   return (
-    <div>
-      <div className="action-bar">
-        <button className="button--icon">
-          <span aria-label="plus icon" role="img">
-            <FaPlus size="10px" />
-          </span>
-          Add Book
-        </button>
-      </div>
-      <div className="reading-list">
-        <ul>
-          <ReadingListItem />
-          <ReadingListItem
-            notes="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-            fermentum in nunc vel placerat..."
-          />
-          <ReadingListItem />
-          <ReadingListItem />
-          <ReadingListItem />
-          <ReadingListItem />
-        </ul>
-      </div>
+    <div className="reading-list">
+      <ul>
+        {books.map(book => (
+          <li key={book.id}>
+            <BookRow book={book} />
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

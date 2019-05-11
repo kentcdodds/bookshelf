@@ -87,6 +87,23 @@ const fakeResponses = [
     },
   },
   {
+    test: url => {
+      if (!url.startsWith(`${process.env.REACT_APP_API_URL}/books`)) {
+        return
+      }
+      const {search} = new window.URL(url)
+      return qs.parse(search).hasOwnProperty('bookIds')
+    },
+    async handler(url, config) {
+      const {bookIds} = qs.parse(new window.URL(url).search)
+      const books = allBooks.filter(book => bookIds.includes(book.id))
+      return {
+        status: 200,
+        json: async () => ({books}),
+      }
+    },
+  },
+  {
     test: (url, config) =>
       isApi('user/reading-list')(url) && config.method === 'PUT',
     async handler(url, config) {

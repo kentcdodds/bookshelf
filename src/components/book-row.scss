@@ -1,0 +1,51 @@
+@import '../styles/colors.scss';
+@import '../styles/breakpoints.scss';
+
+.book-row {
+  display: grid;
+  grid-template-columns: 1fr 5fr 2fr 0.2fr;
+  grid-gap: 2em;
+  border: 1px solid $gray;
+  color: $text;
+  padding: 1.25em;
+  border-radius: 3px;
+  @include respond-to('small') {
+    grid-template-columns: 1fr;
+  }
+  p {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+}
+
+.book-row__title {
+  font-size: 1.25em;
+  margin: 0;
+}
+.book-row__image {
+  height: 160px;
+  @include respond-to('small') {
+    height: 200px;
+  }
+  img {
+    max-height: 100%;
+  }
+}
+
+.book-row__action-buttons {
+  margin-left: 20px;
+  position: absolute;
+  color: $gray-80;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.book-row__remove-from-list:hover {
+  color: $danger;
+}
+
+.book-row__mark-as-read:hover {
+  color: $green;
+}

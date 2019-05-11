@@ -1,5 +1,9 @@
 import client from './api-client'
 
+function getBooks() {
+  return client('user/reading-list')
+}
+
 function addBookToReadingList(bookId) {
   return client('user/reading-list', {
     method: 'PUT',
@@ -13,4 +17,4 @@ function removeBookFromReadingList(bookId) {
   })
 }
 
-export {addBookToReadingList, removeBookFromReadingList}
+export {getBooks, addBookToReadingList, removeBookFromReadingList}

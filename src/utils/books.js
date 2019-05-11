@@ -6,4 +6,10 @@ function search(search) {
   )
 }
 
-export {search}
+function getBooks(bookIds) {
+  return client(`books?bookIds=${encodeURIComponent(bookIds.join(','))}`).then(
+    data => data.books,
+  )
+}
+
+export {search, getBooks}

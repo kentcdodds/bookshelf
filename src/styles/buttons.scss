@@ -34,25 +34,6 @@
   color: $base;
 }
 
-.button--icon {
-  @extend %button;
-  svg {
-    fill: $indigo-lighten-80;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
-  }
-}
-
-.button--mark-as-read {
-  margin-left: 20px;
-  position: absolute;
-  color: $gray-80;
-}
-.button--mark-as-read:hover {
-  color: $green;
-}
-
 .button--search {
   border: 0;
   position: relative;

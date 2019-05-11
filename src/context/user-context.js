@@ -1,9 +1,9 @@
 import React from 'react'
 import * as auth from '../utils/auth'
 
-const AuthContext = React.createContext()
+const UserContext = React.createContext()
 
-function authReducer(state, action) {
+function userReducer(state, action) {
   switch (action.type) {
     case 'fetching': {
       return {...state, isLoading: true, user: null, error: null}
@@ -36,7 +36,7 @@ function authReducer(state, action) {
 }
 
 function useUserContextValue() {
-  const [state, dispatch] = React.useReducer(authReducer, {
+  const [state, dispatch] = React.useReducer(userReducer, {
     isInitializing: false,
     isLoading: false,
     user: null,
@@ -105,11 +105,11 @@ function useUserContextValue() {
 
 function UserProvider(props) {
   const value = useUserContextValue()
-  return <AuthContext.Provider value={value} {...props} />
+  return <UserContext.Provider value={value} {...props} />
 }
 
 function useUser() {
-  const context = React.useContext(AuthContext)
+  const context = React.useContext(UserContext)
   if (!context) {
     throw new Error('useUser must be used within an UserProvider')
   }
