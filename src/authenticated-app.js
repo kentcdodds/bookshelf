@@ -1,6 +1,6 @@
 import React from 'react'
 import {Router, Link} from '@reach/router'
-import {useAuth} from './context/auth-context'
+import {useUser} from './context/user-context'
 import ReadingListScreen from './screens/list'
 import FinishedBooksScreen from './screens/finished'
 import HomeScreen from './screens/home'
@@ -9,7 +9,7 @@ import BookScreen from './screens/book'
 import NotFound from './screens/not-found'
 
 function AuthenticatedApp() {
-  const {user, logout} = useAuth()
+  const {user, logout} = useUser()
   return (
     <div className="wrapper">
       <div>

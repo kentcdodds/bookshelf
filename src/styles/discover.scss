@@ -7,7 +7,24 @@
 }
 
 .discover__image {
+  text-align: center;
+  .discover__add_button {
+    margin-top: 6px;
+    opacity: 0;
+    transition: all 0.2s;
+  }
   img {
     width: 100%;
+    transition: all 0.2s;
+  }
+  &:hover,
+  &:focus {
+    .discover__add_button {
+      opacity: 1;
+    }
+  }
+  img:hover,
+  img:focus {
+    opacity: 0.8;
   }
 }

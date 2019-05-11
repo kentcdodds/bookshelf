@@ -2,10 +2,10 @@ import React from 'react'
 import Logo from './components/logo'
 import VisuallyHidden from '@reach/visually-hidden'
 import {Dialog} from '@reach/dialog'
-import {useAuth} from './context/auth-context'
+import {useUser} from './context/user-context'
 
 function LoginForm({onSubmit, buttonText}) {
-  const {isLoading, error} = useAuth()
+  const {isLoading, error} = useUser()
   function handleSubmit(event) {
     event.preventDefault()
     const {username, password} = event.target.elements
@@ -49,7 +49,7 @@ function useUpdateEffect(effect, deps) {
 }
 
 function Modal({buttonText, children}) {
-  const {clearError} = useAuth()
+  const {clearError} = useUser()
   const [isOpen, setIsOpen] = React.useState(false)
 
   useUpdateEffect(() => {
@@ -75,7 +75,7 @@ function Modal({buttonText, children}) {
 }
 
 function UnauthenticatedApp() {
-  const {login, register} = useAuth()
+  const {login, register} = useUser()
 
   return (
     <div className="centered">

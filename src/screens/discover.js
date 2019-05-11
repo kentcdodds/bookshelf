@@ -1,5 +1,10 @@
 import React from 'react'
 import Tooltip from '@reach/tooltip'
+import {FaPlus, FaTimes, FaSearch, FaMinus, FaBook} from 'react-icons/fa'
+import VanillaTilt from 'vanilla-tilt'
+import {useAsync} from 'react-async'
+import {useUser} from '../context/user-context'
+import * as userClient from '../utils/user'
 import * as booksClient from '../utils/books'
 
 function bookReducer(state, action) {
@@ -44,9 +49,7 @@ function DiscoverBooksScreen() {
         <Tooltip label="Search Books">
           <label htmlFor="search">
             <button className="button--search" onClick={handleSearchClick}>
-              <span role="img" aria-label="search">
-                🔎
-              </span>
+              <FaSearch aria-label="search" />
             </button>
           </label>
         </Tooltip>
@@ -74,11 +77,85 @@ function DiscoverBooksScreen() {
   )
 }
 
+function useTilt(tiltRef) {
+  React.useEffect(() => {
+    const {current: tiltNode} = tiltRef
+    const vanillaTiltOptions = {
+      max: 15,
+      speed: 300,
+      glare: true,
+      'max-glare': 0.5,
+    }
+    VanillaTilt.init(tiltNode, vanillaTiltOptions)
+    return () => tiltNode.vanillaTilt.destroy()
+  }, [tiltRef])
+}
+
+function BookSpinner() {
+  return <FaBook aria-label="loading" />
+}
+
+function ToggleBookButton({bookId, tooltipLabel, icon, deferFn}) {
+  const {updateUser} = useUser()
+  const {isPending, setError, error, run} = useAsync({
+    deferFn: () => deferFn(bookId).then(updatedUser => updateUser(updatedUser)),
+  })
+
+  function handleButtonClick() {
+    if (error) {
+      setError(null)
+    } else {
+      run()
+    }
+  }
+
+  return (
+    <>
+      <Tooltip label={error ? 'Click to try again' : tooltipLabel}>
+        <button className="discover__add_button" onClick={handleButtonClick}>
+          {error ? (
+            <FaTimes aria-label="error" />
+          ) : isPending ? (
+            <BookSpinner />
+          ) : (
+            icon
+          )}
+        </button>
+      </Tooltip>
+      {error ? <div style={{color: 'red'}}>There was an error.</div> : null}
+    </>
+  )
+}
+
 function BookRow({book}) {
+  const imgRef = React.useRef()
+  useTilt(imgRef)
+  const {user} = useUser()
+  const bookIsInReadingList = user.readingList.includes(book.id)
+
   return (
     <div className="discover__row">
       <div className="discover__image">
-        <img src={book.coverImageUrl} alt={`${book.title} cover`} />
+        <img
+          ref={imgRef}
+          src={book.coverImageUrl}
+          alt={`${book.title} cover`}
+        />
+        {bookIsInReadingList ? (
+          <ToggleBookButton
+            bookId={book.id}
+            tooltipLabel="Remove from Reading List"
+            icon={<FaMinus aria-label="remove" />}
+            deferFn={userClient.removeBookFromReadingList}
+          />
+        ) : (
+          <ToggleBookButton
+            bookId={book.id}
+            tooltipLabel="Add to Reading List"
+            icon={<FaPlus aria-label="add" />}
+            deferFn={userClient.addBookToReadingList}
+          />
+        )}
       </div>
       <div>
         <h3>{book.title}</h3>
@@ -88,7 +165,6 @@ function BookRow({book}) {
         <small>{book.publisher}</small>
         <small>{book.synopsis.substring(0, 500)}...</small>
       </div>
-      {/* <pre>{JSON.stringify(book, null, 2)}</pre> */}
     </div>
   )
 }

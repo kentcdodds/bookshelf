@@ -28,31 +28,35 @@ function create({username, password}) {
   if (users[id]) {
     throw new Error(`Cannot create a new user with the username "${username}"`)
   }
-  users[id] = {id, username, passwordHash}
+  users[id] = {id, username, passwordHash, readingList: []}
   persist()
 }
 
 function read(id) {
-  load()
-  if (users[id]) {
-    const {passwordHash, ...user} = users[id]
-    return user
-  }
-  throw new Error(`No user with the id "${id}"`)
+  validateUser(id)
+  const {passwordHash, ...user} = users[id]
+  return user
 }
 
 function update(id, updates) {
-  const user = read(id)
-  Object.assign(user, updates)
+  validateUser(id)
+  Object.assign(users[id], updates)
   persist()
   return read(id)
 }
 
 // this would be called `delete` except that's a reserved word in JS :-(
 function remove(id) {
-  read(id)
+  validateUser(id)
   delete users[id]
   persist()
+}
+
+function validateUser(id) {
+  load()
+  if (!users[id]) {
+    throw new Error(`No user with the id "${id}"`)
+  }
 }
 
 function hash(str) {

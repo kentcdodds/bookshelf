@@ -26,13 +26,16 @@ function authReducer(state, action) {
     case 'clear error': {
       return {...state, error: null}
     }
+    case 'update user': {
+      return {...state, user: action.user}
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`)
     }
   }
 }
 
-function useAuthContextValue() {
+function useUserContextValue() {
   const [state, dispatch] = React.useReducer(authReducer, {
     isInitializing: false,
     isLoading: false,
@@ -80,9 +83,9 @@ function useAuthContextValue() {
     dispatch({type: 'logout'})
   }
 
-  function clearError() {
-    dispatch({type: 'clear error'})
-  }
+  const clearError = () => dispatch({type: 'clear error'})
+  const updateUser = updatedUser =>
+    dispatch({type: 'update user', user: updatedUser})
 
   const value = React.useMemo(() => {
     return {
@@ -94,22 +97,23 @@ function useAuthContextValue() {
       register,
       logout,
       clearError,
+      updateUser,
     }
   }, [error, isInitializing, isLoading, login, register, user])
   return value
 }
 
-function AuthProvider(props) {
-  const value = useAuthContextValue()
+function UserProvider(props) {
+  const value = useUserContextValue()
   return <AuthContext.Provider value={value} {...props} />
 }
 
-function useAuth() {
+function useUser() {
   const context = React.useContext(AuthContext)
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
+    throw new Error('useUser must be used within an UserProvider')
   }
   return context
 }
 
-export {AuthProvider, useAuth}
+export {UserProvider, useUser}

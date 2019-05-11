@@ -25,7 +25,8 @@
     "react-dom": "^16.8.6",
     "react-icons": "^3.7.0",
     "react-scripts": "^3.0.1",
-    "react-testing-library": "^7.0.0"
+    "react-testing-library": "^7.0.0",
+    "vanilla-tilt": "^1.7.0"
   },
   "scripts": {
     "start": "react-scripts start",

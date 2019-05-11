@@ -1,5 +1,5 @@
 import React from 'react'
-import {AuthProvider} from './auth-context'
+import {UserProvider} from './user-context'
 
 function ProviderComposer({contexts, children}) {
   return contexts.reduceRight(
@@ -13,7 +13,7 @@ function ProviderComposer({contexts, children}) {
 
 function AppProviders({children}) {
   return (
-    <ProviderComposer contexts={[<AuthProvider />]}>
+    <ProviderComposer contexts={[<UserProvider />]}>
       {children}
     </ProviderComposer>
   )

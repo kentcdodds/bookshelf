@@ -53,16 +53,10 @@ const fakeResponses = [
     test: isApi('me'),
     async handler(url, config) {
       await sleep()
-      const token = config.headers.Authorization.replace('Bearer ', '')
-      if (!token) {
-        return {
-          status: 401,
-          json: () => Promise.reject({errors: ['A token must be provided']}),
-        }
-      }
+      const user = getUser(config)
       return {
         status: 200,
-        json: async () => users.read(atob(token)),
+        json: async () => user,
       }
     },
   },
@@ -92,6 +86,51 @@ const fakeResponses = [
       }
     },
   },
+  {
+    test: (url, config) =>
+      isApi('user/reading-list')(url) && config.method === 'PUT',
+    async handler(url, config) {
+      await sleep()
+      const user = getUser(config)
+      const {bookId} = JSON.parse(config.body)
+      const book = allBooks.find(book => book.id === bookId)
+      if (!book) {
+        throw new Error(`No book found with the ID of ${bookId}`)
+      }
+      const uniqueList = new Set(user.readingList)
+      uniqueList.add(bookId)
+      const updatedUser = users.update(user.id, {
+        readingList: Array.from(uniqueList),
+      })
+      return {
+        status: 200,
+        json: async () => updatedUser,
+      }
+    },
+  },
+  {
+    test: (url, config) =>
+      url.startsWith(`${process.env.REACT_APP_API_URL}/user/reading-list/`) &&
+      config.method === 'DELETE',
+    async handler(url, config) {
+      await sleep()
+      const user = getUser(config)
+      const bookId = url.split(
+        `${process.env.REACT_APP_API_URL}/user/reading-list/`,
+      )[1]
+      const book = allBooks.find(book => book.id === bookId)
+      if (!book) {
+        throw new Error(`No book found with the ID of ${bookId}`)
+      }
+      const updatedUser = users.update(user.id, {
+        readingList: user.readingList.filter(id => id !== bookId),
+      })
+      return {
+        status: 200,
+        json: async () => updatedUser,
+      }
+    },
+  },
   // fallback to originalFetch
   {
     test: () => true,
@@ -99,7 +138,15 @@ const fakeResponses = [
   },
 ]
 
-window.fetch = (...args) => {
+function getUser(config) {
+  const token = config.headers.Authorization.replace('Bearer ', '')
+  if (!token) {
+    throw new Error('A token must be provided')
+  }
+  return users.read(atob(token))
+}
+
+window.fetch = async (...args) => {
   const {handler} = fakeResponses.find(({test}) => {
     try {
       return test(...args)
@@ -108,5 +155,16 @@ window.fetch = (...args) => {
       return false
     }
   })
-  return handler(...args)
+  try {
+    const response = await handler(...args)
+    return response
+  } catch (error) {
+    if (error instanceof Error) {
+      return Promise.reject({
+        status: 500,
+        message: error.message,
+      })
+    }
+    return Promise.reject(error)
+  }
 }
