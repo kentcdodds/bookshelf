@@ -49,11 +49,20 @@ function AuthProvider(props) {
   }
 
   const login = form =>
-    authClient.login(form).then(reload, error => setError(error))
+    authClient.login(form).then(reload, error => {
+      setError(error)
+      return Promise.reject(error)
+    })
   const register = form =>
-    authClient.register(form).then(reload, error => setError(error))
+    authClient.register(form).then(reload, error => {
+      setError(error)
+      return Promise.reject(error)
+    })
   const logout = () =>
-    authClient.logout().then(reload, error => setError(error))
+    authClient.logout().then(reload, error => {
+      setError(error)
+      return Promise.reject(error)
+    })
   const clearError = () => setError(null)
 
   return (
