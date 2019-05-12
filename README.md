@@ -1,7 +1,5 @@
 # Build a ReactJS App - Bookshelf
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
-
 👋 hi there! My name is [Kent C. Dodds](https://kentcdodds.com) and this is the
 source material for
 [Build a ReactJS App](https://kentcdodds.com/workshops/build-react-js-applications)!
@@ -9,7 +7,7 @@ source material for
 [![Travis Build Status][build-badge]][build]
 [![AppVeyor Build Status][win-build-badge]][win-build]
 [![GPL-3.0 License][license-badge]][license]
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
 [![PRs Welcome][prs-badge]][prs] [![Code of Conduct][coc-badge]][coc]
 
 ## Pre-Workshop Instructions/Requirements
