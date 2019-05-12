@@ -16,6 +16,14 @@ try {
   // ignore json parse error
 }
 
+window.__bookshelf = window.__bookshelf || {}
+window.__bookshelf.purgeListItems = () => {
+  Object.keys(listItems).forEach(key => {
+    delete listItems[key]
+  })
+  persist()
+}
+
 function authorize(userId, listItemId) {
   const listItem = read(listItemId)
   if (listItem.ownerId !== userId) {

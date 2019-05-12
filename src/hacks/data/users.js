@@ -13,6 +13,14 @@ try {
   // ignore json parse error
 }
 
+window.__bookshelf = window.__bookshelf || {}
+window.__bookshelf.purgeUsers = () => {
+  Object.keys(users).forEach(key => {
+    delete users[key]
+  })
+  persist()
+}
+
 function authenticate({username, password}) {
   const id = hash(username)
   const user = users[id] || {}
