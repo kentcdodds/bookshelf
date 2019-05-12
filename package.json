@@ -17,6 +17,7 @@
     "@reach/tabs": "^0.1.5",
     "@reach/tooltip": "^0.2.0",
     "@reach/visually-hidden": "^0.1.4",
+    "debounce-fn": "^3.0.1",
     "jest-dom": "^3.2.2",
     "match-sorter": "^3.0.0",
     "node-sass": "^4.12.0",
