@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 
+import styled from '@emotion/styled'
 import React from 'react'
 import Logo from './components/logo'
 import VisuallyHidden from '@reach/visually-hidden'
@@ -96,6 +97,11 @@ function Modal({button, children}) {
   )
 }
 
+const ModalTitle = styled.h3({
+  textAlign: 'center',
+  fontSize: '2em',
+})
+
 function UnauthenticatedApp() {
   const {login, register} = useAuth()
 
@@ -105,11 +111,11 @@ function UnauthenticatedApp() {
       <h1>Bookshelf</h1>
       <div css={{display: 'flex'}}>
         <Modal button={<Button css={{marginRight: 6}}>Login</Button>}>
-          <h3>Login</h3>
+          <ModalTitle>Login</ModalTitle>
           <LoginForm onSubmit={login} buttonText="Login" />
         </Modal>
         <Modal button={<Button variant="secondary">Register</Button>}>
-          <h3>Register</h3>
+          <ModalTitle>Register</ModalTitle>
           <LoginForm onSubmit={register} buttonText="Register" />
         </Modal>
       </div>

@@ -20,7 +20,6 @@
     "debounce-fn": "^3.0.1",
     "jest-dom": "^3.2.2",
     "match-sorter": "^3.0.0",
-    "node-sass": "^4.12.0",
     "normalize.css": "^8.0.1",
     "querystringify": "^2.1.1",
     "react": "^16.8.6",

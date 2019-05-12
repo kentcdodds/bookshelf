@@ -61,7 +61,7 @@ export function Spinner(props) {
 const buttonVariants = {
   primary: {
     background: colors.indigo,
-    color: '#fff',
+    color: colors.base,
   },
   secondary: {
     background: colors.gray,
