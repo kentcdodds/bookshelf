@@ -103,6 +103,7 @@ const fakeResponses = [
     description: `get a book by it's id`,
     test: isApi('book'),
     async handler(url, config) {
+      await sleep()
       const bookId = getSubjectId(url)
       const book = allBooks.find(book => book.id === bookId)
       return {

@@ -86,7 +86,7 @@ function Nav(params) {
       css={{
         position: 'sticky',
         top: '2em',
-        padding: '2em 1.5em',
+        padding: '3em 1.5em',
         border: `1px solid ${colors.gray10}`,
         borderRadius: '3px',
         [mq.small]: {

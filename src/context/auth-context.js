@@ -1,7 +1,11 @@
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
+
 import React from 'react'
 import {useAsync} from 'react-async'
 import {bootstrapAppData} from '../utils/bootstrap'
 import * as authClient from '../utils/auth'
+import {Spinner} from '../components/lib'
 
 const AuthContext = React.createContext()
 
@@ -28,7 +32,11 @@ function AuthProvider(props) {
 
   if (!firstAttemptFinished) {
     if (isPending) {
-      return '...'
+      return (
+        <div css={{marginTop: '3em', fontSize: '4em'}}>
+          <Spinner />
+        </div>
+      )
     }
     if (isRejected) {
       return (

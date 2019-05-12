@@ -6,7 +6,13 @@ import React from 'react'
 import Logo from './components/logo'
 import VisuallyHidden from '@reach/visually-hidden'
 import {Dialog} from '@reach/dialog'
-import {CircleButton, Button, FormGroup, Centered} from './components/lib'
+import {
+  CircleButton,
+  Button,
+  Spinner,
+  FormGroup,
+  Centered,
+} from './components/lib'
 import {useAuth} from './context/auth-context'
 import useCallbackStatus from './utils/use-callback-status'
 
@@ -48,7 +54,7 @@ function LoginForm({onSubmit, buttonText}) {
       </FormGroup>
       <div>
         <Button type="submit">
-          {buttonText} {isPending ? '...' : null}
+          {buttonText} {isPending ? <Spinner css={{marginLeft: 5}} /> : null}
         </Button>
       </div>
       {isRejected ? (

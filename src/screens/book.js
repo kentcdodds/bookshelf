@@ -47,7 +47,11 @@ function BookScreen({bookId}) {
   })
 
   if (isPending) {
-    return '...'
+    return (
+      <div css={{marginTop: '2em', fontSize: '2em', textAlign: 'center'}}>
+        <Spinner />
+      </div>
+    )
   }
   if (isRejected) {
     return (
