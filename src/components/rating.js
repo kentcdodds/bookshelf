@@ -37,7 +37,10 @@ function Rating({listItem}) {
     return (
       <button
         key={i}
-        onClick={() => run(i)}
+        onClick={e => {
+          e.preventDefault()
+          run(i)
+        }}
         onFocus={() => setOrageIdx(i)}
         onMouseOver={() => setOrageIdx(i)}
         css={{

@@ -1,7 +1,7 @@
 import React from 'react'
 
-// if there have been 30 calls of a given effect in 1 seconds then that's probably a runaway
-const RECORDS = 30
+// if there have been 60 calls of a given effect in 1 seconds then that's probably a runaway
+const RECORDS = 60
 const TIME_LIMIT = 1000
 
 if (process.env.NODE_ENV !== 'production') {

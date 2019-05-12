@@ -77,14 +77,20 @@ const fakeResponses = [
     async handler(url, config) {
       await sleep()
       const {query} = qs.parse(new window.URL(url).search)
-      const matchingBooks = matchSorter(allBooks, query, {
-        keys: [
-          'title',
-          'author',
-          'publisher',
-          {threshold: matchSorter.rankings.CONTAINS, key: 'synopsis'},
-        ],
-      })
+      let matchingBooks
+      if (query) {
+        matchingBooks = matchSorter(allBooks, query, {
+          keys: [
+            'title',
+            'author',
+            'publisher',
+            {threshold: matchSorter.rankings.CONTAINS, key: 'synopsis'},
+          ],
+        })
+      } else {
+        // return a random assortment of 10 books
+        matchingBooks = shuffle(allBooks).slice(0, 10)
+      }
       return {
         status: 200,
         json: async () => ({
@@ -205,6 +211,10 @@ const fakeResponses = [
   },
 ]
 
+function shuffle(array) {
+  return [...array].sort(() => Math.random() - 0.5)
+}
+
 function getSubjectId(url) {
   const {pathname} = new URL(url)
   return pathname
@@ -236,16 +246,29 @@ window.fetch = async (...args) => {
       return false
     }
   })
+  const groupTitle = `%c ${args[1].method} -> ${args[0]}`
   try {
     const response = await handler(...args)
+    console.groupCollapsed(groupTitle, 'color: #0f9d58')
+    console.info('REQUEST:', {url: args[0], ...args[1]})
+    console.info('RESPONSE:', {
+      ...response,
+      ...(response.json ? {json: await response.json()} : {}),
+    })
+    console.groupEnd()
     return response
   } catch (error) {
+    let rejection = error
     if (error instanceof Error) {
-      return Promise.reject({
+      rejection = {
         status: 500,
         message: error.message,
-      })
+      }
     }
-    return Promise.reject(error)
+    console.groupCollapsed(groupTitle, 'color: #ef5350')
+    console.info('REQUEST:', {url: args[0], ...args[1]})
+    console.info('REJECTION:', rejection)
+    console.groupEnd()
+    return Promise.reject(rejection)
   }
 }
