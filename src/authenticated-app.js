@@ -1,5 +1,10 @@
-import React from 'react'
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
+
+import styled from '@emotion/styled'
 import {Router, Link} from '@reach/router'
+import * as mq from './styles/media-queries'
+import * as colors from './styles/colors'
 import {useAuth} from './context/auth-context'
 import {useUser} from './context/user-context'
 import ReadingListScreen from './screens/list'
@@ -13,15 +18,46 @@ function AuthenticatedApp() {
   const user = useUser()
   const {logout} = useAuth()
   return (
-    <div className="wrapper">
+    <div
+      css={{
+        margin: '0 auto',
+        padding: '2em 0',
+        maxWidth: '840px',
+        width: '100%',
+        display: 'grid',
+        gridGap: '1em',
+        gridTemplateColumns: '3fr 9fr',
+        [mq.small]: {
+          gridTemplateColumns: '1fr',
+          grodTemplateRows: 'auto',
+          width: '100%',
+          padding: '2em 1em',
+        },
+      }}
+    >
       <div>
-        <div className="logout">
+        <div
+          css={{
+            display: 'flex',
+            alignItems: 'center',
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+          }}
+        >
           {user.username}
-          <button onClick={logout}>Logout</button>
+          <button
+            onClick={logout}
+            css={{
+              marginLeft: '10px',
+            }}
+          >
+            Logout
+          </button>
         </div>
         <Nav />
       </div>
-      <main>
+      <main css={{width: '100%'}}>
         <Routes />
       </main>
       <footer />
@@ -29,21 +65,61 @@ function AuthenticatedApp() {
   )
 }
 
+const NavLink = styled(Link)({
+  display: 'block',
+  padding: '8px 15px 8px 10px',
+  margin: '5px 0',
+  width: '100%',
+  height: '100%',
+  color: colors.text,
+  borderRadius: '2px',
+  borderLeft: '5px solid transparent',
+  ':hover': {
+    color: colors.indigo,
+    textDecoration: 'none',
+    background: colors.gray10,
+  },
+})
+
 function Nav(params) {
   return (
-    <nav>
-      <ul>
+    <nav
+      css={{
+        position: 'sticky',
+        top: '2em',
+        padding: '2em 1.5em',
+        border: `1px solid ${colors.gray10}`,
+        borderRadius: '3px',
+        [mq.small]: {
+          padding: '0.5em 1em',
+          position: 'static',
+        },
+      }}
+    >
+      <ul
+        css={{
+          listStyle: 'none',
+          padding: '0',
+          '& [aria-current="page"]': {
+            borderLeft: `5px solid ${colors.indigo}`,
+            background: colors.gray10,
+            ':hover': {
+              background: colors.gray10,
+            },
+          },
+        }}
+      >
         <li>
-          <Link to="/">Home</Link>
+          <NavLink to="/">Home</NavLink>
         </li>
         <li>
-          <Link to="/list">Reading List</Link>
+          <NavLink to="/list">Reading List</NavLink>
         </li>
         <li>
-          <Link to="/finished">Finished Books</Link>
+          <NavLink to="/finished">Finished Books</NavLink>
         </li>
         <li>
-          <Link to="/discover">Discover</Link>
+          <NavLink to="/discover">Discover</NavLink>
         </li>
       </ul>
     </nav>
@@ -57,7 +133,7 @@ function Routes() {
       <ReadingListScreen path="/list" />
       <FinishedBooksScreen path="/finished" />
       <DiscoverBooksScreen path="/discover" />
-      <BookScreen path="/book" />
+      <BookScreen path="/book/:bookId" />
       <NotFound default />
     </Router>
   )

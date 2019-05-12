@@ -23,26 +23,3 @@ input {
   background: $gray;
   padding: 8px 12px;
 }
-
-.form__login-register {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  > div {
-    margin: 10px auto;
-    width: 100%;
-    max-width: 300px;
-  }
-}
-
-// label + input
-.form__group {
-  display: flex;
-  flex-direction: column;
-}
-
-// Search
-
-#search {
-  width: 100%;
-}

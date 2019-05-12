@@ -4,7 +4,6 @@ import {UserProvider} from './user-context'
 import {ListItemProvider} from './list-item-context'
 
 function AppProviders({children}) {
-  console.log('rendering in app providers')
   return (
     <AuthProvider>
       <UserProvider>

@@ -11,10 +11,11 @@ import {BookListUL, Spinner} from '../components/lib'
 
 function DiscoverBooksScreen() {
   const queryRef = React.useRef()
-  const {data: books, isPending, isRejected, error, run} = useAsync({
+  const {data, isPending, isRejected, error, run} = useAsync({
     deferFn: booksClient.search,
-    initialValue: [],
+    initialValue: {books: []},
   })
+  const {books} = data
 
   function handleSearchClick(e) {
     e.preventDefault()
@@ -25,7 +26,12 @@ function DiscoverBooksScreen() {
     <div>
       <div>
         <form onSubmit={handleSearchClick}>
-          <input ref={queryRef} placeholder="Search books..." id="search" />
+          <input
+            ref={queryRef}
+            placeholder="Search books..."
+            id="search"
+            css={{width: '100%'}}
+          />
           <Tooltip label="Search Books">
             <label htmlFor="search">
               <button

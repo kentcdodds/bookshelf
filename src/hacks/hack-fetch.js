@@ -94,14 +94,14 @@ const fakeResponses = [
     },
   },
   {
-    description: 'get books by their id',
-    test: isApi('book', 'GET', 'bookIds'),
+    description: `get a book by it's id`,
+    test: isApi('book'),
     async handler(url, config) {
-      const {bookIds} = qs.parse(new window.URL(url).search)
-      const books = allBooks.filter(book => bookIds.includes(book.id))
+      const bookId = getSubjectId(url)
+      const book = allBooks.find(book => book.id === bookId)
       return {
         status: 200,
-        json: async () => ({books}),
+        json: async () => ({book}),
       }
     },
   },

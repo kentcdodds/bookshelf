@@ -1,4 +1,6 @@
-import React from 'react'
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
+
 import {FaStar} from 'react-icons/fa'
 import * as colors from '../styles/colors'
 

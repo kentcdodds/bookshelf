@@ -5,7 +5,7 @@ import React from 'react'
 import Logo from './components/logo'
 import VisuallyHidden from '@reach/visually-hidden'
 import {Dialog} from '@reach/dialog'
-import {CircleButton, Button} from './components/lib'
+import {CircleButton, Button, FormGroup, Centered} from './components/lib'
 import {useAuth} from './context/auth-context'
 import useCallbackStatus from './utils/use-callback-status'
 
@@ -24,15 +24,27 @@ function LoginForm({onSubmit, buttonText}) {
   }
 
   return (
-    <form className="form__login-register" onSubmit={handleSubmit}>
-      <div className="form__group">
+    <form
+      onSubmit={handleSubmit}
+      css={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        '> div': {
+          margin: '10px auto',
+          width: '100%',
+          maxWidth: '300px',
+        },
+      }}
+    >
+      <FormGroup>
         <label htmlFor="username">Username</label>
         <input id="username" />
-      </div>
-      <div className="form__group">
+      </FormGroup>
+      <FormGroup>
         <label htmlFor="password">Password</label>
         <input id="password" type="password" />
-      </div>
+      </FormGroup>
       <div>
         <Button type="submit">
           {buttonText} {isPending ? '...' : null}
@@ -88,7 +100,7 @@ function UnauthenticatedApp() {
   const {login, register} = useAuth()
 
   return (
-    <div className="centered">
+    <Centered>
       <Logo width="80" height="80" />
       <h1>Bookshelf</h1>
       <div css={{display: 'flex'}}>
@@ -101,7 +113,7 @@ function UnauthenticatedApp() {
           <LoginForm onSubmit={register} buttonText="Register" />
         </Modal>
       </div>
-    </div>
+    </Centered>
   )
 }
 

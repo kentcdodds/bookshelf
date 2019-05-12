@@ -12,8 +12,7 @@ function NotFound() {
       }}
     >
       <div>
-        Sorry... nothing here.
-        <Link to="/">Go home</Link>
+        Sorry... nothing here. <Link to="/">Go home</Link>
       </div>
     </div>
   )

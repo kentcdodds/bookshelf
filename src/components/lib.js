@@ -11,6 +11,15 @@ const spin = keyframes({
   '100%': {transform: 'rotate(360deg)'},
 })
 
+export const Centered = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  height: '100vh',
+})
+
 export const Author = styled.div({
   fontStyle: 'italic',
   fontSize: '0.85em',
@@ -67,3 +76,8 @@ export const Button = styled.button(
   },
   ({variant = 'primary'}) => buttonVariants[variant],
 )
+
+export const FormGroup = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+})

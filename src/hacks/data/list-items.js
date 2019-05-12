@@ -28,6 +28,7 @@ function create({
   ownerId = required('ownerId'),
   rating = -1,
   notes = '',
+  startDate = Date.now(),
   finishDate = null,
 }) {
   const id = hash(`${bookId}${ownerId}`)

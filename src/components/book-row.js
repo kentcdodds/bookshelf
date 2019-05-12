@@ -78,7 +78,7 @@ function BookRow({book}) {
       }}
     >
       <Link
-        to="/book"
+        to={`/book/${book.id}`}
         css={{
           flexGrow: 2,
           display: 'grid',
