@@ -88,8 +88,10 @@ const fakeResponses = [
           ],
         })
       } else {
-        // return a random assortment of 10 books
-        matchingBooks = shuffle(allBooks).slice(0, 10)
+        // return a random assortment of 10 books not already in the user's list
+        matchingBooks = shuffle(
+          getBooksNotInUsersList(getUser(config).id),
+        ).slice(0, 10)
       }
       return {
         status: 200,
@@ -211,6 +213,11 @@ const fakeResponses = [
     handler: (...args) => originalFetch(...args),
   },
 ]
+
+function getBooksNotInUsersList(userId) {
+  const bookIdsInUsersList = listItems.readByOwner(userId).map(li => li.bookId)
+  return allBooks.filter(book => !bookIdsInUsersList.includes(book.id))
+}
 
 function shuffle(array) {
   return [...array].sort(() => Math.random() - 0.5)

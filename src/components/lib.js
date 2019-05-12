@@ -20,11 +20,6 @@ export const Centered = styled.div({
   height: '100vh',
 })
 
-export const Author = styled.div({
-  fontStyle: 'italic',
-  fontSize: '0.85em',
-})
-
 export const CircleButton = styled.button({
   borderRadius: '30px',
   padding: '0',

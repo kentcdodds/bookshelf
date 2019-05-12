@@ -14,18 +14,22 @@ function initialSearch() {
 }
 
 function DiscoverBooksScreen() {
-  const queryRef = React.useRef()
+  const [query, setQuery] = React.useState('')
   const [hasSearched, setHasSearched] = React.useState()
-  const {data, isPending, isRejected, error, reload} = useAsync({
+  const {data, isPending, isRejected, isResolved, error, reload} = useAsync({
     promiseFn: initialSearch,
     deferFn: booksClient.search,
   })
   const {books} = data || {books: []}
 
+  function handleInputChange(e) {
+    setQuery(e.target.value)
+  }
+
   function handleSearchClick(e) {
     e.preventDefault()
     setHasSearched(true)
-    reload(queryRef.current.value)
+    reload(query)
   }
 
   return (
@@ -33,7 +37,7 @@ function DiscoverBooksScreen() {
       <div>
         <form onSubmit={handleSearchClick}>
           <input
-            ref={queryRef}
+            onChange={handleInputChange}
             placeholder="Search books..."
             id="search"
             css={{width: '100%'}}
@@ -77,18 +81,41 @@ function DiscoverBooksScreen() {
               <div css={{width: '100%', margin: 'auto'}}>
                 <Spinner />
               </div>
-            ) : (
+            ) : isResolved && books.length ? (
               <p>Here you go! Find more books with the search bar above.</p>
-            )}
+            ) : isResolved && !books.length ? (
+              <p>
+                Hmmm... I couldn't find any books to suggest for you. Sorry.
+              </p>
+            ) : null}
           </div>
         )}
-        <BookListUL css={{marginTop: 20}}>
-          {books.map(book => (
-            <li key={book.id}>
-              <BookRow key={book.id} book={book} />
-            </li>
-          ))}
-        </BookListUL>
+        {isResolved ? (
+          books.length ? (
+            <BookListUL css={{marginTop: 20}}>
+              {books.map(book => (
+                <li key={book.id}>
+                  <BookRow key={book.id} book={book} />
+                </li>
+              ))}
+            </BookListUL>
+          ) : hasSearched ? (
+            <div css={{marginTop: 20, fontSize: '1.2em', textAlign: 'center'}}>
+              <p>Hmmm... can't find any books</p>
+              <p>Here, let me load a few books for you...</p>
+              {isPending ? (
+                <div css={{width: '100%', margin: 'auto'}}>
+                  <Spinner />
+                </div>
+              ) : (
+                <p>
+                  Hmmm... I couldn't find any books with the query "{query}."
+                  Please try another.
+                </p>
+              )}
+            </div>
+          ) : null
+        ) : null}
       </div>
     </div>
   )
