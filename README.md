@@ -61,10 +61,11 @@ variable and how to fix it here for [windows][win-path] or
 
 You should be able to work through the entire workshop in the browser. This is
 actually the recommended approach as it requires absolutely no setup whatsoever.
-Go to [this codesandbox](https://codesandbox.io/s/github/kentcdodds/bookshelf)
+Go to
+[this codesandbox](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/master)
 and you should be good to go.
 
-[![Edit bookshelf](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf)
+[![Edit bookshelf](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/master)
 
 If you'd rather be able to work through the workshop on your own computer, then
 follow the following instructions.
