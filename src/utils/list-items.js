@@ -13,6 +13,13 @@ function read(listItemIds) {
   )
 }
 
+function update(listItemId, updates) {
+  return client(`list-item/${listItemId}`, {
+    method: 'PUT',
+    body: updates,
+  })
+}
+
 function readForUser(ownerId) {
   return client(`list-item?ownerId=${encodeURIComponent(ownerId)}`)
 }
@@ -21,4 +28,4 @@ function remove(listItemId) {
   return client(`list-item/${listItemId}`, {method: 'DELETE'})
 }
 
-export {create, read, remove, readForUser}
+export {create, read, remove, readForUser, update}

@@ -1,57 +1,26 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
-import React from 'react'
 
 import {Link} from '@reach/router'
 import Tooltip from '@reach/tooltip'
-import * as mq from '../styles/media-queries'
-import * as colors from '../styles/colors'
-import {Author, CircleButton, Spinner} from './lib'
 import {
   FaCheckCircle,
   FaPlusCircle,
   FaMinusCircle,
   FaTimesCircle,
+  FaBook,
 } from 'react-icons/fa'
+import * as mq from '../styles/media-queries'
+import * as colors from '../styles/colors'
+import {Author, CircleButton, Spinner} from './lib'
+import useCallbackStatus from '../utils/use-callback-status'
 import Rating from './rating'
 
-function useIsMounted() {
-  const mounted = React.useRef(false)
-  React.useLayoutEffect(() => {
-    mounted.current = true
-    return () => (mounted.current = false)
-  }, [])
-  return mounted
-}
-
 function TooltipButton({label, highlight, onClick, icon}) {
-  const isMounted = useIsMounted()
-  const [{status, error}, setState] = React.useReducer(
-    (s, a) => ({...s, ...a}),
-    {status: 'rest', error: null},
-  )
-  const safeSetState = (...args) =>
-    isMounted.current ? setState(...args) : null
-
-  const isPending = status === 'pending'
-  const isRejected = status === 'rejected'
+  const {isPending, isRejected, error, run} = useCallbackStatus()
 
   function handleClick() {
-    if (isRejected) {
-      safeSetState({status: 'rest'})
-    }
-
-    safeSetState({status: 'pending'})
-    onClick().then(
-      value => {
-        safeSetState({status: 'rest'})
-        return value
-      },
-      error => {
-        safeSetState({status: 'rejected', error})
-        return Promise.reject(error)
-      },
-    )
+    run(onClick())
   }
 
   return (
@@ -73,6 +42,7 @@ function BookRow({
   onAddClick,
   onMarkAsReadClick,
   onRemoveClick,
+  onMarkAsUneadClick,
 }) {
   const {title, author, coverImageUrl} = book
 
@@ -151,12 +121,21 @@ function BookRow({
         }}
       >
         {listItem ? (
-          <TooltipButton
-            label="Mark as read"
-            highlight={colors.green}
-            onClick={onMarkAsReadClick}
-            icon={<FaCheckCircle />}
-          />
+          Boolean(listItem.finishDate) ? (
+            <TooltipButton
+              label="Unmark as read"
+              highlight={colors.yellow}
+              onClick={onMarkAsUneadClick}
+              icon={<FaBook />}
+            />
+          ) : (
+            <TooltipButton
+              label="Mark as read"
+              highlight={colors.green}
+              onClick={onMarkAsReadClick}
+              icon={<FaCheckCircle />}
+            />
+          )
         ) : null}
         {listItem ? (
           <TooltipButton

@@ -5,18 +5,22 @@ import React from 'react'
 import Logo from './components/logo'
 import VisuallyHidden from '@reach/visually-hidden'
 import {Dialog} from '@reach/dialog'
-import {CircleButton} from './components/lib'
+import {CircleButton, Button} from './components/lib'
 import {useAuth} from './context/auth-context'
+import useCallbackStatus from './utils/use-callback-status'
 
 function LoginForm({onSubmit, buttonText}) {
-  const {isPending, error, isRejected} = useAuth()
+  const {isPending, isRejected, error, run} = useCallbackStatus()
   function handleSubmit(event) {
     event.preventDefault()
     const {username, password} = event.target.elements
-    onSubmit({
-      username: username.value,
-      password: password.value,
-    })
+
+    run(
+      onSubmit({
+        username: username.value,
+        password: password.value,
+      }),
+    )
   }
 
   return (
@@ -30,9 +34,9 @@ function LoginForm({onSubmit, buttonText}) {
         <input id="password" type="password" />
       </div>
       <div>
-        <button type="submit">
+        <Button type="submit">
           {buttonText} {isPending ? '...' : null}
-        </button>
+        </Button>
       </div>
       {isRejected ? (
         <div css={{color: 'red'}}>{error ? error.message : null}</div>
@@ -54,7 +58,7 @@ function useUpdateEffect(effect, deps) {
   }, deps)
 }
 
-function Modal({buttonText, children}) {
+function Modal({button, children}) {
   const {clearError} = useAuth()
   const [isOpen, setIsOpen] = React.useState(false)
 
@@ -66,7 +70,7 @@ function Modal({buttonText, children}) {
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)}>{buttonText}</button>
+      {React.cloneElement(button, {onClick: () => setIsOpen(true)})}
       <Dialog isOpen={isOpen}>
         <div css={{display: 'flex', justifyContent: 'flex-end'}}>
           <CircleButton onClick={() => setIsOpen(false)}>
@@ -87,12 +91,12 @@ function UnauthenticatedApp() {
     <div className="centered">
       <Logo width="80" height="80" />
       <h1>Bookshelf</h1>
-      <div className="landing">
-        <Modal buttonText="Login">
+      <div css={{display: 'flex'}}>
+        <Modal button={<Button css={{marginRight: 6}}>Login</Button>}>
           <h3>Login</h3>
           <LoginForm onSubmit={login} buttonText="Login" />
         </Modal>
-        <Modal buttonText="Register">
+        <Modal button={<Button variant="secondary">Register</Button>}>
           <h3>Register</h3>
           <LoginForm onSubmit={register} buttonText="Register" />
         </Modal>

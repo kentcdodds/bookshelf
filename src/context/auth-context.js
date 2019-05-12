@@ -19,7 +19,6 @@ function AuthProvider(props) {
   } = useAsync({
     promiseFn: bootstrapAppData,
   })
-  console.log({...data, error})
 
   React.useLayoutEffect(() => {
     if (isSettled) {

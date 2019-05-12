@@ -14,20 +14,6 @@
   justify-content: center;
 }
 
-.landing {
-  display: flex;
-  button {
-    @extend %button;
-  }
-  button:nth-of-type(1) {
-    margin-right: 5px;
-  }
-  button:nth-of-type(2) {
-    background: $gray;
-    color: $text;
-  }
-}
-
 span[role='img'] {
   color: $gray-80;
 }

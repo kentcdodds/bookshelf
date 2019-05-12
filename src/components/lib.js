@@ -48,3 +48,22 @@ export function Spinner(props) {
     />
   )
 }
+
+const buttonVariants = {
+  primary: {
+    background: colors.indigo,
+    color: '#fff',
+  },
+  secondary: {
+    background: colors.gray,
+    color: colors.text,
+  },
+}
+export const Button = styled.button(
+  {
+    padding: '10px 15px',
+    border: '0',
+    lineHeight: '1',
+  },
+  ({variant = 'primary'}) => buttonVariants[variant],
+)

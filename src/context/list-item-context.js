@@ -16,8 +16,8 @@ function listReducer(listItems, action) {
     }
     case 'update': {
       return listItems.map(li => {
-        if (li.id === action.id) {
-          return {...li, ...action}
+        if (li.id === action.listItem.id) {
+          return {...li, ...action.listItem}
         }
         return li
       })
@@ -50,6 +50,13 @@ function removeListItem(dispatch, id) {
 function addListItem(dispatch, listItemData) {
   return listItemClient.create(listItemData).then(data => {
     dispatch({type: 'add', listItem: data.listItem})
+    return data
+  })
+}
+
+function updateListItem(dispatch, listItemId, updates) {
+  return listItemClient.update(listItemId, updates).then(data => {
+    dispatch({type: 'update', listItem: data.listItem})
     return data
   })
 }
@@ -88,4 +95,5 @@ export {
   useSingleListItemState,
   removeListItem,
   addListItem,
+  updateListItem,
 }
