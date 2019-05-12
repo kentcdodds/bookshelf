@@ -5,7 +5,7 @@ import React from 'react'
 import Tooltip from '@reach/tooltip'
 import {FaSearch, FaTimes} from 'react-icons/fa'
 import {useAsync} from 'react-async'
-import * as booksClient from '../utils/books'
+import * as booksClient from '../utils/books-client'
 import BookRow from '../components/book-row'
 import {BookListUL, Spinner} from '../components/lib'
 

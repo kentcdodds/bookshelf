@@ -15,7 +15,7 @@ import {
   updateListItem,
 } from '../context/list-item-context'
 import Rating from '../components/rating'
-import * as bookClient from '../utils/books'
+import * as bookClient from '../utils/books-client'
 import StatusButtons from '../components/status-buttons'
 
 function getBook({bookId}) {

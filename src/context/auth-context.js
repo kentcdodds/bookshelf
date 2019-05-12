@@ -4,7 +4,7 @@ import {jsx} from '@emotion/core'
 import React from 'react'
 import {useAsync} from 'react-async'
 import {bootstrapAppData} from '../utils/bootstrap'
-import * as authClient from '../utils/auth'
+import * as authClient from '../utils/auth-client'
 import {Spinner} from '../components/lib'
 
 const AuthContext = React.createContext()

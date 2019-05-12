@@ -1,5 +1,5 @@
-import {getUser} from './auth'
-import {readForUser} from './list-items'
+import {getUser} from './auth-client'
+import {readForUser} from './list-items-client'
 
 async function bootstrapAppData() {
   const data = await getUser()

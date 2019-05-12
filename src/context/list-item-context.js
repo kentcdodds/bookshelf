@@ -1,7 +1,7 @@
 import React from 'react'
 import {useAuth} from './auth-context'
 import {useUser} from './user-context'
-import * as listItemClient from '../utils/list-items'
+import * as listItemClient from '../utils/list-items-client'
 
 const ListItemStateContext = React.createContext()
 const ListItemDispatchContext = React.createContext()
