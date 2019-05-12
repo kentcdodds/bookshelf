@@ -121,7 +121,7 @@ function BookRow({book}) {
               >
                 {title}
               </h2>
-              {listItem ? <Rating rating={listItem.rating} /> : null}
+              {listItem ? <Rating listItem={listItem} /> : null}
             </div>
             <div css={{marginLeft: 10}}>
               <Author css={{marginTop: '0.4em'}}>{author}</Author>

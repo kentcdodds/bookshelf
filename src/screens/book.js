@@ -105,7 +105,7 @@ function BookScreen({bookId}) {
           <div css={{marginTop: 25, height: 46}}>
             {listItem ? (
               <React.Fragment>
-                <Rating rating={listItem.rating} />
+                <Rating listItem={listItem} />
                 <Tooltip
                   label={
                     listItem.finishDate ? 'Start and finish date' : 'Start date'
