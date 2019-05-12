@@ -9,7 +9,7 @@ import {CircleButton} from './components/lib'
 import {useAuth} from './context/auth-context'
 
 function LoginForm({onSubmit, buttonText}) {
-  const {isPending, error} = useAuth()
+  const {isPending, error, isRejected} = useAuth()
   function handleSubmit(event) {
     event.preventDefault()
     const {username, password} = event.target.elements
@@ -34,7 +34,9 @@ function LoginForm({onSubmit, buttonText}) {
           {buttonText} {isPending ? '...' : null}
         </button>
       </div>
-      <div css={{color: 'red'}}>{error ? error.message : null}</div>
+      {isRejected ? (
+        <div css={{color: 'red'}}>{error ? error.message : null}</div>
+      ) : null}
     </form>
   )
 }

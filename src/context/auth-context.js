@@ -8,17 +8,18 @@ const AuthContext = React.createContext()
 function AuthProvider(props) {
   const [firstAttemptFinished, setFirstAttemptFinished] = React.useState(false)
   const {
-    data,
+    data = {user: null, listItems: []},
     error,
     isResolved,
     isRejected,
     isPending,
     isSettled,
     setError,
-    run,
+    reload,
   } = useAsync({
     promiseFn: bootstrapAppData,
   })
+  console.log({...data, error})
 
   React.useLayoutEffect(() => {
     if (isSettled) {
@@ -40,9 +41,12 @@ function AuthProvider(props) {
     }
   }
 
-  const login = form => authClient.login(form).then(() => run())
-  const register = form => authClient.register(form).then(() => run())
-  const logout = () => authClient.logout().then(() => run())
+  const login = form =>
+    authClient.login(form).then(reload, error => setError(error))
+  const register = form =>
+    authClient.register(form).then(reload, error => setError(error))
+  const logout = () =>
+    authClient.logout().then(reload, error => setError(error))
   const clearError = () => setError(null)
 
   return (

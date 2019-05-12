@@ -1,5 +1,15 @@
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
+
+import {keyframes} from '@emotion/core'
 import styled from '@emotion/styled'
 import * as colors from '../styles/colors'
+import {FaSpinner} from 'react-icons/fa'
+
+const spin = keyframes({
+  '0%': {transform: 'rotate(0deg)'},
+  '100%': {transform: 'rotate(360deg)'},
+})
 
 export const Author = styled.div({
   fontStyle: 'italic',
@@ -19,9 +29,6 @@ export const CircleButton = styled.button({
   color: colors.text,
   border: `1px solid ${colors.gray10}`,
   cursor: 'pointer',
-  ':hover': {
-    color: colors.base,
-  },
 })
 
 export const BookListUL = styled.ul({
@@ -31,3 +38,13 @@ export const BookListUL = styled.ul({
   gridTemplateRows: 'repeat(auto-fill, minmax(100px, 1fr))',
   gridGap: '1em',
 })
+
+export function Spinner(props) {
+  return (
+    <FaSpinner
+      css={{animation: `${spin} 1s linear infinite`}}
+      aria-label="loading"
+      {...props}
+    />
+  )
+}

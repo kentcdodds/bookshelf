@@ -1,9 +1,9 @@
 /** @jsx jsx */
-import {jsx, keyframes} from '@emotion/core'
+import {jsx} from '@emotion/core'
 
 import React from 'react'
 import Tooltip from '@reach/tooltip'
-import {FaSearch, FaSpinner, FaTimes} from 'react-icons/fa'
+import {FaSearch, FaTimes} from 'react-icons/fa'
 import {useAsync} from 'react-async'
 import {useUser} from '../context/user-context'
 import * as booksClient from '../utils/books'
@@ -14,16 +14,7 @@ import {
   removeListItem,
 } from '../context/list-item-context'
 import BookRow from '../components/book-row'
-import {BookListUL} from '../components/lib'
-
-const spin = keyframes({
-  '0%': {
-    transform: 'rotate(0deg)',
-  },
-  '100%': {
-    transform: 'rotate(360deg)',
-  },
-})
+import {BookListUL, Spinner} from '../components/lib'
 
 function DiscoverBooksScreen() {
   const queryRef = React.useRef()
@@ -54,10 +45,7 @@ function DiscoverBooksScreen() {
                 }}
               >
                 {isPending ? (
-                  <FaSpinner
-                    css={{animation: `${spin} 1s linear infinite`}}
-                    aria-label="loading"
-                  />
+                  <Spinner />
                 ) : isRejected ? (
                   <FaTimes aria-label="error" css={{color: 'red'}} />
                 ) : (

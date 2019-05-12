@@ -6,13 +6,12 @@ import {Link} from '@reach/router'
 import Tooltip from '@reach/tooltip'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
-import {Author, CircleButton} from './lib'
+import {Author, CircleButton, Spinner} from './lib'
 import {
   FaCheckCircle,
   FaPlusCircle,
   FaMinusCircle,
   FaTimesCircle,
-  FaBook,
 } from 'react-icons/fa'
 import Rating from './rating'
 
@@ -62,7 +61,7 @@ function TooltipButton({label, highlight, onClick, icon}) {
         disabled={isPending}
         onClick={handleClick}
       >
-        {isPending ? <FaBook /> : isRejected ? <FaTimesCircle /> : icon}
+        {isPending ? <Spinner /> : isRejected ? <FaTimesCircle /> : icon}
       </CircleButton>
     </Tooltip>
   )

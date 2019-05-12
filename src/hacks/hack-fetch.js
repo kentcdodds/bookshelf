@@ -218,7 +218,13 @@ function getUser(config) {
   if (!token) {
     throw new Error('A token must be provided')
   }
-  return users.read(atob(token))
+  let userId
+  try {
+    userId = atob(token)
+  } catch (error) {
+    throw new Error('Invalid token. Please login again.')
+  }
+  return users.read(userId)
 }
 
 window.fetch = async (...args) => {
