@@ -5,14 +5,7 @@ import React from 'react'
 import Tooltip from '@reach/tooltip'
 import {FaSearch, FaTimes} from 'react-icons/fa'
 import {useAsync} from 'react-async'
-import {useUser} from '../context/user-context'
 import * as booksClient from '../utils/books'
-import {
-  useListItemDispatch,
-  useSingleListItemState,
-  addListItem,
-  removeListItem,
-} from '../context/list-item-context'
 import BookRow from '../components/book-row'
 import {BookListUL, Spinner} from '../components/lib'
 
@@ -68,36 +61,12 @@ function DiscoverBooksScreen() {
         <BookListUL>
           {books.map(book => (
             <li key={book.id}>
-              <DiscoverBookRow key={book.id} book={book} />
+              <BookRow key={book.id} book={book} />
             </li>
           ))}
         </BookListUL>
       </div>
     </div>
-  )
-}
-
-function DiscoverBookRow({book}) {
-  const user = useUser()
-  const dispatch = useListItemDispatch()
-  const listItem = useSingleListItemState({
-    bookId: book.id,
-  })
-  function handleAddClick() {
-    return addListItem(dispatch, {ownerId: user.id, bookId: book.id})
-  }
-
-  function handleRemoveClick() {
-    return removeListItem(dispatch, listItem.id)
-  }
-
-  return (
-    <BookRow
-      book={book}
-      listItem={listItem}
-      onAddClick={handleAddClick}
-      onRemoveClick={handleRemoveClick}
-    />
   )
 }
 

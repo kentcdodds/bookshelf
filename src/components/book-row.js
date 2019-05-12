@@ -13,6 +13,14 @@ import {
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
 import {Author, CircleButton, Spinner} from './lib'
+import {useUser} from '../context/user-context'
+import {
+  useListItemDispatch,
+  useSingleListItemState,
+  removeListItem,
+  updateListItem,
+  addListItem,
+} from '../context/list-item-context'
 import useCallbackStatus from '../utils/use-callback-status'
 import Rating from './rating'
 
@@ -36,15 +44,29 @@ function TooltipButton({label, highlight, onClick, icon}) {
   )
 }
 
-function BookRow({
-  book,
-  listItem,
-  onAddClick,
-  onMarkAsReadClick,
-  onRemoveClick,
-  onMarkAsUneadClick,
-}) {
+function BookRow({book}) {
   const {title, author, coverImageUrl} = book
+  const user = useUser()
+  const dispatch = useListItemDispatch()
+  const listItem = useSingleListItemState({
+    bookId: book.id,
+  })
+
+  function handleRemoveClick() {
+    return removeListItem(dispatch, listItem.id)
+  }
+
+  function handleMarkAsReadClick() {
+    return updateListItem(dispatch, listItem.id, {finishDate: Date.now()})
+  }
+
+  function handleAddClick() {
+    return addListItem(dispatch, {ownerId: user.id, bookId: book.id})
+  }
+
+  function handleMarkAsUnreadClick() {
+    return updateListItem(dispatch, listItem.id, {finishDate: null})
+  }
 
   return (
     <div
@@ -125,14 +147,14 @@ function BookRow({
             <TooltipButton
               label="Unmark as read"
               highlight={colors.yellow}
-              onClick={onMarkAsUneadClick}
+              onClick={handleMarkAsUnreadClick}
               icon={<FaBook />}
             />
           ) : (
             <TooltipButton
               label="Mark as read"
               highlight={colors.green}
-              onClick={onMarkAsReadClick}
+              onClick={handleMarkAsReadClick}
               icon={<FaCheckCircle />}
             />
           )
@@ -141,14 +163,14 @@ function BookRow({
           <TooltipButton
             label="Remove from list"
             highlight={colors.danger}
-            onClick={onRemoveClick}
+            onClick={handleRemoveClick}
             icon={<FaMinusCircle />}
           />
         ) : (
           <TooltipButton
             label="Add to list"
             highlight={colors.indigo}
-            onClick={onAddClick}
+            onClick={handleAddClick}
             icon={<FaPlusCircle />}
           />
         )}
