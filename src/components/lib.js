@@ -76,3 +76,11 @@ export const FormGroup = styled.div({
   display: 'flex',
   flexDirection: 'column',
 })
+
+export function FullPageSpinner() {
+  return (
+    <div css={{marginTop: '3em', fontSize: '4em'}}>
+      <Spinner />
+    </div>
+  )
+}

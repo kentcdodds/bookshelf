@@ -5,7 +5,7 @@ import React from 'react'
 import {useAsync} from 'react-async'
 import {bootstrapAppData} from '../utils/bootstrap'
 import * as authClient from '../utils/auth-client'
-import {Spinner} from '../components/lib'
+import {FullPageSpinner} from '../components/lib'
 
 const AuthContext = React.createContext()
 
@@ -32,11 +32,7 @@ function AuthProvider(props) {
 
   if (!firstAttemptFinished) {
     if (isPending) {
-      return (
-        <div css={{marginTop: '3em', fontSize: '4em'}}>
-          <Spinner />
-        </div>
-      )
+      return <FullPageSpinner />
     }
     if (isRejected) {
       return (
