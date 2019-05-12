@@ -16,27 +16,3 @@
 .button {
   @extend %button;
 }
-
-.button--circle {
-  border-radius: 30px;
-  padding: 0;
-  width: 40px;
-  height: 40px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: $base;
-  color: $text;
-  border: 1px solid $gray-10;
-}
-.button--circle:hover {
-  color: $base;
-}
-
-.button--search {
-  border: 0;
-  position: relative;
-  margin-left: -35px;
-  background: transparent;
-}

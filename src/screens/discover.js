@@ -1,7 +1,9 @@
+/** @jsx jsx */
+import {jsx, keyframes} from '@emotion/core'
+
 import React from 'react'
 import Tooltip from '@reach/tooltip'
-import {FaPlus, FaSearch, FaMinus, FaBook} from 'react-icons/fa'
-import VanillaTilt from 'vanilla-tilt'
+import {FaSearch, FaSpinner, FaTimes} from 'react-icons/fa'
 import {useAsync} from 'react-async'
 import {useUser} from '../context/user-context'
 import * as booksClient from '../utils/books'
@@ -11,6 +13,17 @@ import {
   addListItem,
   removeListItem,
 } from '../context/list-item-context'
+import BookRow from '../components/book-row'
+import {BookListUL} from '../components/lib'
+
+const spin = keyframes({
+  '0%': {
+    transform: 'rotate(0deg)',
+  },
+  '100%': {
+    transform: 'rotate(360deg)',
+  },
+})
 
 function DiscoverBooksScreen() {
   const queryRef = React.useRef()
@@ -31,18 +44,29 @@ function DiscoverBooksScreen() {
           <input ref={queryRef} placeholder="Search books..." id="search" />
           <Tooltip label="Search Books">
             <label htmlFor="search">
-              <button type="submit" className="button--search">
-                <FaSearch aria-label="search" />
+              <button
+                type="submit"
+                css={{
+                  border: '0',
+                  position: 'relative',
+                  marginLeft: '-35px',
+                  background: 'transparent',
+                }}
+              >
+                {isPending ? (
+                  <FaSpinner
+                    css={{animation: `${spin} 1s linear infinite`}}
+                    aria-label="loading"
+                  />
+                ) : isRejected ? (
+                  <FaTimes aria-label="error" css={{color: 'red'}} />
+                ) : (
+                  <FaSearch aria-label="search" />
+                )}
               </button>
             </label>
           </Tooltip>
         </form>
-
-        {isPending ? (
-          <span role="img" aria-label="loading">
-            🌀
-          </span>
-        ) : null}
 
         {isRejected ? (
           <div style={{color: 'red'}}>
@@ -53,93 +77,39 @@ function DiscoverBooksScreen() {
       </div>
       <div>
         <br />
-        {books.map(book => (
-          <BookRow key={book.id} book={book} />
-        ))}
+        <BookListUL>
+          {books.map(book => (
+            <li key={book.id}>
+              <DiscoverBookRow key={book.id} book={book} />
+            </li>
+          ))}
+        </BookListUL>
       </div>
     </div>
   )
 }
 
-function useTilt(tiltRef) {
-  React.useEffect(() => {
-    const {current: tiltNode} = tiltRef
-    const vanillaTiltOptions = {
-      max: 15,
-      speed: 300,
-      glare: true,
-      'max-glare': 0.5,
-    }
-    VanillaTilt.init(tiltNode, vanillaTiltOptions)
-    return () => tiltNode.vanillaTilt.destroy()
-  }, [tiltRef])
-}
-
-function toggleListItem(event, {dispatch, user, book, listItem}) {
-  if (listItem) {
-    return removeListItem(dispatch, listItem.id)
-  } else {
-    return addListItem(dispatch, {ownerId: user.id, bookId: book.id})
-  }
-}
-
-function BookRow({book}) {
-  const imgRef = React.useRef()
-  useTilt(imgRef)
+function DiscoverBookRow({book}) {
   const user = useUser()
-  const readingListDispatch = useListItemDispatch()
+  const dispatch = useListItemDispatch()
   const listItem = useSingleListItemState({
     bookId: book.id,
   })
-  const {isPending, isRejected, run, error} = useAsync({
-    deferFn: toggleListItem,
-    dispatch: readingListDispatch,
-    listItem,
-    user,
-    book,
-  })
+  function handleAddClick() {
+    return addListItem(dispatch, {ownerId: user.id, bookId: book.id})
+  }
+
+  function handleRemoveClick() {
+    return removeListItem(dispatch, listItem.id)
+  }
 
   return (
-    <div className="discover__row">
-      <div className="discover__image">
-        <img
-          ref={imgRef}
-          src={book.coverImageUrl}
-          alt={`${book.title} cover`}
-        />
-        {isPending ? (
-          <FaBook aria-label="loading" />
-        ) : (
-          <Tooltip
-            label={
-              listItem ? 'Remove from Reading List' : 'Add to Reading List'
-            }
-          >
-            <button className="discover__add_button" onClick={run}>
-              {listItem ? (
-                <FaMinus aria-label="remove" />
-              ) : (
-                <FaPlus aria-label="add" />
-              )}
-            </button>
-          </Tooltip>
-        )}
-        {isRejected ? (
-          <div style={{color: 'red', overflow: 'scroll'}}>
-            <p>There was an error:</p>
-            <pre>{error.message}</pre>
-          </div>
-        ) : null}
-      </div>
-      <div>
-        <h3>{book.title}</h3>
-        <div className="author">
-          <h4>{book.author}</h4>
-        </div>
-        <small>{book.publisher}</small>
-        <small>{book.synopsis.substring(0, 500)}...</small>
-      </div>
-    </div>
+    <BookRow
+      book={book}
+      listItem={listItem}
+      onAddClick={handleAddClick}
+      onRemoveClick={handleRemoveClick}
+    />
   )
 }
 

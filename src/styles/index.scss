@@ -46,19 +46,6 @@ input {
   height: 100vh;
 }
 
-.rating {
-  display: flex;
-  align-items: center;
-
-  span {
-    margin-right: 5px;
-  }
-  svg {
-    width: 16px;
-    margin: 0 2px;
-  }
-}
-
 .wrapper {
   margin: 0 auto;
   padding: 2em 0;

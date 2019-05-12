@@ -75,6 +75,7 @@ const fakeResponses = [
     description: 'search books',
     test: isApi('book', 'GET', 'query'),
     async handler(url, config) {
+      await sleep()
       const {query} = qs.parse(new window.URL(url).search)
       const matchingBooks = matchSorter(allBooks, query, {
         keys: [
@@ -162,7 +163,7 @@ const fakeResponses = [
       const listItem = listItems.create({ownerId: user.id, bookId: bookId})
       return {
         status: 200,
-        json: async () => ({listItem}),
+        json: async () => ({listItem: {...listItem, book}}),
       }
     },
   },

@@ -1,7 +1,11 @@
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
+
 import React from 'react'
 import Logo from './components/logo'
 import VisuallyHidden from '@reach/visually-hidden'
 import {Dialog} from '@reach/dialog'
+import {CircleButton} from './components/lib'
 import {useAuth} from './context/auth-context'
 
 function LoginForm({onSubmit, buttonText}) {
@@ -26,11 +30,11 @@ function LoginForm({onSubmit, buttonText}) {
         <input id="password" type="password" />
       </div>
       <div>
-        <button type="submit" className="button">
+        <button type="submit">
           {buttonText} {isPending ? '...' : null}
         </button>
       </div>
-      <div style={{color: 'red'}}>{error ? error.message : null}</div>
+      <div css={{color: 'red'}}>{error ? error.message : null}</div>
     </form>
   )
 }
@@ -62,11 +66,11 @@ function Modal({buttonText, children}) {
     <>
       <button onClick={() => setIsOpen(true)}>{buttonText}</button>
       <Dialog isOpen={isOpen}>
-        <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-          <button className="button--circle" onClick={() => setIsOpen(false)}>
+        <div css={{display: 'flex', justifyContent: 'flex-end'}}>
+          <CircleButton onClick={() => setIsOpen(false)}>
             <VisuallyHidden>Close</VisuallyHidden>
             <span aria-hidden>×</span>
-          </button>
+          </CircleButton>
         </div>
         {children}
       </Dialog>
