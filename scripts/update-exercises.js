@@ -25,6 +25,8 @@ function updateExercises() {
   exerciseBranches.forEach(branch => {
     updateExerciseBranch(branch)
     console.log(`${branch} is up to date.`)
+    console.log(`Force pushing ${branch}`)
+    execSync('git push -f')
   })
   execSync('git checkout master')
   console.log('All exercises up to date.')
