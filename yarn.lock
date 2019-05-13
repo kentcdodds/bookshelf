@@ -8253,10 +8253,10 @@ react-app-polyfill@^1.0.1:
     regenerator-runtime "0.13.2"
     whatwg-fetch "3.0.0"
 
-react-async@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/react-async/-/react-async-6.2.0.tgz#6729126910032e3674c7a566f8216b2c76d19be0"
-  integrity sha512-HeAg+atovuxo/mhGVjzI4+2biwgafcAiFJV0KpSKWQOAvfMC/NdUVtTbvlVKCUBCHvY0/+Ju6lLR30QS6/81jg==
+react-async@7.0.0-0:
+  version "7.0.0-0"
+  resolved "https://registry.yarnpkg.com/react-async/-/react-async-7.0.0-0.tgz#fed9d8d7eb0966c5915466dd7e697721ea89752f"
+  integrity sha512-akAKGoANRCuC+cv3Me17NVa07D5vikx8t1uktM/KHHuEfifdYLPDfUHmQoHuh427DxMDT3y8G9zMJtcb64Chag==
   optionalDependencies:
     prop-types ">=15.5.7"
 
