@@ -7,7 +7,7 @@ import {FaStar} from 'react-icons/fa'
 import {useListItemDispatch, updateListItem} from '../context/list-item-context'
 import * as colors from '../styles/colors'
 
-function updateNotes([index], {dispatch, listItem}) {
+function updateRating([index], {dispatch, listItem}) {
   return updateListItem(dispatch, listItem.id, {rating: index + 1})
 }
 
@@ -22,7 +22,7 @@ function Rating({listItem}) {
 
   const dispatch = useListItemDispatch()
   const {isRejected, isPending, error, run} = useAsync({
-    deferFn: updateNotes,
+    deferFn: updateRating,
     dispatch,
     listItem,
   })
