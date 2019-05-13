@@ -40,6 +40,13 @@
 
 > /me wishes we could use GraphQL
 
+If your "database" gets out of whack, you can purge it via:
+
+```javascript
+window.__bookshelf.purgeUsers()
+window.__bookshelf.purgeListItems()
+```
+
 - Book
 
   - id: string
