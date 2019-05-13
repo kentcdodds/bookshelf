@@ -66,7 +66,7 @@ function DiscoverBooksScreen() {
         </form>
 
         {isRejected ? (
-          <div style={{color: 'red'}}>
+          <div css={{color: 'red'}}>
             <p>There was an error:</p>
             <pre>{error.message}</pre>
           </div>

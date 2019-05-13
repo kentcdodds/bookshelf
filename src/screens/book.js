@@ -45,7 +45,7 @@ function BookScreen({bookId}) {
   }
   if (isRejected) {
     return (
-      <div style={{color: 'red'}}>
+      <div css={{color: 'red'}}>
         <p>Oh no, there was an error.</p>
         <pre>{error.message}</pre>
       </div>
@@ -54,7 +54,7 @@ function BookScreen({bookId}) {
 
   if (isResolved && !book) {
     return (
-      <div style={{color: 'red'}}>
+      <div css={{color: 'red'}}>
         <p>Hmmm... Something's not quite right. Please try another book.</p>
       </div>
     )

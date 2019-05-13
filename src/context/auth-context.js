@@ -35,7 +35,7 @@ function AuthProvider(props) {
     }
     if (isRejected) {
       return (
-        <div style={{color: 'red'}}>
+        <div css={{color: 'red'}}>
           <p>Uh oh... There's a problem. Try refreshing the app.</p>
           <pre>{error.message}</pre>
         </div>
