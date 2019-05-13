@@ -14,7 +14,6 @@ function AuthProvider(props) {
   const {
     data = {user: null, listItems: []},
     error,
-    isResolved,
     isRejected,
     isPending,
     isSettled,
@@ -48,18 +47,7 @@ function AuthProvider(props) {
   const logout = () => authClient.logout().then(reload)
 
   return (
-    <AuthContext.Provider
-      value={{
-        data,
-        login,
-        logout,
-        register,
-        isRejected,
-        isPending,
-        isResolved,
-      }}
-      {...props}
-    />
+    <AuthContext.Provider value={{data, login, logout, register}} {...props} />
   )
 }
 
