@@ -26,6 +26,7 @@ function updateExercises() {
     updateExerciseBranch(branch)
     console.log(`${branch} is up to date.`)
   })
+  execSync('git checkout master')
   console.log('All exercises up to date.')
 }
 
