@@ -34,18 +34,18 @@ git checkout exercises/auth
 
 ### @reach/router (setup all routes)
 
-[![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/?module=%2FINSTRUCTIONS.md)
+[![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/router?module=%2FINSTRUCTIONS.md)
 
 ```
-git checkout exercises/
+git checkout exercises/router
 ```
 
 ### Global App State (List Items)
 
-[![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/?module=%2FINSTRUCTIONS.md)
+[![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/global-state?module=%2FINSTRUCTIONS.md)
 
 ```
-git checkout exercises/
+git checkout exercises/global-state
 ```
 
 ### Manage complex updates (debounce notes field)
