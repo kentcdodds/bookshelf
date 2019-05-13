@@ -43,7 +43,7 @@ function create({
   if (listItems[id]) {
     throw new Error(`This user cannot create new list item for that book`)
   }
-  listItems[id] = {id, bookId, ownerId, rating, notes, finishDate}
+  listItems[id] = {id, bookId, ownerId, rating, notes, finishDate, startDate}
   persist()
   return read(id)
 }
