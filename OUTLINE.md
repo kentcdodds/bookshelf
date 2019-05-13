@@ -84,14 +84,6 @@ git checkout exercises/router
 git checkout exercises/app-state
 ```
 
-### Manage complex updates (debounce notes field)
-
-[![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/?module=%2FINSTRUCTIONS.md)
-
-```
-git checkout exercises/
-```
-
 ### Code-splitting (add code-splitting the authenticated and unauthenticated pages)
 
 [![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/code-splitting?module=%2FINSTRUCTIONS.md)
