@@ -23,10 +23,12 @@ function updateExercises() {
   ).split('\n')
   const exerciseBranches = branches.filter(b => b.startsWith('exercises/'))
   exerciseBranches.forEach(branch => {
-    updateExerciseBranch(branch)
+    const didUpdate = updateExerciseBranch(branch)
     console.log(`${branch} is up to date.`)
-    console.log(`Force pushing ${branch}`)
-    execSync('git push -f')
+    if (didUpdate) {
+      console.log(`Force pushing ${branch}`)
+      execSync('git push -f')
+    }
   })
   execSync('git checkout master')
   console.log('All exercises up to date.')
@@ -37,12 +39,12 @@ function updateExerciseBranch(branch) {
   const result = execSync(`git rebase master`)
   const resultLines = result.split('\n')
   const lastLine = resultLines.slice(-1)[0]
-  if (result === `Current branch ${branch} is up to date.`) {
-    return
+  if (result.endsWith(`${branch} is up to date.`)) {
+    return false
   } else if (result.endsWith(`Fast-forwarded ${branch} to master.`)) {
-    return
+    return true
   } else if (lastLine.startsWith('Applying:')) {
-    return
+    return true
   } else if (result.includes('CONFLICT')) {
     console.error(
       'Merge conflict. Fix the conflict, then run the update-exercises script again to be sure you have everything up to date.',
