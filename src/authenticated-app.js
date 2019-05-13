@@ -58,9 +58,7 @@ function AuthenticatedApp() {
         <Nav />
       </div>
       <main css={{width: '100%'}}>
-        <ListItemProvider>
-          <Routes />
-        </ListItemProvider>
+        <Routes />
       </main>
       <footer />
     </div>
@@ -131,14 +129,16 @@ function RedirectHome() {
 
 function Routes() {
   return (
-    <Router>
-      <RedirectHome path="/" />
-      <ReadingListScreen path="/list" />
-      <FinishedBooksScreen path="/finished" />
-      <DiscoverBooksScreen path="/discover" />
-      <BookScreen path="/book/:bookId" />
-      <NotFound default />
-    </Router>
+    <ListItemProvider>
+      <Router>
+        <RedirectHome path="/" />
+        <ReadingListScreen path="/list" />
+        <FinishedBooksScreen path="/finished" />
+        <DiscoverBooksScreen path="/discover" />
+        <BookScreen path="/book/:bookId" />
+        <NotFound default />
+      </Router>
+    </ListItemProvider>
   )
 }
 
