@@ -5,6 +5,7 @@ import styled from '@emotion/styled'
 import {Router, Link, Redirect} from '@reach/router'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
+import {ListItemProvider} from './context/list-item-context'
 import {useAuth} from './context/auth-context'
 import {useUser} from './context/user-context'
 import ReadingListScreen from './screens/list'
@@ -57,7 +58,9 @@ function AuthenticatedApp() {
         <Nav />
       </div>
       <main css={{width: '100%'}}>
-        <Routes />
+        <ListItemProvider>
+          <Routes />
+        </ListItemProvider>
       </main>
       <footer />
     </div>
