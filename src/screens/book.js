@@ -32,9 +32,7 @@ function BookScreen({bookId}) {
     promiseFn: getBook,
     bookId,
   })
-  const listItem = useSingleListItemState({
-    bookId: book ? book.id : null,
-  })
+  const listItem = useSingleListItemState({bookId})
 
   if (isPending) {
     return (
