@@ -18,7 +18,6 @@ function AuthProvider(props) {
     isRejected,
     isPending,
     isSettled,
-    setError,
     reload,
   } = useAsync({
     promiseFn: bootstrapAppData,
@@ -44,22 +43,9 @@ function AuthProvider(props) {
     }
   }
 
-  const login = form =>
-    authClient.login(form).then(reload, error => {
-      setError(error)
-      return Promise.reject(error)
-    })
-  const register = form =>
-    authClient.register(form).then(reload, error => {
-      setError(error)
-      return Promise.reject(error)
-    })
-  const logout = () =>
-    authClient.logout().then(reload, error => {
-      setError(error)
-      return Promise.reject(error)
-    })
-  const clearError = () => setError(null)
+  const login = form => authClient.login(form).then(reload)
+  const register = form => authClient.register(form).then(reload)
+  const logout = () => authClient.logout().then(reload)
 
   return (
     <AuthContext.Provider
@@ -68,11 +54,9 @@ function AuthProvider(props) {
         login,
         logout,
         register,
-        error,
         isRejected,
         isPending,
         isResolved,
-        clearError,
       }}
       {...props}
     />

@@ -64,28 +64,8 @@ function LoginForm({onSubmit, buttonText}) {
   )
 }
 
-function useUpdateEffect(effect, deps) {
-  const mounted = React.useRef(false)
-  React.useEffect(() => {
-    if (mounted.current) {
-      effect()
-    } else {
-      mounted.current = true
-    }
-    // we're using it right, I promise...
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps)
-}
-
 function Modal({button, children}) {
-  const {clearError} = useAuth()
   const [isOpen, setIsOpen] = React.useState(false)
-
-  useUpdateEffect(() => {
-    if (!isOpen) {
-      clearError()
-    }
-  }, [isOpen])
 
   return (
     <>

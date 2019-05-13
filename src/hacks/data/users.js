@@ -36,7 +36,7 @@ function create({username, password}) {
   if (users[id]) {
     throw new Error(`Cannot create a new user with the username "${username}"`)
   }
-  users[id] = {id, username, passwordHash, readingList: []}
+  users[id] = {id, username, passwordHash}
   persist()
 }
 
