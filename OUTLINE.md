@@ -14,6 +14,16 @@
 
 ### Workflow
 
+- Open the exercise codesandbox/checkout the branch
+- Read through the `INSTRUCTIONS.md`
+- Start Breakout Rooms
+- Go through every mentioned file and follow the instructions from the emoji
+- I pop in the breakout rooms to check for questions
+- We all come back together
+- I go through the solution and answer questions
+- Move on to the next exercise.
+- Repeat.
+
 ## App Intro
 
 ### App Demo

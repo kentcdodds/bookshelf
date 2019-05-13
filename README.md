@@ -36,7 +36,14 @@ following:
 
 The more prepared you are for the workshop, the better it will go for you.
 
-<!-- TODO: ## Workshop Outline -->
+## Workshop Outline
+
+- Manage forms (login and registration form)
+- Add authentication (auth-context)
+- @reach/router (setup all routes)
+- App State (List Items)
+- Code-splitting (add code-splitting the authenticated and unauthenticated
+  pages)
 
 ## System Requirements
 
@@ -85,13 +92,11 @@ cd bookshelf
 npm run setup --silent
 ```
 
-This may take a few minutes. **It will ask you for your email.** This is
-optional and just automatically adds your email to the links in the project to
-make filling out some forms easier If you get any errors, please read through
-them and see if you can find out what the problem is. You may also want to look
-at [Troubleshooting](#troubleshooting). If you can't work it out on your own
-then please [file an issue][issue] and provide _all_ the output from the
-commands you ran (even if it's a lot).
+This may take a few minutes. If you get any errors, please read through them and
+see if you can find out what the problem is. You may also want to look at
+[Troubleshooting](#troubleshooting). If you can't work it out on your own then
+please [file an issue][issue] and provide _all_ the output from the commands you
+ran (even if it's a lot).
 
 ## Running the app
 
@@ -116,7 +121,9 @@ npm test
 This will start [Jest](http://facebook.github.io/jest) in watch mode. Read the
 output and play around with it.
 
-<!-- TODO: ## Working through it -->
+## Working through it
+
+Read through [`OUTLINE.md`](./OUTLINE.md)
 
 ## Helpful Emoji 🐨 💰 💯 🦉 📜 💣 🚨
 
