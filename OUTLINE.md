@@ -40,12 +40,12 @@ git checkout exercises/auth
 git checkout exercises/router
 ```
 
-### Global App State (List Items)
+### App State (List Items)
 
-[![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/global-state?module=%2FINSTRUCTIONS.md)
+[![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/app-state?module=%2FINSTRUCTIONS.md)
 
 ```
-git checkout exercises/global-state
+git checkout exercises/app-state
 ```
 
 ### Manage complex updates (debounce notes field)
