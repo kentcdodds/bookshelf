@@ -46,7 +46,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run validate",
-      "post-commit": "node ./scripts/update-exercises"
+      "pre-push": "node ./scripts/update-exercises"
     }
   },
   "browserslist": {
