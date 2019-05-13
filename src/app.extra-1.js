@@ -9,24 +9,32 @@ import {Dialog} from '@reach/dialog'
 import {
   CircleButton,
   Button,
-  Spinner,
   FormGroup,
   Centered,
+  Spinner,
 } from './components/lib'
-import {useAuth} from './context/auth-context'
-import useCallbackStatus from './utils/use-callback-status'
+import * as authClient from './utils/auth-client'
 
 function LoginForm({onSubmit, buttonText}) {
-  const {isPending, isRejected, error, run} = useCallbackStatus()
+  const [isPending, setIsPending] = React.useState(false)
+  const [error, setError] = React.useState(null)
   function handleSubmit(event) {
     event.preventDefault()
     const {username, password} = event.target.elements
 
-    run(
-      onSubmit({
-        username: username.value,
-        password: password.value,
-      }),
+    setIsPending(true)
+    onSubmit({
+      username: username.value,
+      password: password.value,
+    }).then(
+      () => {
+        setIsPending(false)
+      },
+      e => {
+        setError(e)
+        setIsPending(false)
+        return Promise.reject(e)
+      },
     )
   }
 
@@ -57,7 +65,7 @@ function LoginForm({onSubmit, buttonText}) {
           {buttonText} {isPending ? <Spinner css={{marginLeft: 5}} /> : null}
         </Button>
       </div>
-      {isRejected ? (
+      {error ? (
         <div css={{color: 'red'}}>{error ? error.message : null}</div>
       ) : null}
     </form>
@@ -88,8 +96,31 @@ const ModalTitle = styled.h3({
   fontSize: '2em',
 })
 
-function UnauthenticatedApp() {
-  const {login, register} = useAuth()
+function App() {
+  const [user, setUser] = React.useState(null)
+
+  function login({username, password}) {
+    return authClient.login({username, password}).then(u => setUser(u))
+  }
+
+  function register({username, password}) {
+    return authClient.register({username, password}).then(u => setUser(u))
+  }
+
+  function logout() {
+    return authClient.logout().then(() => setUser(null))
+  }
+
+  if (user) {
+    return (
+      <div>
+        {user.username} is logged in!{' '}
+        <button type="button" onClick={logout}>
+          logout
+        </button>
+      </div>
+    )
+  }
 
   return (
     <Centered>
@@ -109,4 +140,4 @@ function UnauthenticatedApp() {
   )
 }
 
-export default UnauthenticatedApp
+export default App
