@@ -45,7 +45,7 @@ function updateExerciseBranch(branch) {
     return
   } else if (result.includes('CONFLICT')) {
     console.error(
-      'Merge conflict. Fix the conflect, then run the update-exercises script again to be sure you have everything up to date.',
+      'Merge conflict. Fix the conflict, then run the update-exercises script again to be sure you have everything up to date.',
     )
     throw new Error(result)
   } else {
