@@ -13,8 +13,7 @@ import {
   Centered,
   Spinner,
 } from './components/lib'
-import * as authClient from './utils/auth-client'
-// 🐨 import the useAuth custom hook from /context/auth-context
+import {useAuth} from './context/auth-context'
 
 function LoginForm({onSubmit, buttonText}) {
   const [isPending, setIsPending] = React.useState(false)
@@ -98,37 +97,7 @@ const ModalTitle = styled.h3({
 })
 
 function UnauthenticatedApp() {
-  // 🐨 move this state into context. Take this user state and move it to the
-  // /context/auth-context.js file in the AuthProvider
-  const [user, setUser] = React.useState(null)
-  // 🐨 get login and register from the useAuth hook
-
-  // 🐨 move the login, register, and logout methods to
-  // ./context/auth-context.js in the AuthProvider.
-  function login({username, password}) {
-    return authClient.login({username, password}).then(u => setUser(u))
-  }
-
-  function register({username, password}) {
-    return authClient.register({username, password}).then(u => setUser(u))
-  }
-
-  function logout() {
-    return authClient.logout().then(() => setUser(null))
-  }
-
-  // 💣 remove this if statement
-  if (user) {
-    // 🐨 move this to /authenticated-app.js
-    return (
-      <div>
-        {user.username} is logged in!{' '}
-        <button type="button" onClick={logout}>
-          logout
-        </button>
-      </div>
-    )
-  }
+  const {login, register} = useAuth()
 
   return (
     <Centered>
@@ -148,8 +117,4 @@ function UnauthenticatedApp() {
   )
 }
 
-// 💰 if you wanna see the finished version then comment out the next line
-// and comment back in the last two lines
 export default UnauthenticatedApp
-// const Finished = require('./unauthenticated-app.finished.js')
-// export default Finished.default
