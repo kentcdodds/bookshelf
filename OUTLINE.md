@@ -24,20 +24,20 @@
 git checkout exercises/login-form
 ```
 
-### Code-splitting (codesplit the authenticated and unauthenticated pages)
-
-[![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/)
-
-```
-git checkout exercises/
-```
-
 ### Add authentication (auth-context)
 
-[![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/)
+[![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/auth)
 
 ```
-git checkout exercises/
+git checkout exercises/auth
+```
+
+### Code-splitting (add code-splitting the authenticated and unauthenticated pages)
+
+[![Edit](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/kentcdodds/bookshelf/tree/exercises/code-splitting)
+
+```
+git checkout exercises/code-splitting
 ```
 
 ### @reach/router (setup all routes)
