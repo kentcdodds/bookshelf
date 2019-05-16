@@ -22,16 +22,20 @@ function buildBook(overrides) {
 }
 
 function buildListItem(overrides = {}) {
-  const bookId = overrides.book ? overrides.book.id : faker.random.uuid()
-  const finishDate = faker.date.past()
+  const {
+    bookId = overrides.book ? overrides.book.id : faker.random.uuid(),
+    startDate = faker.date.past(2),
+    finishDate = faker.date.between(startDate, new Date()),
+    owner = {ownerId: faker.random.uuid()},
+  } = overrides
   return {
     id: faker.random.uuid(),
     bookId,
-    ownerId: faker.random.uuid(),
+    ownerId: owner.id,
     rating: faker.random.number(5),
     notes: faker.random.boolean() ? '' : faker.lorem.paragraph(),
     finishDate,
-    startDate: faker.date.past(2, finishDate),
+    startDate,
     book: buildBook({id: bookId}),
     ...overrides,
   }

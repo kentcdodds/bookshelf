@@ -154,7 +154,18 @@ function NotesTextarea({listItem}) {
   return (
     <React.Fragment>
       <div>
-        <h3 css={{display: 'inline-block', marginRight: 10}}>Notes</h3>
+        <label
+          htmlFor="notes"
+          css={{
+            display: 'inline-block',
+            marginRight: 10,
+            marginTop: '0',
+            marginBottom: '0.5rem',
+            fontWeight: 'bold',
+          }}
+        >
+          Notes
+        </label>
         {isRejected ? (
           <span css={{color: 'red', fontSize: '0.7em'}}>
             <span>There was an error:</span>{' '}
@@ -173,6 +184,7 @@ function NotesTextarea({listItem}) {
         {isPending ? <Spinner /> : null}
       </div>
       <textarea
+        id="notes"
         defaultValue={listItem.notes}
         onChange={handleNotesChange}
         css={{width: '100%', minHeight: 300}}

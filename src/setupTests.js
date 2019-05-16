@@ -1,6 +1,18 @@
 import 'jest-dom/extend-expect'
 import 'react-testing-library/cleanup-after-each'
 
+// none of these tests should actually invoke fetch
+beforeEach(() => {
+  jest.spyOn(window, 'fetch').mockImplementation((...args) => {
+    console.warn('window.fetch is not mocked for this call', ...args)
+    return Promise.reject(new Error('This must be mocked!'))
+  })
+})
+
+afterEach(() => {
+  window.fetch.mockRestore()
+})
+
 // this is just a little hack to silence a warning that we'll get until react
 // fixes this: https://github.com/facebook/react/pull/14853
 const originalError = console.error

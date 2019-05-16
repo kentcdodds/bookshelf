@@ -22,7 +22,7 @@ import {
 import useCallbackStatus from '../utils/use-callback-status'
 import {CircleButton, Spinner} from './lib'
 
-function TooltipButton({label, highlight, onClick, icon}) {
+function TooltipButton({label, highlight, onClick, icon, ...rest}) {
   const {isPending, isRejected, error, run} = useCallbackStatus()
 
   function handleClick() {
@@ -35,6 +35,7 @@ function TooltipButton({label, highlight, onClick, icon}) {
         css={{':hover,:focus': {color: isPending ? colors.gray80 : highlight}}}
         disabled={isPending}
         onClick={handleClick}
+        {...rest}
       >
         {isPending ? <Spinner /> : isRejected ? <FaTimesCircle /> : icon}
       </CircleButton>
