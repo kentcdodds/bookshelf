@@ -1,3 +1,12 @@
+#root {
+  color: #434449;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 [data-reach-dialog-content] {
   max-width: 450px;
   border-radius: 3px;
@@ -12,13 +21,6 @@
   }
 }
 
-textarea,
-input {
-  border: 1px solid #f1f1f4;
-  background: #f1f2f7;
-  padding: 8px 12px;
-}
-
 #root {
   color: #434449;
   margin: 0 auto;
@@ -28,7 +30,25 @@ input {
   justify-content: center;
 }
 
+textarea,
+input {
+  border: 1px solid #f1f1f4;
+  background: #f1f2f7;
+  padding: 8px 12px;
+}
+
 button,
 input {
   border-radius: 3px;
+}
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }

@@ -147,7 +147,7 @@ function NotesTextarea({listItem}) {
     dispatch,
     listItem,
   })
-  const debouncedRun = debounceFn(run, {wait: 300})
+  const debouncedRun = React.useCallback(debounceFn(run, {wait: 300}), [])
   function handleNotesChange(e) {
     debouncedRun(e.target.value)
   }

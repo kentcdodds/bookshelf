@@ -2,90 +2,127 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
+import debounceFn from 'debounce-fn'
 import {useAsync} from 'react-async'
 import {FaStar} from 'react-icons/fa'
 import {useListItemDispatch, updateListItem} from '../context/list-item-context'
 import * as colors from '../styles/colors'
 
-function updateRating([index], {dispatch, listItem}) {
-  return updateListItem(dispatch, listItem.id, {rating: index + 1})
+function updateRating([rating], {dispatch, listItem}) {
+  return updateListItem(dispatch, listItem.id, {rating})
 }
 
 function Rating({listItem}) {
-  const {rating} = listItem
-  // rating is base 1 and array indexes are base 0
-  // so we initialize to -1 the rating
-  const [orangeIndex, setOrangeIndex] = React.useState(rating - 1)
-  React.useEffect(() => {
-    setOrangeIndex(listItem.rating - 1)
-  }, [listItem.rating])
+  const {rating, id} = listItem
+  const [isTabbing, setIsTabbing] = React.useState(false)
 
   const dispatch = useListItemDispatch()
-  const {isRejected, isPending, error, run} = useAsync({
+  const {isRejected, error, run} = useAsync({
     deferFn: updateRating,
     dispatch,
     listItem,
   })
 
-  function setOrageIdx(index) {
-    if (!isPending) {
-      setOrangeIndex(index)
+  const debouncedRun = React.useCallback(debounceFn(run, {wait: 300}), [])
+
+  React.useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === 'Tab') {
+        setIsTabbing(true)
+      }
     }
-  }
+    document.addEventListener('keydown', handleKeyDown, {once: true})
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  const rootClassName = `list-item-${id}`
 
   const stars = Array.from({length: 5}).map((x, i) => {
+    const ratingId = `rating-${id}-${i}`
+    const ratingValue = i + 1
     return (
-      <button
-        key={i}
-        onClick={e => {
-          e.preventDefault()
-          run(i)
-        }}
-        onFocus={() => setOrageIdx(i)}
-        onMouseOver={() => setOrageIdx(i)}
-        css={{
-          border: 'none',
-          padding: '0',
-          margin: '0',
-          ':focus': {outline: 'none'},
-        }}
-      >
-        <FaStar color={i <= orangeIndex ? 'orange' : colors.gray20} />
-      </button>
+      <React.Fragment key={i}>
+        <input
+          name={rootClassName}
+          type="radio"
+          id={ratingId}
+          value={ratingValue}
+          defaultChecked={ratingValue === rating}
+          onChange={() => debouncedRun(ratingValue)}
+          className="visually-hidden"
+          css={{
+            [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},
+            [`.${rootClassName} &:checked + label`]: {color: 'orange'},
+            // !important is here because we're doing special non-css-in-js things
+            // and so we have to deal with specificity and cascade. But, I promise
+            // this is better than trying to make this work with JavaScript.
+            // So deal with it 😎
+            [`.${rootClassName} &:hover ~ label`]: {
+              color: `${colors.gray20} !important`,
+            },
+            [`.${rootClassName} &:hover + label`]: {color: 'orange !important'},
+            [`.${rootClassName} &:focus + label svg`]: {
+              outline: isTabbing
+                ? ['1px solid orange', '-webkit-focus-ring-color auto 5px']
+                : 'initial',
+            },
+          }}
+        />
+        <label
+          htmlFor={ratingId}
+          css={{
+            cursor: 'pointer',
+            color: rating < 0 ? colors.gray20 : 'orange',
+            margin: 0,
+          }}
+        >
+          <FaStar
+            css={{
+              width: '16px',
+              margin: '0 2px',
+            }}
+          />
+        </label>
+      </React.Fragment>
     )
   })
   return (
-    <div
-      onBlur={() => setOrageIdx(rating - 1)}
-      onMouseOut={() => setOrageIdx(rating - 1)}
-      css={{
-        display: 'flex',
-        alignItems: 'center',
-        '& span': {
-          marginRight: '5px',
-        },
-        '& svg': {
-          width: '16px',
-          margin: '0 2px',
-        },
-      }}
-    >
-      <span>{stars}</span>
-      {isRejected ? (
-        <span css={{color: 'red', fontSize: '0.7em'}}>
-          <span>There was an error:</span>{' '}
-          <pre
-            css={{
-              display: 'inline-block',
-              overflow: 'scroll',
-              margin: '0',
-              marginBottom: -5,
-            }}
-          >
-            {error.message}
-          </pre>
+    <div css={{display: 'inline-block'}} onClick={e => e.stopPropagation()}>
+      <div
+        className={rootClassName}
+        css={{
+          display: 'flex',
+          alignItems: 'center',
+          [`&.${rootClassName}:hover input + label`]: {
+            color: 'orange',
+          },
+        }}
+      >
+        <span
+          css={{
+            '& span:not(:last-child)': {
+              marginRight: '5px',
+            },
+          }}
+        >
+          {stars}
         </span>
-      ) : null}
+        {isRejected ? (
+          <span css={{color: 'red', fontSize: '0.7em'}}>
+            <span>There was an error:</span>{' '}
+            <pre
+              css={{
+                display: 'inline-block',
+                overflow: 'scroll',
+                margin: '0',
+                marginBottom: -5,
+              }}
+            >
+              {error.message}
+            </pre>
+          </span>
+        ) : null}
+      </div>
     </div>
   )
 }
