@@ -13,7 +13,6 @@ function updateRating([rating], {dispatch, listItem}) {
 }
 
 function Rating({listItem}) {
-  const {rating, id} = listItem
   const [isTabbing, setIsTabbing] = React.useState(false)
 
   const dispatch = useListItemDispatch()
@@ -35,10 +34,10 @@ function Rating({listItem}) {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  const rootClassName = `list-item-${id}`
+  const rootClassName = `list-item-${listItem.id}`
 
   const stars = Array.from({length: 5}).map((x, i) => {
-    const ratingId = `rating-${id}-${i}`
+    const ratingId = `rating-${listItem.id}-${i}`
     const ratingValue = i + 1
     return (
       <React.Fragment key={i}>
@@ -47,7 +46,7 @@ function Rating({listItem}) {
           type="radio"
           id={ratingId}
           value={ratingValue}
-          defaultChecked={ratingValue === rating}
+          defaultChecked={ratingValue === listItem.rating}
           onChange={() => debouncedRun(ratingValue)}
           className="visually-hidden"
           css={{
@@ -72,10 +71,13 @@ function Rating({listItem}) {
           htmlFor={ratingId}
           css={{
             cursor: 'pointer',
-            color: rating < 0 ? colors.gray20 : 'orange',
+            color: listItem.rating < 0 ? colors.gray20 : 'orange',
             margin: 0,
           }}
         >
+          <span className="visually-hidden">
+            {ratingValue} {ratingValue === 1 ? 'star' : 'stars'}
+          </span>
           <FaStar
             css={{
               width: '16px',

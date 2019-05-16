@@ -85,7 +85,10 @@ function useSingleListItemState({bookId}) {
     throw new Error(`useListItemState must be used within a ListItemProvider`)
   }
   const user = useUser()
-  return listItems.find(li => li.ownerId === user.id && li.bookId === bookId)
+  const listItem = listItems.find(
+    li => li.ownerId === user.id && li.bookId === bookId,
+  )
+  return listItem
 }
 
 export {
