@@ -46,15 +46,32 @@ function updateExerciseBranch(branch, masterCommit) {
     `> The ${branch} exercise commit SHA: ${exerciseCommit} (save this in case something goes wrong).`,
   )
   execSync(`git reset --hard master`)
-  const result = execSync(
-    `git cherry-pick ${exerciseCommit} --strategy-option theirs`,
-  )
-  if (result.includes('error: could not apply')) {
+  try {
+    const result = execSync(
+      `git cherry-pick ${exerciseCommit} --strategy-option theirs`,
+    )
+    if (!result.includes('error: could not apply')) {
+      return true
+    }
+  } catch (error) {
+    // let's try to fix things maybe... This might be a terrible idea though..
+  }
+  // the conflict is probably because files were deleted in the branch and we
+  // should delete them again. For some reason --strategy-option theres doesn't
+  // do this by default. 🤔
+  execSync(`git status | sed -n 's/deleted by them://p' | xargs git rm`)
+  const status = execSync('git status')
+  if (
+    status.includes('Changes not staged for commit') ||
+    status.includes('Unmerged')
+  ) {
     console.error(
       'Merge conflict. Fix the conflict, then run the update-exercises script again to be sure you have everything up to date.',
     )
-    console.log(execSync('git status'))
-    throw result
+    throw status
   }
+  execSync(`git cherry-pick --quit`)
+  const commitMsg = `git log --format=%B -n 1 ${exerciseCommit}`
+  execSync(`git commit -am "${commitMsg}"`)
   return true
 }
