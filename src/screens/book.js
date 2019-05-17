@@ -151,6 +151,7 @@ function NotesTextarea({listItem}) {
   function handleNotesChange(e) {
     debouncedRun(e.target.value)
   }
+
   return (
     <React.Fragment>
       <div>

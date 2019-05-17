@@ -1,3 +1,4 @@
+// istanbul ignore file
 // Please don't actually do this in a real app
 // this is here to make it easy for us to simulate making HTTP calls in this
 // little app that doesn't actually have any server element.

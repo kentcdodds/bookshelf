@@ -1,3 +1,4 @@
+// istanbul ignore file
 const usersKey = '__bookshelf_users__'
 const users = {}
 const persist = () =>

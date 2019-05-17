@@ -5,6 +5,7 @@ import {
   waitForElementToBeRemoved,
   within,
 } from 'react-testing-library'
+import faker from 'faker'
 import {buildUser, buildBook, buildListItem} from '../../../test/generate'
 import {bootstrapAppData} from '../../utils/bootstrap'
 import {AuthProvider} from '../../context/auth-context'
@@ -16,7 +17,8 @@ jest.mock('../../utils/bootstrap')
 
 async function renderBookScreen({
   user = buildUser(),
-  book = buildBook(),
+  bookId = faker.random.uuid(),
+  book = buildBook({id: bookId}),
   listItem = buildListItem({owner: user, book}),
 } = {}) {
   bootstrapAppData.mockResolvedValueOnce({
@@ -36,13 +38,15 @@ async function renderBookScreen({
     <AuthProvider>
       <UserProvider>
         <ListItemProvider>
-          <BookScreen bookId={book.id} />
+          <BookScreen bookId={book ? book.id : bookId} />
         </ListItemProvider>
       </UserProvider>
     </AuthProvider>,
   )
 
   await waitForElementToBeRemoved(() => utils.queryByLabelText(/loading/i))
+
+  window.fetch.mockClear()
 
   return {
     ...utils,
@@ -101,7 +105,6 @@ test('can create a list item for the book', async () => {
 
   const addToListButton = getByLabelText(/add to list/i).querySelector('button')
   fireEvent.click(addToListButton)
-  within(addToListButton).getByLabelText(/loading/i)
   expect(addToListButton).toBeDisabled()
 
   await waitForElementToBeRemoved(() =>
@@ -137,7 +140,6 @@ test('can remove a list item for the book', async () => {
     /remove from list/i,
   ).querySelector('button')
   fireEvent.click(removeFromListButton)
-  within(removeFromListButton).getByLabelText(/loading/i)
   expect(removeFromListButton).toBeDisabled()
 
   await waitForElementToBeRemoved(() =>
@@ -192,7 +194,6 @@ test('can mark a list item as read', async () => {
     'button',
   )
   fireEvent.click(markAsReadButton)
-  within(markAsReadButton).getByLabelText(/loading/i)
   expect(markAsReadButton).toBeDisabled()
 
   await waitForElementToBeRemoved(() =>
@@ -207,4 +208,103 @@ test('can mark a list item as read', async () => {
   const startAndFinishNode = getByLabelText(/start and finish date/i)
   expect(startAndFinishNode).toHaveTextContent(/Feb 19 .* May 19/)
   getByLabelText(/1 star/i)
+})
+
+test('shows an error message when the book fails to load', async () => {
+  const user = buildUser()
+
+  bootstrapAppData.mockResolvedValueOnce({
+    user,
+    listItems: [],
+  })
+
+  const testError = '__test_error__'
+
+  window.fetch.mockRejectedValueOnce({
+    status: 500,
+    message: testError,
+  })
+
+  const {getByLabelText, getByText} = render(
+    <AuthProvider>
+      <UserProvider>
+        <ListItemProvider>
+          <BookScreen bookId="some-id" />
+        </ListItemProvider>
+      </UserProvider>
+    </AuthProvider>,
+  )
+
+  await waitForElementToBeRemoved(() => getByLabelText(/loading/i))
+
+  getByText(testError)
+})
+
+test('shows an error message when there is no book by the given id', async () => {
+  const {getByText} = await renderBookScreen({book: null})
+  getByText(/try another/i)
+})
+
+test('can edit a note', async () => {
+  const {getByLabelText, listItem} = await renderBookScreen()
+
+  const newNotes = faker.lorem.words()
+  const notesTextarea = getByLabelText(/notes/i)
+
+  window.fetch.mockImplementationOnce(async (url, config) => {
+    expect(url).toMatch(new RegExp(`list-item/${listItem.id}`))
+    expect(config.method).toBe('PUT')
+    const body = JSON.parse(config.body)
+    expect(body.notes).toEqual(newNotes)
+    return {
+      status: 200,
+      async json() {
+        return {
+          listItem: {
+            ...listItem,
+            notes: newNotes,
+          },
+        }
+      },
+    }
+  })
+
+  // using fake timers to skip debounce time
+  jest.useFakeTimers()
+  fireEvent.change(notesTextarea, {target: {value: newNotes}})
+  jest.runAllTimers()
+  jest.useRealTimers()
+
+  await waitForElementToBeRemoved(() => getByLabelText(/loading/i))
+  expect(window.fetch).toHaveBeenCalledTimes(1)
+  expect(notesTextarea.value).toBe(newNotes)
+})
+
+test('note update failures are displayed', async () => {
+  const {getByLabelText, listItem, getByText} = await renderBookScreen()
+
+  const newNotes = faker.lorem.words()
+  const notesTextarea = getByLabelText(/notes/i)
+
+  const testErrorMessage = '__test_error_message__'
+  window.fetch.mockImplementationOnce(async (url, config) => {
+    expect(url).toMatch(new RegExp(`list-item/${listItem.id}`))
+    expect(config.method).toBe('PUT')
+    const body = JSON.parse(config.body)
+    expect(body.notes).toEqual(newNotes)
+    return Promise.reject({
+      status: 500,
+      message: testErrorMessage,
+    })
+  })
+
+  // using fake timers to skip debounce time
+  jest.useFakeTimers()
+  fireEvent.change(notesTextarea, {target: {value: newNotes}})
+  jest.runAllTimers()
+  jest.useRealTimers()
+
+  await waitForElementToBeRemoved(() => getByLabelText(/loading/i))
+  expect(window.fetch).toHaveBeenCalledTimes(1)
+  getByText(testErrorMessage)
 })

@@ -15,6 +15,7 @@ function useCallbackStatus() {
     (s, a) => ({...s, ...a}),
     {status: 'rest', error: null},
   )
+
   const safeSetState = (...args) =>
     isMounted.current ? setState(...args) : null
 
@@ -39,6 +40,7 @@ function useCallbackStatus() {
       },
     )
   }
+
   return {
     isPending,
     isRejected,
