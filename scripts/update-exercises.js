@@ -46,7 +46,9 @@ function updateExerciseBranch(branch, masterCommit) {
     `> The ${branch} exercise commit SHA: ${exerciseCommit} (save this in case something goes wrong).`,
   )
   execSync(`git reset --hard master`)
-  const result = execSync(`git cherry-pick ${exerciseCommit}`)
+  const result = execSync(
+    `git cherry-pick ${exerciseCommit} --strategy-option theirs`,
+  )
   if (result.includes('error: could not apply')) {
     console.error(
       'Merge conflict. Fix the conflict, then run the update-exercises script again to be sure you have everything up to date.',
