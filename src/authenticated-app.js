@@ -29,7 +29,7 @@ function AuthenticatedApp() {
         gridTemplateColumns: '3fr 9fr',
         [mq.small]: {
           gridTemplateColumns: '1fr',
-          grodTemplateRows: 'auto',
+          gridTemplateRows: 'auto',
           width: '100%',
           padding: '2em 1em',
         },
