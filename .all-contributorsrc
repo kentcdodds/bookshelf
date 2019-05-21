@@ -26,6 +26,15 @@
         "design",
         "code"
       ]
+    },
+    {
+      "login": "Sparragus",
+      "name": "Richard B. Kaufman-López",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/80982?v=4",
+      "profile": "https://richardkaufman.dev",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
