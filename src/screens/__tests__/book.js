@@ -4,7 +4,7 @@ import {
   fireEvent,
   waitForElementToBeRemoved,
   within,
-} from 'react-testing-library'
+} from '@testing-library/react'
 import faker from 'faker'
 import {buildUser, buildBook, buildListItem} from '../../../test/generate'
 import {bootstrapAppData} from '../../utils/bootstrap'
@@ -182,8 +182,8 @@ test('can mark a list item as read', async () => {
         return {
           listItem: buildListItem({
             ...listItem,
-            finishDate: 1558045613440,
             ...body,
+            finishDate: 1558045613440,
           }),
         }
       },

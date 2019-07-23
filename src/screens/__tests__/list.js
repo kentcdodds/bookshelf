@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, within} from 'react-testing-library'
+import {render, within} from '@testing-library/react'
 import {buildListItem} from '../../../test/generate'
 import ListItemList from '../../components/list-item-list'
 import ListScreen from '../list'

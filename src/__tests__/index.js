@@ -1,4 +1,4 @@
-import {within, waitForElementToBeRemoved} from 'react-testing-library'
+import {within, waitForElementToBeRemoved} from '@testing-library/react'
 import ReactDOM from 'react-dom'
 
 // mock out hacks because that's basically the backend and we don't really
