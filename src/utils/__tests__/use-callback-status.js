@@ -1,5 +1,5 @@
 import React from 'react'
-import {render} from '@testing-library/react'
+import {render, act} from '@testing-library/react'
 import useCallbackStatus from '../use-callback-status'
 
 function Test({children, ...props}) {
@@ -34,14 +34,19 @@ test('calling run with a promise which resolves', async () => {
   const {promise, resolve} = deferred()
   const state = testHook()
   expect(state).toEqual(defaultState)
-  const p = state.run(promise)
+  let p
+  act(() => {
+    p = state.run(promise)
+  })
   expect(state).toEqual({
     ...defaultState,
     isPending: true,
     status: 'pending',
   })
-  resolve()
-  await p
+  await act(async () => {
+    resolve()
+    await p
+  })
   expect(state).toEqual(defaultState)
 })
 
@@ -49,15 +54,20 @@ test('calling run with a promise which rejects', async () => {
   const {promise, reject} = deferred()
   const state = testHook()
   expect(state).toEqual(defaultState)
-  const p = state.run(promise)
+  let p
+  act(() => {
+    p = state.run(promise)
+  })
   expect(state).toEqual({
     ...defaultState,
     isPending: true,
     status: 'pending',
   })
-  reject('REJECTION')
-  await p.catch(() => {
-    /* ignore erorr */
+  await act(async () => {
+    reject('REJECTION')
+    await p.catch(() => {
+      /* ignore erorr */
+    })
   })
   expect(state).toEqual({
     ...defaultState,
@@ -72,10 +82,15 @@ test('No state updates happen if the component is unmounted while pending', asyn
   const {promise, resolve} = deferred()
   let run
   const {unmount} = render(<Test>{val => (run = val.run)}</Test>)
-  const p = run(promise)
+  let p
+  act(() => {
+    p = run(promise)
+  })
   unmount()
-  resolve()
-  await p
+  await act(async () => {
+    resolve()
+    await p
+  })
   const badCall = console.error.mock.calls.find(args =>
     args.some(a => a && a.includes && a.includes('unmounted')),
   )
