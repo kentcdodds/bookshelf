@@ -2,7 +2,7 @@
 
 👋 hi there! My name is [Kent C. Dodds](https://kentcdodds.com) and this is the
 source material for
-[Build a ReactJS App](https://kentcdodds.com/workshops/build-react-js-applications)!
+[Build a ReactJS App](https://kentcdodds.com/workshops/build-react-apps)!
 
 [![Travis Build Status][build-badge]][build]
 [![AppVeyor Build Status][win-build-badge]][win-build]
