@@ -35,6 +35,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "SekibOmazic",
+      "name": "Sekib Omazic",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/3735902?v=4",
+      "profile": "https://github.com/SekibOmazic",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
