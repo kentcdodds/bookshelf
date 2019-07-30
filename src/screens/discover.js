@@ -16,7 +16,7 @@ function initialSearch() {
 function DiscoverBooksScreen() {
   const [query, setQuery] = React.useState('')
   const [hasSearched, setHasSearched] = React.useState()
-  const {data, isPending, isRejected, isResolved, error, reload} = useAsync({
+  const {data, isPending, isRejected, isResolved, error, run} = useAsync({
     promiseFn: initialSearch,
     deferFn: booksClient.search,
   })
@@ -29,7 +29,7 @@ function DiscoverBooksScreen() {
   function handleSearchClick(e) {
     e.preventDefault()
     setHasSearched(true)
-    reload(query)
+    run(query)
   }
 
   return (
