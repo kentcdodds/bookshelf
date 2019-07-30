@@ -4,6 +4,7 @@ import {
   fireEvent,
   waitForElementToBeRemoved,
   within,
+  act,
 } from '@testing-library/react'
 import faker from 'faker'
 import {buildUser, buildBook, buildListItem} from '../../../test/generate'
@@ -272,7 +273,7 @@ test('can edit a note', async () => {
   // using fake timers to skip debounce time
   jest.useFakeTimers()
   fireEvent.change(notesTextarea, {target: {value: newNotes}})
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   jest.useRealTimers()
 
   await waitForElementToBeRemoved(() => getByLabelText(/loading/i))
@@ -301,7 +302,7 @@ test('note update failures are displayed', async () => {
   // using fake timers to skip debounce time
   jest.useFakeTimers()
   fireEvent.change(notesTextarea, {target: {value: newNotes}})
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   jest.useRealTimers()
 
   await waitForElementToBeRemoved(() => getByLabelText(/loading/i))

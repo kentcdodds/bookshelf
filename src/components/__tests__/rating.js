@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, fireEvent} from '@testing-library/react'
+import {render, fireEvent, act} from '@testing-library/react'
 import faker from 'faker'
 import {buildListItem} from '../../../test/generate'
 import {
@@ -13,7 +13,9 @@ jest.mock('../../context/list-item-context', () => {
   return {
     __mockListItemDispatch,
     useListItemDispatch: () => __mockListItemDispatch,
-    updateListItem: jest.fn(() => Promise.resolve()),
+    updateListItem: jest.fn(() => {
+      throw new Error('updateListItem needs to be mocked')
+    }),
   }
 })
 
@@ -21,7 +23,9 @@ beforeEach(() => {
   updateListItem.mockClear()
 })
 
-test('clicking a star calls updateListItem', () => {
+test('clicking a star calls updateListItem', async () => {
+  const fakeResponse = Promise.resolve()
+  updateListItem.mockImplementationOnce(fakeResponse)
   const listItem = buildListItem({rating: 0})
   const {getByLabelText} = render(<Rating listItem={listItem} />)
   const oneStar = getByLabelText(/1 star/i)
@@ -30,14 +34,16 @@ test('clicking a star calls updateListItem', () => {
   jest.useFakeTimers()
   fireEvent.click(oneStar)
   expect(oneStar.checked).toBe(true)
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   jest.useRealTimers()
+
   expect(updateListItem).toHaveBeenCalledTimes(1)
   expect(updateListItem).toHaveBeenCalledWith(
     __mockListItemDispatch,
     listItem.id,
     {rating: 1},
   )
+  await act(() => fakeResponse)
 })
 
 test('an error updating the rating shows the error message', async () => {
@@ -52,7 +58,7 @@ test('an error updating the rating shows the error message', async () => {
   jest.useFakeTimers()
   fireEvent.click(oneStar)
   expect(oneStar.checked).toBe(true)
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   jest.useRealTimers()
   expect(await findByText(errorMessage)).toBeInTheDocument()
 })
