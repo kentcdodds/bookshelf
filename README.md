@@ -1,9 +1,3 @@
-<p align="center">
-<a href="https://codefund.io/properties/495/visit-sponsor">
-<img src="https://codefund.io/properties/495/sponsor" />
-</a>
-</p>
-
 # Build a ReactJS App - Bookshelf
 
 👋 hi there! My name is [Kent C. Dodds](https://kentcdodds.com) and this is the
