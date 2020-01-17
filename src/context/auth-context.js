@@ -6,7 +6,7 @@ import * as authClient from '../utils/auth-client'
 
 function AuthProvider(props) {
   // 💯 see if you can load the current user before rendering the rest of the app.
-  // 💰 1. You can use authClient.getMe to attempat to load the user.
+  // 💰 1. You can use authClient.getUser to attempat to load the user.
   // 💰 2. You might like react-async to drastically reduce the amount of code
   // needed to manage the state of doing this. (This is not an easy extra credit
   // especially if you're unfamiliar with react-async).
