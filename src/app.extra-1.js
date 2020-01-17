@@ -26,16 +26,12 @@ function LoginForm({onSubmit, buttonText}) {
     onSubmit({
       username: username.value,
       password: password.value,
-    }).then(
-      () => {
-        setIsPending(false)
-      },
-      e => {
+    })
+      .catch(e => {
         setError(e)
-        setIsPending(false)
         return Promise.reject(e)
-      },
-    )
+      })
+      .finally(() => setIsPending(false))
   }
 
   return (
