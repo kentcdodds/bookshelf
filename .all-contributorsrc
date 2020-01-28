@@ -53,11 +53,21 @@
       "contributions": [
         "fundingFinding"
       ]
+    },
+    {
+      "login": "nkabbara",
+      "name": "Nash Kabbara",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/31865?v=4",
+      "profile": "http://nashkabbara.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "bookshelf",
   "projectOwner": "kentcdodds",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }
