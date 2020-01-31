@@ -1,10 +1,17 @@
 sudo: false
 language: node_js
-node_js: 10
+node_js: 12
 install: echo "Installation happens in the setup script"
+addons:
+  apt:
+    packages:
+      # cypress told me I need it: https://docs.cypress.io/guides/guides/continuous-integration.html#Travis
+      - libgconf-2-4
 cache:
+  npm: true
   directories:
-    - node_modules
+    # we also need to cache folder with Cypress binary
+    - ~/.cache
 notifications:
   email: false
 branches:
