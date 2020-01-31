@@ -1,3 +1,5 @@
 import React from 'react'
 
-module.exports = ({children, label}) => <div aria-label={label}>{children}</div>
+module.exports = ({children, label}) => (
+  <div data-tooltip-label={label}>{children}</div>
+)

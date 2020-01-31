@@ -35,6 +35,7 @@ function TooltipButton({label, highlight, onClick, icon, ...rest}) {
         css={{':hover,:focus': {color: isPending ? colors.gray80 : highlight}}}
         disabled={isPending}
         onClick={handleClick}
+        aria-label={isRejected ? error.message : label}
         {...rest}
       >
         {isPending ? <Spinner /> : isRejected ? <FaTimesCircle /> : icon}

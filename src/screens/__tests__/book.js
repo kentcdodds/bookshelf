@@ -80,9 +80,12 @@ test('renders all the book information', async () => {
 })
 
 test('can create a list item for the book', async () => {
-  const {getByLabelText, queryByLabelText, user, book} = await renderBookScreen(
-    {listItem: null},
-  )
+  const {
+    getByLabelText,
+    queryByLabelText,
+    user,
+    book,
+  } = await renderBookScreen({listItem: null})
 
   window.fetch.mockImplementationOnce(async (url, config) => {
     expect(url).toMatch(/list-item/)
@@ -104,7 +107,7 @@ test('can create a list item for the book', async () => {
     }
   })
 
-  const addToListButton = getByLabelText(/add to list/i).querySelector('button')
+  const addToListButton = getByLabelText(/add to list/i)
   fireEvent.click(addToListButton)
   expect(addToListButton).toBeDisabled()
 
@@ -137,9 +140,7 @@ test('can remove a list item for the book', async () => {
     }
   })
 
-  const removeFromListButton = getByLabelText(
-    /remove from list/i,
-  ).querySelector('button')
+  const removeFromListButton = getByLabelText(/remove from list/i)
   fireEvent.click(removeFromListButton)
   expect(removeFromListButton).toBeDisabled()
 
@@ -191,9 +192,7 @@ test('can mark a list item as read', async () => {
     }
   })
 
-  const markAsReadButton = getByLabelText(/mark as read/i).querySelector(
-    'button',
-  )
+  const markAsReadButton = getByLabelText(/mark as read/i)
   fireEvent.click(markAsReadButton)
   expect(markAsReadButton).toBeDisabled()
 

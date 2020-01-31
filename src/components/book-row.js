@@ -14,6 +14,8 @@ function BookRow({book}) {
     bookId: book.id,
   })
 
+  const id = `book-row-book-${book.id}`
+
   return (
     <div
       css={{
@@ -24,6 +26,7 @@ function BookRow({book}) {
       }}
     >
       <Link
+        aria-labelledby={id}
         to={`/book/${book.id}`}
         css={{
           flexGrow: 2,
@@ -59,6 +62,7 @@ function BookRow({book}) {
           <div css={{display: 'flex', justifyContent: 'space-between'}}>
             <div css={{flex: 1}}>
               <h2
+                id={id}
                 css={{
                   fontSize: '1.25em',
                   margin: '0',

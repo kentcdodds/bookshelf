@@ -64,13 +64,13 @@ function LoginForm({onSubmit, buttonText}) {
   )
 }
 
-function Modal({button, children}) {
+function Modal({button, label, children}) {
   const [isOpen, setIsOpen] = React.useState(false)
 
   return (
     <>
       {React.cloneElement(button, {onClick: () => setIsOpen(true)})}
-      <Dialog isOpen={isOpen}>
+      <Dialog aria-label={label} isOpen={isOpen}>
         <div css={{display: 'flex', justifyContent: 'flex-end'}}>
           <CircleButton onClick={() => setIsOpen(false)}>
             <VisuallyHidden>Close</VisuallyHidden>
@@ -96,11 +96,17 @@ function UnauthenticatedApp() {
       <Logo width="80" height="80" />
       <h1>Bookshelf</h1>
       <div css={{display: 'flex'}}>
-        <Modal button={<Button css={{marginRight: 6}}>Login</Button>}>
+        <Modal
+          label="Login form"
+          button={<Button css={{marginRight: 6}}>Login</Button>}
+        >
           <ModalTitle>Login</ModalTitle>
           <LoginForm onSubmit={login} buttonText="Login" />
         </Modal>
-        <Modal button={<Button variant="secondary">Register</Button>}>
+        <Modal
+          label="Registration form"
+          button={<Button variant="secondary">Register</Button>}
+        >
           <ModalTitle>Register</ModalTitle>
           <LoginForm onSubmit={register} buttonText="Register" />
         </Modal>

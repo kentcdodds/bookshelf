@@ -124,7 +124,7 @@ function Nav(params) {
 }
 
 function RedirectHome() {
-  return <Redirect to="/list" />
+  return <Redirect noThrow to="/list" />
 }
 
 function Routes() {
