@@ -79,6 +79,12 @@ function readByOwner(userId) {
   return Object.values(listItems).filter(li => li.ownerId === userId)
 }
 
+function readByBookIdAndOwner(userId, bookId) {
+  return Object.values(listItems).filter(
+    li => li.ownerId === userId && li.bookId === bookId,
+  )[0]
+}
+
 function validateListItem(id) {
   load()
   if (!listItems[id]) {
@@ -102,4 +108,13 @@ function required(key) {
   }
 }
 
-export {authorize, create, read, update, remove, readMany, readByOwner}
+export {
+  authorize,
+  create,
+  read,
+  update,
+  remove,
+  readMany,
+  readByOwner,
+  readByBookIdAndOwner,
+}

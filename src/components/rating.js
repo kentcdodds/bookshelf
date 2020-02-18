@@ -3,26 +3,23 @@ import {jsx} from '@emotion/core'
 
 import React from 'react'
 import debounceFn from 'debounce-fn'
-import {useAsync} from 'react-async'
+import {useMutation} from 'react-query'
 import {FaStar} from 'react-icons/fa'
 import {useListItemDispatch, updateListItem} from '../context/list-item-context'
 import * as colors from '../styles/colors'
-
-function updateRating([rating], {dispatch, listItem}) {
-  return updateListItem(dispatch, listItem.id, {rating})
-}
 
 function Rating({listItem}) {
   const [isTabbing, setIsTabbing] = React.useState(false)
 
   const dispatch = useListItemDispatch()
-  const {isRejected, error, run} = useAsync({
-    deferFn: updateRating,
-    dispatch,
-    listItem,
-  })
+  const [mutate, {error}] = useMutation(rating =>
+    updateListItem(dispatch, listItem.id, {rating}),
+  )
 
-  const debouncedRun = React.useCallback(debounceFn(run, {wait: 300}), [])
+  const debouncedMutate = React.useCallback(
+    debounceFn((...args) => mutate(...args).catch(e => e), {wait: 300}),
+    [],
+  )
 
   React.useEffect(() => {
     function handleKeyDown(event) {
@@ -47,7 +44,7 @@ function Rating({listItem}) {
           id={ratingId}
           value={ratingValue}
           defaultChecked={ratingValue === listItem.rating}
-          onChange={() => debouncedRun(ratingValue)}
+          onChange={() => debouncedMutate(ratingValue)}
           className="visually-hidden"
           css={{
             [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},
@@ -109,7 +106,7 @@ function Rating({listItem}) {
         >
           {stars}
         </span>
-        {isRejected ? (
+        {error ? (
           <span css={{color: 'red', fontSize: '0.7em'}}>
             <span>There was an error:</span>{' '}
             <pre

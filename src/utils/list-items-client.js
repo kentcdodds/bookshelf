@@ -24,8 +24,12 @@ function readForUser(ownerId) {
   return client(`list-item?ownerId=${encodeURIComponent(ownerId)}`)
 }
 
+function readByBookId(bookId) {
+  return client(`list-item?bookId=${encodeURIComponent(bookId)}`)
+}
+
 function remove(listItemId) {
   return client(`list-item/${listItemId}`, {method: 'DELETE'})
 }
 
-export {create, read, remove, readForUser, update}
+export {create, read, remove, readForUser, update, readByBookId}

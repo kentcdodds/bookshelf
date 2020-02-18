@@ -2,24 +2,25 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import {useAsync} from 'react-async'
+import {useQuery, useMutation} from 'react-query'
 import debounceFn from 'debounce-fn'
 import {FaRegCalendarAlt} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
 import {Spinner} from '../components/lib'
-import {
-  useListItemDispatch,
-  useSingleListItemState,
-  updateListItem,
-} from '../context/list-item-context'
+import {useListItemDispatch, updateListItem} from '../context/list-item-context'
 import Rating from '../components/rating'
-import * as bookClient from '../utils/books-client'
+import * as booksClient from '../utils/books-client'
+import * as listItemsClient from '../utils/list-items-client'
 import StatusButtons from '../components/status-buttons'
 
 function getBook({bookId}) {
-  return bookClient.read(bookId).then(data => data.book)
+  return booksClient.read(bookId).then(data => data.book)
+}
+
+function getListItem({bookId}) {
+  return listItemsClient.readByBookId(bookId).then(data => data.listItem)
 }
 
 const formatDate = date =>
@@ -28,32 +29,27 @@ const formatDate = date =>
   )
 
 function BookScreen({bookId}) {
-  const {data: book, isPending, isRejected, isResolved, error} = useAsync({
-    promiseFn: getBook,
-    bookId,
-  })
-  const listItem = useSingleListItemState({bookId})
+  const {data: book, error: bookError} = useQuery(['book', {bookId}], getBook)
 
-  if (isPending) {
-    return (
-      <div css={{marginTop: '2em', fontSize: '2em', textAlign: 'center'}}>
-        <Spinner />
-      </div>
-    )
-  }
-  if (isRejected) {
+  // const listItem = useSingleListItemState({bookId})
+  const {data: listItem, error: listItemError} = useQuery(
+    ['list-item', {bookId}],
+    getListItem,
+  )
+
+  if (bookError || listItemError) {
     return (
       <div css={{color: 'red'}}>
         <p>Oh no, there was an error.</p>
-        <pre>{error.message}</pre>
+        <pre>{(bookError || listItemError).message}</pre>
       </div>
     )
   }
 
-  if (isResolved && !book) {
+  if (!book) {
     return (
-      <div css={{color: 'red'}}>
-        <p>Hmmm... Something's not quite right. Please try another book.</p>
+      <div css={{marginTop: '2em', fontSize: '2em', textAlign: 'center'}}>
+        <Spinner />
       </div>
     )
   }
@@ -106,7 +102,12 @@ function BookScreen({bookId}) {
             </div>
           </div>
           <div css={{marginTop: 10, height: 46}}>
-            {listItem ? <ListItemTimeframe listItem={listItem} /> : null}
+            {listItem ? (
+              <>
+                <Rating listItem={listItem} />
+                <ListItemTimeframe listItem={listItem} />
+              </>
+            ) : null}
           </div>
           <br />
           <p>{synopsis}</p>
@@ -123,37 +124,29 @@ function ListItemTimeframe({listItem}) {
     : 'Start date'
 
   return (
-    <React.Fragment>
-      <Rating listItem={listItem} />
-      <Tooltip label={timeframeLabel}>
-        <div aria-label={timeframeLabel} css={{marginTop: 6}}>
-          <FaRegCalendarAlt css={{marginTop: -2, marginRight: 5}} />
-          <span>
-            {formatDate(listItem.startDate)}{' '}
-            {listItem.finishDate
-              ? `— ${formatDate(listItem.finishDate)}`
-              : null}
-          </span>
-        </div>
-      </Tooltip>
-    </React.Fragment>
+    <Tooltip label={timeframeLabel}>
+      <div aria-label={timeframeLabel} css={{marginTop: 6}}>
+        <FaRegCalendarAlt css={{marginTop: -2, marginRight: 5}} />
+        <span>
+          {formatDate(listItem.startDate)}{' '}
+          {listItem.finishDate ? `— ${formatDate(listItem.finishDate)}` : null}
+        </span>
+      </div>
+    </Tooltip>
   )
 }
 
-function updateNotes([notes], {dispatch, listItem}) {
-  return updateListItem(dispatch, listItem.id, {notes})
-}
-
 function NotesTextarea({listItem}) {
-  const dispatch = useListItemDispatch()
-  const {isPending, isRejected, error, run} = useAsync({
-    deferFn: updateNotes,
-    dispatch,
-    listItem,
-  })
-  const debouncedRun = React.useCallback(debounceFn(run, {wait: 300}), [])
+  const [mutate, {isLoading, error}] = useMutation(({notes}) =>
+    listItemsClient.update(listItem.id, {notes}),
+  )
+  const debouncedMutate = React.useCallback(debounceFn(mutate, {wait: 300}), [])
+
   function handleNotesChange(e) {
-    debouncedRun(e.target.value)
+    debouncedMutate(
+      {notes: e.target.value},
+      {updateQuery: ['list-item', {bookId: listItem.bookId}]},
+    )
   }
 
   return (
@@ -171,7 +164,7 @@ function NotesTextarea({listItem}) {
         >
           Notes
         </label>
-        {isRejected ? (
+        {error ? (
           <span css={{color: 'red', fontSize: '0.7em'}}>
             <span>There was an error:</span>{' '}
             <pre
@@ -186,7 +179,7 @@ function NotesTextarea({listItem}) {
             </pre>
           </span>
         ) : null}
-        {isPending ? <Spinner /> : null}
+        {isLoading ? <Spinner /> : null}
       </div>
       <textarea
         id="notes"

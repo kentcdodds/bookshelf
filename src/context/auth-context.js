@@ -2,37 +2,37 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import {useAsync} from 'react-async'
+import {useQuery} from 'react-query'
 import {bootstrapAppData} from '../utils/bootstrap'
 import * as authClient from '../utils/auth-client'
 import {FullPageSpinner} from '../components/lib'
 
 const AuthContext = React.createContext()
 
+const defaultData = {
+  user: null,
+  listItems: [],
+}
+
 function AuthProvider(props) {
   const [firstAttemptFinished, setFirstAttemptFinished] = React.useState(false)
-  const {
-    data = {user: null, listItems: []},
-    error,
-    isRejected,
-    isPending,
-    isSettled,
-    reload,
-  } = useAsync({
-    promiseFn: bootstrapAppData,
-  })
+  const {data, error, isLoading, refetch} = useQuery(
+    'bootstrapAppData',
+    bootstrapAppData,
+    {manual: true, refetchOnWindowFocus: false},
+  )
 
   React.useLayoutEffect(() => {
-    if (isSettled) {
+    if (!isLoading) {
       setFirstAttemptFinished(true)
     }
-  }, [isSettled])
+  }, [isLoading])
 
   if (!firstAttemptFinished) {
-    if (isPending) {
+    if (isLoading) {
       return <FullPageSpinner />
     }
-    if (isRejected) {
+    if (error) {
       return (
         <div css={{color: 'red'}}>
           <p>Uh oh... There's a problem. Try refreshing the app.</p>
@@ -42,12 +42,15 @@ function AuthProvider(props) {
     }
   }
 
-  const login = form => authClient.login(form).then(reload)
-  const register = form => authClient.register(form).then(reload)
-  const logout = () => authClient.logout().then(reload)
+  const login = form => authClient.login(form).then(refetch)
+  const register = form => authClient.register(form).then(refetch)
+  const logout = () => authClient.logout().then(refetch)
 
   return (
-    <AuthContext.Provider value={{data, login, logout, register}} {...props} />
+    <AuthContext.Provider
+      value={{data: data ? data : defaultData, login, logout, register}}
+      {...props}
+    />
   )
 }
 

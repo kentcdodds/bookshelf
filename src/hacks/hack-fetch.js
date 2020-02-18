@@ -90,9 +90,7 @@ const fakeResponses = [
         })
       } else {
         // return a random assortment of 10 books not already in the user's list
-        matchingBooks = shuffle(
-          getBooksNotInUsersList(getUser(config).id),
-        ).slice(0, 10)
+        matchingBooks = getBooksNotInUsersList(getUser(config).id).slice(0, 10)
       }
       return {
         status: 200,
@@ -143,9 +141,7 @@ const fakeResponses = [
       const user = getUser(config)
       if (user.id !== ownerId) {
         throw new Error(
-          `User ${
-            user.id
-          } is not authorized to load list items for user ${ownerId}`,
+          `User ${user.id} is not authorized to load list items for user ${ownerId}`,
         )
       }
       const lis = listItems.readByOwner(user.id)
@@ -156,6 +152,26 @@ const fakeResponses = [
       return {
         status: 200,
         json: async () => ({listItems: listItemsAndBooks}),
+      }
+    },
+  },
+  {
+    description: `get a list item by it's bookId`,
+    test: isApi('list-item', 'GET', 'bookId'),
+    async handler(url, config) {
+      const bookId = decodeURIComponent(
+        qs.parse(new window.URL(url).search).bookId,
+      )
+      const user = getUser(config)
+
+      const listItem = listItems.readByBookIdAndOwner(user.id, bookId)
+      const listItemAndBook = {
+        ...listItem,
+        book: allBooks.find(book => book.id === listItem.bookId),
+      }
+      return {
+        status: 200,
+        json: async () => ({listItem: listItemAndBook}),
       }
     },
   },
@@ -218,10 +234,6 @@ const fakeResponses = [
 function getBooksNotInUsersList(userId) {
   const bookIdsInUsersList = listItems.readByOwner(userId).map(li => li.bookId)
   return allBooks.filter(book => !bookIdsInUsersList.includes(book.id))
-}
-
-function shuffle(array) {
-  return [...array].sort(() => Math.random() - 0.5)
 }
 
 function getSubjectId(url) {

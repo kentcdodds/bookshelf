@@ -25,7 +25,7 @@ beforeEach(() => {
 
 test('clicking a star calls updateListItem', async () => {
   const fakeResponse = Promise.resolve()
-  updateListItem.mockImplementationOnce(fakeResponse)
+  updateListItem.mockReturnValueOnce(fakeResponse)
   const listItem = buildListItem({rating: 0})
   const {getByLabelText} = render(<Rating listItem={listItem} />)
   const oneStar = getByLabelText(/1 star/i)
@@ -60,5 +60,6 @@ test('an error updating the rating shows the error message', async () => {
   expect(oneStar.checked).toBe(true)
   act(() => jest.runAllTimers())
   jest.useRealTimers()
-  expect(await findByText(errorMessage)).toBeInTheDocument()
+  const messageNode = await findByText(errorMessage)
+  expect(messageNode).toBeInTheDocument()
 })

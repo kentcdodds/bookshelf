@@ -4,32 +4,28 @@ import {jsx} from '@emotion/core'
 import React from 'react'
 import Tooltip from '@reach/tooltip'
 import {FaSearch, FaTimes} from 'react-icons/fa'
-import {useAsync} from 'react-async'
+import {useQuery} from 'react-query'
 import * as booksClient from '../utils/books-client'
 import BookRow from '../components/book-row'
 import {BookListUL, Spinner} from '../components/lib'
 
-function initialSearch() {
-  return booksClient.search('')
-}
-
 function DiscoverBooksScreen() {
   const [query, setQuery] = React.useState('')
   const [hasSearched, setHasSearched] = React.useState()
-  const {data, isPending, isRejected, isResolved, error, run} = useAsync({
-    promiseFn: initialSearch,
-    deferFn: booksClient.search,
-  })
+  const {data, error, isLoading} = useQuery(
+    ['bookSearch', {query}],
+    booksClient.search,
+  )
+
+  const isPending = isLoading
+  const isRejected = !!error
+  const isResolved = !!data
   const {books} = data || {books: []}
 
-  function handleInputChange(e) {
-    setQuery(e.target.value)
-  }
-
-  function handleSearchClick(e) {
-    e.preventDefault()
+  function handleSearchClick(event) {
+    event.preventDefault()
     setHasSearched(true)
-    run(query)
+    setQuery(event.target.elements.search.value)
   }
 
   return (
@@ -37,7 +33,6 @@ function DiscoverBooksScreen() {
       <div>
         <form onSubmit={handleSearchClick}>
           <input
-            onChange={handleInputChange}
             placeholder="Search books..."
             id="search"
             css={{width: '100%'}}
