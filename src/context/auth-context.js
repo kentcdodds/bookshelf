@@ -16,20 +16,20 @@ const defaultData = {
 
 function AuthProvider(props) {
   const [firstAttemptFinished, setFirstAttemptFinished] = React.useState(false)
-  const {data, error, isLoading, refetch} = useQuery(
+  const {data, error, status, refetch} = useQuery(
     'bootstrapAppData',
     bootstrapAppData,
     {manual: true, refetchOnWindowFocus: false},
   )
 
   React.useLayoutEffect(() => {
-    if (!isLoading) {
+    if (!status === 'loading') {
       setFirstAttemptFinished(true)
     }
-  }, [isLoading])
+  }, [status])
 
   if (!firstAttemptFinished) {
-    if (isLoading) {
+    if (status === 'loading') {
       return <FullPageSpinner />
     }
     if (error) {

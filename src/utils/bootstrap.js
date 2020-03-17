@@ -1,15 +1,16 @@
-import {prefetchQuery} from 'react-query'
-import {getUser} from './auth-client'
-import {readForUser} from './list-items-client'
+import {queryCache} from 'react-query'
+import * as auth from './auth-client'
+import * as listItemsClient from './list-items-client'
 
 async function bootstrapAppData() {
-  const data = await prefetchQuery('user', getUser)
+  const data = await queryCache.prefetchQuery('user', auth.getUser)
   if (!data) {
     return {user: null, listItems: []}
   }
   const {user} = data
-  const {listItems} = await prefetchQuery('list-items', () =>
-    readForUser(user.id),
+  const {listItems} = await queryCache.prefetchQuery(
+    'list-items',
+    listItemsClient.read,
   )
   return {
     user,

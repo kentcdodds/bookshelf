@@ -1,18 +1,26 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 
+import React from 'react'
 import {Link} from '@reach/router'
+import {useQuery} from 'react-query'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
-import {useSingleListItemState} from '../context/list-item-context'
+import * as listItemsClient from '../utils/list-items-client'
 import StatusButtons from './status-buttons'
 import Rating from './rating'
 
 function BookRow({book}) {
   const {title, author, coverImageUrl} = book
-  const listItem = useSingleListItemState({
-    bookId: book.id,
-  })
+  const {data: listItems, error: listItemError} = useQuery(
+    'list-item',
+    listItemsClient.read,
+  )
+  React.useLayoutEffect(() => {
+    if (listItemError) throw listItemError
+  }, [listItemError])
+
+  const listItem = listItems.find(li => li.bookId === book.id)
 
   const id = `book-row-book-${book.id}`
 

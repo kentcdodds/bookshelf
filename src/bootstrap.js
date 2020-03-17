@@ -5,8 +5,3 @@ import '@reach/menu-button/styles.css'
 import '@reach/tabs/styles.css'
 import '@reach/tooltip/styles.css'
 import './styles/global.css'
-
-import {bootstrapAppData} from './utils/bootstrap'
-import {prefetchQuery} from 'react-query'
-
-prefetchQuery('bootstrapAppData', bootstrapAppData, {force: true})

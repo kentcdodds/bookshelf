@@ -9,7 +9,6 @@ import Tooltip from '@reach/tooltip'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
 import {Spinner} from '../components/lib'
-import {useListItemDispatch, updateListItem} from '../context/list-item-context'
 import Rating from '../components/rating'
 import * as booksClient from '../utils/books-client'
 import * as listItemsClient from '../utils/list-items-client'
@@ -19,10 +18,6 @@ function getBook({bookId}) {
   return booksClient.read(bookId).then(data => data.book)
 }
 
-function getListItem({bookId}) {
-  return listItemsClient.readByBookId(bookId).then(data => data.listItem)
-}
-
 const formatDate = date =>
   new Intl.DateTimeFormat('en-US', {month: 'short', year: '2-digit'}).format(
     date,
@@ -30,12 +25,19 @@ const formatDate = date =>
 
 function BookScreen({bookId}) {
   const {data: book, error: bookError} = useQuery(['book', {bookId}], getBook)
+  React.useLayoutEffect(() => {
+    if (bookError) throw bookError
+  }, [bookError])
 
-  // const listItem = useSingleListItemState({bookId})
-  const {data: listItem, error: listItemError} = useQuery(
-    ['list-item', {bookId}],
-    getListItem,
+  const {data: listItems, error: listItemError} = useQuery(
+    'list-item',
+    listItemsClient.read,
   )
+  React.useLayoutEffect(() => {
+    if (listItemError) throw listItemError
+  }, [listItemError])
+
+  const listItem = listItems.find(li => li.bookId === bookId)
 
   if (bookError || listItemError) {
     return (
@@ -137,7 +139,7 @@ function ListItemTimeframe({listItem}) {
 }
 
 function NotesTextarea({listItem}) {
-  const [mutate, {isLoading, error}] = useMutation(({notes}) =>
+  const [mutate, {status, error}] = useMutation(({notes}) =>
     listItemsClient.update(listItem.id, {notes}),
   )
   const debouncedMutate = React.useCallback(debounceFn(mutate, {wait: 300}), [])
@@ -179,7 +181,7 @@ function NotesTextarea({listItem}) {
             </pre>
           </span>
         ) : null}
-        {isLoading ? <Spinner /> : null}
+        {status === 'loading' ? <Spinner /> : null}
       </div>
       <textarea
         id="notes"

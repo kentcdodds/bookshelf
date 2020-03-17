@@ -5,12 +5,12 @@ function create(listItemData) {
 }
 
 function read(listItemIds) {
-  if (!listItemIds.length) {
-    return Promise.resolve({})
+  if (listItemIds.length) {
+    return client(
+      `list-item?listItemIds=${encodeURIComponent(listItemIds.join(','))}`,
+    )
   }
-  return client(
-    `list-item?listItemIds=${encodeURIComponent(listItemIds.join(','))}`,
-  )
+  return client('list-item')
 }
 
 function update(listItemId, updates) {

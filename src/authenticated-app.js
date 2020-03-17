@@ -5,7 +5,6 @@ import styled from '@emotion/styled'
 import {Router, Link, Redirect} from '@reach/router'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
-import {ListItemProvider} from './context/list-item-context'
 import {useAuth} from './context/auth-context'
 import {useUser} from './context/user-context'
 import ReadingListScreen from './screens/list'
@@ -129,16 +128,14 @@ function RedirectHome() {
 
 function Routes() {
   return (
-    <ListItemProvider>
-      <Router>
-        <RedirectHome path="/" />
-        <ReadingListScreen path="/list" />
-        <FinishedBooksScreen path="/finished" />
-        <DiscoverBooksScreen path="/discover" />
-        <BookScreen path="/book/:bookId" />
-        <NotFound default />
-      </Router>
-    </ListItemProvider>
+    <Router>
+      <RedirectHome path="/" />
+      <ReadingListScreen path="/list" />
+      <FinishedBooksScreen path="/finished" />
+      <DiscoverBooksScreen path="/discover" />
+      <BookScreen path="/book/:bookId" />
+      <NotFound default />
+    </Router>
   )
 }
 

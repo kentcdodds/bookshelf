@@ -11,7 +11,6 @@ import {buildUser, buildBook, buildListItem} from '../../../test/generate'
 import {bootstrapAppData} from '../../utils/bootstrap'
 import {AuthProvider} from '../../context/auth-context'
 import {UserProvider} from '../../context/user-context'
-import {ListItemProvider} from '../../context/list-item-context'
 import BookScreen from '../book'
 
 jest.mock('../../utils/bootstrap')
@@ -38,9 +37,7 @@ async function renderBookScreen({
   const utils = render(
     <AuthProvider>
       <UserProvider>
-        <ListItemProvider>
-          <BookScreen bookId={book ? book.id : bookId} />
-        </ListItemProvider>
+        <BookScreen bookId={book ? book.id : bookId} />
       </UserProvider>
     </AuthProvider>,
   )

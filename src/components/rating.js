@@ -5,15 +5,14 @@ import React from 'react'
 import debounceFn from 'debounce-fn'
 import {useMutation} from 'react-query'
 import {FaStar} from 'react-icons/fa'
-import {useListItemDispatch, updateListItem} from '../context/list-item-context'
+import * as listItemsClient from '../utils/list-items-client'
 import * as colors from '../styles/colors'
 
 function Rating({listItem}) {
   const [isTabbing, setIsTabbing] = React.useState(false)
 
-  const dispatch = useListItemDispatch()
   const [mutate, {error}] = useMutation(rating =>
-    updateListItem(dispatch, listItem.id, {rating}),
+    listItemsClient.update(listItem.id, {rating}),
   )
 
   const debouncedMutate = React.useCallback(

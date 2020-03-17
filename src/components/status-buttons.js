@@ -10,15 +10,10 @@ import {
 } from 'react-icons/fa'
 import {FaTimesCircle} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
+import {useQuery, useMutation} from 'react-query'
 import * as colors from '../styles/colors'
 import {useUser} from '../context/user-context'
-import {
-  useListItemDispatch,
-  useSingleListItemState,
-  removeListItem,
-  updateListItem,
-  addListItem,
-} from '../context/list-item-context'
+import * as listItemsClient from '../utils/list-items-client'
 import useCallbackStatus from '../utils/use-callback-status'
 import {CircleButton, Spinner} from './lib'
 
@@ -46,26 +41,31 @@ function TooltipButton({label, highlight, onClick, icon, ...rest}) {
 
 function StatusButtons({book}) {
   const user = useUser()
-  const dispatch = useListItemDispatch()
-  const listItem = useSingleListItemState({
-    bookId: book.id,
-  })
+  const {data: listItems, error: listItemError} = useQuery(
+    'list-item',
+    listItemsClient.read,
+  )
+  React.useLayoutEffect(() => {
+    if (listItemError) throw listItemError
+  }, [listItemError])
 
-  function handleRemoveClick() {
-    return removeListItem(dispatch, listItem.id)
-  }
+  const listItem = listItems.find(li => li.bookId === book.id)
 
-  function handleMarkAsReadClick() {
-    return updateListItem(dispatch, listItem.id, {finishDate: Date.now()})
-  }
+  const [handleRemoveClick] = useMutation(() =>
+    listItemsClient.remove(listItem.id),
+  )
 
-  function handleAddClick() {
-    return addListItem(dispatch, {ownerId: user.id, bookId: book.id})
-  }
+  const [handleMarkAsReadClick] = useMutation(updates =>
+    listItemsClient.update(listItem.id, {finishDate: Date.now()}),
+  )
 
-  function handleMarkAsUnreadClick() {
-    return updateListItem(dispatch, listItem.id, {finishDate: null})
-  }
+  const [handleAddClick] = useMutation(() =>
+    listItemsClient.create(listItem.id, {ownerId: user.id, bookId: book.id}),
+  )
+
+  const [handleMarkAsUnreadClick] = useMutation(() =>
+    listItemsClient.update(listItem.id, {finishDate: null}),
+  )
 
   return (
     <React.Fragment>

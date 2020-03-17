@@ -12,14 +12,14 @@ import {BookListUL, Spinner} from '../components/lib'
 function DiscoverBooksScreen() {
   const [query, setQuery] = React.useState('')
   const [hasSearched, setHasSearched] = React.useState()
-  const {data, error, isLoading} = useQuery(
+  const {data, error, status} = useQuery(
     ['bookSearch', {query}],
     booksClient.search,
   )
 
-  const isPending = isLoading
-  const isRejected = !!error
-  const isResolved = !!data
+  const isPending = status === 'loading'
+  const isRejected = status === 'error'
+  const isResolved = status === 'success'
   const {books} = data || {books: []}
 
   function handleSearchClick(event) {
