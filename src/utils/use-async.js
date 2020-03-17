@@ -43,6 +43,12 @@ function useAsync() {
   )
 
   return {
+    // these are here for convenience in matching what react-query
+    // calls these things.
+    isLoading: status === 'pending' || status === 'idle',
+    isError: status === 'rejected',
+    isSuccess: status === 'resolved',
+
     isPending: status === 'pending',
     isRejected: status === 'rejected',
     isResolved: status === 'resolved',

@@ -2,6 +2,7 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
+import {queryCache} from 'react-query'
 import {bootstrapAppData} from '../utils/bootstrap'
 import * as authClient from '../utils/auth-client'
 import useAsync from '../utils/use-async'
@@ -12,30 +13,42 @@ const AuthContext = React.createContext()
 const appDataPromise = bootstrapAppData()
 
 function AuthProvider(props) {
-  const {data, error, status, run} = useAsync()
+  const {data, status, error, isLoading, isError, isSuccess, run} = useAsync()
+
+  const runBootstrap = React.useCallback(() => run(bootstrapAppData()), [run])
 
   React.useLayoutEffect(() => {
     run(appDataPromise)
   }, [run])
 
   const login = React.useCallback(
-    form => authClient.login(form).then(() => run(bootstrapAppData())),
-    [run],
+    form => authClient.login(form).then(runBootstrap),
+    [runBootstrap],
   )
   const register = React.useCallback(
-    form => authClient.register(form).then(() => run(bootstrapAppData())),
-    [run],
+    form => authClient.register(form).then(runBootstrap),
+    [runBootstrap],
   )
-  const logout = React.useCallback(
-    () => authClient.logout().then(() => run(bootstrapAppData())),
-    [run],
-  )
+  const logout = React.useCallback(() => {
+    authClient.logout()
+    queryCache.clear()
+    run(bootstrapAppData())
+  }, [run])
 
-  if (status === 'pending' || status === 'idle') {
+  const user = data?.user
+
+  const value = React.useMemo(() => ({user, login, logout, register}), [
+    login,
+    logout,
+    register,
+    user,
+  ])
+
+  if (isLoading) {
     return <FullPageSpinner />
   }
 
-  if (status === 'rejected') {
+  if (isError) {
     return (
       <div css={{color: 'red'}}>
         <p>Uh oh... There's a problem. Try refreshing the app.</p>
@@ -44,9 +57,11 @@ function AuthProvider(props) {
     )
   }
 
-  return (
-    <AuthContext.Provider value={{data, login, logout, register}} {...props} />
-  )
+  if (isSuccess) {
+    return <AuthContext.Provider value={value} {...props} />
+  }
+
+  throw new Error(`Unhandled status: ${status}`)
 }
 
 function useAuth() {

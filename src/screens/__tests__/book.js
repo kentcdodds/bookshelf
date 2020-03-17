@@ -10,7 +10,6 @@ import faker from 'faker'
 import {buildUser, buildBook, buildListItem} from '../../../test/generate'
 import {bootstrapAppData} from '../../utils/bootstrap'
 import {AuthProvider} from '../../context/auth-context'
-import {UserProvider} from '../../context/user-context'
 import BookScreen from '../book'
 
 jest.mock('../../utils/bootstrap')
@@ -36,9 +35,7 @@ async function renderBookScreen({
 
   const utils = render(
     <AuthProvider>
-      <UserProvider>
-        <BookScreen bookId={book ? book.id : bookId} />
-      </UserProvider>
+      <BookScreen bookId={book ? book.id : bookId} />
     </AuthProvider>,
   )
 

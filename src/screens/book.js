@@ -128,7 +128,9 @@ function NotesTextarea({listItem}) {
   const [mutate, {status, error}] = useMutation(
     ({notes}) => listItemsClient.update(listItem.id, {notes}),
     {
-      onSettled: () => queryCache.refetchQueries('list-items'),
+      onSettled: () => {
+        queryCache.refetchQueries('list-items')
+      },
       useErrorBoundary: false,
     },
   )

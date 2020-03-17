@@ -6,7 +6,6 @@ import {Router, Link, Redirect} from '@reach/router'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
 import {useAuth} from './context/auth-context'
-import {useUser} from './context/user-context'
 import ReadingListScreen from './screens/list'
 import FinishedBooksScreen from './screens/finished'
 import DiscoverBooksScreen from './screens/discover'
@@ -14,8 +13,7 @@ import BookScreen from './screens/book'
 import NotFound from './screens/not-found'
 
 function AuthenticatedApp() {
-  const user = useUser()
-  const {logout} = useAuth()
+  const {user, logout} = useAuth()
   return (
     <div
       css={{
