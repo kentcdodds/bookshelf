@@ -115,7 +115,7 @@ const fakeResponses = [
   },
   {
     description: 'get list items and their book by their id',
-    test: isApi('list-item', 'GET', 'listItemIds'),
+    test: isApi('list-items', 'GET', 'listItemIds'),
     async handler(url, config) {
       const {listItemIds} = qs.parse(new window.URL(url).search)
       const idsToRead = decodeURIComponent(listItemIds).split(',')
@@ -132,18 +132,12 @@ const fakeResponses = [
     },
   },
   {
-    description: 'get list items and their book by their ownerId',
-    test: isApi('list-item', 'GET', 'ownerId'),
+    description:
+      'get list items and their book for the currently logged in user',
+    test: isApi('list-items', 'GET'),
     async handler(url, config) {
-      const ownerId = decodeURIComponent(
-        qs.parse(new window.URL(url).search).ownerId,
-      )
+      await sleep()
       const user = getUser(config)
-      if (user.id !== ownerId) {
-        throw new Error(
-          `User ${user.id} is not authorized to load list items for user ${ownerId}`,
-        )
-      }
       const lis = listItems.readByOwner(user.id)
       const listItemsAndBooks = lis.map(listItem => ({
         ...listItem,
@@ -157,8 +151,9 @@ const fakeResponses = [
   },
   {
     description: `get a list item by it's bookId`,
-    test: isApi('list-item', 'GET', 'bookId'),
+    test: isApi('list-items', 'GET', 'bookId'),
     async handler(url, config) {
+      await sleep()
       const bookId = decodeURIComponent(
         qs.parse(new window.URL(url).search).bookId,
       )
@@ -177,7 +172,7 @@ const fakeResponses = [
   },
   {
     description: 'create a list item',
-    test: isApi('list-item', 'POST'),
+    test: isApi('list-items', 'POST'),
     async handler(url, config) {
       await sleep()
       const user = getUser(config)
@@ -195,7 +190,7 @@ const fakeResponses = [
   },
   {
     description: 'update a list item',
-    test: isApi('list-item', 'PUT'),
+    test: isApi('list-items', 'PUT'),
     async handler(url, config) {
       await sleep()
       const user = getUser(config)
@@ -211,7 +206,7 @@ const fakeResponses = [
   },
   {
     description: 'delete a list item',
-    test: isApi('list-item', 'DELETE'),
+    test: isApi('list-items', 'DELETE'),
     async handler(url, config) {
       await sleep()
       const user = getUser(config)
@@ -270,6 +265,7 @@ window.fetch = async (...args) => {
   const groupTitle = `%c ${args[1].method} -> ${args[0]}`
   try {
     const response = await handler(...args)
+    Object.assign(response, {ok: response.status < 400}, response)
     console.groupCollapsed(groupTitle, 'color: #0f9d58')
     console.info('REQUEST:', {url: args[0], ...args[1]})
     console.info('RESPONSE:', {

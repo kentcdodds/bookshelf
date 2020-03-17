@@ -9,13 +9,14 @@ import * as booksClient from '../utils/books-client'
 import BookRow from '../components/book-row'
 import {BookListUL, Spinner} from '../components/lib'
 
+function searchBooks(queryKey, {query}) {
+  return booksClient.search({query})
+}
+
 function DiscoverBooksScreen() {
   const [query, setQuery] = React.useState('')
   const [hasSearched, setHasSearched] = React.useState()
-  const {data, error, status} = useQuery(
-    ['bookSearch', {query}],
-    booksClient.search,
-  )
+  const {data, error, status} = useQuery(['bookSearch', {query}], searchBooks)
 
   const isPending = status === 'loading'
   const isRejected = status === 'error'

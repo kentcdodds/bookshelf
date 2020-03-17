@@ -3,19 +3,22 @@ import * as auth from './auth-client'
 import * as listItemsClient from './list-items-client'
 
 async function bootstrapAppData() {
-  const data = await queryCache.prefetchQuery('user', auth.getUser)
-  if (!data) {
-    return {user: null, listItems: []}
+  let appData = {user: null, listItems: []}
+
+  if (auth.isLoggedIn()) {
+    try {
+      const [user, listItems] = await Promise.all([
+        auth.getUser().then(d => d.user),
+        listItemsClient.read().then(d => d.listItems),
+      ])
+      appData = {user, listItems}
+    } catch (error) {
+      auth.logout()
+      throw error
+    }
   }
-  const {user} = data
-  const {listItems} = await queryCache.prefetchQuery(
-    'list-items',
-    listItemsClient.read,
-  )
-  return {
-    user,
-    listItems,
-  }
+  queryCache.setQueryData('list-items', appData.listItems)
+  return appData
 }
 
 export {bootstrapAppData}

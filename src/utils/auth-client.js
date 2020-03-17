@@ -12,10 +12,7 @@ function getUser() {
   if (!token) {
     return Promise.resolve(null)
   }
-  return client('me').catch(error => {
-    logout()
-    return Promise.reject(error)
-  })
+  return client('me')
 }
 
 function login({username, password}) {
@@ -37,4 +34,8 @@ function getToken() {
   return window.localStorage.getItem(localStorageKey)
 }
 
-export {login, register, logout, getToken, getUser}
+function isLoggedIn() {
+  return Boolean(getToken())
+}
+
+export {login, register, logout, getToken, getUser, isLoggedIn}

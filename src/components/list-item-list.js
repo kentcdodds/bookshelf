@@ -1,20 +1,20 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
-import React from 'react'
 
 import {useQuery} from 'react-query'
 import * as listItemsClient from '../utils/list-items-client'
 import {BookListUL} from './lib'
 import BookRow from './book-row'
 
-function ListItemList({filterListItems, noListItems, noFilteredListItems}) {
-  const {data: listItems, error: listItemError} = useQuery(
-    'list-item',
-    listItemsClient.read,
+function useListItems() {
+  const {data: listItems} = useQuery('list-items', () =>
+    listItemsClient.read().then(d => d.listItems),
   )
-  React.useLayoutEffect(() => {
-    if (listItemError) throw listItemError
-  }, [listItemError])
+  return listItems ?? []
+}
+
+function ListItemList({filterListItems, noListItems, noFilteredListItems}) {
+  const listItems = useListItems()
 
   const filteredListItems = listItems.filter(filterListItems)
 

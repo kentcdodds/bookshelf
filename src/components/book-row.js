@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 
-import React from 'react'
 import {Link} from '@reach/router'
 import {useQuery} from 'react-query'
 import * as mq from '../styles/media-queries'
@@ -10,17 +9,16 @@ import * as listItemsClient from '../utils/list-items-client'
 import StatusButtons from './status-buttons'
 import Rating from './rating'
 
+function useListItem(bookId) {
+  const {data: listItems} = useQuery('list-items', () =>
+    listItemsClient.read().then(d => d.listItems),
+  )
+  return listItems?.find(li => li.bookId === bookId) ?? null
+}
+
 function BookRow({book}) {
   const {title, author, coverImageUrl} = book
-  const {data: listItems, error: listItemError} = useQuery(
-    'list-item',
-    listItemsClient.read,
-  )
-  React.useLayoutEffect(() => {
-    if (listItemError) throw listItemError
-  }, [listItemError])
-
-  const listItem = listItems.find(li => li.bookId === book.id)
+  const listItem = useListItem(book.id)
 
   const id = `book-row-book-${book.id}`
 

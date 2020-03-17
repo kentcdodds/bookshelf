@@ -2,55 +2,50 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import {useQuery} from 'react-query'
 import {bootstrapAppData} from '../utils/bootstrap'
 import * as authClient from '../utils/auth-client'
+import useAsync from '../utils/use-async'
 import {FullPageSpinner} from '../components/lib'
 
 const AuthContext = React.createContext()
 
-const defaultData = {
-  user: null,
-  listItems: [],
-}
+const appDataPromise = bootstrapAppData()
 
 function AuthProvider(props) {
-  const [firstAttemptFinished, setFirstAttemptFinished] = React.useState(false)
-  const {data, error, status, refetch} = useQuery(
-    'bootstrapAppData',
-    bootstrapAppData,
-    {manual: true, refetchOnWindowFocus: false},
-  )
+  const {data, error, status, run} = useAsync()
 
   React.useLayoutEffect(() => {
-    if (!status === 'loading') {
-      setFirstAttemptFinished(true)
-    }
-  }, [status])
+    run(appDataPromise)
+  }, [run])
 
-  if (!firstAttemptFinished) {
-    if (status === 'loading') {
-      return <FullPageSpinner />
-    }
-    if (error) {
-      return (
-        <div css={{color: 'red'}}>
-          <p>Uh oh... There's a problem. Try refreshing the app.</p>
-          <pre>{error.message}</pre>
-        </div>
-      )
-    }
+  const login = React.useCallback(
+    form => authClient.login(form).then(() => run(bootstrapAppData())),
+    [run],
+  )
+  const register = React.useCallback(
+    form => authClient.register(form).then(() => run(bootstrapAppData())),
+    [run],
+  )
+  const logout = React.useCallback(
+    () => authClient.logout().then(() => run(bootstrapAppData())),
+    [run],
+  )
+
+  if (status === 'pending' || status === 'idle') {
+    return <FullPageSpinner />
   }
 
-  const login = form => authClient.login(form).then(refetch)
-  const register = form => authClient.register(form).then(refetch)
-  const logout = () => authClient.logout().then(refetch)
+  if (status === 'rejected') {
+    return (
+      <div css={{color: 'red'}}>
+        <p>Uh oh... There's a problem. Try refreshing the app.</p>
+        <pre>{error.message}</pre>
+      </div>
+    )
+  }
 
   return (
-    <AuthContext.Provider
-      value={{data: data ? data : defaultData, login, logout, register}}
-      {...props}
-    />
+    <AuthContext.Provider value={{data, login, logout, register}} {...props} />
   )
 }
 

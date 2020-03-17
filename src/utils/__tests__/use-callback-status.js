@@ -1,9 +1,9 @@
 import React from 'react'
 import {render, act} from '@testing-library/react'
-import useCallbackStatus from '../use-callback-status'
+import useAsync from '../use-async'
 
 function Test({children, ...props}) {
-  children(useCallbackStatus())
+  children(useAsync())
   return null
 }
 
@@ -100,6 +100,6 @@ test('No state updates happen if the component is unmounted while pending', asyn
 
 test('calling "run" without a promise results in an early error', () => {
   expect(() => testHook().run()).toThrowErrorMatchingInlineSnapshot(
-    `"The argument passed to useCallbackStatus().run must be a promise. Maybe a function that's passed isn't returning anything?"`,
+    `"The argument passed to useAsync().run must be a promise. Maybe a function that's passed isn't returning anything?"`,
   )
 })

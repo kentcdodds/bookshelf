@@ -14,10 +14,10 @@ import {
   Centered,
 } from './components/lib'
 import {useAuth} from './context/auth-context'
-import useCallbackStatus from './utils/use-callback-status'
+import useAsync from './utils/use-async'
 
 function LoginForm({onSubmit, buttonText}) {
-  const {isPending, isRejected, error, run} = useCallbackStatus()
+  const {isPending, isRejected, error, run} = useAsync()
   function handleSubmit(event) {
     event.preventDefault()
     const {username, password} = event.target.elements

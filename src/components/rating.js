@@ -3,7 +3,7 @@ import {jsx} from '@emotion/core'
 
 import React from 'react'
 import debounceFn from 'debounce-fn'
-import {useMutation} from 'react-query'
+import {useMutation, queryCache} from 'react-query'
 import {FaStar} from 'react-icons/fa'
 import * as listItemsClient from '../utils/list-items-client'
 import * as colors from '../styles/colors'
@@ -11,8 +11,12 @@ import * as colors from '../styles/colors'
 function Rating({listItem}) {
   const [isTabbing, setIsTabbing] = React.useState(false)
 
-  const [mutate, {error}] = useMutation(rating =>
-    listItemsClient.update(listItem.id, {rating}),
+  const [mutate, {error}] = useMutation(
+    rating => listItemsClient.update(listItem.id, {rating}),
+    {
+      onSettled: () => queryCache.refetchQueries('list-items'),
+      useErrorBoundary: false,
+    },
   )
 
   const debouncedMutate = React.useCallback(
