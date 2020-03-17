@@ -6,6 +6,7 @@ import {useQuery, useMutation, queryCache} from 'react-query'
 import debounceFn from 'debounce-fn'
 import {FaRegCalendarAlt} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
+import {useParams} from 'react-router-dom'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
 import {Spinner} from '../components/lib'
@@ -30,7 +31,8 @@ const formatDate = date =>
     date,
   )
 
-function BookScreen({bookId}) {
+function BookScreen() {
+  const {bookId} = useParams()
   const {data: book} = useQuery(['book', {bookId}], getBook)
   const listItem = useListItem(bookId)
 

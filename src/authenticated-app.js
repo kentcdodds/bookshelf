@@ -2,7 +2,7 @@
 import {jsx} from '@emotion/core'
 
 import styled from '@emotion/styled'
-import {Router, Link, Redirect} from '@reach/router'
+import {Routes, Route, Link, Redirect} from 'react-router-dom'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
 import {useAuth} from './context/auth-context'
@@ -55,7 +55,7 @@ function AuthenticatedApp() {
         <Nav />
       </div>
       <main css={{width: '100%'}}>
-        <Routes />
+        <AppRoutes />
       </main>
       <footer />
     </div>
@@ -120,20 +120,16 @@ function Nav(params) {
   )
 }
 
-function RedirectHome() {
-  return <Redirect noThrow to="/list" />
-}
-
-function Routes() {
+function AppRoutes() {
   return (
-    <Router>
-      <RedirectHome path="/" />
-      <ReadingListScreen path="/list" />
-      <FinishedBooksScreen path="/finished" />
-      <DiscoverBooksScreen path="/discover" />
-      <BookScreen path="/book/:bookId" />
-      <NotFound default />
-    </Router>
+    <Routes>
+      <Route path="/" element={<Redirect to="/list" />} />
+      <Route path="/list" element={<ReadingListScreen />} />
+      <Route path="/finished" element={<FinishedBooksScreen />} />
+      <Route path="/discover" element={<DiscoverBooksScreen />} />
+      <Route path="/book/:bookId" element={<BookScreen />} />
+      <Route default element={<NotFound />} />
+    </Routes>
   )
 }
 

@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 
-import {Link} from '@reach/router'
+import {Link} from 'react-router-dom'
 import {useQuery} from 'react-query'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
