@@ -1,8 +1,9 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 
+import React from 'react'
 import styled from '@emotion/styled'
-import {Routes, Route, Link, Redirect} from 'react-router-dom'
+import {Routes, Route, Link, useNavigate} from 'react-router-dom'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
 import {useAuth} from './context/auth-context'
@@ -120,10 +121,18 @@ function Nav(params) {
   )
 }
 
+function RedirectHome() {
+  const navigate = useNavigate()
+  React.useEffect(() => {
+    navigate('/list')
+  }, [navigate])
+  return null
+}
+
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Redirect to="/list" />} />
+      <Route path="/" element={<RedirectHome />} />
       <Route path="/list" element={<ReadingListScreen />} />
       <Route path="/finished" element={<FinishedBooksScreen />} />
       <Route path="/discover" element={<DiscoverBooksScreen />} />
