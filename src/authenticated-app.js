@@ -1,5 +1,5 @@
 import React from 'react'
-import {Routes, Route, Switch, NavLink, useNavigate} from 'react-router-dom'
+import {Routes, Route, NavLink, useNavigate} from 'react-router-dom'
 import {useAuth} from './context/auth-context'
 import ReadingListScreen from './screens/list'
 import FinishedBooksScreen from './screens/finished'
