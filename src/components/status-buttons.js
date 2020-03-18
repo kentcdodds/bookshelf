@@ -27,6 +27,7 @@ function TooltipButton({label, highlight, onClick, icon, ...rest}) {
     <Tooltip label={isRejected ? error.message : label}>
       <CircleButton
         css={{
+          backgroundColor: 'white',
           ':hover,:focus': {
             color: isPending
               ? colors.gray80

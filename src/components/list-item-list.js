@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import {jsx} from '@emotion/core'
-
+import React from 'react'
 import {useQuery} from 'react-query'
 import * as listItemsClient from '../utils/list-items-client'
 import {BookListUL} from './lib'
@@ -19,26 +17,20 @@ function ListItemList({filterListItems, noListItems, noFilteredListItems}) {
   const filteredListItems = listItems.filter(filterListItems)
 
   if (!listItems.length) {
-    return <div css={{marginTop: '1em', fontSize: '1.2em'}}>{noListItems}</div>
+    return <div className="text-lg">{noListItems}</div>
   }
   if (!filteredListItems.length) {
-    return (
-      <div css={{marginTop: '1em', fontSize: '1.2em'}}>
-        {noFilteredListItems}
-      </div>
-    )
+    return <div className="text-lg">{noFilteredListItems}</div>
   }
 
   return (
-    <div css={{marginTop: '1em'}}>
-      <BookListUL>
-        {filteredListItems.map(listItem => (
-          <li key={listItem.id}>
-            <BookRow book={listItem.book} />
-          </li>
-        ))}
-      </BookListUL>
-    </div>
+    <BookListUL>
+      {filteredListItems.map(listItem => (
+        <li key={listItem.id}>
+          <BookRow book={listItem.book} />
+        </li>
+      ))}
+    </BookListUL>
   )
 }
 

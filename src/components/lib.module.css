@@ -1,0 +1,16 @@
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+.bookList {
+  grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
+}

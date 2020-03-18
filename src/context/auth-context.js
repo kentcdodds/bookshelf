@@ -1,6 +1,3 @@
-/** @jsx jsx */
-import {jsx} from '@emotion/core'
-
 import React from 'react'
 import {queryCache} from 'react-query'
 import {bootstrapAppData} from '../utils/bootstrap'
@@ -50,7 +47,7 @@ function AuthProvider(props) {
 
   if (isError) {
     return (
-      <div css={{color: 'red'}}>
+      <div className="text-red-500">
         <p>Uh oh... There's a problem. Try refreshing the app.</p>
         <pre>{error.message}</pre>
       </div>

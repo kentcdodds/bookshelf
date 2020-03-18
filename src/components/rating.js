@@ -5,6 +5,7 @@ import React from 'react'
 import debounceFn from 'debounce-fn'
 import {useMutation, queryCache} from 'react-query'
 import {FaStar} from 'react-icons/fa'
+import VisuallyHidden from '@reach/visually-hidden'
 import * as listItemsClient from '../utils/list-items-client'
 import * as colors from '../styles/colors'
 
@@ -41,32 +42,35 @@ function Rating({listItem}) {
     const ratingValue = i + 1
     return (
       <React.Fragment key={i}>
-        <input
-          name={rootClassName}
-          type="radio"
-          id={ratingId}
-          value={ratingValue}
-          defaultChecked={ratingValue === listItem.rating}
-          onChange={() => debouncedMutate(ratingValue)}
-          className="visually-hidden"
-          css={{
-            [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},
-            [`.${rootClassName} &:checked + label`]: {color: 'orange'},
-            // !important is here because we're doing special non-css-in-js things
-            // and so we have to deal with specificity and cascade. But, I promise
-            // this is better than trying to make this work with JavaScript.
-            // So deal with it 😎
-            [`.${rootClassName} &:hover ~ label`]: {
-              color: `${colors.gray20} !important`,
-            },
-            [`.${rootClassName} &:hover + label`]: {color: 'orange !important'},
-            [`.${rootClassName} &:focus + label svg`]: {
-              outline: isTabbing
-                ? ['1px solid orange', '-webkit-focus-ring-color auto 5px']
-                : 'initial',
-            },
-          }}
-        />
+        <VisuallyHidden>
+          <input
+            name={rootClassName}
+            type="radio"
+            id={ratingId}
+            value={ratingValue}
+            defaultChecked={ratingValue === listItem.rating}
+            onChange={() => debouncedMutate(ratingValue)}
+            css={{
+              [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},
+              [`.${rootClassName} &:checked + label`]: {color: 'orange'},
+              // !important is here because we're doing special non-css-in-js things
+              // and so we have to deal with specificity and cascade. But, I promise
+              // this is better than trying to make this work with JavaScript.
+              // So deal with it 😎
+              [`.${rootClassName} &:hover ~ label`]: {
+                color: `${colors.gray20} !important`,
+              },
+              [`.${rootClassName} &:hover + label`]: {
+                color: 'orange !important',
+              },
+              [`.${rootClassName} &:focus + label svg`]: {
+                outline: isTabbing
+                  ? ['1px solid orange', '-webkit-focus-ring-color auto 5px']
+                  : 'initial',
+              },
+            }}
+          />
+        </VisuallyHidden>
         <label
           htmlFor={ratingId}
           css={{
@@ -75,9 +79,11 @@ function Rating({listItem}) {
             margin: 0,
           }}
         >
-          <span className="visually-hidden">
-            {ratingValue} {ratingValue === 1 ? 'star' : 'stars'}
-          </span>
+          <VisuallyHidden>
+            <span className="visually-hidden">
+              {ratingValue} {ratingValue === 1 ? 'star' : 'stars'}
+            </span>
+          </VisuallyHidden>
           <FaStar
             css={{
               width: '16px',

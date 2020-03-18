@@ -17,6 +17,7 @@
     "@reach/visually-hidden": "^0.9.0",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^10.0.1",
+    "autoprefixer": "^9.7.4",
     "bootstrap": "^4.4.1",
     "debounce-fn": "^4.0.0",
     "faker": "^4.1.0",
@@ -31,7 +32,8 @@
     "react-router": "^6.0.0-alpha.2",
     "react-router-dom": "^6.0.0-alpha.2",
     "react-scripts": "^3.4.0",
-    "stop-runaway-react-effects": "^1.2.1"
+    "stop-runaway-react-effects": "^1.2.1",
+    "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
     "@testing-library/cypress": "^6.0.0",

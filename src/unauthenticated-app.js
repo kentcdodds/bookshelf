@@ -1,18 +1,8 @@
-/** @jsx jsx */
-import {jsx} from '@emotion/core'
-
-import styled from '@emotion/styled'
 import React from 'react'
 import Logo from './components/logo'
 import VisuallyHidden from '@reach/visually-hidden'
 import {Dialog} from '@reach/dialog'
-import {
-  CircleButton,
-  Button,
-  Spinner,
-  FormGroup,
-  Centered,
-} from './components/lib'
+import {CircleButton, Button, Spinner, FormGroup} from './components/lib'
 import {useAuth} from './context/auth-context'
 import useAsync from './utils/use-async'
 
@@ -31,35 +21,21 @@ function LoginForm({onSubmit, buttonText}) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      css={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-        '> div': {
-          margin: '10px auto',
-          width: '100%',
-          maxWidth: '300px',
-        },
-      }}
-    >
-      <FormGroup>
+    <form onSubmit={handleSubmit} className="flex flex-col items-stretch">
+      <FormGroup className="w-full max-w-xs mx-auto my-3">
         <label htmlFor="username">Username</label>
         <input id="username" />
       </FormGroup>
-      <FormGroup>
+      <FormGroup className="w-full max-w-xs mx-auto my-3">
         <label htmlFor="password">Password</label>
         <input id="password" type="password" />
       </FormGroup>
-      <div>
+      <div className="w-full max-w-xs mx-auto my-3">
         <Button type="submit">
-          {buttonText} {isPending ? <Spinner css={{marginLeft: 5}} /> : null}
+          {buttonText} {isPending ? <Spinner className="ml-1" /> : null}
         </Button>
       </div>
-      {isRejected ? (
-        <div css={{color: 'red'}}>{error ? error.message : null}</div>
-      ) : null}
+      {isRejected ? <div className="text-red-500">{error?.message}</div> : null}
     </form>
   )
 }
@@ -71,7 +47,7 @@ function Modal({button, label, children}) {
     <>
       {React.cloneElement(button, {onClick: () => setIsOpen(true)})}
       <Dialog aria-label={label} isOpen={isOpen}>
-        <div css={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div className="flex justify-end">
           <CircleButton onClick={() => setIsOpen(false)}>
             <VisuallyHidden>Close</VisuallyHidden>
             <span aria-hidden>×</span>
@@ -83,35 +59,27 @@ function Modal({button, label, children}) {
   )
 }
 
-const ModalTitle = styled.h3({
-  textAlign: 'center',
-  fontSize: '2em',
-})
-
 function UnauthenticatedApp() {
   const {login, register} = useAuth()
 
   return (
-    <Centered>
+    <div className="flex flex-col items-center justify-center w-full h-screen">
       <Logo width="80" height="80" />
-      <h1>Bookshelf</h1>
-      <div css={{display: 'flex'}}>
-        <Modal
-          label="Login form"
-          button={<Button css={{marginRight: 6}}>Login</Button>}
-        >
-          <ModalTitle>Login</ModalTitle>
+      <h1 className="mb-5 text-4xl font-bold">Bookshelf</h1>
+      <div className="grid grid-cols-2 gap-3">
+        <Modal label="Login form" button={<Button>Login</Button>}>
+          <div className="text-4xl text-center">Login</div>
           <LoginForm onSubmit={login} buttonText="Login" />
         </Modal>
         <Modal
           label="Registration form"
           button={<Button variant="secondary">Register</Button>}
         >
-          <ModalTitle>Register</ModalTitle>
+          <div className="text-4xl text-center">Register</div>
           <LoginForm onSubmit={register} buttonText="Register" />
         </Modal>
       </div>
-    </Centered>
+    </div>
   )
 }
 
