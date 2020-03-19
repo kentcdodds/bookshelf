@@ -26,53 +26,6 @@ const isApi = (endpoint, method = 'GET', queryParam) => (url, config) => {
 
 const fakeResponses = [
   {
-    test: isApi('login', 'POST'),
-    async handler(url, config) {
-      await sleep()
-      const body = JSON.parse(config.body)
-      const user = users.authenticate({
-        username: body.username,
-        password: body.password,
-      })
-      return {
-        status: 200,
-        json: async () => ({user}),
-      }
-    },
-  },
-  {
-    test: isApi('register', 'POST'),
-    async handler(url, config) {
-      await sleep()
-      const {username, password} = JSON.parse(config.body)
-      if (!username) {
-        throw new Error('A username is required')
-      }
-      if (!password) {
-        throw new Error('A password is required')
-      }
-      const userFields = {username, password}
-      users.create(userFields)
-      const user = users.authenticate(userFields)
-      return {
-        status: 200,
-        json: async () => ({user}),
-      }
-    },
-  },
-  {
-    description: 'get the current user',
-    test: isApi('me'),
-    async handler(url, config) {
-      await sleep()
-      const user = getUser(config)
-      return {
-        status: 200,
-        json: async () => ({user}),
-      }
-    },
-  },
-  {
     description: 'search books',
     test: isApi('book', 'GET', 'query'),
     async handler(url, config) {
@@ -219,11 +172,6 @@ const fakeResponses = [
       }
     },
   },
-  // fallback to originalFetch
-  {
-    test: () => true,
-    handler: (...args) => originalFetch(...args),
-  },
 ]
 
 function getBooksNotInUsersList(userId) {
@@ -254,14 +202,18 @@ function getUser(config) {
 }
 
 window.fetch = async (...args) => {
-  const {handler} = fakeResponses.find(({test}) => {
-    try {
-      return test(...args)
-    } catch (error) {
-      // ignore the error and hope everything's ok...
-      return false
-    }
-  })
+  const {handler} =
+    fakeResponses.find(({test}) => {
+      try {
+        return test(...args)
+      } catch (error) {
+        // ignore the error and hope everything's ok...
+        return false
+      }
+    }) ?? {}
+  if (!handler) {
+    return originalFetch(...args)
+  }
   const groupTitle = `%c ${args[1].method} -> ${args[0]}`
   try {
     const response = await handler(...args)

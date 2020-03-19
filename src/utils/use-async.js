@@ -35,7 +35,7 @@ function useAsync() {
         },
         error => {
           safeSetState({status: 'rejected', error})
-          return Promise.reject(error)
+          return error
         },
       )
     },
