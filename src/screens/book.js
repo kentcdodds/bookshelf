@@ -2,29 +2,22 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import {useQuery, useMutation, queryCache} from 'react-query'
+import {useQuery} from 'react-query'
 import debounceFn from 'debounce-fn'
 import {FaRegCalendarAlt} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
 import {useParams} from 'react-router-dom'
+import {useListItem, useUpdateListItem} from '../utils/list-items'
 import {loadingBook} from '../utils/book-placeholder'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
 import {Spinner} from '../components/lib'
 import Rating from '../components/rating'
 import * as booksClient from '../utils/books-client'
-import * as listItemsClient from '../utils/list-items-client'
 import StatusButtons from '../components/status-buttons'
 
 function getBook(queryKey, {bookId}) {
   return booksClient.read(bookId).then(data => data.book)
-}
-
-function useListItem(bookId) {
-  const {data: listItems} = useQuery('list-items', () =>
-    listItemsClient.read().then(d => d.listItems),
-  )
-  return listItems?.find(li => li.bookId === bookId) ?? null
 }
 
 const formatDate = date =>
@@ -78,7 +71,7 @@ function BookScreen() {
                 minHeight: 100,
               }}
             >
-              {book.id ? <StatusButtons book={book} /> : null}
+              {book.loadingBook ? null : <StatusButtons book={book} />}
             </div>
           </div>
           <div css={{marginTop: 10, height: 46}}>
@@ -93,7 +86,9 @@ function BookScreen() {
           <p>{synopsis}</p>
         </div>
       </div>
-      {book.id && listItem ? <NotesTextarea listItem={listItem} /> : null}
+      {!book.loadingBook && listItem ? (
+        <NotesTextarea listItem={listItem} />
+      ) : null}
     </div>
   )
 }
@@ -117,22 +112,11 @@ function ListItemTimeframe({listItem}) {
 }
 
 function NotesTextarea({listItem}) {
-  const [mutate, {status, error}] = useMutation(
-    ({notes}) => listItemsClient.update(listItem.id, {notes}),
-    {
-      onSettled: () => {
-        queryCache.refetchQueries('list-items')
-      },
-      useErrorBoundary: false,
-    },
-  )
+  const [mutate, {status, error}] = useUpdateListItem(listItem)
   const debouncedMutate = React.useCallback(debounceFn(mutate, {wait: 300}), [])
 
   function handleNotesChange(e) {
-    debouncedMutate(
-      {notes: e.target.value},
-      {updateQuery: ['list-items', {bookId: listItem.bookId}]},
-    )
+    debouncedMutate({notes: e.target.value})
   }
 
   return (

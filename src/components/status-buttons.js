@@ -10,9 +10,14 @@ import {
 } from 'react-icons/fa'
 import {FaTimesCircle} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
-import {useQuery, useMutation, queryCache} from 'react-query'
+import {
+  useListItem,
+  useRemoveListItem,
+  useMarkListItemAsRead,
+  useMarkListItemAsUnread,
+  useCreateListItem,
+} from '../utils/list-items'
 import * as colors from '../styles/colors'
-import * as listItemsClient from '../utils/list-items-client'
 import useAsync from '../utils/use-async'
 import {CircleButton, Spinner} from './lib'
 
@@ -47,51 +52,13 @@ function TooltipButton({label, highlight, onClick, icon, ...rest}) {
   )
 }
 
-function useListItem(bookId) {
-  const {data: listItems} = useQuery('list-items', () =>
-    listItemsClient.read().then(d => d.listItems),
-  )
-  return listItems?.find(li => li.bookId === bookId) ?? null
-}
-
 function StatusButtons({book}) {
   const listItem = useListItem(book.id)
 
-  const [handleRemoveClick] = useMutation(
-    () => listItemsClient.remove(listItem.id),
-    {
-      onSettled: () => queryCache.refetchQueries('list-items'),
-      useErrorBoundary: false,
-      throwOnError: true,
-    },
-  )
-
-  const [handleMarkAsReadClick] = useMutation(
-    updates => listItemsClient.update(listItem.id, {finishDate: Date.now()}),
-    {
-      onSettled: () => queryCache.refetchQueries('list-items'),
-      useErrorBoundary: false,
-      throwOnError: true,
-    },
-  )
-
-  const [handleAddClick] = useMutation(
-    () => listItemsClient.create({bookId: book.id}),
-    {
-      onSettled: () => queryCache.refetchQueries('list-items'),
-      useErrorBoundary: false,
-      throwOnError: true,
-    },
-  )
-
-  const [handleMarkAsUnreadClick] = useMutation(
-    () => listItemsClient.update(listItem.id, {finishDate: null}),
-    {
-      onSettled: () => queryCache.refetchQueries('list-items'),
-      useErrorBoundary: false,
-      throwOnError: true,
-    },
-  )
+  const [handleRemoveClick] = useRemoveListItem(listItem)
+  const [handleMarkAsReadClick] = useMarkListItemAsRead(listItem)
+  const [handleAddClick] = useCreateListItem(book.id)
+  const [handleMarkAsUnreadClick] = useMarkListItemAsUnread(listItem)
 
   return (
     <React.Fragment>

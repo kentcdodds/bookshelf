@@ -3,21 +3,14 @@ import {jsx} from '@emotion/core'
 
 import React from 'react'
 import debounceFn from 'debounce-fn'
-import {useMutation, queryCache} from 'react-query'
+import {useUpdateListItem} from '../utils/list-items'
 import {FaStar} from 'react-icons/fa'
-import * as listItemsClient from '../utils/list-items-client'
 import * as colors from '../styles/colors'
 
 function Rating({listItem}) {
   const [isTabbing, setIsTabbing] = React.useState(false)
 
-  const [mutate, {error}] = useMutation(
-    rating => listItemsClient.update(listItem.id, {rating}),
-    {
-      onSettled: () => queryCache.refetchQueries('list-items'),
-      useErrorBoundary: false,
-    },
-  )
+  const [mutate, {error}] = useUpdateListItem(listItem)
 
   const debouncedMutate = React.useCallback(
     debounceFn((...args) => mutate(...args).catch(e => e), {wait: 300}),
@@ -47,7 +40,7 @@ function Rating({listItem}) {
           id={ratingId}
           value={ratingValue}
           defaultChecked={ratingValue === listItem.rating}
-          onChange={() => debouncedMutate(ratingValue)}
+          onChange={() => debouncedMutate({rating: ratingValue})}
           className="visually-hidden"
           css={{
             [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},

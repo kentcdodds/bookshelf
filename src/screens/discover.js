@@ -14,7 +14,10 @@ function searchBooks(queryKey, {query}) {
   return booksClient.search({query})
 }
 
-const loadingBooks = Array.from({length: 10}, () => loadingBook)
+const loadingBooks = Array.from({length: 10}, (v, index) => ({
+  id: `loading-book-${index}`,
+  ...loadingBook,
+}))
 
 function DiscoverBooksScreen() {
   const [query, setQuery] = React.useState('')
