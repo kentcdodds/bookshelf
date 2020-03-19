@@ -34,8 +34,8 @@ function AuthenticatedApp() {
 }
 
 const navLinkClassName =
-  'block w-full h-full px-3 py-2 mx-0 my-2 text-gray-900 border-l-4 border-transparent rounded-sm hover:text-blue-700 hover:decoration-none hover:bg-gray-300'
-const activeNavLinkClassName = 'bg-gray-300 border-l-4 border-blue-700'
+  'block w-full h-full px-3 py-2 mx-0 my-2 text-gray-900 border-l-4 border-transparent rounded-sm hover:text-primary hover:decoration-none hover:bg-gray-300'
+const activeNavLinkClassName = 'bg-gray-300 border-l-4 border-primary'
 
 function Nav(params) {
   return (
