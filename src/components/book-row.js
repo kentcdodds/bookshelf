@@ -35,6 +35,7 @@ function BookRow({book}) {
         aria-labelledby={id}
         to={`/book/${book.id}`}
         css={{
+          minHeight: 270,
           flexGrow: 2,
           display: 'grid',
           gridTemplateColumns: '140px 1fr',
@@ -61,7 +62,7 @@ function BookRow({book}) {
           <img
             src={coverImageUrl}
             alt={`${title} book cover`}
-            css={{maxHeight: '100%', maxWidth: '100%'}}
+            css={{maxHeight: '100%', width: '100%'}}
           />
         </div>
         <div css={{flex: 1}}>

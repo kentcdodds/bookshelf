@@ -2,11 +2,11 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import tw from 'twin.macro'
 import {queryCache} from 'react-query'
 import {bootstrapAppData} from '../utils/bootstrap'
 import * as authClient from '../utils/auth-client'
 import useAsync from '../utils/use-async'
+import * as colors from '../styles/colors'
 import {FullPageSpinner} from '../components/lib'
 
 const AuthContext = React.createContext()
@@ -51,7 +51,7 @@ function AuthProvider(props) {
 
   if (isError) {
     return (
-      <div css={tw`text-red-500`}>
+      <div css={{color: colors.danger}}>
         <p>Uh oh... There's a problem. Try refreshing the app.</p>
         <pre>{error.message}</pre>
       </div>

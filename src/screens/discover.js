@@ -5,6 +5,7 @@ import React from 'react'
 import Tooltip from '@reach/tooltip'
 import {FaSearch, FaTimes} from 'react-icons/fa'
 import {useQuery} from 'react-query'
+import {loadingBook} from '../utils/book-placeholder'
 import * as booksClient from '../utils/books-client'
 import BookRow from '../components/book-row'
 import {BookListUL, Spinner} from '../components/lib'
@@ -12,6 +13,8 @@ import {BookListUL, Spinner} from '../components/lib'
 function searchBooks(queryKey, {query}) {
   return booksClient.search({query})
 }
+
+const loadingBooks = Array.from({length: 10}, () => loadingBook)
 
 function DiscoverBooksScreen() {
   const [query, setQuery] = React.useState('')
@@ -21,7 +24,7 @@ function DiscoverBooksScreen() {
   const isPending = status === 'loading'
   const isRejected = status === 'error'
   const isResolved = status === 'success'
-  const {books} = data || {books: []}
+  const {books} = data || {books: loadingBooks}
 
   function handleSearchClick(event) {
     event.preventDefault()
@@ -86,31 +89,27 @@ function DiscoverBooksScreen() {
             ) : null}
           </div>
         )}
-        {isResolved ? (
-          books.length ? (
-            <BookListUL css={{marginTop: 20}}>
-              {books.map(book => (
-                <li key={book.id}>
-                  <BookRow key={book.id} book={book} />
-                </li>
-              ))}
-            </BookListUL>
-          ) : hasSearched ? (
-            <div css={{marginTop: 20, fontSize: '1.2em', textAlign: 'center'}}>
-              <p>Hmmm... can't find any books</p>
-              <p>Here, let me load a few books for you...</p>
-              {isPending ? (
-                <div css={{width: '100%', margin: 'auto'}}>
-                  <Spinner />
-                </div>
-              ) : (
-                <p>
-                  Hmmm... I couldn't find any books with the query "{query}."
-                  Please try another.
-                </p>
-              )}
-            </div>
-          ) : null
+        {books.length ? (
+          <BookListUL css={{marginTop: 20}}>
+            {books.map(book => (
+              <li key={book.id}>
+                <BookRow key={book.id} book={book} />
+              </li>
+            ))}
+          </BookListUL>
+        ) : hasSearched ? (
+          <div css={{marginTop: 20, fontSize: '1.2em', textAlign: 'center'}}>
+            {isPending ? (
+              <div css={{width: '100%', margin: 'auto'}}>
+                <Spinner />
+              </div>
+            ) : (
+              <p>
+                Hmmm... I couldn't find any books with the query "{query}."
+                Please try another.
+              </p>
+            )}
+          </div>
         ) : null}
       </div>
     </div>

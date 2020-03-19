@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 
-import tw from 'twin.macro'
 import React from 'react'
 import debounceFn from 'debounce-fn'
 import {useMutation, queryCache} from 'react-query'
@@ -72,15 +71,16 @@ function Rating({listItem}) {
         />
         <label
           htmlFor={ratingId}
-          css={[
-            tw`m-0 cursor-pointer`,
-            listItem.rating < 0 ? tw`text-gray-100` : {color: 'orange'},
-          ]}
+          css={{
+            cursor: 'pointer',
+            color: listItem.rating < 0 ? colors.gray20 : 'orange',
+            margin: 0,
+          }}
         >
           <span className="visually-hidden">
             {ratingValue} {ratingValue === 1 ? 'star' : 'stars'}
           </span>
-          <FaStar css={[tw`w-4`, {margin: '0 0.1rem'}]} />
+          <FaStar css={{width: '16px', margin: '0 2px'}} />
         </label>
       </React.Fragment>
     )
@@ -89,21 +89,27 @@ function Rating({listItem}) {
     <div
       onClick={e => e.stopPropagation()}
       className={rootClassName}
-      css={[
-        tw`inline-flex items-center`,
-        {
-          [`&.${rootClassName}:hover input + label`]: {
-            color: 'orange',
-          },
+      css={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        [`&.${rootClassName}:hover input + label`]: {
+          color: 'orange',
         },
-      ]}
+      }}
     >
-      <span css={tw`flex`}>{stars}</span>
+      <span css={{display: 'flex'}}>{stars}</span>
       {error ? (
-        <span css={tw`ml-3 text-xs text-danger`}>
+        <span css={{color: colors.danger, fontSize: '0.7em'}}>
           <span>There was an error:</span>{' '}
-          <pre css={[tw`inline-block m-0 overflow-scroll`, {marginBottom: -5}]}>
-            {error?.message}
+          <pre
+            css={{
+              display: 'inline-block',
+              overflow: 'scroll',
+              margin: '0',
+              marginBottom: -5,
+            }}
+          >
+            {error.message}
           </pre>
         </span>
       ) : null}

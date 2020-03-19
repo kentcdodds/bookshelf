@@ -1,4 +1,4 @@
-@import '~tailwindcss/dist/base.css';
+@import '~bootstrap/dist/css/bootstrap-reboot.css';
 
 #root {
   color: #434449;

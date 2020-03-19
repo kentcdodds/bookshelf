@@ -1,14 +1,13 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 
-import tw from 'twin.macro'
 import React from 'react'
 import {useQuery, useMutation, queryCache} from 'react-query'
 import debounceFn from 'debounce-fn'
 import {FaRegCalendarAlt} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
 import {useParams} from 'react-router-dom'
-import bookPlaceholderSvg from '../assets/book-placeholder.svg'
+import {loadingBook} from '../utils/book-placeholder'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
 import {Spinner} from '../components/lib'
@@ -33,14 +32,6 @@ const formatDate = date =>
     date,
   )
 
-const loadingBook = {
-  title: 'Loading...',
-  author: 'loading...',
-  coverImageUrl: bookPlaceholderSvg,
-  publisher: 'Loading Publishing',
-  synopsis: 'Loading...',
-}
-
 function BookScreen() {
   const {bookId} = useParams()
   const {data: book = loadingBook} = useQuery(['book', {bookId}], getBook)
@@ -51,24 +42,21 @@ function BookScreen() {
   return (
     <div>
       <div
-        css={[
-          tw`grid grid-cols-3`,
-          {
-            display: 'grid',
-            gridTemplateColumns: '1fr 2fr',
-            gridGap: '2em',
-            marginBottom: '1em',
-            [mq.small]: {
-              display: 'flex',
-              flexDirection: 'column',
-            },
+        css={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 2fr',
+          gridGap: '2em',
+          marginBottom: '1em',
+          [mq.small]: {
+            display: 'flex',
+            flexDirection: 'column',
           },
-        ]}
+        }}
       >
         <img
           src={coverImageUrl}
           alt={`${title} book cover`}
-          css={[tw`w-full`, {maxWidth: '14rem'}]}
+          css={{width: '100%', maxWidth: '14rem'}}
         />
         <div>
           <div css={{display: 'flex', position: 'relative'}}>
@@ -90,7 +78,7 @@ function BookScreen() {
                 minHeight: 100,
               }}
             >
-              <StatusButtons book={book} />
+              {book.id ? <StatusButtons book={book} /> : null}
             </div>
           </div>
           <div css={{marginTop: 10, height: 46}}>
@@ -105,7 +93,7 @@ function BookScreen() {
           <p>{synopsis}</p>
         </div>
       </div>
-      {listItem ? <NotesTextarea listItem={listItem} /> : null}
+      {book.id && listItem ? <NotesTextarea listItem={listItem} /> : null}
     </div>
   )
 }

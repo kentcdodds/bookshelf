@@ -2,7 +2,6 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import tw from 'twin.macro'
 import {
   Routes,
   Route,
@@ -10,6 +9,8 @@ import {
   useNavigate,
   useMatch,
 } from 'react-router-dom'
+import * as mq from './styles/media-queries'
+import * as colors from './styles/colors'
 import {useAuth} from './context/auth-context'
 import ReadingListScreen from './screens/list'
 import FinishedBooksScreen from './screens/finished'
@@ -21,22 +22,45 @@ function AuthenticatedApp() {
   const {user, logout} = useAuth()
   return (
     <>
-      <div css={tw`absolute top-0 right-0 flex items-center mt-3 mr-5`}>
+      <div
+        css={{
+          display: 'flex',
+          alignItems: 'center',
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+        }}
+      >
         {user.username}
         <button
-          css={tw`px-3 py-2 ml-4 border border-gray-300 border-solid`}
+          css={{
+            marginLeft: '10px',
+          }}
           onClick={logout}
         >
           Logout
         </button>
       </div>
       <div
-        css={tw`grid w-full max-w-4xl grid-cols-none gap-4 px-6 mx-auto my-0 mt-20 md:grid-cols-4 md:grid-rows-none`}
+        css={{
+          margin: '0 auto',
+          padding: '4em 2em',
+          maxWidth: '840px',
+          width: '100%',
+          display: 'grid',
+          gridGap: '1em',
+          gridTemplateColumns: '3fr 9fr',
+          [mq.small]: {
+            gridTemplateColumns: '1fr',
+            gridTemplateRows: 'auto',
+            width: '100%',
+          },
+        }}
       >
-        <div css={tw`col-span-4 md:col-span-1`}>
+        <div css={{position: 'relative'}}>
           <Nav />
         </div>
-        <main css={tw`w-full col-span-4 md:col-span-3`}>
+        <main css={{width: '100%'}}>
           <AppRoutes />
         </main>
         <footer />
@@ -50,8 +74,30 @@ function NavLink(props) {
   return (
     <RouterLink
       css={[
-        tw`block w-full h-full px-3 py-2 mx-0 my-2 text-gray-800 border-l-4 border-transparent rounded-sm hover:text-primary hover:no-underline hover:bg-gray-300`,
-        match ? tw`bg-gray-300 border-l-4 border-primary` : null,
+        {
+          display: 'block',
+          padding: '8px 15px 8px 10px',
+          margin: '5px 0',
+          width: '100%',
+          height: '100%',
+          color: colors.text,
+          borderRadius: '2px',
+          borderLeft: '5px solid transparent',
+          ':hover': {
+            color: colors.indigo,
+            textDecoration: 'none',
+            background: colors.gray10,
+          },
+        },
+        match
+          ? {
+              borderLeft: `5px solid ${colors.indigo}`,
+              background: colors.gray10,
+              ':hover': {
+                background: colors.gray10,
+              },
+            }
+          : null,
       ]}
       {...props}
     />
@@ -61,9 +107,24 @@ function NavLink(props) {
 function Nav(params) {
   return (
     <nav
-      css={tw`sticky top-0 p-4 border border-gray-300 rounded-sm sm:p-3 sm:static`}
+      css={{
+        position: 'sticky',
+        top: '4px',
+        padding: '1em 1.5em',
+        border: `1px solid ${colors.gray10}`,
+        borderRadius: '3px',
+        [mq.small]: {
+          position: 'static',
+          top: 'auto',
+        },
+      }}
     >
-      <ul css={tw`p-0 list-none`}>
+      <ul
+        css={{
+          listStyle: 'none',
+          padding: '0',
+        }}
+      >
         <li>
           <NavLink to="/list">Reading List</NavLink>
         </li>
