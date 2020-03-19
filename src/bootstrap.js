@@ -1,5 +1,4 @@
 import './hacks'
-import './styles/tailwind'
 import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
 import '@reach/tabs/styles.css'

@@ -59,8 +59,8 @@ export const Button = withClassNames(
 )
 
 const buttonVariants = {
-  primary: 'bg-primary text-white',
-  secondary: 'bg-gray-100 text-gray-800',
+  primary: 'bg-blue-700 text-white',
+  secondary: 'bg-gray-400 text-gray-800',
 }
 
 export const FormGroup = withClassNames('div', 'flex flex-col')
@@ -75,5 +75,5 @@ export function FullPageSpinner() {
 
 export const Link = withClassNames(
   RouterLink,
-  'text-primary hover:text-primary-800 hover:underline',
+  'text-blue-600 hover:text-blue-800 hover:underline',
 )
