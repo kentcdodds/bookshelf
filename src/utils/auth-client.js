@@ -1,3 +1,4 @@
+import {queryCache} from 'react-query'
 import client from './api-client'
 
 const localStorageKey = '__bookshelf_token__'
@@ -26,8 +27,8 @@ function register({username, password}) {
 }
 
 function logout() {
+  queryCache.clear()
   window.localStorage.removeItem(localStorageKey)
-  return Promise.resolve()
 }
 
 function getToken() {

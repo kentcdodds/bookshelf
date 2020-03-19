@@ -2,23 +2,18 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import {useQuery} from 'react-query'
+
 import debounceFn from 'debounce-fn'
 import {FaRegCalendarAlt} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
 import {useParams} from 'react-router-dom'
+import {useBook} from '../utils/books'
 import {useListItem, useUpdateListItem} from '../utils/list-items'
-import {loadingBook} from '../utils/book-placeholder'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
 import {Spinner} from '../components/lib'
 import Rating from '../components/rating'
-import * as booksClient from '../utils/books-client'
 import StatusButtons from '../components/status-buttons'
-
-function getBook(queryKey, {bookId}) {
-  return booksClient.read(bookId).then(data => data.book)
-}
 
 const formatDate = date =>
   new Intl.DateTimeFormat('en-US', {month: 'short', year: '2-digit'}).format(
@@ -27,7 +22,7 @@ const formatDate = date =>
 
 function BookScreen() {
   const {bookId} = useParams()
-  const {data: book = loadingBook} = useQuery(['book', {bookId}], getBook)
+  const book = useBook(bookId)
   const listItem = useListItem(bookId)
 
   const {title, author, coverImageUrl, publisher, synopsis} = book

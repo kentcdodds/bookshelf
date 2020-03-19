@@ -4,30 +4,19 @@ import {jsx} from '@emotion/core'
 import React from 'react'
 import Tooltip from '@reach/tooltip'
 import {FaSearch, FaTimes} from 'react-icons/fa'
-import {useQuery} from 'react-query'
-import {loadingBook} from '../utils/book-placeholder'
-import * as booksClient from '../utils/books-client'
+import {useBookSearch} from '../utils/books'
 import BookRow from '../components/book-row'
 import {BookListUL, Spinner} from '../components/lib'
-
-function searchBooks(queryKey, {query}) {
-  return booksClient.search({query})
-}
-
-const loadingBooks = Array.from({length: 10}, (v, index) => ({
-  id: `loading-book-${index}`,
-  ...loadingBook,
-}))
 
 function DiscoverBooksScreen() {
   const [query, setQuery] = React.useState('')
   const [hasSearched, setHasSearched] = React.useState()
-  const {data, error, status} = useQuery(['bookSearch', {query}], searchBooks)
+  const {data, error, status} = useBookSearch(query)
 
   const isPending = status === 'loading'
   const isRejected = status === 'error'
   const isResolved = status === 'success'
-  const {books} = data || {books: loadingBooks}
+  const {books} = data
 
   function handleSearchClick(event) {
     event.preventDefault()

@@ -2,7 +2,6 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import {queryCache} from 'react-query'
 import {bootstrapAppData} from '../utils/bootstrap'
 import * as authClient from '../utils/auth-client'
 import useAsync from '../utils/use-async'
@@ -32,7 +31,6 @@ function AuthProvider(props) {
   )
   const logout = React.useCallback(() => {
     authClient.logout()
-    queryCache.clear()
     run(bootstrapAppData())
   }, [run])
 
