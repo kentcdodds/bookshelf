@@ -1,79 +1,53 @@
-import React from 'react'
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
+
+import tw from 'twin.macro'
+import styled from '@emotion/styled/macro'
+import {keyframes} from '@emotion/core'
 import {Link as RouterLink} from 'react-router-dom'
-import styles from './lib.module.css'
 import {FaSpinner} from 'react-icons/fa'
 
-function withClassNames(type, styleProps, ...getClassNames) {
-  if (!Array.isArray(styleProps)) {
-    getClassNames = [styleProps, ...getClassNames]
-  }
-  function Wrapper(allProps, ref) {
-    const {className: classNameProp = '', ...rest} = allProps
-    const props = Object.fromEntries(
-      Object.entries(rest).filter(([key]) => !styleProps.includes(key)),
-    )
-    const className = [...getClassNames, classNameProp]
-      .flatMap(cn => (typeof cn === 'function' ? cn(allProps) : cn))
-      .filter(Boolean)
-      .join(' ')
-    return React.createElement(type, {
-      ref,
-      ...props,
-      className,
-    })
-  }
-  const typeName =
-    (typeof type === 'string' ? type : type.displayName || type.name) ||
-    'Unknown'
-  Wrapper.displayName = `withClassNames(${typeName})`
-  return React.forwardRef(Wrapper)
-}
-
-export const CircleButton = withClassNames(
-  'button',
-  'flex items-center justify-center w-10 h-10 leading-none border border-gray-300 border-solid rounded-full cursor-pointer',
+export const CircleButton = styled.button(
+  tw`flex items-center justify-center w-10 h-10 leading-none text-gray-800 border border-gray-300 border-solid rounded-full cursor-pointer`,
 )
 
-export const BookListUL = withClassNames(
-  'ul',
-  'list-none p-0 grid gap-4',
-  styles.bookList,
+export const BookListUL = styled.ul(
+  tw`grid gap-4 p-0 list-none`,
+  `grid-template-rows: repeat(auto-fill, minmax(100px, 1fr))`,
 )
 
-export const Spinner = withClassNames(
-  FaSpinner,
-  'mx-auto inline',
-  styles.spinner,
-)
+const spin = keyframes({
+  '0%': {transform: 'rotate(0deg)'},
+  '100%': {transform: 'rotate(360deg)'},
+})
+
+export const Spinner = styled(FaSpinner)(tw`inline mx-auto`, {
+  animation: `${spin} 1s linear infinite`,
+})
 Spinner.defaultProps = {
   'aria-label': 'loading',
 }
 
-export const Button = withClassNames(
-  'button',
-  ['variant'],
-  ({variant = 'primary'}) => [
-    'px-4 py-3 leading-none border-0',
-    buttonVariants[variant],
-  ],
-)
-
 const buttonVariants = {
-  primary: 'bg-blue-700 text-white',
-  secondary: 'bg-gray-400 text-gray-800',
+  primary: tw`text-white bg-primary`,
+  secondary: tw`text-gray-800 bg-gray-100`,
 }
 
-export const FormGroup = withClassNames('div', 'flex flex-col')
+export const Button = styled.button(
+  tw`px-4 py-3 leading-none border-0`,
+  ({variant = 'primary'}) => buttonVariants[variant],
+)
+
+export const FormGroup = styled.div(tw`flex flex-col`)
 
 export function FullPageSpinner() {
   return (
-    <div className="flex items-center w-full h-screen">
-      <Spinner className="text-6xl" />
+    <div css={tw`flex items-center w-full h-screen`}>
+      <Spinner css={tw`text-6xl`} />
     </div>
   )
 }
 
-export const Link = withClassNames(
-  RouterLink,
-  'text-blue-600 hover:text-blue-800 hover:underline',
+export const Link = styled(RouterLink)(
+  tw`text-primary hover:text-primary-800 hover:underline`,
 )

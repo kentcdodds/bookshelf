@@ -1,4 +1,7 @@
-import React from 'react'
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
+
+import tw from 'twin.macro'
 import {useQuery} from 'react-query'
 import * as listItemsClient from '../utils/list-items-client'
 import {BookListUL} from './lib'
@@ -17,10 +20,10 @@ function ListItemList({filterListItems, noListItems, noFilteredListItems}) {
   const filteredListItems = listItems.filter(filterListItems)
 
   if (!listItems.length) {
-    return <div className="text-lg">{noListItems}</div>
+    return <div css={tw`text-lg`}>{noListItems}</div>
   }
   if (!filteredListItems.length) {
-    return <div className="text-lg">{noFilteredListItems}</div>
+    return <div css={tw`text-lg`}>{noFilteredListItems}</div>
   }
 
   return (

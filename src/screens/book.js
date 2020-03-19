@@ -1,12 +1,14 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 
+import tw from 'twin.macro'
 import React from 'react'
 import {useQuery, useMutation, queryCache} from 'react-query'
 import debounceFn from 'debounce-fn'
 import {FaRegCalendarAlt} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
 import {useParams} from 'react-router-dom'
+import bookPlaceholderSvg from '../assets/book-placeholder.svg'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
 import {Spinner} from '../components/lib'
@@ -31,42 +33,42 @@ const formatDate = date =>
     date,
   )
 
+const loadingBook = {
+  title: 'Loading...',
+  author: 'loading...',
+  coverImageUrl: bookPlaceholderSvg,
+  publisher: 'Loading Publishing',
+  synopsis: 'Loading...',
+}
+
 function BookScreen() {
   const {bookId} = useParams()
-  const {data: book} = useQuery(['book', {bookId}], getBook)
+  const {data: book = loadingBook} = useQuery(['book', {bookId}], getBook)
   const listItem = useListItem(bookId)
-
-  if (!book) {
-    return (
-      <div css={{marginTop: '2em', fontSize: '2em', textAlign: 'center'}}>
-        <Spinner />
-      </div>
-    )
-  }
 
   const {title, author, coverImageUrl, publisher, synopsis} = book
 
   return (
     <div>
       <div
-        css={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 2fr',
-          gridGap: '2em',
-          marginBottom: '1em',
-          [mq.small]: {
-            display: 'flex',
-            flexDirection: 'column',
+        css={[
+          tw`grid grid-cols-3`,
+          {
+            display: 'grid',
+            gridTemplateColumns: '1fr 2fr',
+            gridGap: '2em',
+            marginBottom: '1em',
+            [mq.small]: {
+              display: 'flex',
+              flexDirection: 'column',
+            },
           },
-        }}
+        ]}
       >
         <img
           src={coverImageUrl}
           alt={`${title} book cover`}
-          css={{
-            width: '100%',
-            maxWidth: 200,
-          }}
+          css={[tw`w-full`, {maxWidth: '14rem'}]}
         />
         <div>
           <div css={{display: 'flex', position: 'relative'}}>

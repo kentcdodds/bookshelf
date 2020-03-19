@@ -1,11 +1,11 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 
+import tw from 'twin.macro'
 import React from 'react'
 import debounceFn from 'debounce-fn'
 import {useMutation, queryCache} from 'react-query'
 import {FaStar} from 'react-icons/fa'
-import VisuallyHidden from '@reach/visually-hidden'
 import * as listItemsClient from '../utils/list-items-client'
 import * as colors from '../styles/colors'
 
@@ -42,95 +42,71 @@ function Rating({listItem}) {
     const ratingValue = i + 1
     return (
       <React.Fragment key={i}>
-        <VisuallyHidden>
-          <input
-            name={rootClassName}
-            type="radio"
-            id={ratingId}
-            value={ratingValue}
-            defaultChecked={ratingValue === listItem.rating}
-            onChange={() => debouncedMutate(ratingValue)}
-            css={{
-              [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},
-              [`.${rootClassName} &:checked + label`]: {color: 'orange'},
-              // !important is here because we're doing special non-css-in-js things
-              // and so we have to deal with specificity and cascade. But, I promise
-              // this is better than trying to make this work with JavaScript.
-              // So deal with it 😎
-              [`.${rootClassName} &:hover ~ label`]: {
-                color: `${colors.gray20} !important`,
-              },
-              [`.${rootClassName} &:hover + label`]: {
-                color: 'orange !important',
-              },
-              [`.${rootClassName} &:focus + label svg`]: {
-                outline: isTabbing
-                  ? ['1px solid orange', '-webkit-focus-ring-color auto 5px']
-                  : 'initial',
-              },
-            }}
-          />
-        </VisuallyHidden>
+        <input
+          name={rootClassName}
+          type="radio"
+          id={ratingId}
+          value={ratingValue}
+          defaultChecked={ratingValue === listItem.rating}
+          onChange={() => debouncedMutate(ratingValue)}
+          className="visually-hidden"
+          css={{
+            [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},
+            [`.${rootClassName} &:checked + label`]: {color: 'orange'},
+            // !important is here because we're doing special non-css-in-js things
+            // and so we have to deal with specificity and cascade. But, I promise
+            // this is better than trying to make this work with JavaScript.
+            // So deal with it 😎
+            [`.${rootClassName} &:hover ~ label`]: {
+              color: `${colors.gray20} !important`,
+            },
+            [`.${rootClassName} &:hover + label`]: {
+              color: 'orange !important',
+            },
+            [`.${rootClassName} &:focus + label svg`]: {
+              outline: isTabbing
+                ? ['1px solid orange', '-webkit-focus-ring-color auto 5px']
+                : 'initial',
+            },
+          }}
+        />
         <label
           htmlFor={ratingId}
-          css={{
-            cursor: 'pointer',
-            color: listItem.rating < 0 ? colors.gray20 : 'orange',
-            margin: 0,
-          }}
+          css={[
+            tw`m-0 cursor-pointer`,
+            listItem.rating < 0 ? tw`text-gray-100` : {color: 'orange'},
+          ]}
         >
-          <VisuallyHidden>
-            <span className="visually-hidden">
-              {ratingValue} {ratingValue === 1 ? 'star' : 'stars'}
-            </span>
-          </VisuallyHidden>
-          <FaStar
-            css={{
-              width: '16px',
-              margin: '0 2px',
-            }}
-          />
+          <span className="visually-hidden">
+            {ratingValue} {ratingValue === 1 ? 'star' : 'stars'}
+          </span>
+          <FaStar css={[tw`w-4`, {margin: '0 0.1rem'}]} />
         </label>
       </React.Fragment>
     )
   })
   return (
-    <div css={{display: 'inline-block'}} onClick={e => e.stopPropagation()}>
-      <div
-        className={rootClassName}
-        css={{
-          display: 'flex',
-          alignItems: 'center',
+    <div
+      onClick={e => e.stopPropagation()}
+      className={rootClassName}
+      css={[
+        tw`inline-flex items-center`,
+        {
           [`&.${rootClassName}:hover input + label`]: {
             color: 'orange',
           },
-        }}
-      >
-        <span
-          css={{
-            '& span:not(:last-child)': {
-              marginRight: '5px',
-            },
-          }}
-        >
-          {stars}
+        },
+      ]}
+    >
+      <span css={tw`flex`}>{stars}</span>
+      {error ? (
+        <span css={tw`ml-3 text-xs text-danger`}>
+          <span>There was an error:</span>{' '}
+          <pre css={[tw`inline-block m-0 overflow-scroll`, {marginBottom: -5}]}>
+            {error?.message}
+          </pre>
         </span>
-        {error ? (
-          <span css={{color: 'red', fontSize: '0.7em'}}>
-            <span>There was an error:</span>{' '}
-            <pre
-              css={{
-                display: 'inline-block',
-                overflow: 'scroll',
-                margin: '0',
-                marginBottom: -5,
-              }}
-            >
-              {error.message}
-            </pre>
-          </span>
-        ) : null}
-      </div>
+      ) : null}
     </div>
   )
 }

@@ -1,5 +1,15 @@
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
+
 import React from 'react'
-import {Routes, Route, NavLink, useNavigate} from 'react-router-dom'
+import tw from 'twin.macro'
+import {
+  Routes,
+  Route,
+  Link as RouterLink,
+  useNavigate,
+  useMatch,
+} from 'react-router-dom'
 import {useAuth} from './context/auth-context'
 import ReadingListScreen from './screens/list'
 import FinishedBooksScreen from './screens/finished'
@@ -11,20 +21,22 @@ function AuthenticatedApp() {
   const {user, logout} = useAuth()
   return (
     <>
-      <div className="absolute top-0 right-0 flex items-center mt-3 mr-5">
+      <div css={tw`absolute top-0 right-0 flex items-center mt-3 mr-5`}>
         {user.username}
         <button
-          className="px-3 py-2 ml-4 border border-gray-300 border-solid border-1"
+          css={tw`px-3 py-2 ml-4 border border-gray-300 border-solid`}
           onClick={logout}
         >
           Logout
         </button>
       </div>
-      <div className="grid w-full max-w-4xl grid-cols-none gap-4 px-6 mx-auto my-0 mt-20 md:grid-cols-4 md:grid-row-none">
-        <div className="col-span-4 md:col-span-1">
+      <div
+        css={tw`grid w-full max-w-4xl grid-cols-none gap-4 px-6 mx-auto my-0 mt-20 md:grid-cols-4 md:grid-rows-none`}
+      >
+        <div css={tw`col-span-4 md:col-span-1`}>
           <Nav />
         </div>
-        <main className="w-full col-span-4 md:col-span-3">
+        <main css={tw`w-full col-span-4 md:col-span-3`}>
           <AppRoutes />
         </main>
         <footer />
@@ -33,40 +45,33 @@ function AuthenticatedApp() {
   )
 }
 
-const navLinkClassName =
-  'block w-full h-full px-3 py-2 mx-0 my-2 text-gray-900 border-l-4 border-transparent rounded-sm hover:text-blue-700 hover:decoration-none hover:bg-gray-300'
-const activeNavLinkClassName = 'bg-gray-300 border-l-4 border-blue-700'
+function NavLink(props) {
+  const match = useMatch(props.to)
+  return (
+    <RouterLink
+      css={[
+        tw`block w-full h-full px-3 py-2 mx-0 my-2 text-gray-800 border-l-4 border-transparent rounded-sm hover:text-primary hover:no-underline hover:bg-gray-300`,
+        match ? tw`bg-gray-300 border-l-4 border-primary` : null,
+      ]}
+      {...props}
+    />
+  )
+}
 
 function Nav(params) {
   return (
-    <nav className="sticky top-0 p-4 border border-gray-300 rounded-sm sm:p-3 sm:static">
-      <ul className="p-0 list-none">
+    <nav
+      css={tw`sticky top-0 p-4 border border-gray-300 rounded-sm sm:p-3 sm:static`}
+    >
+      <ul css={tw`p-0 list-none`}>
         <li>
-          <NavLink
-            className={navLinkClassName}
-            activeClassName={activeNavLinkClassName}
-            to="/list"
-          >
-            Reading List
-          </NavLink>
+          <NavLink to="/list">Reading List</NavLink>
         </li>
         <li>
-          <NavLink
-            className={navLinkClassName}
-            activeClassName={activeNavLinkClassName}
-            to="/finished"
-          >
-            Finished Books
-          </NavLink>
+          <NavLink to="/finished">Finished Books</NavLink>
         </li>
         <li>
-          <NavLink
-            className={navLinkClassName}
-            activeClassName={activeNavLinkClassName}
-            to="/discover"
-          >
-            Discover
-          </NavLink>
+          <NavLink to="/discover">Discover</NavLink>
         </li>
       </ul>
     </nav>

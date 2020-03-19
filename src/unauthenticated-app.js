@@ -1,8 +1,12 @@
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
+
+import tw from 'twin.macro'
 import React from 'react'
-import Logo from './components/logo'
 import VisuallyHidden from '@reach/visually-hidden'
 import {Dialog} from '@reach/dialog'
 import {CircleButton, Button, Spinner, FormGroup} from './components/lib'
+import Logo from './components/logo'
 import {useAuth} from './context/auth-context'
 import useAsync from './utils/use-async'
 
@@ -21,21 +25,21 @@ function LoginForm({onSubmit, buttonText}) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col items-stretch">
-      <FormGroup className="w-full max-w-xs mx-auto my-3">
+    <form onSubmit={handleSubmit} css={tw`flex flex-col items-stretch`}>
+      <FormGroup css={tw`w-full max-w-xs mx-auto my-3`}>
         <label htmlFor="username">Username</label>
         <input id="username" />
       </FormGroup>
-      <FormGroup className="w-full max-w-xs mx-auto my-3">
+      <FormGroup css={tw`w-full max-w-xs mx-auto my-3`}>
         <label htmlFor="password">Password</label>
         <input id="password" type="password" />
       </FormGroup>
-      <div className="w-full max-w-xs mx-auto my-3">
+      <div css={tw`w-full max-w-xs mx-auto my-3`}>
         <Button type="submit">
-          {buttonText} {isPending ? <Spinner className="ml-1" /> : null}
+          {buttonText} {isPending ? <Spinner css={tw`ml-1`} /> : null}
         </Button>
       </div>
-      {isRejected ? <div className="text-red-500">{error?.message}</div> : null}
+      {isRejected ? <div css={tw`text-red-500`}>{error?.message}</div> : null}
     </form>
   )
 }
@@ -47,7 +51,7 @@ function Modal({button, label, children}) {
     <>
       {React.cloneElement(button, {onClick: () => setIsOpen(true)})}
       <Dialog aria-label={label} isOpen={isOpen}>
-        <div className="flex justify-end">
+        <div css={tw`flex justify-end`}>
           <CircleButton onClick={() => setIsOpen(false)}>
             <VisuallyHidden>Close</VisuallyHidden>
             <span aria-hidden>×</span>
@@ -63,19 +67,19 @@ function UnauthenticatedApp() {
   const {login, register} = useAuth()
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-screen">
+    <div css={tw`flex flex-col items-center justify-center w-full h-screen`}>
       <Logo width="80" height="80" />
-      <h1 className="mb-5 text-4xl font-bold">Bookshelf</h1>
-      <div className="grid grid-cols-2 gap-3">
+      <h1 css={tw`mb-5 text-4xl font-bold`}>Bookshelf</h1>
+      <div css={tw`grid grid-cols-2 gap-3`}>
         <Modal label="Login form" button={<Button>Login</Button>}>
-          <div className="text-4xl text-center">Login</div>
+          <div css={tw`text-4xl text-center`}>Login</div>
           <LoginForm onSubmit={login} buttonText="Login" />
         </Modal>
         <Modal
           label="Registration form"
           button={<Button variant="secondary">Register</Button>}
         >
-          <div className="text-4xl text-center">Register</div>
+          <div css={tw`text-4xl text-center`}>Register</div>
           <LoginForm onSubmit={register} buttonText="Register" />
         </Modal>
       </div>

@@ -1,4 +1,8 @@
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
+
 import React from 'react'
+import tw from 'twin.macro'
 import {queryCache} from 'react-query'
 import {bootstrapAppData} from '../utils/bootstrap'
 import * as authClient from '../utils/auth-client'
@@ -47,7 +51,7 @@ function AuthProvider(props) {
 
   if (isError) {
     return (
-      <div className="text-red-500">
+      <div css={tw`text-red-500`}>
         <p>Uh oh... There's a problem. Try refreshing the app.</p>
         <pre>{error.message}</pre>
       </div>
