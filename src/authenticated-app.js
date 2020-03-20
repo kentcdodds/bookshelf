@@ -60,7 +60,7 @@ function AuthenticatedApp() {
         <div css={{position: 'relative'}}>
           <Nav />
         </div>
-        <main id="main" tabIndex="-1" css={{width: '100%'}}>
+        <main css={{width: '100%'}}>
           <AppRoutes />
         </main>
         <footer />
