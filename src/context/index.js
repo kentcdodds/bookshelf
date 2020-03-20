@@ -6,7 +6,6 @@ import {AuthProvider} from './auth-context'
 const queryConfig = {
   useErrorBoundary: true,
   refetchAllOnWindowFocus: false,
-  staleTime: process.env.NODE_ENV === 'test' ? Infinity : 0,
 }
 
 function AppProviders({children}) {

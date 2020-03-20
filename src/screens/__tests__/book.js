@@ -8,6 +8,7 @@ import {
   within,
   act,
 } from 'test/app-test-utils'
+import {queryCache} from 'react-query'
 import faker from 'faker'
 import {buildUser, buildBook, buildListItem} from 'test/generate'
 import * as listItemsClient from 'utils/list-items-client'
@@ -24,7 +25,6 @@ async function renderBookScreen({
   book = buildBook({id: bookId}),
   listItem = buildListItem({owner: user, book}),
 } = {}) {
-  window.myBook = book
   booksClient.read.mockResolvedValueOnce({book})
   listItemsClient.read.mockResolvedValueOnce({
     listItems: [listItem].filter(Boolean),
@@ -45,7 +45,7 @@ async function renderBookScreen({
 }
 
 test('renders all the book information', async () => {
-  const {book} = await renderBookScreen({listItem: null, bookId: 'hi'})
+  const {book} = await renderBookScreen({listItem: null})
 
   screen.getByText(book.title)
   screen.getByText(book.author)
@@ -59,6 +59,9 @@ test('renders all the book information', async () => {
   expect(screen.queryByLabelText(/mark as unread/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/notes/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/start date/i)).not.toBeInTheDocument()
+
+  // prevent stale query
+  queryCache.clear()
 })
 
 test('can create a list item for the book', async () => {

@@ -4,9 +4,13 @@ import {jsx} from '@emotion/core'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './dev-tools.css'
+import * as reactQuery from 'react-query'
 import {ReactQueryDevtoolsPanel} from 'react-query-devtools'
 
 function install() {
+  // add some things to window to make it easier to debug
+  window.reactQuery = reactQuery
+
   const requireDevToolsLocal = require.context(
     './',
     false,
