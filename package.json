@@ -55,7 +55,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:coverage": "npm run test -- --watchAll false --coverage",
-    "test:debug": "node --inspect-brk ./node_modules/react-scripts/scripts/test.js --runInBand",
+    "test:debug": "node --inspect-brk ./node_modules/react-scripts/scripts/test.js --env=jest-environment-jsdom-sixteen --watch --runInBand",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test:e2e": "is-ci \"test:e2e:run\" \"test:e2e:dev\"",

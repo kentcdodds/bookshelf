@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, act} from '@testing-library/react'
+import {render, act} from 'test/app-test-utils'
 import useAsync from '../use-async'
 
 function Test({children, ...props}) {
@@ -23,10 +23,17 @@ function deferred() {
 }
 
 const defaultState = {
+  data: null,
+  isLoading: true,
+  isError: false,
+  isSuccess: false,
+
+  isIdle: true,
   isPending: false,
+  isResolved: false,
   isRejected: false,
   error: null,
-  status: 'rest',
+  status: 'idle',
   run: expect.any(Function),
 }
 
@@ -40,14 +47,24 @@ test('calling run with a promise which resolves', async () => {
   })
   expect(state).toEqual({
     ...defaultState,
+    isIdle: false,
     isPending: true,
     status: 'pending',
   })
+  const resolvedValue = Symbol('resolved value')
   await act(async () => {
-    resolve()
+    resolve(resolvedValue)
     await p
   })
-  expect(state).toEqual(defaultState)
+  expect(state).toEqual({
+    ...defaultState,
+    data: resolvedValue,
+    isIdle: false,
+    isLoading: false,
+    isResolved: true,
+    isSuccess: true,
+    status: 'resolved',
+  })
 })
 
 test('calling run with a promise which rejects', async () => {
@@ -60,11 +77,13 @@ test('calling run with a promise which rejects', async () => {
   })
   expect(state).toEqual({
     ...defaultState,
+    isIdle: false,
     isPending: true,
     status: 'pending',
   })
+  const rejectedValue = Symbol('rejected value')
   await act(async () => {
-    reject('REJECTION')
+    reject(rejectedValue)
     await p.catch(() => {
       /* ignore erorr */
     })
@@ -73,7 +92,10 @@ test('calling run with a promise which rejects', async () => {
     ...defaultState,
     status: 'rejected',
     isRejected: true,
-    error: 'REJECTION',
+    isError: true,
+    isIdle: false,
+    isLoading: false,
+    error: rejectedValue,
   })
 })
 

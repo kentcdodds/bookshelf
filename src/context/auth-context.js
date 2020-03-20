@@ -9,6 +9,7 @@ import * as colors from '../styles/colors'
 import {FullPageSpinner} from '../components/lib'
 
 const AuthContext = React.createContext()
+AuthContext.displayName = 'AuthContext'
 
 const appDataPromise = bootstrapAppData()
 

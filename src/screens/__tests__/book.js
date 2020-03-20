@@ -2,17 +2,21 @@ import React from 'react'
 import {
   render,
   fireEvent,
+  screen,
   waitForElementToBeRemoved,
+  waitFor,
   within,
   act,
-} from '@testing-library/react'
+} from 'test/app-test-utils'
 import faker from 'faker'
-import {buildUser, buildBook, buildListItem} from '../../../test/generate'
-import {bootstrapAppData} from '../../utils/bootstrap'
-import {AuthProvider} from '../../context/auth-context'
+import {buildUser, buildBook, buildListItem} from 'test/generate'
+import * as listItemsClient from 'utils/list-items-client'
+import * as booksClient from 'utils/books-client'
 import BookScreen from '../book'
 
-jest.mock('../../utils/bootstrap')
+jest.mock('context/auth-context')
+jest.mock('utils/list-items-client')
+jest.mock('utils/books-client')
 
 async function renderBookScreen({
   user = buildUser(),
@@ -20,28 +24,17 @@ async function renderBookScreen({
   book = buildBook({id: bookId}),
   listItem = buildListItem({owner: user, book}),
 } = {}) {
-  bootstrapAppData.mockResolvedValueOnce({
-    user,
+  window.myBook = book
+  booksClient.read.mockResolvedValueOnce({book})
+  listItemsClient.read.mockResolvedValueOnce({
     listItems: [listItem].filter(Boolean),
   })
-  window.fetch.mockResolvedValueOnce({
-    status: 200,
-    async json() {
-      return {
-        book: book,
-      }
-    },
-  })
 
-  const utils = render(
-    <AuthProvider>
-      <BookScreen bookId={book ? book.id : bookId} />
-    </AuthProvider>,
+  const utils = render(<BookScreen bookId={book ? book.id : bookId} />)
+
+  await waitForElementToBeRemoved(() =>
+    utils.getByRole('heading', {name: 'Loading...'}),
   )
-
-  await waitForElementToBeRemoved(() => utils.queryByLabelText(/loading/i))
-
-  window.fetch.mockClear()
 
   return {
     ...utils,
@@ -52,25 +45,20 @@ async function renderBookScreen({
 }
 
 test('renders all the book information', async () => {
-  const {
-    queryByLabelText,
-    getByText,
-    getByLabelText,
-    book,
-  } = await renderBookScreen({listItem: null})
+  const {book} = await renderBookScreen({listItem: null, bookId: 'hi'})
 
-  getByText(book.title)
-  getByText(book.author)
-  getByText(book.publisher)
-  getByText(book.synopsis)
-  getByLabelText(/add to list/i)
+  screen.getByText(book.title)
+  screen.getByText(book.author)
+  screen.getByText(book.publisher)
+  screen.getByText(book.synopsis)
+  screen.getByLabelText(/add to list/i)
 
-  expect(queryByLabelText(/loading/i)).not.toBeInTheDocument()
-  expect(queryByLabelText(/remove from list/i)).not.toBeInTheDocument()
-  expect(queryByLabelText(/mark as read/i)).not.toBeInTheDocument()
-  expect(queryByLabelText(/mark as unread/i)).not.toBeInTheDocument()
-  expect(queryByLabelText(/notes/i)).not.toBeInTheDocument()
-  expect(queryByLabelText(/start date/i)).not.toBeInTheDocument()
+  expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
+  expect(screen.queryByLabelText(/remove from list/i)).not.toBeInTheDocument()
+  expect(screen.queryByLabelText(/mark as read/i)).not.toBeInTheDocument()
+  expect(screen.queryByLabelText(/mark as unread/i)).not.toBeInTheDocument()
+  expect(screen.queryByLabelText(/notes/i)).not.toBeInTheDocument()
+  expect(screen.queryByLabelText(/start date/i)).not.toBeInTheDocument()
 })
 
 test('can create a list item for the book', async () => {
@@ -219,11 +207,7 @@ test('shows an error message when the book fails to load', async () => {
     message: testError,
   })
 
-  const {getByLabelText, getByText} = render(
-    <AuthProvider>
-      <BookScreen bookId="some-id" />
-    </AuthProvider>,
-  )
+  const {getByLabelText, getByText} = render(<BookScreen bookId="some-id" />)
 
   await waitForElementToBeRemoved(() => getByLabelText(/loading/i))
 
