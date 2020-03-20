@@ -5,11 +5,6 @@ function create(listItemData) {
 }
 
 function read(listItemIds = []) {
-  if (listItemIds.length) {
-    return client(
-      `list-items?listItemIds=${encodeURIComponent(listItemIds.join(','))}`,
-    )
-  }
   return client('list-items')
 }
 
@@ -20,12 +15,8 @@ function update(listItemId, updates) {
   })
 }
 
-function readByBookId(bookId) {
-  return client(`list-items?bookId=${encodeURIComponent(bookId)}`)
-}
-
 function remove(listItemId) {
   return client(`list-items/${listItemId}`, {method: 'DELETE'})
 }
 
-export {create, read, remove, update, readByBookId}
+export {create, read, remove, update}

@@ -7,6 +7,7 @@ async function bootstrapAppData() {
 
   if (auth.isLoggedIn()) {
     try {
+      await window.__bookshelf_serverReady
       const [user, listItems] = await Promise.all([
         auth.getUser().then(d => d.user),
         listItemsClient.read().then(d => d.listItems),

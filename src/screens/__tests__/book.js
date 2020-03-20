@@ -221,11 +221,7 @@ test('shows an error message when the book fails to load', async () => {
 
   const {getByLabelText, getByText} = render(
     <AuthProvider>
-      <UserProvider>
-        <ListItemProvider>
-          <BookScreen bookId="some-id" />
-        </ListItemProvider>
-      </UserProvider>
+      <BookScreen bookId="some-id" />
     </AuthProvider>,
   )
 
