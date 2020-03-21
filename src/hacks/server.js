@@ -26,16 +26,10 @@ const {start} = composeMocks(
   rest.post(`${apiUrl}/register`, async (req, res, ctx) => {
     const {username, password} = req.body
     if (!username) {
-      return res(
-        ctx.status(400, 'Bad Request'),
-        ctx.json({message: 'A username is required'}),
-      )
+      return res(ctx.status(400), ctx.json({message: 'A username is required'}))
     }
     if (!password) {
-      return res(
-        ctx.status(400, 'Bad Request'),
-        ctx.json({message: 'A password is required'}),
-      )
+      return res(ctx.status(400), ctx.json({message: 'A password is required'}))
     }
     const userFields = {username, password}
     users.create(userFields)
@@ -43,10 +37,7 @@ const {start} = composeMocks(
     try {
       user = users.authenticate(userFields)
     } catch (error) {
-      return res(
-        ctx.status(400, 'Bad Request'),
-        ctx.json({message: error.message}),
-      )
+      return res(ctx.status(400), ctx.json({message: error.message}))
     }
     await sleep()
     return res(ctx.json({user}))
@@ -127,10 +118,7 @@ const {start} = composeMocks(
     try {
       listItems.authorize(user.id, listItemId)
     } catch (error) {
-      return res(
-        ctx.status(401, 'Unauthorized'),
-        ctx.json({message: error.message}),
-      )
+      return res(ctx.status(401), ctx.json({message: error.message}))
     }
     const updatedListItem = listItems.update(listItemId, updates)
     await sleep()
