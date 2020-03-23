@@ -1,28 +1,22 @@
 /** @jsx jsx */
+/** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
 import React from 'react'
 import debounceFn from 'debounce-fn'
-import {useAsync} from 'react-async'
+import {useUpdateListItem} from '../utils/list-items'
 import {FaStar} from 'react-icons/fa'
-import {useListItemDispatch, updateListItem} from '../context/list-item-context'
 import * as colors from '../styles/colors'
-
-function updateRating([rating], {dispatch, listItem}) {
-  return updateListItem(dispatch, listItem.id, {rating})
-}
 
 function Rating({listItem}) {
   const [isTabbing, setIsTabbing] = React.useState(false)
 
-  const dispatch = useListItemDispatch()
-  const {isRejected, error, run} = useAsync({
-    deferFn: updateRating,
-    dispatch,
-    listItem,
-  })
+  const [mutate, {error}] = useUpdateListItem(listItem)
 
-  const debouncedRun = React.useCallback(debounceFn(run, {wait: 300}), [])
+  const debouncedMutate = React.useCallback(
+    debounceFn((...args) => mutate(...args).catch(e => e), {wait: 300}),
+    [],
+  )
 
   React.useEffect(() => {
     function handleKeyDown(event) {
@@ -47,7 +41,7 @@ function Rating({listItem}) {
           id={ratingId}
           value={ratingValue}
           defaultChecked={ratingValue === listItem.rating}
-          onChange={() => debouncedRun(ratingValue)}
+          onChange={() => debouncedMutate({rating: ratingValue})}
           className="visually-hidden"
           css={{
             [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},
@@ -59,7 +53,9 @@ function Rating({listItem}) {
             [`.${rootClassName} &:hover ~ label`]: {
               color: `${colors.gray20} !important`,
             },
-            [`.${rootClassName} &:hover + label`]: {color: 'orange !important'},
+            [`.${rootClassName} &:hover + label`]: {
+              color: 'orange !important',
+            },
             [`.${rootClassName} &:focus + label svg`]: {
               outline: isTabbing
                 ? ['1px solid orange', '-webkit-focus-ring-color auto 5px']
@@ -78,53 +74,39 @@ function Rating({listItem}) {
           <span className="visually-hidden">
             {ratingValue} {ratingValue === 1 ? 'star' : 'stars'}
           </span>
-          <FaStar
-            css={{
-              width: '16px',
-              margin: '0 2px',
-            }}
-          />
+          <FaStar css={{width: '16px', margin: '0 2px'}} />
         </label>
       </React.Fragment>
     )
   })
   return (
-    <div css={{display: 'inline-block'}} onClick={e => e.stopPropagation()}>
-      <div
-        className={rootClassName}
-        css={{
-          display: 'flex',
-          alignItems: 'center',
-          [`&.${rootClassName}:hover input + label`]: {
-            color: 'orange',
-          },
-        }}
-      >
-        <span
-          css={{
-            '& span:not(:last-child)': {
-              marginRight: '5px',
-            },
-          }}
-        >
-          {stars}
+    <div
+      onClick={e => e.stopPropagation()}
+      className={rootClassName}
+      css={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        [`&.${rootClassName}:hover input + label`]: {
+          color: 'orange',
+        },
+      }}
+    >
+      <span css={{display: 'flex'}}>{stars}</span>
+      {error ? (
+        <span css={{color: colors.danger, fontSize: '0.7em'}}>
+          <span>There was an error:</span>{' '}
+          <pre
+            css={{
+              display: 'inline-block',
+              overflow: 'scroll',
+              margin: '0',
+              marginBottom: -5,
+            }}
+          >
+            {error.message}
+          </pre>
         </span>
-        {isRejected ? (
-          <span css={{color: 'red', fontSize: '0.7em'}}>
-            <span>There was an error:</span>{' '}
-            <pre
-              css={{
-                display: 'inline-block',
-                overflow: 'scroll',
-                margin: '0',
-                marginBottom: -5,
-              }}
-            >
-              {error.message}
-            </pre>
-          </span>
-        ) : null}
-      </div>
+      ) : null}
     </div>
   )
 }

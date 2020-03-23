@@ -1,23 +1,16 @@
 /** @jsx jsx */
+/** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
+import {Link as RouterLink} from 'react-router-dom'
+import styled from '@emotion/styled/macro'
 import {keyframes} from '@emotion/core'
-import styled from '@emotion/styled'
 import * as colors from '../styles/colors'
 import {FaSpinner} from 'react-icons/fa'
 
 const spin = keyframes({
   '0%': {transform: 'rotate(0deg)'},
   '100%': {transform: 'rotate(360deg)'},
-})
-
-export const Centered = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%',
-  height: '100vh',
 })
 
 export const CircleButton = styled.button({
@@ -79,8 +72,25 @@ export const FormGroup = styled.div({
 
 export function FullPageSpinner() {
   return (
-    <div css={{marginTop: '3em', fontSize: '4em'}}>
+    <div
+      css={{
+        fontSize: '4em',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <Spinner />
     </div>
   )
 }
+
+export const Link = styled(RouterLink)({
+  color: colors.indigo,
+  ':hover': {
+    color: colors.indigoDarken10,
+    textDecoration: 'underline',
+  },
+})

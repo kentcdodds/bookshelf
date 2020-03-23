@@ -18,7 +18,14 @@ function client(endpoint, {body, ...customConfig} = {}) {
 
   return window
     .fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, config)
-    .then(r => r.json())
+    .then(async r => {
+      const data = await r.json()
+      if (r.ok) {
+        return data
+      } else {
+        return Promise.reject(data)
+      }
+    })
 }
 
 export default client

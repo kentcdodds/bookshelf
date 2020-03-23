@@ -1,4 +1,5 @@
 /** @jsx jsx */
+/** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
 import React from 'react'
@@ -10,20 +11,19 @@ import {
 } from 'react-icons/fa'
 import {FaTimesCircle} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
-import * as colors from '../styles/colors'
-import {useUser} from '../context/user-context'
 import {
-  useListItemDispatch,
-  useSingleListItemState,
-  removeListItem,
-  updateListItem,
-  addListItem,
-} from '../context/list-item-context'
-import useCallbackStatus from '../utils/use-callback-status'
+  useListItem,
+  useRemoveListItem,
+  useMarkListItemAsRead,
+  useMarkListItemAsUnread,
+  useCreateListItem,
+} from '../utils/list-items'
+import * as colors from '../styles/colors'
+import useAsync from '../utils/use-async'
 import {CircleButton, Spinner} from './lib'
 
 function TooltipButton({label, highlight, onClick, icon, ...rest}) {
-  const {isPending, isRejected, error, run} = useCallbackStatus()
+  const {isPending, isRejected, error, run} = useAsync()
 
   function handleClick() {
     run(onClick())
@@ -32,7 +32,16 @@ function TooltipButton({label, highlight, onClick, icon, ...rest}) {
   return (
     <Tooltip label={isRejected ? error.message : label}>
       <CircleButton
-        css={{':hover,:focus': {color: isPending ? colors.gray80 : highlight}}}
+        css={{
+          backgroundColor: 'white',
+          ':hover,:focus': {
+            color: isPending
+              ? colors.gray80
+              : isRejected
+              ? colors.danger
+              : highlight,
+          },
+        }}
         disabled={isPending}
         onClick={handleClick}
         aria-label={isRejected ? error.message : label}
@@ -45,27 +54,12 @@ function TooltipButton({label, highlight, onClick, icon, ...rest}) {
 }
 
 function StatusButtons({book}) {
-  const user = useUser()
-  const dispatch = useListItemDispatch()
-  const listItem = useSingleListItemState({
-    bookId: book.id,
-  })
+  const listItem = useListItem(book.id)
 
-  function handleRemoveClick() {
-    return removeListItem(dispatch, listItem.id)
-  }
-
-  function handleMarkAsReadClick() {
-    return updateListItem(dispatch, listItem.id, {finishDate: Date.now()})
-  }
-
-  function handleAddClick() {
-    return addListItem(dispatch, {ownerId: user.id, bookId: book.id})
-  }
-
-  function handleMarkAsUnreadClick() {
-    return updateListItem(dispatch, listItem.id, {finishDate: null})
-  }
+  const [handleRemoveClick] = useRemoveListItem(listItem)
+  const [handleMarkAsReadClick] = useMarkListItemAsRead(listItem)
+  const [handleAddClick] = useCreateListItem(book.id)
+  const [handleMarkAsUnreadClick] = useMarkListItemAsUnread(listItem)
 
   return (
     <React.Fragment>

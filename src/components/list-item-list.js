@@ -1,12 +1,14 @@
 /** @jsx jsx */
+/** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
-import {useListItemState} from '../context/list-item-context'
+import {useListItems} from '../utils/list-items'
 import {BookListUL} from './lib'
 import BookRow from './book-row'
 
 function ListItemList({filterListItems, noListItems, noFilteredListItems}) {
-  const listItems = useListItemState()
+  const listItems = useListItems()
+
   const filteredListItems = listItems.filter(filterListItems)
 
   if (!listItems.length) {
@@ -21,15 +23,13 @@ function ListItemList({filterListItems, noListItems, noFilteredListItems}) {
   }
 
   return (
-    <div css={{marginTop: '1em'}}>
-      <BookListUL>
-        {filteredListItems.map(listItem => (
-          <li key={listItem.id}>
-            <BookRow book={listItem.book} />
-          </li>
-        ))}
-      </BookListUL>
-    </div>
+    <BookListUL>
+      {filteredListItems.map(listItem => (
+        <li key={listItem.id}>
+          <BookRow book={listItem.book} />
+        </li>
+      ))}
+    </BookListUL>
   )
 }
 

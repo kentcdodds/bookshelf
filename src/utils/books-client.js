@@ -1,11 +1,11 @@
 import client from './api-client'
 
-function search(query) {
-  return client(`book?query=${encodeURIComponent(query)}`)
+function search({query = ''}) {
+  return client(`books?query=${encodeURIComponent(query)}`)
 }
 
 function read(bookId) {
-  return client(`book/${bookId}`)
+  return client(`books/${bookId}`)
 }
 
 export {search, read}

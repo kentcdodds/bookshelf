@@ -1,23 +1,18 @@
 /** @jsx jsx */
+/** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
-import styled from '@emotion/styled'
 import React from 'react'
-import Logo from './components/logo'
 import VisuallyHidden from '@reach/visually-hidden'
 import {Dialog} from '@reach/dialog'
-import {
-  CircleButton,
-  Button,
-  Spinner,
-  FormGroup,
-  Centered,
-} from './components/lib'
+import * as colors from './styles/colors'
+import {CircleButton, Button, Spinner, FormGroup} from './components/lib'
+import Logo from './components/logo'
 import {useAuth} from './context/auth-context'
-import useCallbackStatus from './utils/use-callback-status'
+import useAsync from './utils/use-async'
 
 function LoginForm({onSubmit, buttonText}) {
-  const {isPending, isRejected, error, run} = useCallbackStatus()
+  const {isPending, isRejected, error, run} = useAsync()
   function handleSubmit(event) {
     event.preventDefault()
     const {username, password} = event.target.elements
@@ -58,7 +53,7 @@ function LoginForm({onSubmit, buttonText}) {
         </Button>
       </div>
       {isRejected ? (
-        <div css={{color: 'red'}}>{error ? error.message : null}</div>
+        <div css={{color: colors.danger}}>{error?.message}</div>
       ) : null}
     </form>
   )
@@ -83,35 +78,42 @@ function Modal({button, label, children}) {
   )
 }
 
-const ModalTitle = styled.h3({
-  textAlign: 'center',
-  fontSize: '2em',
-})
-
 function UnauthenticatedApp() {
   const {login, register} = useAuth()
 
   return (
-    <Centered>
+    <div
+      css={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100vh',
+      }}
+    >
       <Logo width="80" height="80" />
       <h1>Bookshelf</h1>
-      <div css={{display: 'flex'}}>
-        <Modal
-          label="Login form"
-          button={<Button css={{marginRight: 6}}>Login</Button>}
-        >
-          <ModalTitle>Login</ModalTitle>
+      <div
+        css={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+          gridGap: '0.75rem',
+        }}
+      >
+        <Modal label="Login form" button={<Button>Login</Button>}>
+          <h3 css={{textAlign: 'center', fontSize: '2em'}}>Login</h3>
           <LoginForm onSubmit={login} buttonText="Login" />
         </Modal>
         <Modal
           label="Registration form"
           button={<Button variant="secondary">Register</Button>}
         >
-          <ModalTitle>Register</ModalTitle>
+          <h3 css={{textAlign: 'center', fontSize: '2em'}}>Register</h3>
           <LoginForm onSubmit={register} buttonText="Register" />
         </Modal>
       </div>
-    </Centered>
+    </div>
   )
 }
 

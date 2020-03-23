@@ -1,18 +1,17 @@
 /** @jsx jsx */
+/** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
-import {Link} from '@reach/router'
+import {Link} from 'react-router-dom'
+import {useListItem} from '../utils/list-items'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
-import {useSingleListItemState} from '../context/list-item-context'
 import StatusButtons from './status-buttons'
 import Rating from './rating'
 
 function BookRow({book}) {
   const {title, author, coverImageUrl} = book
-  const listItem = useSingleListItemState({
-    bookId: book.id,
-  })
+  const listItem = useListItem(book.id)
 
   const id = `book-row-book-${book.id}`
 
@@ -29,6 +28,7 @@ function BookRow({book}) {
         aria-labelledby={id}
         to={`/book/${book.id}`}
         css={{
+          minHeight: 270,
           flexGrow: 2,
           display: 'grid',
           gridTemplateColumns: '140px 1fr',
@@ -55,7 +55,7 @@ function BookRow({book}) {
           <img
             src={coverImageUrl}
             alt={`${title} book cover`}
-            css={{maxHeight: '100%', maxWidth: '100%'}}
+            css={{maxHeight: '100%', width: '100%'}}
           />
         </div>
         <div css={{flex: 1}}>

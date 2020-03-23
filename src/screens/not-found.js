@@ -1,7 +1,8 @@
 /** @jsx jsx */
+/** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
-import {Link} from '@reach/router'
+import {Link} from '../components/lib'
 
 function NotFound() {
   return (

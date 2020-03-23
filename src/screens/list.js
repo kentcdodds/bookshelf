@@ -1,7 +1,5 @@
-/** @jsx jsx */
-import {jsx} from '@emotion/core'
-
-import {Link} from '@reach/router'
+import React from 'react'
+import {Link} from '../components/lib'
 import ListItemList from '../components/list-item-list'
 
 function ReadingListScreen() {

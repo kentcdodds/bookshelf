@@ -1,62 +1,25 @@
 /** @jsx jsx */
+/** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import {useAsync} from 'react-async'
 import debounceFn from 'debounce-fn'
 import {FaRegCalendarAlt} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
-import * as mq from '../styles/media-queries'
-import * as colors from '../styles/colors'
-import {Spinner} from '../components/lib'
-import {
-  useListItemDispatch,
-  useSingleListItemState,
-  updateListItem,
-} from '../context/list-item-context'
-import Rating from '../components/rating'
-import * as bookClient from '../utils/books-client'
-import StatusButtons from '../components/status-buttons'
+import {useParams} from 'react-router-dom'
+import {useBook} from 'utils/books'
+import {formatDate} from 'utils/misc'
+import {useListItem, useUpdateListItem} from 'utils/list-items'
+import * as mq from 'styles/media-queries'
+import * as colors from 'styles/colors'
+import {Spinner} from 'components/lib'
+import Rating from 'components/rating'
+import StatusButtons from 'components/status-buttons'
 
-function getBook({bookId}) {
-  return bookClient.read(bookId).then(data => data.book)
-}
-
-const formatDate = date =>
-  new Intl.DateTimeFormat('en-US', {month: 'short', year: '2-digit'}).format(
-    date,
-  )
-
-function BookScreen({bookId}) {
-  const {data: book, isPending, isRejected, isResolved, error} = useAsync({
-    promiseFn: getBook,
-    bookId,
-  })
-  const listItem = useSingleListItemState({bookId})
-
-  if (isPending) {
-    return (
-      <div css={{marginTop: '2em', fontSize: '2em', textAlign: 'center'}}>
-        <Spinner />
-      </div>
-    )
-  }
-  if (isRejected) {
-    return (
-      <div css={{color: 'red'}}>
-        <p>Oh no, there was an error.</p>
-        <pre>{error.message}</pre>
-      </div>
-    )
-  }
-
-  if (isResolved && !book) {
-    return (
-      <div css={{color: 'red'}}>
-        <p>Hmmm... Something's not quite right. Please try another book.</p>
-      </div>
-    )
-  }
+function BookScreen() {
+  const {bookId} = useParams()
+  const book = useBook(bookId)
+  const listItem = useListItem(bookId)
 
   const {title, author, coverImageUrl, publisher, synopsis} = book
 
@@ -77,10 +40,7 @@ function BookScreen({bookId}) {
         <img
           src={coverImageUrl}
           alt={`${title} book cover`}
-          css={{
-            width: '100%',
-            maxWidth: 200,
-          }}
+          css={{width: '100%', maxWidth: '14rem'}}
         />
         <div>
           <div css={{display: 'flex', position: 'relative'}}>
@@ -102,17 +62,24 @@ function BookScreen({bookId}) {
                 minHeight: 100,
               }}
             >
-              <StatusButtons book={book} />
+              {book.loadingBook ? null : <StatusButtons book={book} />}
             </div>
           </div>
           <div css={{marginTop: 10, height: 46}}>
-            {listItem ? <ListItemTimeframe listItem={listItem} /> : null}
+            {listItem ? (
+              <>
+                <Rating listItem={listItem} />
+                <ListItemTimeframe listItem={listItem} />
+              </>
+            ) : null}
           </div>
           <br />
           <p>{synopsis}</p>
         </div>
       </div>
-      {listItem ? <NotesTextarea listItem={listItem} /> : null}
+      {!book.loadingBook && listItem ? (
+        <NotesTextarea listItem={listItem} />
+      ) : null}
     </div>
   )
 }
@@ -123,37 +90,26 @@ function ListItemTimeframe({listItem}) {
     : 'Start date'
 
   return (
-    <React.Fragment>
-      <Rating listItem={listItem} />
-      <Tooltip label={timeframeLabel}>
-        <div aria-label={timeframeLabel} css={{marginTop: 6}}>
-          <FaRegCalendarAlt css={{marginTop: -2, marginRight: 5}} />
-          <span>
-            {formatDate(listItem.startDate)}{' '}
-            {listItem.finishDate
-              ? `— ${formatDate(listItem.finishDate)}`
-              : null}
-          </span>
-        </div>
-      </Tooltip>
-    </React.Fragment>
+    <Tooltip label={timeframeLabel}>
+      <div aria-label={timeframeLabel} css={{marginTop: 6}}>
+        <FaRegCalendarAlt css={{marginTop: -2, marginRight: 5}} />
+        <span>
+          {formatDate(listItem.startDate)}{' '}
+          {listItem.finishDate ? `— ${formatDate(listItem.finishDate)}` : null}
+        </span>
+      </div>
+    </Tooltip>
   )
 }
 
-function updateNotes([notes], {dispatch, listItem}) {
-  return updateListItem(dispatch, listItem.id, {notes})
-}
-
 function NotesTextarea({listItem}) {
-  const dispatch = useListItemDispatch()
-  const {isPending, isRejected, error, run} = useAsync({
-    deferFn: updateNotes,
-    dispatch,
-    listItem,
+  const [mutate, {status, error}] = useUpdateListItem(listItem, {
+    throwOnError: false,
   })
-  const debouncedRun = React.useCallback(debounceFn(run, {wait: 300}), [])
+  const debouncedMutate = React.useCallback(debounceFn(mutate, {wait: 300}), [])
+
   function handleNotesChange(e) {
-    debouncedRun(e.target.value)
+    debouncedMutate({notes: e.target.value})
   }
 
   return (
@@ -171,8 +127,8 @@ function NotesTextarea({listItem}) {
         >
           Notes
         </label>
-        {isRejected ? (
-          <span css={{color: 'red', fontSize: '0.7em'}}>
+        {error ? (
+          <span role="alert" css={{color: colors.danger, fontSize: '0.7em'}}>
             <span>There was an error:</span>{' '}
             <pre
               css={{
@@ -186,7 +142,7 @@ function NotesTextarea({listItem}) {
             </pre>
           </span>
         ) : null}
-        {isPending ? <Spinner /> : null}
+        {status === 'loading' ? <Spinner /> : null}
       </div>
       <textarea
         id="notes"

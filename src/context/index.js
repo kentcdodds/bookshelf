@@ -1,12 +1,20 @@
 import React from 'react'
+import {BrowserRouter as Router} from 'react-router-dom'
+import {ReactQueryConfigProvider} from 'react-query'
 import {AuthProvider} from './auth-context'
-import {UserProvider} from './user-context'
+
+const queryConfig = {
+  useErrorBoundary: true,
+  refetchAllOnWindowFocus: false,
+}
 
 function AppProviders({children}) {
   return (
-    <AuthProvider>
-      <UserProvider>{children}</UserProvider>
-    </AuthProvider>
+    <ReactQueryConfigProvider config={queryConfig}>
+      <Router>
+        <AuthProvider>{children}</AuthProvider>
+      </Router>
+    </ReactQueryConfigProvider>
   )
 }
 

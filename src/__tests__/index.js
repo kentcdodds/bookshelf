@@ -1,11 +1,6 @@
 import {within, waitForElementToBeRemoved} from '@testing-library/react'
 import ReactDOM from 'react-dom'
 
-// mock out hacks because that's basically the backend and we don't really
-// want the backend running in our tests because that's not how a real app is
-// tested (for unit/integration level tests).
-jest.mock('../hacks')
-
 test('booting up the app from the index file does not break anything', async () => {
   // setup
   const div = document.createElement('div')

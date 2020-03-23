@@ -40,7 +40,7 @@ The more prepared you are for the workshop, the better it will go for you.
 
 - Manage forms (login and registration form)
 - Add authentication (auth-context)
-- @reach/router (setup all routes)
+- react-router v6 (setup all routes)
 - App State (List Items)
 - Code-splitting (add code-splitting the authenticated and unauthenticated
   pages)
@@ -213,6 +213,7 @@ Thanks goes to these wonderful people
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the
