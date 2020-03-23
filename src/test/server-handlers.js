@@ -1,15 +1,20 @@
-import {composeMocks, rest} from 'msw'
-import matchSorter from 'match-sorter'
-import allBooks from './data/books.json'
-import * as users from './data/users'
-import * as listItems from './data/list-items'
+// istanbul ignore file
+import {rest} from 'msw'
+import * as booksDB from './data/books'
+import * as usersDB from './data/users'
+import * as listItemsDB from './data/list-items'
 
-const sleep = (t = Math.random() * 200 + 300) =>
-  new Promise(resolve => setTimeout(resolve, t))
+let sleep
+if (process.env.NODE_ENV === 'test') {
+  sleep = () => Promise.resolve()
+} else {
+  sleep = (t = Math.random() * 200 + 300) =>
+    new Promise(resolve => setTimeout(resolve, t))
+}
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-const {start} = composeMocks(
+const handlers = [
   rest.get(`${apiUrl}/me`, async (req, res, ctx) => {
     const user = getUser(req)
     await sleep()
@@ -18,7 +23,7 @@ const {start} = composeMocks(
 
   rest.post(`${apiUrl}/login`, async (req, res, ctx) => {
     const {username, password} = req.body
-    const user = users.authenticate({username, password})
+    const user = usersDB.authenticate({username, password})
     await sleep()
     return res(ctx.json({user}))
   }),
@@ -32,10 +37,10 @@ const {start} = composeMocks(
       return res(ctx.status(400), ctx.json({message: 'A password is required'}))
     }
     const userFields = {username, password}
-    users.create(userFields)
+    usersDB.create(userFields)
     let user
     try {
-      user = users.authenticate(userFields)
+      user = usersDB.authenticate(userFields)
     } catch (error) {
       return res(ctx.status(400), ctx.json({message: error.message}))
     }
@@ -51,14 +56,7 @@ const {start} = composeMocks(
 
     let matchingBooks
     if (query) {
-      matchingBooks = matchSorter(allBooks, query, {
-        keys: [
-          'title',
-          'author',
-          'publisher',
-          {threshold: matchSorter.rankings.CONTAINS, key: 'synopsis'},
-        ],
-      })
+      matchingBooks = booksDB.query(query)
     } else {
       // return a random assortment of 10 books not already in the user's list
       matchingBooks = getBooksNotInUsersList(getUser(req).id).slice(0, 10)
@@ -71,17 +69,20 @@ const {start} = composeMocks(
 
   rest.get(`${apiUrl}/books/:bookId`, async (req, res, ctx) => {
     const {bookId} = req.params
-    const book = allBooks.find(book => book.id === bookId)
+    const book = booksDB.read(bookId)
     await sleep()
+    if (!book) {
+      return res(ctx.status(404), ctx.json({message: 'Book not found'}))
+    }
     return res(ctx.json({book}))
   }),
 
   rest.get(`${apiUrl}/list-items`, async (req, res, ctx) => {
     const user = getUser(req)
-    const lis = listItems.readByOwner(user.id)
+    const lis = listItemsDB.readByOwner(user.id)
     const listItemsAndBooks = lis.map(listItem => ({
       ...listItem,
-      book: allBooks.find(book => book.id === listItem.bookId),
+      book: booksDB.read(listItem.bookId),
     }))
     await sleep()
     return res(ctx.json({listItems: listItemsAndBooks}))
@@ -90,11 +91,11 @@ const {start} = composeMocks(
   rest.post(`${apiUrl}/list-items`, async (req, res, ctx) => {
     const user = getUser(req)
     const {bookId} = req.body
-    const book = allBooks.find(book => book.id === bookId)
+    const book = booksDB.read(bookId)
     if (!book) {
       throw new Error(`No book found with the ID of ${bookId}`)
     }
-    const listItem = listItems.create({ownerId: user.id, bookId: bookId})
+    const listItem = listItemsDB.create({ownerId: user.id, bookId: bookId})
     await sleep()
     return res(ctx.json({listItem: {...listItem, book}}))
   }),
@@ -104,11 +105,11 @@ const {start} = composeMocks(
     const {listItemId} = req.params
     const updates = req.body
     try {
-      listItems.authorize(user.id, listItemId)
+      listItemsDB.authorize(user.id, listItemId)
     } catch (error) {
       return res(ctx.status(401), ctx.json({message: error.message}))
     }
-    const updatedListItem = listItems.update(listItemId, updates)
+    const updatedListItem = listItemsDB.update(listItemId, updates)
     await sleep()
     return res(ctx.json({listItem: updatedListItem}))
   }),
@@ -116,15 +117,15 @@ const {start} = composeMocks(
   rest.delete(`${apiUrl}/list-items/:listItemId`, async (req, res, ctx) => {
     const user = getUser(req)
     const {listItemId} = req.params
-    listItems.authorize(user.id, listItemId)
-    listItems.remove(listItemId)
+    listItemsDB.authorize(user.id, listItemId)
+    listItemsDB.remove(listItemId)
     await sleep()
     return res(ctx.json({success: true}))
   }),
-)
+]
 
 function getUser(req) {
-  const token = req.headers.get('Authorization').replace('Bearer ', '')
+  const token = req.headers.get('Authorization')?.replace('Bearer ', '')
   if (!token) {
     throw new Error('A token must be provided')
   }
@@ -134,13 +135,14 @@ function getUser(req) {
   } catch (error) {
     throw new Error('Invalid token. Please login again.')
   }
-  return users.read(userId)
+  return usersDB.read(userId)
 }
 
 function getBooksNotInUsersList(userId) {
-  const bookIdsInUsersList = listItems.readByOwner(userId).map(li => li.bookId)
-  return allBooks.filter(book => !bookIdsInUsersList.includes(book.id))
+  const bookIdsInUsersList = listItemsDB
+    .readByOwner(userId)
+    .map(li => li.bookId)
+  return booksDB.readManyNotInList(bookIdsInUsersList)
 }
 
-// Start the Service Worker
-window.__bookshelf_serverReady = start('/msw.js')
+export {handlers}

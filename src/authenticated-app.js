@@ -9,6 +9,7 @@ import {
   useNavigate,
   useMatch,
 } from 'react-router-dom'
+import ErrorBoundary from 'react-error-boundary'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
 import {useAuth} from './context/auth-context'
@@ -17,6 +18,24 @@ import FinishedBooksScreen from './screens/finished'
 import DiscoverBooksScreen from './screens/discover'
 import BookScreen from './screens/book'
 import NotFound from './screens/not-found'
+
+function ErrorFallback({error}) {
+  return (
+    <div role="alert" css={{color: colors.danger, fontSize: '0.7em'}}>
+      <span>There was an error:</span>{' '}
+      <pre
+        css={{
+          display: 'inline-block',
+          overflow: 'scroll',
+          margin: '0',
+          marginBottom: -5,
+        }}
+      >
+        {error.message}
+      </pre>
+    </div>
+  )
+}
 
 function AuthenticatedApp() {
   const {user, logout} = useAuth()
@@ -61,7 +80,9 @@ function AuthenticatedApp() {
           <Nav />
         </div>
         <main css={{width: '100%'}}>
-          <AppRoutes />
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <AppRoutes />
+          </ErrorBoundary>
         </main>
         <footer />
       </div>

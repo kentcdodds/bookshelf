@@ -1,3 +1,4 @@
+import React from 'react'
 import {useQuery} from 'react-query'
 import * as booksClient from './books-client'
 import {loadingBook} from './book-placeholder'
@@ -21,7 +22,11 @@ function getBook(queryKey, {bookId}) {
 }
 
 function useBook(bookId) {
-  const {data} = useQuery(['book', {bookId}], getBook)
+  const {data, status, error} = useQuery(['book', {bookId}], getBook)
+  React.useEffect(() => {
+    if (status === 'error') throw error
+  }, [status, error])
+
   return data ?? loadingBook
 }
 

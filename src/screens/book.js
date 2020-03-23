@@ -6,18 +6,14 @@ import debounceFn from 'debounce-fn'
 import {FaRegCalendarAlt} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
 import {useParams} from 'react-router-dom'
-import {useBook} from '../utils/books'
-import {useListItem, useUpdateListItem} from '../utils/list-items'
-import * as mq from '../styles/media-queries'
-import * as colors from '../styles/colors'
-import {Spinner} from '../components/lib'
-import Rating from '../components/rating'
-import StatusButtons from '../components/status-buttons'
-
-const formatDate = date =>
-  new Intl.DateTimeFormat('en-US', {month: 'short', year: '2-digit'}).format(
-    date,
-  )
+import {useBook} from 'utils/books'
+import {formatDate} from 'utils/misc'
+import {useListItem, useUpdateListItem} from 'utils/list-items'
+import * as mq from 'styles/media-queries'
+import * as colors from 'styles/colors'
+import {Spinner} from 'components/lib'
+import Rating from 'components/rating'
+import StatusButtons from 'components/status-buttons'
 
 function BookScreen() {
   const {bookId} = useParams()
@@ -106,7 +102,9 @@ function ListItemTimeframe({listItem}) {
 }
 
 function NotesTextarea({listItem}) {
-  const [mutate, {status, error}] = useUpdateListItem(listItem)
+  const [mutate, {status, error}] = useUpdateListItem(listItem, {
+    throwOnError: false,
+  })
   const debouncedMutate = React.useCallback(debounceFn(mutate, {wait: 300}), [])
 
   function handleNotesChange(e) {
@@ -129,7 +127,7 @@ function NotesTextarea({listItem}) {
           Notes
         </label>
         {error ? (
-          <span css={{color: 'red', fontSize: '0.7em'}}>
+          <span role="alert" css={{color: colors.danger, fontSize: '0.7em'}}>
             <span>There was an error:</span>{' '}
             <pre
               css={{

@@ -4,6 +4,7 @@ function buildUser(overrides) {
   return {
     id: faker.random.uuid(),
     username: faker.internet.userName(),
+    password: faker.internet.password(),
     ...overrides,
   }
 }
@@ -24,8 +25,8 @@ function buildBook(overrides) {
 function buildListItem(overrides = {}) {
   const {
     bookId = overrides.book ? overrides.book.id : faker.random.uuid(),
-    startDate = faker.date.past(2),
-    finishDate = faker.date.between(startDate, new Date()),
+    startDate = faker.date.past(2).getTime(),
+    finishDate = faker.date.between(startDate, new Date()).getTime(),
     owner = {ownerId: faker.random.uuid()},
   } = overrides
   return {
