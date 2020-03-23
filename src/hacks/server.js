@@ -43,43 +43,31 @@ const {start} = composeMocks(
     return res(ctx.json({user}))
   }),
 
-  {
-    predicate(req) {
-      const sameMethod = req.method === 'GET'
-      const url = new window.URL(req.url)
-      const endpoint = url.origin + url.pathname
-      const sameEndpoint = endpoint === `${apiUrl}/books`
-      const hasSearch = url.searchParams.has('query')
-      return sameMethod && sameEndpoint && hasSearch
-    },
-    defineContext() {
-      return {}
-    },
-    resolver: async (req, createRes, ctx) => {
-      const query = new window.URL(req.url).searchParams.get('query')
-      let matchingBooks
-      if (query) {
-        matchingBooks = matchSorter(allBooks, query, {
-          keys: [
-            'title',
-            'author',
-            'publisher',
-            {threshold: matchSorter.rankings.CONTAINS, key: 'synopsis'},
-          ],
-        })
-      } else {
-        // return a random assortment of 10 books not already in the user's list
-        matchingBooks = getBooksNotInUsersList(getUser(req).id).slice(0, 10)
-      }
-      await sleep()
-      // can't use ctx because the defineContext method doesn't do anything
-      return createRes(res => {
-        res.headers.set('Content-Type', 'application/json')
-        res.body = JSON.stringify({books: matchingBooks})
-        return res
+  rest.get(`${apiUrl}/books`, async (req, res, ctx) => {
+    if (!req.query.has('query')) {
+      return ctx.fetch(req)
+    }
+    const query = req.query.get('query')
+
+    let matchingBooks
+    if (query) {
+      matchingBooks = matchSorter(allBooks, query, {
+        keys: [
+          'title',
+          'author',
+          'publisher',
+          {threshold: matchSorter.rankings.CONTAINS, key: 'synopsis'},
+        ],
       })
-    },
-  },
+    } else {
+      // return a random assortment of 10 books not already in the user's list
+      matchingBooks = getBooksNotInUsersList(getUser(req).id).slice(0, 10)
+    }
+
+    await sleep()
+
+    return res(ctx.json({books: matchingBooks}))
+  }),
 
   rest.get(`${apiUrl}/books/:bookId`, async (req, res, ctx) => {
     const {bookId} = req.params

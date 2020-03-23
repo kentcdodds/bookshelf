@@ -1,23 +1,27 @@
 import React from 'react'
+import {queryCache} from 'react-query'
 import {
   render,
   fireEvent,
   screen,
   waitForElementToBeRemoved,
-  waitFor,
   within,
   act,
+  userEvent,
 } from 'test/app-test-utils'
-import {queryCache} from 'react-query'
 import faker from 'faker'
 import {buildUser, buildBook, buildListItem} from 'test/generate'
 import * as listItemsClient from 'utils/list-items-client'
+import {useListItem} from 'utils/list-items'
+import {useBook} from 'utils/books'
 import * as booksClient from 'utils/books-client'
 import BookScreen from '../book'
 
 jest.mock('context/auth-context')
 jest.mock('utils/list-items-client')
 jest.mock('utils/books-client')
+jest.mock('utils/list-items')
+jest.mock('utils/books')
 
 async function renderBookScreen({
   user = buildUser(),
@@ -25,10 +29,8 @@ async function renderBookScreen({
   book = buildBook({id: bookId}),
   listItem = buildListItem({owner: user, book}),
 } = {}) {
-  booksClient.read.mockResolvedValueOnce({book})
-  listItemsClient.read.mockResolvedValueOnce({
-    listItems: [listItem].filter(Boolean),
-  })
+  useListItem.mockReturnValue(listItem)
+  useBook.mockReturnValue(book)
 
   const utils = render(<BookScreen bookId={book ? book.id : bookId} />)
 
@@ -59,55 +61,41 @@ test('renders all the book information', async () => {
   expect(screen.queryByLabelText(/mark as unread/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/notes/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/start date/i)).not.toBeInTheDocument()
-
-  // prevent stale query
-  queryCache.clear()
 })
 
-test('can create a list item for the book', async () => {
-  const {
-    getByLabelText,
-    queryByLabelText,
-    user,
+test.only('can create a list item for the book', async () => {
+  const {user, book} = await renderBookScreen({listItem: null})
+  const newListItem = buildListItem({
+    owner: user,
     book,
-  } = await renderBookScreen({listItem: null})
-
-  window.fetch.mockImplementationOnce(async (url, config) => {
-    expect(url).toMatch(/list-item/)
-    expect(config.method).toBe('POST')
-    const body = JSON.parse(config.body)
-    expect(body).toEqual({ownerId: user.id, bookId: book.id})
-    return {
-      status: 200,
-      async json() {
-        return {
-          listItem: buildListItem({
-            book,
-            startDate: 1558045613440,
-            finishDate: null,
-            ...body,
-          }),
-        }
-      },
-    }
+    startDate: 1558045613440,
+    finishDate: null,
   })
+  listItemsClient.read.mockImplementation(() => ({
+    listItems: [newListItem],
+  }))
 
-  const addToListButton = getByLabelText(/add to list/i)
-  fireEvent.click(addToListButton)
+  listItemsClient.create.mockImplementationOnce(() => ({listItem: newListItem}))
+
+  const addToListButton = screen.getByLabelText(/add to list/i)
+  userEvent.click(addToListButton)
   expect(addToListButton).toBeDisabled()
+
+  expect(listItemsClient.create).toHaveBeenCalledWith({bookId: book.id})
+  expect(listItemsClient.create).toHaveBeenCalledTimes(1)
 
   await waitForElementToBeRemoved(() =>
     within(addToListButton).getByLabelText(/loading/i),
   )
 
-  getByLabelText(/mark as read/i)
-  getByLabelText(/remove from list/i)
-  expect(queryByLabelText(/add to list/i)).not.toBeInTheDocument()
-  expect(queryByLabelText(/unmark as read/i)).not.toBeInTheDocument()
-  getByLabelText(/notes/i)
-  const startDateNode = getByLabelText(/start date/i)
+  await screen.findByLabelText(/mark as read/i)
+  await screen.findByLabelText(/remove from list/i)
+  expect(screen.queryByLabelText(/add to list/i)).not.toBeInTheDocument()
+  expect(screen.queryByLabelText(/unmark as read/i)).not.toBeInTheDocument()
+  screen.getByLabelText(/notes/i)
+  const startDateNode = screen.getByLabelText(/start date/i)
   expect(startDateNode).toHaveTextContent('May 19')
-  getByLabelText(/1 star/i)
+  screen.getByLabelText(/1 star/i)
 })
 
 test('can remove a list item for the book', async () => {

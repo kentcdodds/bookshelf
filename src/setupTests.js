@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom/extend-expect'
+import {queryCache} from 'react-query'
 
 // none of these tests should actually invoke fetch
 beforeEach(() => {
@@ -10,4 +11,8 @@ beforeEach(() => {
 
 afterEach(() => {
   window.fetch.mockRestore()
+})
+
+afterEach(() => {
+  queryCache.clear()
 })
