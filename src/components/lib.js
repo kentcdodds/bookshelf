@@ -1,4 +1,5 @@
 /** @jsx jsx */
+/** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
 import {Link as RouterLink} from 'react-router-dom'
