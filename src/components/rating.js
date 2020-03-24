@@ -10,6 +10,7 @@ import * as colors from '../styles/colors'
 
 function Rating({listItem}) {
   const [isTabbing, setIsTabbing] = React.useState(false)
+  const [rating, setRating] = React.useState(listItem.rating)
 
   const [mutate, {error}] = useUpdateListItem(listItem)
 
@@ -40,8 +41,11 @@ function Rating({listItem}) {
           type="radio"
           id={ratingId}
           value={ratingValue}
-          defaultChecked={ratingValue === listItem.rating}
-          onChange={() => debouncedMutate({rating: ratingValue})}
+          defaultChecked={ratingValue === rating}
+          onChange={() => {
+            setRating(ratingValue)
+            debouncedMutate({rating: ratingValue})
+          }}
           className="visually-hidden"
           css={{
             [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},
@@ -67,7 +71,7 @@ function Rating({listItem}) {
           htmlFor={ratingId}
           css={{
             cursor: 'pointer',
-            color: listItem.rating < 0 ? colors.gray20 : 'orange',
+            color: rating < 0 ? colors.gray20 : 'orange',
             margin: 0,
           }}
         >
