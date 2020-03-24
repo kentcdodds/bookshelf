@@ -11,7 +11,7 @@ function read(bookId) {
 }
 
 function readManyNotInList(ids) {
-  return allBooks.find(book => !ids.includes(book))
+  return allBooks.filter(book => !ids.includes(book.id))
 }
 
 function query(search) {
