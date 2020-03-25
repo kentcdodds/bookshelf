@@ -1,4 +1,3 @@
-// istanbul ignore file
 import {rest} from 'msw'
 import * as booksDB from './data/books'
 import * as usersDB from './data/users'

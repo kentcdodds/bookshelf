@@ -1,4 +1,3 @@
-// istanbul ignore file
 const listItemsKey = '__bookshelf_list_items__'
 const listItems = {}
 const persist = () =>
