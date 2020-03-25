@@ -16,14 +16,12 @@ const apiUrl = process.env.REACT_APP_API_URL
 const handlers = [
   rest.get(`${apiUrl}/me`, async (req, res, ctx) => {
     const user = getUser(req)
-    await sleep()
     return res(ctx.json({user}))
   }),
 
   rest.post(`${apiUrl}/login`, async (req, res, ctx) => {
     const {username, password} = req.body
     const user = usersDB.authenticate({username, password})
-    await sleep()
     return res(ctx.json({user}))
   }),
 
@@ -43,7 +41,6 @@ const handlers = [
     } catch (error) {
       return res(ctx.status(400), ctx.json({message: error.message}))
     }
-    await sleep()
     return res(ctx.json({user}))
   }),
 
@@ -61,15 +58,12 @@ const handlers = [
       matchingBooks = getBooksNotInUsersList(getUser(req).id).slice(0, 10)
     }
 
-    await sleep()
-
     return res(ctx.json({books: matchingBooks}))
   }),
 
   rest.get(`${apiUrl}/books/:bookId`, async (req, res, ctx) => {
     const {bookId} = req.params
     const book = booksDB.read(bookId)
-    await sleep()
     if (!book) {
       return res(ctx.status(404), ctx.json({message: 'Book not found'}))
     }
@@ -83,7 +77,6 @@ const handlers = [
       ...listItem,
       book: booksDB.read(listItem.bookId),
     }))
-    await sleep()
     return res(ctx.json({listItems: listItemsAndBooks}))
   }),
 
@@ -95,7 +88,6 @@ const handlers = [
       throw new Error(`No book found with the ID of ${bookId}`)
     }
     const listItem = listItemsDB.create({ownerId: user.id, bookId: bookId})
-    await sleep()
     return res(ctx.json({listItem: {...listItem, book}}))
   }),
 
@@ -109,7 +101,6 @@ const handlers = [
       return res(ctx.status(401), ctx.json({message: error.message}))
     }
     const updatedListItem = listItemsDB.update(listItemId, updates)
-    await sleep()
     return res(ctx.json({listItem: updatedListItem}))
   }),
 
@@ -118,10 +109,26 @@ const handlers = [
     const {listItemId} = req.params
     listItemsDB.authorize(user.id, listItemId)
     listItemsDB.remove(listItemId)
-    await sleep()
     return res(ctx.json({success: true}))
   }),
-]
+].map(handler => {
+  return {
+    ...handler,
+    async resolver(req, res, ctx) {
+      try {
+        const result = await handler.resolver(req, res, ctx)
+        return result
+      } catch (error) {
+        return res(
+          ctx.status(error.status || 500),
+          ctx.json({message: error.message || 'Unknown Error'}),
+        )
+      } finally {
+        await sleep()
+      }
+    },
+  }
+})
 
 function getUser(req) {
   const token = req.headers.get('Authorization')?.replace('Bearer ', '')
