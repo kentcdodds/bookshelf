@@ -12,11 +12,14 @@ source material for
 
 ## Pre-Workshop Instructions/Requirements
 
+**NOTE: This repository is used for a two-part workshop**
+
 In order for us to maximize our efforts during the workshop, please complete the
 following things to prepare.
 
 - 📺 only necessary if the workshop is remote via Zoom
 - 👋 specific to the material for this workshop
+- 2️⃣ Only needed to prepare for part 2 of this workshop
 
 - [ ] 👋 Setup the project (follow the setup instructions below) (~5 minutes)
 - [ ] 📺 Install and setup [Zoom](https://zoom.us) on the computer you will be
@@ -37,7 +40,7 @@ following things to prepare.
       [Learn React Hooks Workshop](https://kentcdodds.com/workshops/hooks), or
       have the equivalent basic experience of using hooks. You should be
       experienced with `useState`, `useEffect`, and `useRef`.
-- [ ] 👋 Go through my
+- [ ] 👋 2️⃣ Go through my
       [Advanced React Hooks](https://kentcdodds.com/workshops/advanced-react-hooks),
       or have the equivalent basic experience of using advanced hooks. You
       should be experienced with `useContext`, `useReducer`, `useMemo`, and
@@ -131,20 +134,40 @@ a complete authority.
 
 ### Schedule
 
+#### Part 1
+
 - 😴 Logistics
-- 💪 01. Create DOM with JavaScript
-- 💪 02. Create DOM with React
+- 💪 01. TODO
+- 💪 02. TODO
 - 😴 10 Minutes
-- 💪 03. Create DOM with JSX
-- 💪 04. Create Custom Components
+- 💪 03. TODO
+- 💪 04. TODO
 - 🌮 30 Minutes
-- 💪 05. Styling
-- 💪 06. Simple Forms
+- 💪 05. TODO
+- 💪 06. TODO
 - 😴 10 Minutes
-- 💪 07. Dynamic Forms
-- 💪 08. Controlled Forms
+- 💪 07. TODO
+- 💪 08. TODO
 - 😴 10 Minutes
-- 💪 09. Rendering Lists of Data
+- 💪 09. TODO
+- ❓ Q&A
+
+#### Part 2
+
+- 😴 Logistics
+- 💪 01. TODO
+- 💪 02. TODO
+- 😴 10 Minutes
+- 💪 03. TODO
+- 💪 04. TODO
+- 🌮 30 Minutes
+- 💪 05. TODO
+- 💪 06. TODO
+- 😴 10 Minutes
+- 💪 07. TODO
+- 💪 08. TODO
+- 😴 10 Minutes
+- 💪 09. TODO
 - ❓ Q&A
 
 ### Questions
@@ -240,6 +263,17 @@ window.__bookshelf.purgeListItems()
   - pageCount: number
   - publisher: string
   - synopsis: string
+
+## Workshop Feedback
+
+Each exercise has an Elaboration and Feedback link. Please fill that out after
+the exercise and instruction.
+
+At the end of the workshop, please go to this URL to give overall feedback.
+Thank you!
+
+- Part 1: https://kcd.im/bra-ws-feedback
+- Part 2: https://kcd.im/braa-ws-feedback
 
 ## Contributors
 
