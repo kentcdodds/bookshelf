@@ -13,6 +13,8 @@ test_script:
   - npm run setup
 
 cache:
-  - ./node_modules -> package.json
+  # cache NPM packages and Cypress binary
+  - '%AppData%\npm'
+  - '%USERPROFILE%\AppData\Local\Cypress\Cache'
 
 build: off
