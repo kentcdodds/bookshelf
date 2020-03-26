@@ -66,12 +66,8 @@ function BookScreen() {
             </div>
           </div>
           <div css={{marginTop: 10, height: 46}}>
-            {listItem ? (
-              <>
-                <Rating listItem={listItem} />
-                <ListItemTimeframe listItem={listItem} />
-              </>
-            ) : null}
+            {listItem?.finishDate ? <Rating listItem={listItem} /> : null}
+            {listItem ? <ListItemTimeframe listItem={listItem} /> : null}
           </div>
           <br />
           <p>{synopsis}</p>

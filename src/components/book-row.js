@@ -71,7 +71,7 @@ function BookRow({book}) {
               >
                 {title}
               </h2>
-              {listItem ? <Rating listItem={listItem} /> : null}
+              {listItem?.finishDate ? <Rating listItem={listItem} /> : null}
             </div>
             <div css={{marginLeft: 10}}>
               <div

@@ -79,10 +79,10 @@ test('can create a list item for the book', async () => {
   await screen.findByLabelText(/remove from list/i)
   expect(screen.queryByLabelText(/add to list/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/unmark as read/i)).not.toBeInTheDocument()
+  expect(screen.queryByLabelText(/1 star/i)).not.toBeInTheDocument()
   screen.getByLabelText(/notes/i)
   const startDateNode = screen.getByLabelText(/start date/i)
   expect(startDateNode).toHaveTextContent(formatDate(Date.now()))
-  screen.getByLabelText(/1 star/i)
 })
 
 test('can remove a list item for the book', async () => {
