@@ -1,4 +1,5 @@
 import {useQuery, useMutation, queryCache} from 'react-query'
+import {setQueryDataForBook} from './books'
 import * as listItemsClient from './list-items-client'
 
 function useListItem(bookId, options) {
@@ -6,55 +7,72 @@ function useListItem(bookId, options) {
   return listItems?.find(li => li.bookId === bookId) ?? null
 }
 
-function useListItems(options) {
+function useListItems({onSuccess, ...options} = {}) {
   const {data: listItems} = useQuery(
     'list-items',
     () => listItemsClient.read().then(d => d.listItems),
-    options,
+    {
+      onSuccess: async listItems => {
+        await onSuccess?.(listItems)
+        for (const listItem of listItems) {
+          setQueryDataForBook(listItem.book)
+        }
+      },
+      ...options,
+    },
   )
   return listItems ?? []
 }
 
 const defaultMutationOptions = {
+  onError: (err, variables, recover) =>
+    typeof recover === 'function' ? recover() : null,
   onSettled: () => queryCache.refetchQueries('list-items'),
   useErrorBoundary: false,
   throwOnError: true,
 }
 
-function useListItemMutation(callback, options) {
-  return useMutation(callback, {
+function onUpdateMutation(newItem) {
+  const previousItems = queryCache.getQueryData('list-items')
+
+  queryCache.setQueryData('list-items', old => {
+    return old.map(item => {
+      return item.id === newItem.id ? {...item, ...newItem} : item
+    })
+  })
+
+  return () => queryCache.setQueryData('list-items', previousItems)
+}
+
+function useUpdateListItem(options) {
+  return useMutation(updates => listItemsClient.update(updates.id, updates), {
+    onMutate: onUpdateMutation,
     ...defaultMutationOptions,
     ...options,
   })
 }
 
-function useUpdateListItem(listItem, options) {
-  return useListItemMutation(
-    updates => listItemsClient.update(listItem.id, updates),
-    options,
-  )
+function useRemoveListItem(options) {
+  return useMutation(({id}) => listItemsClient.remove(id), {
+    onMutate: removedItem => {
+      const previousItems = queryCache.getQueryData('list-items')
+
+      queryCache.setQueryData('list-items', old => {
+        return old.filter(item => item.id !== removedItem.id)
+      })
+
+      return () => queryCache.setQueryData('list-items', previousItems)
+    },
+    ...defaultMutationOptions,
+    ...options,
+  })
 }
 
-function useRemoveListItem(listItem, options) {
-  return useListItemMutation(() => listItemsClient.remove(listItem.id), options)
-}
-
-function useMarkListItemAsRead(listItem, options) {
-  return useListItemMutation(
-    () => listItemsClient.update(listItem.id, {finishDate: Date.now()}),
-    options,
-  )
-}
-
-function useMarkListItemAsUnread(listItem, options) {
-  return useListItemMutation(
-    () => listItemsClient.update(listItem.id, {finishDate: null}),
-    options,
-  )
-}
-
-function useCreateListItem(bookId, options) {
-  return useListItemMutation(() => listItemsClient.create({bookId}), options)
+function useCreateListItem(options) {
+  return useMutation(({bookId}) => listItemsClient.create({bookId}), {
+    ...defaultMutationOptions,
+    ...options,
+  })
 }
 
 export {
@@ -62,7 +80,10 @@ export {
   useListItems,
   useUpdateListItem,
   useRemoveListItem,
-  useMarkListItemAsRead,
-  useMarkListItemAsUnread,
   useCreateListItem,
 }
+
+/*
+eslint
+  no-unused-expressions: "off",
+*/

@@ -3,21 +3,14 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import debounceFn from 'debounce-fn'
 import {useUpdateListItem} from '../utils/list-items'
 import {FaStar} from 'react-icons/fa'
 import * as colors from '../styles/colors'
 
 function Rating({listItem}) {
   const [isTabbing, setIsTabbing] = React.useState(false)
-  const [rating, setRating] = React.useState(listItem.rating)
 
-  const [mutate, {error}] = useUpdateListItem(listItem)
-
-  const debouncedMutate = React.useCallback(
-    debounceFn((...args) => mutate(...args).catch(e => e), {wait: 300}),
-    [],
-  )
+  const [mutate, {error}] = useUpdateListItem()
 
   React.useEffect(() => {
     function handleKeyDown(event) {
@@ -41,10 +34,9 @@ function Rating({listItem}) {
           type="radio"
           id={ratingId}
           value={ratingValue}
-          defaultChecked={ratingValue === rating}
+          checked={ratingValue === listItem.rating}
           onChange={() => {
-            setRating(ratingValue)
-            debouncedMutate({rating: ratingValue})
+            mutate({id: listItem.id, rating: ratingValue})
           }}
           className="visually-hidden"
           css={{
@@ -71,7 +63,7 @@ function Rating({listItem}) {
           htmlFor={ratingId}
           css={{
             cursor: 'pointer',
-            color: rating < 0 ? colors.gray20 : 'orange',
+            color: listItem.rating < 0 ? colors.gray20 : 'orange',
             margin: 0,
           }}
         >

@@ -5,19 +5,18 @@ import {jsx} from '@emotion/core'
 import React from 'react'
 import Tooltip from '@reach/tooltip'
 import {FaSearch, FaTimes} from 'react-icons/fa'
-import {useBookSearch} from '../utils/books'
+import {useBookSearch, refetchBookSearchQuery} from '../utils/books'
 import BookRow from '../components/book-row'
 import {BookListUL, Spinner} from '../components/lib'
 
 function DiscoverBooksScreen() {
   const [query, setQuery] = React.useState('')
   const [hasSearched, setHasSearched] = React.useState()
-  const {data, error, status} = useBookSearch(query)
+  const {books, error, isLoading, isError, isSuccess} = useBookSearch(query)
 
-  const isPending = status === 'loading'
-  const isRejected = status === 'error'
-  const isResolved = status === 'success'
-  const {books} = data
+  React.useEffect(() => {
+    return () => refetchBookSearchQuery()
+  }, [])
 
   function handleSearchClick(event) {
     event.preventDefault()
@@ -45,9 +44,9 @@ function DiscoverBooksScreen() {
                   background: 'transparent',
                 }}
               >
-                {isPending ? (
+                {isLoading ? (
                   <Spinner />
-                ) : isRejected ? (
+                ) : isError ? (
                   <FaTimes aria-label="error" css={{color: 'red'}} />
                 ) : (
                   <FaSearch aria-label="search" />
@@ -57,7 +56,7 @@ function DiscoverBooksScreen() {
           </Tooltip>
         </form>
 
-        {isRejected ? (
+        {isError ? (
           <div css={{color: 'red'}}>
             <p>There was an error:</p>
             <pre>{error.message}</pre>
@@ -69,13 +68,13 @@ function DiscoverBooksScreen() {
           <div css={{marginTop: 20, fontSize: '1.2em', textAlign: 'center'}}>
             <p>Welcome to the discover page.</p>
             <p>Here, let me load a few books for you...</p>
-            {isPending ? (
+            {isLoading ? (
               <div css={{width: '100%', margin: 'auto'}}>
                 <Spinner />
               </div>
-            ) : isResolved && books.length ? (
+            ) : isSuccess && books.length ? (
               <p>Here you go! Find more books with the search bar above.</p>
-            ) : isResolved && !books.length ? (
+            ) : isSuccess && !books.length ? (
               <p>
                 Hmmm... I couldn't find any books to suggest for you. Sorry.
               </p>
@@ -92,7 +91,7 @@ function DiscoverBooksScreen() {
           </BookListUL>
         ) : hasSearched ? (
           <div css={{marginTop: 20, fontSize: '1.2em', textAlign: 'center'}}>
-            {isPending ? (
+            {isLoading ? (
               <div css={{width: '100%', margin: 'auto'}}>
                 <Spinner />
               </div>

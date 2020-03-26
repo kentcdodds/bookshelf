@@ -103,13 +103,11 @@ function ListItemTimeframe({listItem}) {
 }
 
 function NotesTextarea({listItem}) {
-  const [mutate, {status, error}] = useUpdateListItem(listItem, {
-    throwOnError: false,
-  })
+  const [mutate, {status, error}] = useUpdateListItem({throwOnError: false})
   const debouncedMutate = React.useCallback(debounceFn(mutate, {wait: 300}), [])
 
   function handleNotesChange(e) {
-    debouncedMutate({notes: e.target.value})
+    debouncedMutate({id: listItem.id, notes: e.target.value})
   }
 
   return (

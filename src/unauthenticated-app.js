@@ -12,7 +12,7 @@ import {useAuth} from './context/auth-context'
 import useAsync from './utils/use-async'
 
 function LoginForm({onSubmit, buttonText}) {
-  const {isPending, isRejected, error, run} = useAsync()
+  const {isLoading, isError, error, run} = useAsync()
   function handleSubmit(event) {
     event.preventDefault()
     const {username, password} = event.target.elements
@@ -49,10 +49,10 @@ function LoginForm({onSubmit, buttonText}) {
       </FormGroup>
       <div>
         <Button type="submit">
-          {buttonText} {isPending ? <Spinner css={{marginLeft: 5}} /> : null}
+          {buttonText} {isLoading ? <Spinner css={{marginLeft: 5}} /> : null}
         </Button>
       </div>
-      {isRejected ? (
+      {isError ? (
         <div css={{color: colors.danger}}>{error?.message}</div>
       ) : null}
     </form>

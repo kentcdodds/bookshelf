@@ -1,5 +1,5 @@
 import React from 'react'
-import {render as rtlRender} from '@testing-library/react'
+import * as rtl from '@testing-library/react'
 import {Router} from 'react-router-dom'
 import {createMemoryHistory} from 'history'
 import {ReactQueryConfigProvider} from 'react-query'
@@ -34,7 +34,7 @@ function render(
     )
   }
   return {
-    ...rtlRender(ui, {
+    ...rtl.render(ui, {
       wrapper: Wrapper,
       ...renderOptions,
     }),
@@ -52,6 +52,16 @@ async function loginAsUser(user = buildUser()) {
   return authUser
 }
 
+// TODO: open an issue on DOM Testing Library to make this built-in...
+async function waitForElementToBeRemoved(...args) {
+  try {
+    await rtl.waitForElementToBeRemoved(...args)
+  } catch (error) {
+    rtl.screen.debug()
+    throw error
+  }
+}
+
 export {default as userEvent} from '@testing-library/user-event'
 export * from '@testing-library/react'
-export {render, loginAsUser}
+export {render, loginAsUser, waitForElementToBeRemoved}

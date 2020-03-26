@@ -24,14 +24,11 @@ function deferred() {
 
 const defaultState = {
   data: null,
-  isLoading: true,
+  isIdle: true,
+  isLoading: false,
   isError: false,
   isSuccess: false,
 
-  isIdle: true,
-  isPending: false,
-  isResolved: false,
-  isRejected: false,
   error: null,
   status: 'idle',
   run: expect.any(Function),
@@ -48,7 +45,7 @@ test('calling run with a promise which resolves', async () => {
   expect(state).toEqual({
     ...defaultState,
     isIdle: false,
-    isPending: true,
+    isLoading: true,
     status: 'pending',
   })
   const resolvedValue = Symbol('resolved value')
@@ -61,7 +58,6 @@ test('calling run with a promise which resolves', async () => {
     data: resolvedValue,
     isIdle: false,
     isLoading: false,
-    isResolved: true,
     isSuccess: true,
     status: 'resolved',
   })
@@ -78,7 +74,7 @@ test('calling run with a promise which rejects', async () => {
   expect(state).toEqual({
     ...defaultState,
     isIdle: false,
-    isPending: true,
+    isLoading: true,
     status: 'pending',
   })
   const rejectedValue = Symbol('rejected value')
@@ -91,10 +87,9 @@ test('calling run with a promise which rejects', async () => {
   expect(state).toEqual({
     ...defaultState,
     status: 'rejected',
-    isRejected: true,
-    isError: true,
     isIdle: false,
     isLoading: false,
+    isError: true,
     error: rejectedValue,
   })
 })

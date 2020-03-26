@@ -13,9 +13,8 @@ import {FaTimesCircle} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
 import {
   useListItem,
+  useUpdateListItem,
   useRemoveListItem,
-  useMarkListItemAsRead,
-  useMarkListItemAsUnread,
   useCreateListItem,
 } from '../utils/list-items'
 import * as colors from '../styles/colors'
@@ -23,31 +22,31 @@ import useAsync from '../utils/use-async'
 import {CircleButton, Spinner} from './lib'
 
 function TooltipButton({label, highlight, onClick, icon, ...rest}) {
-  const {isPending, isRejected, error, run} = useAsync()
+  const {isLoading, isError, error, run} = useAsync()
 
   function handleClick() {
     run(onClick())
   }
 
   return (
-    <Tooltip label={isRejected ? error.message : label}>
+    <Tooltip label={isError ? error.message : label}>
       <CircleButton
         css={{
           backgroundColor: 'white',
           ':hover,:focus': {
-            color: isPending
+            color: isLoading
               ? colors.gray80
-              : isRejected
+              : isError
               ? colors.danger
               : highlight,
           },
         }}
-        disabled={isPending}
+        disabled={isLoading}
         onClick={handleClick}
-        aria-label={isRejected ? error.message : label}
+        aria-label={isError ? error.message : label}
         {...rest}
       >
-        {isPending ? <Spinner /> : isRejected ? <FaTimesCircle /> : icon}
+        {isLoading ? <Spinner /> : isError ? <FaTimesCircle /> : icon}
       </CircleButton>
     </Tooltip>
   )
@@ -56,10 +55,9 @@ function TooltipButton({label, highlight, onClick, icon, ...rest}) {
 function StatusButtons({book}) {
   const listItem = useListItem(book.id)
 
-  const [handleRemoveClick] = useRemoveListItem(listItem)
-  const [handleMarkAsReadClick] = useMarkListItemAsRead(listItem)
-  const [handleAddClick] = useCreateListItem(book.id)
-  const [handleMarkAsUnreadClick] = useMarkListItemAsUnread(listItem)
+  const [mutate] = useUpdateListItem()
+  const [handleRemoveClick] = useRemoveListItem()
+  const [handleAddClick] = useCreateListItem()
 
   return (
     <React.Fragment>
@@ -68,14 +66,14 @@ function StatusButtons({book}) {
           <TooltipButton
             label="Unmark as read"
             highlight={colors.yellow}
-            onClick={handleMarkAsUnreadClick}
+            onClick={() => mutate({id: listItem.id, finisheDate: Date.now()})}
             icon={<FaBook />}
           />
         ) : (
           <TooltipButton
             label="Mark as read"
             highlight={colors.green}
-            onClick={handleMarkAsReadClick}
+            onClick={() => mutate({id: listItem.id, finishDate: Date.now()})}
             icon={<FaCheckCircle />}
           />
         )
@@ -84,14 +82,14 @@ function StatusButtons({book}) {
         <TooltipButton
           label="Remove from list"
           highlight={colors.danger}
-          onClick={handleRemoveClick}
+          onClick={() => handleRemoveClick({id: listItem.id})}
           icon={<FaMinusCircle />}
         />
       ) : (
         <TooltipButton
           label="Add to list"
           highlight={colors.indigo}
-          onClick={handleAddClick}
+          onClick={() => handleAddClick({bookId: book.id})}
           icon={<FaPlusCircle />}
         />
       )}

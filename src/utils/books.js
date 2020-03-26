@@ -1,5 +1,4 @@
-import React from 'react'
-import {useQuery} from 'react-query'
+import {useQuery, queryCache} from 'react-query'
 import * as booksClient from './books-client'
 import {loadingBook} from './book-placeholder'
 
@@ -9,12 +8,34 @@ const loadingBooks = Array.from({length: 10}, (v, index) => ({
 }))
 
 function searchBooks(queryKey, {query}) {
-  return booksClient.search({query})
+  return booksClient.search({query}).then(data => data.books)
 }
 
+const bookQueryConfig = {
+  staleTime: 1000 * 60 * 60,
+  cacheTime: 1000 * 60 * 60,
+  useErrorBoundary: true,
+}
+
+const getBookSearchConfig = query => ({
+  queryKey: ['bookSearch', {query}],
+  queryFn: searchBooks,
+  config: {
+    onSuccess(books) {
+      for (const book of books) {
+        queryCache.setQueryData(
+          ['book', {bookId: book.id}],
+          book,
+          bookQueryConfig,
+        )
+      }
+    },
+  },
+})
+
 function useBookSearch(query) {
-  const result = useQuery(['bookSearch', {query}], searchBooks)
-  return {...result, data: result.data ?? {books: loadingBooks}}
+  const result = useQuery(getBookSearchConfig(query))
+  return {...result, books: result.data ?? loadingBooks}
 }
 
 function getBook(queryKey, {bookId}) {
@@ -22,12 +43,17 @@ function getBook(queryKey, {bookId}) {
 }
 
 function useBook(bookId) {
-  const {data, status, error} = useQuery(['book', {bookId}], getBook)
-  React.useEffect(() => {
-    if (status === 'error') throw error
-  }, [status, error])
-
+  const {data} = useQuery(['book', {bookId}], getBook, bookQueryConfig)
   return data ?? loadingBook
 }
 
-export {useBook, useBookSearch}
+async function refetchBookSearchQuery() {
+  queryCache.removeQueries('bookSearch')
+  await queryCache.prefetchQuery(getBookSearchConfig(''))
+}
+
+function setQueryDataForBook(book) {
+  queryCache.setQueryData(['book', {bookId: book.id}], book, bookQueryConfig)
+}
+
+export {useBook, useBookSearch, refetchBookSearchQuery, setQueryDataForBook}

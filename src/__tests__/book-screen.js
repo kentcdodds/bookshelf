@@ -134,6 +134,7 @@ test('can mark a list item as read', async () => {
 
   screen.getByLabelText(/unmark as read/i)
   screen.getByLabelText(/remove from list/i)
+
   expect(screen.queryByLabelText(/add to list/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/^mark as read/i)).not.toBeInTheDocument()
   screen.getByLabelText(/notes/i)

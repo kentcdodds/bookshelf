@@ -2,6 +2,9 @@ import '@testing-library/jest-dom/extend-expect'
 import {queryCache} from 'react-query'
 import {fetchMock} from './test/fetch-mock'
 
+// make debug output for TestingLibrary Errors larger
+process.env.DEBUG_PRINT_LIMIT = 15000
+
 // we don't want to start the service worker in tests
 // it wouldn't work anyway
 jest.mock('./test/server', () => {})

@@ -15,7 +15,16 @@ AuthContext.displayName = 'AuthContext'
 const appDataPromise = bootstrapAppData()
 
 function AuthProvider(props) {
-  const {data, status, error, isLoading, isError, isSuccess, run} = useAsync()
+  const {
+    data,
+    status,
+    error,
+    isLoading,
+    isIdle,
+    isError,
+    isSuccess,
+    run,
+  } = useAsync()
 
   const runBootstrap = React.useCallback(() => run(bootstrapAppData()), [run])
 
@@ -45,7 +54,7 @@ function AuthProvider(props) {
     user,
   ])
 
-  if (isLoading) {
+  if (isLoading || isIdle) {
     return <FullPageSpinner />
   }
 
