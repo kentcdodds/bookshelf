@@ -68,7 +68,8 @@
     "lint": "eslint . --cache-location node_modules/.cache/eslint",
     "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\"",
     "setup": "node ./scripts/setup",
-    "validate": "npm-run-all --parallel lint test:coverage test:e2e:run"
+    "validate-exercises": "node ./scripts/validate-exercises",
+    "validate": "npm-run-all --parallel lint test:coverage test:e2e:run validate-exercises"
   },
   "eslintConfig": {
     "extends": "react-app"
