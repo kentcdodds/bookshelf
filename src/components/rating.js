@@ -120,4 +120,4 @@ function Rating({listItem}) {
   )
 }
 
-export default Rating
+export {Rating}

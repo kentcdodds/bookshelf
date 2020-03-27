@@ -28,4 +28,4 @@ function client(endpoint, {body, ...customConfig} = {}) {
     })
 }
 
-export default client
+export {client}

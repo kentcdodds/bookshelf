@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from '../components/lib'
-import ListItemList from '../components/list-item-list'
+import {ListItemList} from '../components/list-item-list'
 
 function ReadingListScreen() {
   return (
@@ -24,4 +24,4 @@ function ReadingListScreen() {
   )
 }
 
-export default ReadingListScreen
+export {ReadingListScreen}

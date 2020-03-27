@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, act} from 'test/app-test-utils'
-import useAsync from '../use-async'
+import {useAsync} from '../use-async'
 
 function Test({children, ...props}) {
   children(useAsync())

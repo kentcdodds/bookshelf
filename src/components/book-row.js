@@ -6,8 +6,8 @@ import {Link} from 'react-router-dom'
 import {useListItem} from '../utils/list-items'
 import * as mq from '../styles/media-queries'
 import * as colors from '../styles/colors'
-import StatusButtons from './status-buttons'
-import Rating from './rating'
+import {StatusButtons} from './status-buttons'
+import {Rating} from './rating'
 
 function BookRow({book}) {
   const {title, author, coverImageUrl} = book
@@ -106,4 +106,4 @@ function BookRow({book}) {
   )
 }
 
-export default BookRow
+export {BookRow}

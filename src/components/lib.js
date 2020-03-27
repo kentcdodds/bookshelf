@@ -15,7 +15,7 @@ const spin = keyframes({
   '100%': {transform: 'rotate(360deg)'},
 })
 
-export const CircleButton = styled.button({
+const CircleButton = styled.button({
   borderRadius: '30px',
   padding: '0',
   width: '40px',
@@ -30,7 +30,7 @@ export const CircleButton = styled.button({
   cursor: 'pointer',
 })
 
-export const BookListUL = styled.ul({
+const BookListUL = styled.ul({
   listStyle: 'none',
   padding: '0',
   display: 'grid',
@@ -38,7 +38,7 @@ export const BookListUL = styled.ul({
   gridGap: '1em',
 })
 
-export function Spinner(props) {
+function Spinner(props) {
   return (
     <FaSpinner
       css={{animation: `${spin} 1s linear infinite`}}
@@ -58,7 +58,7 @@ const buttonVariants = {
     color: colors.text,
   },
 }
-export const Button = styled.button(
+const Button = styled.button(
   {
     padding: '10px 15px',
     border: '0',
@@ -74,10 +74,10 @@ const inputStyles = {
   padding: '8px 12px',
 }
 
-export const Input = styled.input({borderRadius: '3px'}, inputStyles)
-export const Textarea = styled.textarea(inputStyles)
+const Input = styled.input({borderRadius: '3px'}, inputStyles)
+const Textarea = styled.textarea(inputStyles)
 
-export const Dialog = styled(ReachDialog)({
+const Dialog = styled(ReachDialog)({
   maxWidth: '450px',
   borderRadius: '3px',
   paddingBottom: '3.5em',
@@ -89,12 +89,12 @@ export const Dialog = styled(ReachDialog)({
   },
 })
 
-export const FormGroup = styled.div({
+const FormGroup = styled.div({
   display: 'flex',
   flexDirection: 'column',
 })
 
-export function FullPageSpinner() {
+function FullPageSpinner() {
   return (
     <div
       css={{
@@ -111,10 +111,23 @@ export function FullPageSpinner() {
   )
 }
 
-export const Link = styled(RouterLink)({
+const Link = styled(RouterLink)({
   color: colors.indigo,
   ':hover': {
     color: colors.indigoDarken10,
     textDecoration: 'underline',
   },
 })
+
+export {
+  CircleButton,
+  BookListUL,
+  Spinner,
+  Button,
+  Input,
+  Textarea,
+  Dialog,
+  FormGroup,
+  FullPageSpinner,
+  Link,
+}

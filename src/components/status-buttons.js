@@ -18,7 +18,7 @@ import {
   useCreateListItem,
 } from '../utils/list-items'
 import * as colors from '../styles/colors'
-import useAsync from '../utils/use-async'
+import {useAsync} from '../utils/use-async'
 import {CircleButton, Spinner} from './lib'
 
 function TooltipButton({label, highlight, onClick, icon, ...rest}) {
@@ -97,4 +97,4 @@ function StatusButtons({book}) {
   )
 }
 
-export default StatusButtons
+export {StatusButtons}

@@ -12,10 +12,10 @@ import {
   FormGroup,
   Dialog,
 } from './components/lib'
-import Logo from './components/logo'
+import {Logo} from './components/logo'
 import {Input} from './components/lib'
 import {useAuth} from './context/auth-context'
-import useAsync from './utils/use-async'
+import {useAsync} from './utils/use-async'
 
 function LoginForm({onSubmit, buttonText}) {
   const {isLoading, isError, error, run} = useAsync()

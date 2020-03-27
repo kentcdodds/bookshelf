@@ -5,7 +5,7 @@ import {jsx} from '@emotion/core'
 import React from 'react'
 import {bootstrapAppData} from '../utils/bootstrap'
 import * as authClient from '../utils/auth-client'
-import useAsync from '../utils/use-async'
+import {useAsync} from '../utils/use-async'
 import * as colors from '../styles/colors'
 import {FullPageSpinner} from '../components/lib'
 

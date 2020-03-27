@@ -1,4 +1,4 @@
-import client from './api-client'
+import {client} from './api-client'
 
 function create(listItemData) {
   return client('list-items', {body: listItemData})

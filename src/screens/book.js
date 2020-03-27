@@ -13,8 +13,8 @@ import {useListItem, useUpdateListItem} from 'utils/list-items'
 import * as mq from 'styles/media-queries'
 import * as colors from 'styles/colors'
 import {Spinner, Textarea} from 'components/lib'
-import Rating from 'components/rating'
-import StatusButtons from 'components/status-buttons'
+import {Rating} from 'components/rating'
+import {StatusButtons} from 'components/status-buttons'
 
 function BookScreen() {
   const {bookId} = useParams()
@@ -148,4 +148,4 @@ function NotesTextarea({listItem}) {
   )
 }
 
-export default BookScreen
+export {BookScreen}

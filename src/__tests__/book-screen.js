@@ -14,7 +14,7 @@ import {buildBook, buildListItem} from 'test/generate'
 import * as booksDB from 'test/data/books'
 import * as listItemsDB from 'test/data/list-items'
 import {formatDate} from 'utils/misc'
-import App from '../app'
+import {App} from '../app'
 
 async function renderBookScreen({user, book, listItem, route} = {}) {
   if (user === undefined) {

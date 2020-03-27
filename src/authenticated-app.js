@@ -15,11 +15,11 @@ import {Button} from './components/lib'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
 import {useAuth} from './context/auth-context'
-import ReadingListScreen from './screens/list'
-import FinishedBooksScreen from './screens/finished'
-import DiscoverBooksScreen from './screens/discover'
-import BookScreen from './screens/book'
-import NotFound from './screens/not-found'
+import {ReadingListScreen} from './screens/list'
+import {FinishedScreen} from './screens/finished'
+import {DiscoverBooksScreen} from './screens/discover'
+import {BookScreen} from './screens/book'
+import {NotFound} from './screens/not-found'
 
 function ErrorFallback({error}) {
   return (
@@ -169,7 +169,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<RedirectHome />} />
       <Route path="/list" element={<ReadingListScreen />} />
-      <Route path="/finished" element={<FinishedBooksScreen />} />
+      <Route path="/finished" element={<FinishedScreen />} />
       <Route path="/discover" element={<DiscoverBooksScreen />} />
       <Route path="/book/:bookId" element={<BookScreen />} />
       <Route path="*" element={<NotFound />} />

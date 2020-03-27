@@ -56,4 +56,4 @@ function useAsync() {
   }
 }
 
-export default useAsync
+export {useAsync}

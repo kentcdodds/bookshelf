@@ -1,4 +1,4 @@
-import client from '../api-client'
+import {client} from '../api-client'
 
 const url = endpoint => `${process.env.REACT_APP_API_URL}/${endpoint}`
 

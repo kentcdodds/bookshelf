@@ -24,4 +24,4 @@ function loadDevTools(callback) {
   }
 }
 
-export default loadDevTools
+export {loadDevTools}

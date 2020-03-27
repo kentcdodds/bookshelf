@@ -18,4 +18,4 @@ function AppProviders({children}) {
   )
 }
 
-export default AppProviders
+export {AppProviders}

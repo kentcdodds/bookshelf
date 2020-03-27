@@ -1,5 +1,5 @@
 import {queryCache} from 'react-query'
-import client from './api-client'
+import {client} from './api-client'
 
 const localStorageKey = '__bookshelf_token__'
 

@@ -1,9 +1,9 @@
-import loadDevTools from './dev-tools/load'
+import {loadDevTools} from './dev-tools/load'
 import './bootstrap'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './app'
-import AppProviders from './context'
+import {App} from './app'
+import {AppProviders} from './context'
 
 loadDevTools(() => {
   ReactDOM.render(

@@ -1,4 +1,4 @@
-import client from './api-client'
+import {client} from './api-client'
 
 function search({query = ''}) {
   return client(`books?query=${encodeURIComponent(query)}`)
