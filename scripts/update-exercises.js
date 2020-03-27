@@ -71,7 +71,6 @@ function updateExerciseBranch(branch, masterCommit) {
     throw status
   }
   execSync(`git cherry-pick --quit`)
-  const commitMsg = `git log --format=%B -n 1 ${exerciseCommit}`
-  execSync(`git commit -am "${commitMsg}"`)
+  execSync(`git commit -am "${branch}"`)
   return true
 }
