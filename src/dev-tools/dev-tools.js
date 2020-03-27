@@ -1,6 +1,6 @@
 /** @jsx jsx */
 /** @jsxFrag React.Fragment */
-import {jsx} from '@emotion/core'
+import {jsx, Global} from '@emotion/core'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -37,18 +37,57 @@ function install() {
         document.body.removeEventListener('mousemove', updateHoverState)
     }, [])
     return (
-      <div ref={rootRef} id="dev-tools" className={show ? 'show' : null}>
-        <button
-          css={{
-            border: 'none',
-            background: 'none',
-            marginBottom: 10,
-          }}
-          onClick={toggleShow}
+      <div
+        css={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}
+      >
+        <div
+          ref={rootRef}
+          css={[
+            {
+              background: 'black',
+              opacity: '0',
+              color: 'white',
+              padding: '20px',
+              height: '60px',
+              width: '100%',
+              transition: 'all 0.3s',
+              overflow: 'scroll',
+            },
+            show
+              ? {
+                  height: '50vh',
+                  width: '100%',
+                  opacity: '1',
+                }
+              : null,
+          ]}
         >
-          🎛
-        </button>
-        {show ? <ReactQueryDevtoolsPanel /> : null}
+          <button
+            css={{
+              border: 'none',
+              background: 'none',
+              marginBottom: 10,
+            }}
+            onClick={toggleShow}
+          >
+            🎛
+          </button>
+          {show ? <ReactQueryDevtoolsPanel /> : null}
+        </div>
+        {show ? (
+          <Global
+            styles={{
+              '#root': {
+                marginBottom: '50vh',
+              },
+            }}
+          />
+        ) : null}
       </div>
     )
   }

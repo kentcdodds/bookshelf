@@ -65,7 +65,7 @@ function AuthenticatedApp() {
           width: '100%',
           display: 'grid',
           gridGap: '1em',
-          gridTemplateColumns: '3fr 9fr',
+          gridTemplateColumns: '1fr 3fr',
           [mq.small]: {
             gridTemplateColumns: '1fr',
             gridTemplateRows: 'auto',
@@ -81,7 +81,6 @@ function AuthenticatedApp() {
             <AppRoutes />
           </ErrorBoundary>
         </main>
-        <footer />
       </div>
     </>
   )
