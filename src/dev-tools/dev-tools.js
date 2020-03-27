@@ -4,6 +4,8 @@ import {jsx, Global} from '@emotion/core'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import {FaTools} from 'react-icons/fa'
+import {Tooltip} from '@reach/tooltip'
 import './dev-tools.css'
 import * as reactQuery from 'react-query'
 // pulling the development thing directly because I'm not worried about
@@ -69,19 +71,31 @@ function install() {
               : null,
           ]}
         >
-          <button
-            css={{
-              border: 'none',
-              background: 'none',
-              marginBottom: 10,
-            }}
-            onClick={toggleShow}
-          >
-            🎛
-          </button>
+          <Tooltip label="Toggle Persist DevTools">
+            <button
+              css={{
+                color: 'white',
+                fontSize: '1.2rem',
+                border: 'none',
+                background: 'none',
+                marginBottom: 10,
+              }}
+              onClick={toggleShow}
+            >
+              <FaTools />{' '}
+              <span
+                css={{
+                  fontWeight: persist ? 'bold' : 'normal',
+                }}
+              >
+                Bookshelf DevTools
+              </span>
+            </button>
+          </Tooltip>
           {show ? (
             <div>
               <div>
+                <EnableDevTools />
                 <FailureRate />
                 <RequestMinTime />
                 <RequestVarTime />
@@ -129,6 +143,28 @@ function FailureRate() {
         onChange={handleChange}
         id="failureRate"
       />
+    </div>
+  )
+}
+
+function EnableDevTools() {
+  const [enableDevToos, setEnableDevToos] = useLocalStorageState(
+    'dev-tools',
+    process.env.NODE_ENV === 'development',
+  )
+
+  const handleChange = event => setEnableDevToos(event.target.checked)
+
+  return (
+    <div>
+      <input
+        css={{marginRight: 6}}
+        checked={enableDevToos}
+        type="checkbox"
+        onChange={handleChange}
+        id="enableDevToos"
+      />
+      <label htmlFor="enableDevToos">Enable DevTools by default</label>
     </div>
   )
 }
