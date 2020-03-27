@@ -6,7 +6,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './dev-tools.css'
 import * as reactQuery from 'react-query'
-import {ReactQueryDevtoolsPanel} from 'react-query-devtools'
+// pulling the development thing directly because I'm not worried about
+// bundle size since this won't be loaded in prod unless the query string/localStorage key is set
+import {ReactQueryDevtoolsPanel} from 'react-query-devtools/dist/react-query-devtools.development'
 
 function install() {
   // add some things to window to make it easier to debug
