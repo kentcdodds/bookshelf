@@ -11,6 +11,7 @@ import {
   useMatch,
 } from 'react-router-dom'
 import ErrorBoundary from 'react-error-boundary'
+import {Button} from './components/lib'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
 import {useAuth} from './context/auth-context'
@@ -52,14 +53,9 @@ function AuthenticatedApp() {
         }}
       >
         {user.username}
-        <button
-          css={{
-            marginLeft: '10px',
-          }}
-          onClick={logout}
-        >
+        <Button variant="secondary" css={{marginLeft: '10px'}} onClick={logout}>
           Logout
-        </button>
+        </Button>
       </div>
       <div
         css={{

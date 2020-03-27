@@ -7,6 +7,17 @@ import {useUpdateListItem} from '../utils/list-items'
 import {FaStar} from 'react-icons/fa'
 import * as colors from '../styles/colors'
 
+const visuallyHiddenCSS = {
+  border: '0',
+  clip: 'rect(0 0 0 0)',
+  height: '1px',
+  margin: '-1px',
+  overflow: 'hidden',
+  padding: '0',
+  position: 'absolute',
+  width: '1px',
+}
+
 function Rating({listItem}) {
   const [isTabbing, setIsTabbing] = React.useState(false)
 
@@ -38,26 +49,28 @@ function Rating({listItem}) {
           onChange={() => {
             mutate({id: listItem.id, rating: ratingValue})
           }}
-          className="visually-hidden"
-          css={{
-            [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},
-            [`.${rootClassName} &:checked + label`]: {color: 'orange'},
-            // !important is here because we're doing special non-css-in-js things
-            // and so we have to deal with specificity and cascade. But, I promise
-            // this is better than trying to make this work with JavaScript.
-            // So deal with it 😎
-            [`.${rootClassName} &:hover ~ label`]: {
-              color: `${colors.gray20} !important`,
+          css={[
+            visuallyHiddenCSS,
+            {
+              [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},
+              [`.${rootClassName} &:checked + label`]: {color: 'orange'},
+              // !important is here because we're doing special non-css-in-js things
+              // and so we have to deal with specificity and cascade. But, I promise
+              // this is better than trying to make this work with JavaScript.
+              // So deal with it 😎
+              [`.${rootClassName} &:hover ~ label`]: {
+                color: `${colors.gray20} !important`,
+              },
+              [`.${rootClassName} &:hover + label`]: {
+                color: 'orange !important',
+              },
+              [`.${rootClassName} &:focus + label svg`]: {
+                outline: isTabbing
+                  ? ['1px solid orange', '-webkit-focus-ring-color auto 5px']
+                  : 'initial',
+              },
             },
-            [`.${rootClassName} &:hover + label`]: {
-              color: 'orange !important',
-            },
-            [`.${rootClassName} &:focus + label svg`]: {
-              outline: isTabbing
-                ? ['1px solid orange', '-webkit-focus-ring-color auto 5px']
-                : 'initial',
-            },
-          }}
+          ]}
         />
         <label
           htmlFor={ratingId}
@@ -67,7 +80,7 @@ function Rating({listItem}) {
             margin: 0,
           }}
         >
-          <span className="visually-hidden">
+          <span css={visuallyHiddenCSS}>
             {ratingValue} {ratingValue === 1 ? 'star' : 'stars'}
           </span>
           <FaStar css={{width: '16px', margin: '0 2px'}} />

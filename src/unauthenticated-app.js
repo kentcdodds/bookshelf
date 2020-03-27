@@ -4,10 +4,16 @@ import {jsx} from '@emotion/core'
 
 import React from 'react'
 import VisuallyHidden from '@reach/visually-hidden'
-import {Dialog} from '@reach/dialog'
 import * as colors from './styles/colors'
-import {CircleButton, Button, Spinner, FormGroup} from './components/lib'
+import {
+  CircleButton,
+  Button,
+  Spinner,
+  FormGroup,
+  Dialog,
+} from './components/lib'
 import Logo from './components/logo'
+import {Input} from './components/lib'
 import {useAuth} from './context/auth-context'
 import useAsync from './utils/use-async'
 
@@ -41,11 +47,11 @@ function LoginForm({onSubmit, buttonText}) {
     >
       <FormGroup>
         <label htmlFor="username">Username</label>
-        <input id="username" />
+        <Input id="username" />
       </FormGroup>
       <FormGroup>
         <label htmlFor="password">Password</label>
-        <input id="password" type="password" />
+        <Input id="password" type="password" />
       </FormGroup>
       <div>
         <Button type="submit">

@@ -12,7 +12,7 @@ import {formatDate} from 'utils/misc'
 import {useListItem, useUpdateListItem} from 'utils/list-items'
 import * as mq from 'styles/media-queries'
 import * as colors from 'styles/colors'
-import {Spinner} from 'components/lib'
+import {Spinner, Textarea} from 'components/lib'
 import Rating from 'components/rating'
 import StatusButtons from 'components/status-buttons'
 
@@ -138,7 +138,7 @@ function NotesTextarea({listItem}) {
         ) : null}
         {status === 'loading' ? <Spinner /> : null}
       </div>
-      <textarea
+      <Textarea
         id="notes"
         defaultValue={listItem.notes}
         onChange={handleNotesChange}
