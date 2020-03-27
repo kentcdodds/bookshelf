@@ -38,14 +38,11 @@ const BookListUL = styled.ul({
   gridGap: '1em',
 })
 
-function Spinner(props) {
-  return (
-    <FaSpinner
-      css={{animation: `${spin} 1s linear infinite`}}
-      aria-label="loading"
-      {...props}
-    />
-  )
+const Spinner = styled(FaSpinner)({
+  animation: `${spin} 1s linear infinite`,
+})
+Spinner.defaultProps = {
+  'aria-label': 'loading',
 }
 
 const buttonVariants = {
