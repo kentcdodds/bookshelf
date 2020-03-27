@@ -1,5 +1,21 @@
 import {composeMocks} from 'msw'
 import {handlers} from './server-handlers'
 
-// Start the Service Worker
-window.__bookshelf_serverReady = composeMocks(...handlers).start('/msw.js')
+async function setupServer() {
+  try {
+    const registrations = await navigator.serviceWorker.getRegistrations()
+    await Promise.allSettled(registrations.map(r => r.unregister()))
+  } catch (error) {
+    console.error('Service Worker unregistration failed: ', error)
+  }
+
+  // Start the Service Worker
+  const result = await composeMocks(...handlers).start('/msw.js')
+
+  // https://github.com/open-draft/msw/issues/73
+  await new Promise(resolve => setTimeout(resolve, 100))
+
+  return result
+}
+
+window.__bookshelf_serverReady = setupServer()
