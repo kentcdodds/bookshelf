@@ -17,7 +17,7 @@ if (branch === 'master' && username === 'kentcdodds') {
 }
 
 function updateExercises() {
-  console.log('Updating exercise branches')
+  console.log('▶️  Updating exercise branches')
   const masterCommit = execSync('git rev-parse master')
   const branches = execSync(
     `git for-each-ref --format='%(refname:short)'`,
@@ -25,14 +25,14 @@ function updateExercises() {
   const exerciseBranches = branches.filter(b => b.startsWith('exercises/'))
   exerciseBranches.forEach(branch => {
     const didUpdate = updateExerciseBranch(branch, masterCommit)
-    console.log(`${branch} is up to date.`)
+    console.log(`  ✔️  ${branch} is up to date.`)
     if (didUpdate) {
       console.log(`Force pushing ${branch}`)
       execSync('git push -f')
     }
   })
   execSync('git checkout master')
-  console.log('All exercises up to date.')
+  console.log('✅  All exercises up to date.')
 }
 
 function updateExerciseBranch(branch, masterCommit) {
@@ -66,7 +66,7 @@ function updateExerciseBranch(branch, masterCommit) {
     status.includes('Unmerged')
   ) {
     console.error(
-      'Merge conflict. Fix the conflict, then run the update-exercises script again to be sure you have everything up to date.',
+      '❌  Merge conflict. Fix the conflict, then run the update-exercises script again to be sure you have everything up to date.',
     )
     throw status
   }
