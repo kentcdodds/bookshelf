@@ -7,7 +7,7 @@ import Tooltip from '@reach/tooltip'
 import {FaSearch, FaTimes} from 'react-icons/fa'
 import {useBookSearch, refetchBookSearchQuery} from '../utils/books'
 import BookRow from '../components/book-row'
-import {BookListUL, Spinner} from '../components/lib'
+import {BookListUL, Spinner, Input} from '../components/lib'
 
 function DiscoverBooksScreen() {
   const [query, setQuery] = React.useState('')
@@ -28,7 +28,7 @@ function DiscoverBooksScreen() {
     <div>
       <div>
         <form onSubmit={handleSearchClick}>
-          <input
+          <Input
             placeholder="Search books..."
             id="search"
             css={{width: '100%'}}
