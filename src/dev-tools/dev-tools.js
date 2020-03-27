@@ -77,7 +77,16 @@ function install() {
           >
             🎛
           </button>
-          {show ? <ReactQueryDevtoolsPanel /> : null}
+          {show ? (
+            <div>
+              <div>
+                <FailureRate />
+                <RequestMinTime />
+                <RequestVarTime />
+              </div>
+              <ReactQueryDevtoolsPanel />
+            </div>
+          ) : null}
         </div>
         {show ? (
           <Global
@@ -96,6 +105,118 @@ function install() {
   document.body.appendChild(devToolsRoot)
   ReactDOM.render(<DevTools />, devToolsRoot)
 }
+
+function FailureRate() {
+  const [failureRate, setFailureRate] = useLocalStorageState(
+    '__bookshelf_failure_rate__',
+    0.1,
+  )
+
+  const handleChange = event => setFailureRate(Number(event.target.value) / 100)
+
+  return (
+    <div>
+      <label htmlFor="failureRate">Request Failure Percentage: </label>
+      <input
+        css={{marginLeft: 6}}
+        value={failureRate * 100}
+        type="number"
+        min="0"
+        max="100"
+        step="10"
+        onChange={handleChange}
+        id="failureRate"
+      />
+    </div>
+  )
+}
+
+function RequestMinTime() {
+  const [minTime, setMinTime] = useLocalStorageState(
+    '__bookshelf_min_request_time__',
+    300,
+  )
+
+  const handleChange = event => setMinTime(Number(event.target.value))
+
+  return (
+    <div>
+      <label htmlFor="minTime">Request min time (ms): </label>
+      <input
+        css={{marginLeft: 6}}
+        value={minTime}
+        type="number"
+        step="100"
+        min="0"
+        max={1000 * 60}
+        onChange={handleChange}
+        id="minTime"
+      />
+    </div>
+  )
+}
+
+function RequestVarTime() {
+  const [varTime, setVarTime] = useLocalStorageState(
+    '__bookshelf_variable_request_time__',
+    200,
+  )
+
+  const handleChange = event => setVarTime(Number(event.target.value))
+
+  return (
+    <div>
+      <label htmlFor="varTime">Request variable time (ms): </label>
+      <input
+        css={{marginLeft: 6}}
+        value={varTime}
+        type="number"
+        step="100"
+        min="0"
+        max={1000 * 60}
+        onChange={handleChange}
+        id="varTime"
+      />
+    </div>
+  )
+}
+
+/**
+ *
+ * @param {String} key The key to set in localStorage for this value
+ * @param {Object} defaultValue The value to use if it is not already in localStorage
+ * @param {{serialize: Function, deserialize: Function}} options The serialize and deserialize functions to use (defaults to JSON.stringify and JSON.parse respectively)
+ */
+function useLocalStorageState(
+  key,
+  defaultValue = '',
+  {serialize = JSON.stringify, deserialize = JSON.parse} = {},
+) {
+  const [state, setState] = React.useState(() => {
+    const valueInLocalStorage = window.localStorage.getItem(key)
+    if (valueInLocalStorage) {
+      return deserialize(valueInLocalStorage)
+    }
+    return typeof defaultValue === 'function' ? defaultValue() : defaultValue
+  })
+
+  const prevKeyRef = React.useRef(key)
+
+  React.useEffect(() => {
+    const prevKey = prevKeyRef.current
+    if (prevKey !== key) {
+      window.localStorage.removeItem(prevKey)
+    }
+    prevKeyRef.current = key
+  }, [key])
+
+  React.useEffect(() => {
+    window.localStorage.setItem(key, serialize(state))
+  }, [key, state, serialize])
+
+  return [state, setState]
+}
+
 export {install}
 
 /*

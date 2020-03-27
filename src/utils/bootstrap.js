@@ -6,17 +6,12 @@ async function bootstrapAppData() {
   let appData = {user: null, listItems: []}
 
   if (auth.isLoggedIn()) {
-    try {
-      await window.__bookshelf_serverReady
-      const [user, listItems] = await Promise.all([
-        auth.getUser().then(d => d.user),
-        listItemsClient.read().then(d => d.listItems),
-      ])
-      appData = {user, listItems}
-    } catch (error) {
-      auth.logout()
-      throw error
-    }
+    await window.__bookshelf_serverReady
+    const [user, listItems] = await Promise.all([
+      auth.getUser().then(d => d.user),
+      listItemsClient.read().then(d => d.listItems),
+    ])
+    appData = {user, listItems}
   }
   queryCache.setQueryData('list-items', appData.listItems)
   return appData

@@ -7,9 +7,14 @@ let sleep
 if (process.env.NODE_ENV === 'test') {
   sleep = () => Promise.resolve()
 } else {
-  sleep = (t = Math.random() * 200 + 300) =>
-    new Promise(resolve => setTimeout(resolve, t))
+  sleep = (
+    t = Math.random() * ls('__bookshelf_variable_request_time__', 200) +
+      ls('__bookshelf_min_request_time__', 300),
+  ) => new Promise(resolve => setTimeout(resolve, t))
 }
+
+const ls = (key, defaultVal) =>
+  Number(window.localStorage.getItem(key)) ?? defaultVal
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -50,12 +55,16 @@ const handlers = [
     }
     const query = req.query.get('query')
 
-    let matchingBooks
+    let matchingBooks = []
     if (query) {
       matchingBooks = booksDB.query(query)
     } else {
-      // return a random assortment of 10 books not already in the user's list
-      matchingBooks = getBooksNotInUsersList(getUser(req).id).slice(0, 10)
+      if (getToken(req)) {
+        // return a random assortment of 10 books not already in the user's list
+        matchingBooks = getBooksNotInUsersList(getUser(req).id).slice(0, 10)
+      } else {
+        matchingBooks = booksDB.readManyNotInList([]).slice(0, 10)
+      }
     }
 
     return res(ctx.json({books: matchingBooks}))
@@ -83,11 +92,8 @@ const handlers = [
   rest.post(`${apiUrl}/list-items`, async (req, res, ctx) => {
     const user = getUser(req)
     const {bookId} = req.body
-    const book = booksDB.read(bookId)
-    if (!book) {
-      throw new Error(`No book found with the ID of ${bookId}`)
-    }
     const listItem = listItemsDB.create({ownerId: user.id, bookId: bookId})
+    const book = booksDB.read(bookId)
     return res(ctx.json({listItem: {...listItem, book}}))
   }),
 
@@ -95,13 +101,10 @@ const handlers = [
     const user = getUser(req)
     const {listItemId} = req.params
     const updates = req.body
-    try {
-      listItemsDB.authorize(user.id, listItemId)
-    } catch (error) {
-      return res(ctx.status(401), ctx.json({message: error.message}))
-    }
+    listItemsDB.authorize(user.id, listItemId)
     const updatedListItem = listItemsDB.update(listItemId, updates)
-    return res(ctx.json({listItem: updatedListItem}))
+    const book = booksDB.read(updatedListItem.bookId)
+    return res(ctx.json({listItem: {...updatedListItem, book}}))
   }),
 
   rest.delete(`${apiUrl}/list-items/:listItemId`, async (req, res, ctx) => {
@@ -117,6 +120,9 @@ const handlers = [
     async resolver(req, res, ctx) {
       try {
         const result = await handler.resolver(req, res, ctx)
+        if (shouldFail(req)) {
+          throw new Error('Random failure (for testing purposes). Try again.')
+        }
         return result
       } catch (error) {
         return res(
@@ -130,16 +136,32 @@ const handlers = [
   }
 })
 
+function shouldFail(req) {
+  if (JSON.stringify(req.body)?.includes('FAIL')) return true
+  if (req.query.toString()?.includes('FAIL')) return true
+  if (process.env.NODE_ENV === 'test') return false
+  const failureRate = Number(
+    window.localStorage.getItem('__bookshelf_failure_rate__') || 0.1,
+  )
+  return Math.random() < failureRate
+}
+
+const getToken = req => req.headers.get('Authorization')?.replace('Bearer ', '')
+
 function getUser(req) {
-  const token = req.headers.get('Authorization')?.replace('Bearer ', '')
+  const token = getToken(req)
   if (!token) {
-    throw new Error('A token must be provided')
+    const error = new Error('A token must be provided')
+    error.status = 401
+    throw error
   }
   let userId
   try {
     userId = atob(token)
-  } catch (error) {
-    throw new Error('Invalid token. Please login again.')
+  } catch (e) {
+    const error = new Error('Invalid token. Please login again.')
+    error.status = 401
+    throw error
   }
   return usersDB.read(userId)
 }

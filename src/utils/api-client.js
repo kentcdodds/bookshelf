@@ -1,5 +1,8 @@
+import {queryCache} from 'react-query'
+const localStorageKey = '__bookshelf_token__'
+
 function client(endpoint, {body, ...customConfig} = {}) {
-  const token = window.localStorage.getItem('__bookshelf_token__')
+  const token = window.localStorage.getItem(localStorageKey)
   const headers = {'content-type': 'application/json'}
   if (token) {
     headers.Authorization = `Bearer ${token}`
@@ -19,6 +22,12 @@ function client(endpoint, {body, ...customConfig} = {}) {
   return window
     .fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, config)
     .then(async r => {
+      if (r.status === 401) {
+        logout()
+        // refresh the page for them
+        window.location.assign(window.location)
+        return
+      }
       const data = await r.json()
       if (r.ok) {
         return data
@@ -28,4 +37,9 @@ function client(endpoint, {body, ...customConfig} = {}) {
     })
 }
 
-export {client}
+function logout() {
+  queryCache.clear()
+  window.localStorage.removeItem(localStorageKey)
+}
+
+export {client, localStorageKey, logout}

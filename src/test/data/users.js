@@ -27,14 +27,20 @@ function authenticate({username, password}) {
   if (user.passwordHash === hash(password)) {
     return {...user, token: btoa(user.id)}
   }
-  throw new Error('Invalid username or password')
+  const error = new Error('Invalid username or password')
+  error.status = 400
+  throw error
 }
 
 function create({username, password}) {
   const id = hash(username)
   const passwordHash = hash(password)
   if (users[id]) {
-    throw new Error(`Cannot create a new user with the username "${username}"`)
+    const error = new Error(
+      `Cannot create a new user with the username "${username}"`,
+    )
+    error.status = 400
+    throw error
   }
   users[id] = {id, username, passwordHash}
   persist()
@@ -63,7 +69,9 @@ function remove(id) {
 function validateUser(id) {
   load()
   if (!users[id]) {
-    throw new Error(`No user with the id "${id}"`)
+    const error = new Error(`No user with the id "${id}"`)
+    error.status = 404
+    throw error
   }
 }
 

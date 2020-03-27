@@ -1,3 +1,4 @@
+import * as booksDB from './books'
 const listItemsKey = '__bookshelf_list_items__'
 const listItems = {}
 const persist = () =>
@@ -27,7 +28,9 @@ window.__bookshelf.purgeListItems = () => {
 function authorize(userId, listItemId) {
   const listItem = read(listItemId)
   if (listItem.ownerId !== userId) {
-    throw new Error('User is not authorized to view that list')
+    const error = new Error('User is not authorized to view that list')
+    error.status = 403
+    throw error
   }
 }
 
@@ -41,7 +44,17 @@ function create({
 }) {
   const id = hash(`${bookId}${ownerId}`)
   if (listItems[id]) {
-    throw new Error(`This user cannot create new list item for that book`)
+    const error = new Error(
+      `This user cannot create new list item for that book`,
+    )
+    error.status = 400
+    throw error
+  }
+  const book = booksDB.read(bookId)
+  if (!book) {
+    const error = new Error(`No book found with the ID of ${bookId}`)
+    error.status = 400
+    throw error
   }
   listItems[id] = {id, bookId, ownerId, rating, notes, finishDate, startDate}
   persist()
@@ -81,7 +94,9 @@ function readByOwner(userId) {
 function validateListItem(id) {
   load()
   if (!listItems[id]) {
-    throw new Error(`No list item with the id "${id}"`)
+    const error = new Error(`No list item with the id "${id}"`)
+    error.status = 404
+    throw error
   }
 }
 
@@ -97,7 +112,9 @@ function hash(str) {
 
 function required(key) {
   return () => {
-    throw new Error(`${key} is required`)
+    const error = new Error(`${key} is required`)
+    error.status = 400
+    throw error
   }
 }
 
