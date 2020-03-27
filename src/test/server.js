@@ -13,7 +13,7 @@ async function setupServer() {
   const result = await composeMocks(...handlers).start('/msw.js')
 
   // https://github.com/open-draft/msw/issues/73
-  await new Promise(resolve => setTimeout(resolve, 100))
+  await new Promise(resolve => setTimeout(resolve, 500))
 
   return result
 }
