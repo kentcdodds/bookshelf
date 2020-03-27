@@ -25,7 +25,7 @@ function updateExercises() {
   const exerciseBranches = branches.filter(b => b.startsWith('exercises/'))
   exerciseBranches.forEach(branch => {
     const didUpdate = updateExerciseBranch(branch, masterCommit)
-    console.log(`  ✔️  ${branch} is up to date.`)
+    console.log(`  ✅  ${branch} is up to date.`)
     if (didUpdate) {
       console.log(`Force pushing ${branch}`)
       execSync('git push -f')
