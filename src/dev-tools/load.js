@@ -40,3 +40,8 @@ function loadDevTools(callback) {
 }
 
 export {loadDevTools}
+
+/*
+eslint
+  eqeqeq: "off",
+*/
