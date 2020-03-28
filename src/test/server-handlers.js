@@ -32,12 +32,6 @@ const handlers = [
 
   rest.post(`${apiUrl}/register`, async (req, res, ctx) => {
     const {username, password} = req.body
-    if (!username) {
-      return res(ctx.status(400), ctx.json({message: 'A username is required'}))
-    }
-    if (!password) {
-      return res(ctx.status(400), ctx.json({message: 'A password is required'}))
-    }
     const userFields = {username, password}
     usersDB.create(userFields)
     let user
