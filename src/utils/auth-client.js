@@ -10,7 +10,7 @@ function getUser() {
   if (!token) {
     return Promise.resolve(null)
   }
-  return client('me')
+  return client('me').then(data => data.user)
 }
 
 function login({username, password}) {
