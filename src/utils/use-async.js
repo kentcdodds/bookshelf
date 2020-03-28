@@ -42,6 +42,13 @@ function useAsync() {
     [safeSetState],
   )
 
+  const setData = React.useCallback(data => safeSetState({data}), [
+    safeSetState,
+  ])
+  const setError = React.useCallback(error => safeSetState({error}), [
+    safeSetState,
+  ])
+
   return {
     // using the same names that react-query uses for convenience
     isIdle: status === 'idle',
@@ -49,6 +56,8 @@ function useAsync() {
     isError: status === 'rejected',
     isSuccess: status === 'resolved',
 
+    setData,
+    setError,
     error,
     status,
     data,

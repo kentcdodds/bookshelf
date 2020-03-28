@@ -24,26 +24,25 @@ function AuthProvider(props) {
     isError,
     isSuccess,
     run,
+    setData,
   } = useAsync()
-
-  const runBootstrap = React.useCallback(() => run(bootstrapAppData()), [run])
 
   React.useLayoutEffect(() => {
     run(appDataPromise)
   }, [run])
 
   const login = React.useCallback(
-    form => authClient.login(form).then(runBootstrap),
-    [runBootstrap],
+    form => authClient.login(form).then(user => setData({user})),
+    [setData],
   )
   const register = React.useCallback(
-    form => authClient.register(form).then(runBootstrap),
-    [runBootstrap],
+    form => authClient.register(form).then(user => setData({user})),
+    [setData],
   )
   const logout = React.useCallback(() => {
     authClient.logout()
-    run(bootstrapAppData())
-  }, [run])
+    setData(null)
+  }, [setData])
 
   const user = data?.user
 
