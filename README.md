@@ -28,8 +28,8 @@ following things to prepare.
       [Use Zoom for KCD Workshops](https://egghead.io/lessons/egghead-use-zoom-for-kcd-workshops)
       (~8 minutes).
 - [ ] Watch
-      [Setup and Logistics for KCD Workshops](https://egghead.io/lessons/egghead-setup-and-logistics-for-kcd-workshops)
-      (~24 minutes). Please do NOT skip this step.
+      [How to get the bookshelf app setup](https://www.youtube.com/watch?v=8p-0aTkoD14)
+      (~18 minutes). Please do NOT skip this step.
 - [ ] 👋 Watch [The Beginner's Guide to React](https://kcd.im/beginner-react)
       (available free on Egghead.io), or have the equivalent experience (147
       minutes)
@@ -78,12 +78,10 @@ cd bookshelf
 npm run setup --silent
 ```
 
-This may take a few minutes. **It will ask you for your email.** This is
-optional and just automatically adds your email to the links in the project to
-make filling out some forms easier. If you get any errors, please read through
-them and see if you can find out what the problem is. If you can't work it out
-on your own then please [file an issue][issue] and provide _all_ the output from
-the commands you ran (even if it's a lot).
+If you get any errors, please read through them and see if you can find out what
+the problem is. If you can't work it out on your own then please [file an
+issue][issue] and provide _all_ the output from the commands you ran (even if
+it's a lot).
 
 ## Running the app
 
