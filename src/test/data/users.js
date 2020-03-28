@@ -21,7 +21,21 @@ window.__bookshelf.purgeUsers = () => {
   persist()
 }
 
+function validateUserForm({username, password}) {
+  if (!username) {
+    const error = new Error('A username is required')
+    error.code = 400
+    throw error
+  }
+  if (!password) {
+    const error = new Error('A password is required')
+    error.code = 400
+    throw error
+  }
+}
+
 function authenticate({username, password}) {
+  validateUserForm({username, password})
   const id = hash(username)
   const user = users[id] || {}
   if (user.passwordHash === hash(password)) {
@@ -33,6 +47,7 @@ function authenticate({username, password}) {
 }
 
 function create({username, password}) {
+  validateUserForm({username, password})
   const id = hash(username)
   const passwordHash = hash(password)
   if (users[id]) {
