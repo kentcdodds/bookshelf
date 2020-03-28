@@ -1,4 +1,4 @@
-import bookPlaceholderSvg from '../assets/book-placeholder.svg'
+import bookPlaceholderSvg from 'assets/book-placeholder.svg'
 
 const loadingBook = {
   title: 'Loading...',

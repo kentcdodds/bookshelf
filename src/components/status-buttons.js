@@ -16,9 +16,9 @@ import {
   useUpdateListItem,
   useRemoveListItem,
   useCreateListItem,
-} from '../utils/list-items'
-import * as colors from '../styles/colors'
-import {useAsync} from '../utils/use-async'
+} from 'utils/list-items'
+import * as colors from 'styles/colors'
+import {useAsync} from 'utils/use-async'
 import {CircleButton, Spinner} from './lib'
 
 function TooltipButton({label, highlight, onClick, icon, ...rest}) {

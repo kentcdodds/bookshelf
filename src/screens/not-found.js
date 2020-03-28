@@ -2,7 +2,7 @@
 /** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
-import {Link} from '../components/lib'
+import {Link} from 'components/lib'
 
 function NotFound() {
   return (

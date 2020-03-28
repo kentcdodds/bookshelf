@@ -1,6 +1,6 @@
 import React from 'react'
-import {Link} from '../components/lib'
-import {ListItemList} from '../components/list-item-list'
+import {Link} from 'components/lib'
+import {ListItemList} from 'components/list-item-list'
 
 function ReadingListScreen() {
   return (
