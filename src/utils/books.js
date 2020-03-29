@@ -14,7 +14,6 @@ function searchBooks(queryKey, {query}) {
 const bookQueryConfig = {
   staleTime: 1000 * 60 * 60,
   cacheTime: 1000 * 60 * 60,
-  useErrorBoundary: true,
 }
 
 const getBookSearchConfig = query => ({
@@ -43,7 +42,11 @@ function getBook(queryKey, {bookId}) {
 }
 
 function useBook(bookId) {
-  const {data} = useQuery(['book', {bookId}], getBook, bookQueryConfig)
+  const {data} = useQuery({
+    queryKey: ['book', {bookId}],
+    queryFn: getBook,
+    ...bookQueryConfig,
+  })
   return data ?? loadingBook
 }
 
@@ -53,7 +56,11 @@ async function refetchBookSearchQuery() {
 }
 
 function setQueryDataForBook(book) {
-  queryCache.setQueryData(['book', {bookId: book.id}], book, bookQueryConfig)
+  queryCache.setQueryData({
+    queryKey: ['book', {bookId: book.id}],
+    queryFn: book,
+    ...bookQueryConfig,
+  })
 }
 
 export {useBook, useBookSearch, refetchBookSearchQuery, setQueryDataForBook}
