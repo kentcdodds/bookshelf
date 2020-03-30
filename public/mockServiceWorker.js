@@ -1,33 +1,67 @@
 /**
  * Mock Service Worker.
- * @see https://github.com/kettanaito/msw
- * This Service Worker is meant for development usage only.
- * Make sure not to include it on production.
+ * @see https://github.com/open-draft/msw
+ * - Please do NOT modify this file.
+ * - Please do NOT serve this file on production.
  */
-self.addEventListener('install', (event) => {
+/* eslint-disable */
+/* tslint:disable */
+
+const INTEGRITY_CHECKSUM = '582e1e1f1f2b85a3997e0537abd5fe4d'
+const bannerStyle = 'color:orangered;font-weight:bold;'
+const bypassHeaderName = 'x-msw-bypass'
+
+self.addEventListener('install', function() {
   return self.skipWaiting()
 })
 
-self.addEventListener('activate', (event) => {
-  console.log('%c[MSW] Activated!', 'color:green;font-weight:bold;')
+self.addEventListener('activate', function() {
   return self.clients.claim()
 })
 
-self.addEventListener('message', (event) => {
+self.addEventListener('message', async function(event) {
   switch (event.data) {
+    case 'INTEGRITY_CHECK_REQUEST': {
+      const clientId = event.source.id
+      const client = await event.currentTarget.clients.get(clientId)
+
+      messageClient(client, {
+        type: 'INTEGRITY_CHECK_RESPONSE',
+        payload: INTEGRITY_CHECKSUM,
+      })
+      break
+    }
+
     case 'MOCK_ACTIVATE': {
       self.__isMswEnabled = true
+      console.groupCollapsed('%c[MSW] Mocking enabled.', bannerStyle)
+      console.log(
+        '%cDocumentation: %chttps://redd.gitbook.io/msw',
+        'font-weight:bold',
+        'font-weight:normal',
+      )
+      console.log('Found an issue? https://github.com/open-draft/msw/issues')
+      console.groupEnd()
       break
     }
 
     case 'MOCK_DEACTIVATE': {
       self.__isMswEnabled = false
+      console.warn('[MSW] Deactivating Service Worker...')
       break
     }
   }
 })
 
-const messageClient = (client, message) => {
+function serializeHeaders(headers) {
+  const reqHeaders = {}
+  headers.forEach((value, name) => {
+    reqHeaders[name] = value
+  })
+  return reqHeaders
+}
+
+function messageClient(client, message) {
   return new Promise((resolve, reject) => {
     const channel = new MessageChannel()
 
@@ -43,9 +77,9 @@ const messageClient = (client, message) => {
   })
 }
 
-self.addEventListener('fetch', async (event) => {
-  const { clientId, request: req } = event
-  const requestClone = req.clone()
+self.addEventListener('fetch', async function(event) {
+  const { clientId, request } = event
+  const requestClone = request.clone()
   const getOriginalResponse = () => fetch(requestClone)
 
   event.respondWith(
@@ -58,49 +92,46 @@ self.addEventListener('fetch', async (event) => {
       }
 
       // Bypass requests with the explicit bypass header
-      if (req.headers.get('x-msw-bypass') === 'true') {
-        const modifiedHeaders = serializeHeaders(req.headers)
+      if (requestClone.headers.get(bypassHeaderName) === 'true') {
+        const modifiedHeaders = serializeHeaders(requestClone.headers)
         // Remove the bypass header to comply with the CORS preflight check
-        delete modifiedHeaders['x-msw-bypass']
+        delete modifiedHeaders[bypassHeaderName]
 
-        return resolve(
-          fetch(
-            new Request(req.url, {
-              ...req,
-              headers: new Headers(modifiedHeaders),
-            }),
-          ),
-        )
+        const originalRequest = new Request(requestClone, {
+          headers: new Headers(modifiedHeaders),
+        })
+
+        return resolve(fetch(originalRequest))
       }
 
       /**
        * Converts "Headers" to the plain Object to be stringified.
        * @todo See how this handles multipe headers with the same name.
        */
-      const reqHeaders = serializeHeaders(req.headers)
-
-      /**
-       * If the body cannot be resolved (either as JSON or to text/string),
-       * the default value will be undefined.
-       */
-      const json = await req.json().catch(() => void 0)
-      const text = await req.text().catch(() => void 0)
+      const reqHeaders = serializeHeaders(request.headers)
+      const body = await request
+        .json()
+        .catch(() => request.text())
+        .catch(() => null)
 
       const clientResponse = await messageClient(client, {
-        url: req.url,
-        method: req.method,
-        headers: reqHeaders,
-        cache: req.cache,
-        mode: req.mode,
-        credentials: req.credentials,
-        destination: req.destination,
-        integrity: req.integrity,
-        redirect: req.redirect,
-        referrer: req.referrer,
-        referrerPolicy: req.referrerPolicy,
-        body: json || text,
-        bodyUsed: req.bodyUsed,
-        keepalive: req.keepalive,
+        type: 'REQUEST',
+        payload: {
+          url: request.url,
+          method: request.method,
+          headers: reqHeaders,
+          cache: request.cache,
+          mode: request.mode,
+          credentials: request.credentials,
+          destination: request.destination,
+          integrity: request.integrity,
+          redirect: request.redirect,
+          referrer: request.referrer,
+          referrerPolicy: request.referrerPolicy,
+          body,
+          bodyUsed: request.bodyUsed,
+          keepalive: request.keepalive,
+        },
       })
 
       if (clientResponse === 'MOCK_NOT_FOUND') {
@@ -118,18 +149,10 @@ self.addEventListener('fetch', async (event) => {
     }).catch((error) => {
       console.error(
         '[MSW] Failed to mock a "%s" request to "%s": %s',
-        req.method,
-        req.url,
+        request.method,
+        request.url,
         error,
       )
     }),
   )
 })
-
-const serializeHeaders = (headers) => {
-  const reqHeaders = {}
-  headers.forEach((value, name) => {
-    reqHeaders[name] = value
-  })
-  return reqHeaders
-}
