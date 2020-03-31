@@ -7,7 +7,7 @@
 /* eslint-disable */
 /* tslint:disable */
 
-const INTEGRITY_CHECKSUM = '582e1e1f1f2b85a3997e0537abd5fe4d'
+const INTEGRITY_CHECKSUM = '2579d4c0118e1d20d98165a260d9134e'
 const bannerStyle = 'color:orangered;font-weight:bold;'
 const bypassHeaderName = 'x-msw-bypass'
 
@@ -20,11 +20,11 @@ self.addEventListener('activate', function() {
 })
 
 self.addEventListener('message', async function(event) {
+  const clientId = event.source.id
+  const client = await event.currentTarget.clients.get(clientId)
+
   switch (event.data) {
     case 'INTEGRITY_CHECK_REQUEST': {
-      const clientId = event.source.id
-      const client = await event.currentTarget.clients.get(clientId)
-
       messageClient(client, {
         type: 'INTEGRITY_CHECK_RESPONSE',
         payload: INTEGRITY_CHECKSUM,
@@ -34,6 +34,11 @@ self.addEventListener('message', async function(event) {
 
     case 'MOCK_ACTIVATE': {
       self.__isMswEnabled = true
+      messageClient(client, {
+        type: 'MOCKING_ENABLED',
+        payload: true,
+      })
+
       console.groupCollapsed('%c[MSW] Mocking enabled.', bannerStyle)
       console.log(
         '%cDocumentation: %chttps://redd.gitbook.io/msw',

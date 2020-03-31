@@ -95,6 +95,7 @@ function install() {
           {show ? (
             <div>
               <div>
+                <ClearLocalStorage />
                 <EnableDevTools />
                 <FailureRate />
                 <RequestMinTime />
@@ -122,10 +123,18 @@ function install() {
   ReactDOM.render(<DevTools />, devToolsRoot)
 }
 
+function ClearLocalStorage() {
+  function clear() {
+    window.localStorage.clear()
+    window.location.assign(window.location)
+  }
+  return <button onClick={clear}>Purge Database</button>
+}
+
 function FailureRate() {
   const [failureRate, setFailureRate] = useLocalStorageState(
     '__bookshelf_failure_rate__',
-    0.1,
+    0,
   )
 
   const handleChange = event => setFailureRate(Number(event.target.value) / 100)
@@ -172,7 +181,7 @@ function EnableDevTools() {
 function RequestMinTime() {
   const [minTime, setMinTime] = useLocalStorageState(
     '__bookshelf_min_request_time__',
-    300,
+    400,
   )
 
   const handleChange = event => setMinTime(Number(event.target.value))
@@ -197,7 +206,7 @@ function RequestMinTime() {
 function RequestVarTime() {
   const [varTime, setVarTime] = useLocalStorageState(
     '__bookshelf_variable_request_time__',
-    200,
+    400,
   )
 
   const handleChange = event => setVarTime(Number(event.target.value))

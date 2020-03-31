@@ -10,12 +10,7 @@ async function setupServer() {
   }
 
   // Start the Service Worker
-  const result = await composeMocks(...handlers).start('/mockServiceWorker.js')
-
-  // https://github.com/open-draft/msw/issues/73
-  await new Promise(resolve => setTimeout(resolve, 500))
-
-  return result
+  return composeMocks(...handlers).start('/mockServiceWorker.js')
 }
 
 window.__bookshelf_serverReady = setupServer()

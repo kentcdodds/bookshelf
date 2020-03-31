@@ -8,8 +8,8 @@ if (process.env.NODE_ENV === 'test') {
   sleep = () => Promise.resolve()
 } else {
   sleep = (
-    t = Math.random() * ls('__bookshelf_variable_request_time__', 200) +
-      ls('__bookshelf_min_request_time__', 300),
+    t = Math.random() * ls('__bookshelf_variable_request_time__', 400) +
+      ls('__bookshelf_min_request_time__', 400),
   ) => new Promise(resolve => setTimeout(resolve, t))
 }
 
@@ -135,7 +135,7 @@ function shouldFail(req) {
   if (req.query.toString()?.includes('FAIL')) return true
   if (process.env.NODE_ENV === 'test') return false
   const failureRate = Number(
-    window.localStorage.getItem('__bookshelf_failure_rate__') || 0.1,
+    window.localStorage.getItem('__bookshelf_failure_rate__') || 0,
   )
   return Math.random() < failureRate
 }
