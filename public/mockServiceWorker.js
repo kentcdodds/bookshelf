@@ -7,7 +7,7 @@
 /* eslint-disable */
 /* tslint:disable */
 
-const INTEGRITY_CHECKSUM = '2579d4c0118e1d20d98165a260d9134e'
+const INTEGRITY_CHECKSUM = 'ea757fe0ea4a3107c2559092a72c7b14'
 const bannerStyle = 'color:orangered;font-weight:bold;'
 const bypassHeaderName = 'x-msw-bypass'
 
@@ -25,7 +25,7 @@ self.addEventListener('message', async function(event) {
 
   switch (event.data) {
     case 'INTEGRITY_CHECK_REQUEST': {
-      messageClient(client, {
+      sendToClient(client, {
         type: 'INTEGRITY_CHECK_RESPONSE',
         payload: INTEGRITY_CHECKSUM,
       })
@@ -34,7 +34,7 @@ self.addEventListener('message', async function(event) {
 
     case 'MOCK_ACTIVATE': {
       self.__isMswEnabled = true
-      messageClient(client, {
+      sendToClient(client, {
         type: 'MOCKING_ENABLED',
         payload: true,
       })
@@ -66,7 +66,7 @@ function serializeHeaders(headers) {
   return reqHeaders
 }
 
-function messageClient(client, message) {
+function sendToClient(client, message) {
   return new Promise((resolve, reject) => {
     const channel = new MessageChannel()
 
@@ -79,6 +79,13 @@ function messageClient(client, message) {
     }
 
     client.postMessage(JSON.stringify(message), [channel.port2])
+  })
+}
+
+function createResponse(clientMessage) {
+  return new Response(clientMessage.payload.body, {
+    ...clientMessage.payload,
+    headers: clientMessage.payload.headers,
   })
 }
 
@@ -119,7 +126,7 @@ self.addEventListener('fetch', async function(event) {
         .catch(() => request.text())
         .catch(() => null)
 
-      const clientResponse = await messageClient(client, {
+      const rawClientMessage = await sendToClient(client, {
         type: 'REQUEST',
         payload: {
           url: request.url,
@@ -139,18 +146,38 @@ self.addEventListener('fetch', async function(event) {
         },
       })
 
-      if (clientResponse === 'MOCK_NOT_FOUND') {
+      const clientMessage = JSON.parse(rawClientMessage)
+
+      if (clientMessage.type === 'MOCK_NOT_FOUND') {
         return resolve(getOriginalResponse())
       }
 
-      const mockedResponse = JSON.parse(clientResponse, (key, value) => {
-        return key === 'headers' ? new Headers(value) : value
-      })
+      if (clientMessage.type === 'INTERNAL_ERROR') {
+        const parsedBody = JSON.parse(clientMessage.payload.body)
 
-      setTimeout(
-        resolve.bind(this, new Response(mockedResponse.body, mockedResponse)),
-        mockedResponse.delay,
-      )
+        console.error(
+          `\
+[MSW] Request handler function for "%s %s" has thrown the following exception:
+
+${parsedBody.errorType}: ${parsedBody.message}
+(see more detailed error stack trace in the mocked response body)
+
+This exception has been gracefully handled as a 500 response, however, it's strongly recommended to resolve this error.
+If you wish to mock an error response, please refer to this guide: https://redd.gitbook.io/msw/recipes/mocking-error-responses\
+  `,
+          request.method,
+          request.url,
+        )
+
+        return resolve(createResponse(clientMessage))
+      }
+
+      if (clientMessage.type === 'MOCK_SUCCESS') {
+        setTimeout(
+          resolve.bind(this, createResponse(clientMessage)),
+          clientMessage.delay,
+        )
+      }
     }).catch((error) => {
       console.error(
         '[MSW] Failed to mock a "%s" request to "%s": %s',
