@@ -21,3 +21,8 @@ afterEach(() => {
   queryCache.clear()
   jest.clearAllMocks()
 })
+
+// userEvent has trouble when there is no document.activeElement
+beforeAll(() => {
+  document.body.focus()
+})

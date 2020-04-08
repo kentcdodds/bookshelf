@@ -23,13 +23,12 @@ function register({username, password}) {
   )
 }
 
+function logout() {
+  window.localStorage.removeItem(localStorageKey)
+}
+
 function getToken() {
   return window.localStorage.getItem(localStorageKey)
 }
 
-function isLoggedIn() {
-  return Boolean(getToken())
-}
-
-export {login, register, getToken, getUser, isLoggedIn}
-export {logout} from './api-client'
+export {login, register, logout, getToken, getUser}

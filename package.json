@@ -2,7 +2,7 @@
   "name": "bookshelf",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://the-react-bookshelf.netlify.app/",
+  "homepage": "https://the-react-bookshelf-exercises-05-routing.netlify.app/",
   "engines": {
     "node": ">=12",
     "npm": ">=6"
@@ -69,7 +69,7 @@
     "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\"",
     "setup": "node ./scripts/setup",
     "validate-exercises": "node ./scripts/validate-exercises",
-    "validate": "npm-run-all --parallel lint test:coverage test:e2e:run validate-exercises"
+    "validate": "npm-run-all --parallel lint test:coverage build validate-exercises"
   },
   "eslintConfig": {
     "extends": "react-app"
