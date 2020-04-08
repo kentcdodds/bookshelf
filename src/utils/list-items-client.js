@@ -4,7 +4,7 @@ function create(listItemData) {
   return client('list-items', {body: listItemData})
 }
 
-function read(listItemIds = []) {
+function read() {
   return client('list-items')
 }
 
