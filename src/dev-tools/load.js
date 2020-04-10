@@ -5,7 +5,7 @@ function loadDevTools(callback) {
   const urlEnabled = url.searchParams.get('dev-tools') === 'true'
   if (setInUrl) {
     if (urlEnabled) {
-      go()
+      return go()
     } else {
       return callback()
     }
@@ -17,7 +17,7 @@ function loadDevTools(callback) {
   const localStorageEnabled = localStorageValue === 'true'
   if (setInLocalStorage) {
     if (localStorageEnabled) {
-      go()
+      return go()
     } else {
       return callback()
     }
@@ -25,7 +25,7 @@ function loadDevTools(callback) {
 
   // the default to on if in development
   if (process.env.NODE_ENV === 'development') {
-    go()
+    return go()
   } else {
     return callback()
   }

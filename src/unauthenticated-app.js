@@ -4,20 +4,20 @@ import {jsx} from '@emotion/core'
 
 import React from 'react'
 import VisuallyHidden from '@reach/visually-hidden'
-import * as colors from './styles/colors'
 import {
   CircleButton,
   Button,
   Spinner,
   FormGroup,
-  Dialog,
+  ErrorMessage,
 } from './components/lib'
+import {Modal, ModalDismissButton} from './components/modal'
 import {Logo} from './components/logo'
 import {Input} from './components/lib'
 import {useAuth} from './context/auth-context'
 import {useAsync} from './utils/use-async'
 
-function LoginForm({onSubmit, buttonText}) {
+function LoginForm({onSubmit, submitButton}) {
   const {isLoading, isError, error, run} = useAsync()
   function handleSubmit(event) {
     event.preventDefault()
@@ -54,35 +54,28 @@ function LoginForm({onSubmit, buttonText}) {
         <Input id="password" type="password" />
       </FormGroup>
       <div>
-        <Button type="submit">
-          {buttonText} {isLoading ? <Spinner css={{marginLeft: 5}} /> : null}
-        </Button>
+        {React.cloneElement(
+          submitButton,
+          {type: 'submit'},
+          ...submitButton.props.children,
+          isLoading ? <Spinner css={{marginLeft: 5}} /> : null,
+        )}
       </div>
-      {isError ? (
-        <div css={{color: colors.danger}}>{error?.message}</div>
-      ) : null}
+      {isError ? <ErrorMessage error={error} /> : null}
     </form>
   )
 }
 
-function Modal({button, label, children}) {
-  const [isOpen, setIsOpen] = React.useState(false)
-
-  return (
-    <>
-      {React.cloneElement(button, {onClick: () => setIsOpen(true)})}
-      <Dialog aria-label={label} isOpen={isOpen}>
-        <div css={{display: 'flex', justifyContent: 'flex-end'}}>
-          <CircleButton onClick={() => setIsOpen(false)}>
-            <VisuallyHidden>Close</VisuallyHidden>
-            <span aria-hidden>×</span>
-          </CircleButton>
-        </div>
-        {children}
-      </Dialog>
-    </>
-  )
-}
+const circleDismissButton = (
+  <div css={{display: 'flex', justifyContent: 'flex-end'}}>
+    <ModalDismissButton>
+      <CircleButton>
+        <VisuallyHidden>Close</VisuallyHidden>
+        <span aria-hidden>×</span>
+      </CircleButton>
+    </ModalDismissButton>
+  </div>
+)
 
 function UnauthenticatedApp() {
   const {login, register} = useAuth()
@@ -107,16 +100,27 @@ function UnauthenticatedApp() {
           gridGap: '0.75rem',
         }}
       >
-        <Modal label="Login form" button={<Button>Login</Button>}>
+        <Modal
+          aria-label="Login form"
+          button={<Button variant="primary">Login</Button>}
+        >
+          {circleDismissButton}
           <h3 css={{textAlign: 'center', fontSize: '2em'}}>Login</h3>
-          <LoginForm onSubmit={login} buttonText="Login" />
+          <LoginForm
+            onSubmit={login}
+            submitButton={<Button variant="primary">Login</Button>}
+          />
         </Modal>
         <Modal
-          label="Registration form"
+          aria-label="Registration form"
           button={<Button variant="secondary">Register</Button>}
         >
+          {circleDismissButton}
           <h3 css={{textAlign: 'center', fontSize: '2em'}}>Register</h3>
-          <LoginForm onSubmit={register} buttonText="Register" />
+          <LoginForm
+            onSubmit={register}
+            submitButton={<Button variant="secondary">Register</Button>}
+          />
         </Modal>
       </div>
     </div>

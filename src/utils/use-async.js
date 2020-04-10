@@ -12,10 +12,12 @@ function useSafeDispatch(dispatch) {
   )
 }
 
+const initialState = {status: 'idle', data: null, error: null}
+
 function useAsync() {
   const [{status, data, error}, setState] = React.useReducer(
     (s, a) => ({...s, ...a}),
-    {status: 'idle', data: null, error: null},
+    initialState,
   )
 
   const safeSetState = useSafeDispatch(setState)
@@ -48,6 +50,9 @@ function useAsync() {
   const setError = React.useCallback(error => safeSetState({error}), [
     safeSetState,
   ])
+  const reset = React.useCallback(() => safeSetState(initialState), [
+    safeSetState,
+  ])
 
   return {
     // using the same names that react-query uses for convenience
@@ -62,6 +67,7 @@ function useAsync() {
     status,
     data,
     run,
+    reset,
   }
 }
 

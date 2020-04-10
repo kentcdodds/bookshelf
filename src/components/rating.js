@@ -6,6 +6,7 @@ import React from 'react'
 import {useUpdateListItem} from 'utils/list-items'
 import {FaStar} from 'react-icons/fa'
 import * as colors from 'styles/colors'
+import {ErrorMessage} from 'components/lib'
 
 const visuallyHiddenCSS = {
   border: '0',
@@ -53,7 +54,7 @@ function Rating({listItem}) {
             visuallyHiddenCSS,
             {
               [`.${rootClassName} &:checked ~ label`]: {color: colors.gray20},
-              [`.${rootClassName} &:checked + label`]: {color: 'orange'},
+              [`.${rootClassName} &:checked + label`]: {color: colors.orange},
               // !important is here because we're doing special non-css-in-js things
               // and so we have to deal with specificity and cascade. But, I promise
               // this is better than trying to make this work with JavaScript.
@@ -76,7 +77,7 @@ function Rating({listItem}) {
           htmlFor={ratingId}
           css={{
             cursor: 'pointer',
-            color: listItem.rating < 0 ? colors.gray20 : 'orange',
+            color: listItem.rating < 0 ? colors.gray20 : colors.orange,
             margin: 0,
           }}
         >
@@ -96,25 +97,17 @@ function Rating({listItem}) {
         display: 'inline-flex',
         alignItems: 'center',
         [`&.${rootClassName}:hover input + label`]: {
-          color: 'orange',
+          color: colors.orange,
         },
       }}
     >
       <span css={{display: 'flex'}}>{stars}</span>
       {error ? (
-        <span css={{color: colors.danger, fontSize: '0.7em'}}>
-          <span>There was an error:</span>{' '}
-          <pre
-            css={{
-              display: 'inline-block',
-              overflow: 'scroll',
-              margin: '0',
-              marginBottom: -5,
-            }}
-          >
-            {error.message}
-          </pre>
-        </span>
+        <ErrorMessage
+          error={error}
+          variant="inline"
+          css={{marginLeft: 6, fontSize: '0.7em'}}
+        />
       ) : null}
     </div>
   )

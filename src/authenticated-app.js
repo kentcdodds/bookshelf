@@ -2,10 +2,9 @@
 /** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
-import React from 'react'
 import {Routes, Route, Link as RouterLink, useMatch} from 'react-router-dom'
 import ErrorBoundary from 'react-error-boundary'
-import {Button} from './components/lib'
+import {Button, ErrorMessage, FullPageErrorFallback} from './components/lib'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
 import {useAuth} from './context/auth-context'
@@ -17,26 +16,23 @@ import {NotFoundScreen} from './screens/not-found'
 
 function ErrorFallback({error}) {
   return (
-    <div role="alert" css={{color: colors.danger, fontSize: '0.7em'}}>
-      <span>There was an error:</span>{' '}
-      <pre
-        css={{
-          display: 'inline-block',
-          overflow: 'scroll',
-          margin: '0',
-          marginBottom: -5,
-        }}
-      >
-        {error.message}
-      </pre>
-    </div>
+    <ErrorMessage
+      error={error}
+      css={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    />
   )
 }
 
 function AuthenticatedApp() {
   const {user, logout} = useAuth()
   return (
-    <React.Fragment>
+    <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
       <div
         css={{
           display: 'flex',
@@ -76,7 +72,7 @@ function AuthenticatedApp() {
           </ErrorBoundary>
         </main>
       </div>
-    </React.Fragment>
+    </ErrorBoundary>
   )
 }
 

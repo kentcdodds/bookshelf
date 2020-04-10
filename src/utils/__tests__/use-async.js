@@ -32,6 +32,7 @@ const defaultState = {
   error: null,
   status: 'idle',
   run: expect.any(Function),
+  reset: expect.any(Function),
   setData: expect.any(Function),
   setError: expect.any(Function),
 }
@@ -63,6 +64,9 @@ test('calling run with a promise which resolves', async () => {
     isSuccess: true,
     status: 'resolved',
   })
+
+  act(() => state.reset())
+  expect(state).toEqual(defaultState)
 })
 
 test('calling run with a promise which rejects', async () => {
