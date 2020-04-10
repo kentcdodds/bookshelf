@@ -3,13 +3,7 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import {
-  Routes,
-  Route,
-  Link as RouterLink,
-  useNavigate,
-  useMatch,
-} from 'react-router-dom'
+import {Routes, Route, Link as RouterLink, useMatch} from 'react-router-dom'
 import ErrorBoundary from 'react-error-boundary'
 import {Button} from './components/lib'
 import * as mq from './styles/media-queries'
@@ -42,7 +36,7 @@ function ErrorFallback({error}) {
 function AuthenticatedApp() {
   const {user, logout} = useAuth()
   return (
-    <>
+    <React.Fragment>
       <div
         css={{
           display: 'flex',
@@ -82,7 +76,7 @@ function AuthenticatedApp() {
           </ErrorBoundary>
         </main>
       </div>
-    </>
+    </React.Fragment>
   )
 }
 
@@ -156,18 +150,9 @@ function Nav(params) {
   )
 }
 
-function RedirectHome() {
-  const navigate = useNavigate()
-  React.useEffect(() => {
-    navigate('/list', {replace: true})
-  }, [navigate])
-  return null
-}
-
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<RedirectHome />} />
       <Route path="/list" element={<ReadingListScreen />} />
       <Route path="/finished" element={<FinishedScreen />} />
       <Route path="/discover" element={<DiscoverBooksScreen />} />

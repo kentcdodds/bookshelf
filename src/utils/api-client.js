@@ -1,7 +1,12 @@
 import {queryCache} from 'react-query'
 const localStorageKey = '__bookshelf_token__'
 
-function client(endpoint, {body, ...customConfig} = {}) {
+async function client(endpoint, {body, ...customConfig} = {}) {
+  // Ignore this... It's the *only* thing we need to do thanks to the way we
+  // handle fetch requests with the service worker. In your apps you shouldn't
+  // need to have something like this.
+  await window.__bookshelf_serverReady
+
   const token = window.localStorage.getItem(localStorageKey)
   const headers = {'content-type': 'application/json'}
   if (token) {
