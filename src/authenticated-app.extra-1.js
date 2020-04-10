@@ -3,7 +3,7 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import {Routes, Route, Link, useNavigate} from 'react-router-dom'
+import {Routes, Route, Link, Redirect} from 'react-router-dom'
 import {Button} from './components/lib'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
@@ -107,18 +107,10 @@ function Nav(params) {
   )
 }
 
-function RedirectHome() {
-  const navigate = useNavigate()
-  React.useEffect(() => {
-    navigate('/discover', {replace: true})
-  }, [navigate])
-  return null
-}
-
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<RedirectHome />} />
+      <Redirect exact from="/" to="/discover" />
       <Route path="/discover" element={<DiscoverBooksScreen />} />
       <Route path="/book/:bookId" element={<BookScreen />} />
       <Route path="*" element={<NotFoundScreen />} />
