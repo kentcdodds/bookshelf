@@ -57,7 +57,9 @@ function LoginForm({onSubmit, submitButton}) {
         {React.cloneElement(
           submitButton,
           {type: 'submit'},
-          ...submitButton.props.children,
+          ...(Array.isArray(submitButton.props.children)
+            ? submitButton.props.children
+            : [submitButton.props.children]),
           isLoading ? <Spinner css={{marginLeft: 5}} /> : null,
         )}
       </div>
