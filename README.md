@@ -12,14 +12,14 @@ source material for
 
 ## Pre-Workshop Instructions/Requirements
 
-**NOTE: This repository is used for a two-part workshop**
+**NOTE: This repository is used for a multi-part workshop**
 
 In order for us to maximize our efforts during the workshop, please complete the
 following things to prepare.
 
 - 📺 only necessary if the workshop is remote via Zoom
 - 👋 specific to the material for this workshop
-- 2️⃣ Only needed to prepare for part 2 of this workshop
+- 3️⃣ Only needed to prepare for part 2 of this workshop
 
 - [ ] 👋 Setup the project (follow the setup instructions below) (~5 minutes)
 - [ ] 📺 Install and setup [Zoom](https://zoom.us) on the computer you will be
@@ -40,7 +40,7 @@ following things to prepare.
       [Learn React Hooks Workshop](https://kentcdodds.com/workshops/hooks), or
       have the equivalent basic experience of using hooks. You should be
       experienced with `useState`, `useEffect`, and `useRef`.
-- [ ] 👋 2️⃣ Go through my
+- [ ] 👋 3️⃣ Go through my
       [Advanced React Hooks](https://kentcdodds.com/workshops/advanced-react-hooks),
       or have the equivalent basic experience of using advanced hooks. You
       should be experienced with `useContext`, `useReducer`, `useMemo`, and
@@ -132,40 +132,42 @@ a complete authority.
 
 ### Schedule
 
+> This workshop is a bit different from my other workshops. The exercises are
+> much longer and you'll have more time to complete them. We'll also be taking
+> breaks mid-exercise, wherever there's a need. So consider this schedule to be
+> very loose.
+
 #### Part 1
 
 - 😴 Logistics
-- 💪 01. TODO
-- 💪 02. TODO
+- 💪 01. Bootstrap
 - 😴 10 Minutes
-- 💪 03. TODO
-- 💪 04. TODO
+- 💪 02. Styles
 - 🌮 30 Minutes
-- 💪 05. TODO
-- 💪 06. TODO
+- 💪 03. Data Fetching
 - 😴 10 Minutes
-- 💪 07. TODO
-- 💪 08. TODO
-- 😴 10 Minutes
-- 💪 09. TODO
 - ❓ Q&A
 
 #### Part 2
 
 - 😴 Logistics
-- 💪 01. TODO
-- 💪 02. TODO
+- 💪 04. Authentication
 - 😴 10 Minutes
-- 💪 03. TODO
-- 💪 04. TODO
+- 💪 05. Routing
 - 🌮 30 Minutes
-- 💪 05. TODO
-- 💪 06. TODO
+- 💪 06. Cache Management
+- ❓ Q&A
+
+#### Part 3
+
+- 😴 Logistics
+- 💪 07. Context
 - 😴 10 Minutes
-- 💪 07. TODO
-- 💪 08. TODO
+- 💪 08. Code Splitting
+- 🌮 30 Minutes
+- 💪 09. Flexible Component
 - 😴 10 Minutes
-- 💪 09. TODO
+- 💪 10. Performance Profiling
 - ❓ Q&A
 
 ### Questions
@@ -300,6 +302,7 @@ Thanks goes to these wonderful people
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the
