@@ -2,7 +2,8 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/list"
+      "destination": "/list",
+      "type": 302
     }
   ]
 }
