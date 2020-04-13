@@ -54,6 +54,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "node ./scripts/build-variants.js",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:coverage": "npm run test -- --watchAll false --coverage",
     "test:debug": "node --inspect-brk ./node_modules/react-scripts/scripts/test.js --env=jest-environment-jsdom-sixteen --watch --runInBand",
