@@ -2,7 +2,7 @@
   "name": "bookshelf",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://the-react-bookshelf.netlify.app/",
+  "homepage": "https://bookshelf.lol/",
   "engines": {
     "node": ">=12",
     "npm": ">=6"

@@ -13,8 +13,14 @@ if (process.env.NODE_ENV === 'test') {
   ) => new Promise(resolve => setTimeout(resolve, t))
 }
 
-const ls = (key, defaultVal) =>
-  Number(window.localStorage.getItem(key)) ?? defaultVal
+function ls(key, defaultVal) {
+  const lsVal = window.localStorage.getItem(key)
+  let val
+  if (lsVal) {
+    val = Number(val)
+  }
+  return Number.isFinite(val) ? val : defaultVal
+}
 
 const apiUrl = process.env.REACT_APP_API_URL
 
