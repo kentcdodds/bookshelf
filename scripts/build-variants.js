@@ -69,7 +69,7 @@ ${baseRoute}*       ${baseRoute}index.html        200
   }
 
   // build the final as the main thing with the homepage set to the root
-  buildVariant('final', {dirname: '', baseRoute: '/'})
+  buildVariant('final', {dirname: ''})
 
   console.log(
     '✅  all variants have been built, moving them to build and creating redirects file',
