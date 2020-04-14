@@ -39,7 +39,7 @@ ${path}/*       ${path}/index.html        200
     const dirname = typeof variant === 'number' ? `extra-${variant}` : variant
     console.log(`▶️  Starting build for "${dirname}"`)
     try {
-      updateHomepage(dirname)
+      updateHomepage(`${dirname}/`)
       spawnSync(`node ./scripts/swap ${variant}`, {stdio: 'inherit'})
       spawnSync(`react-scripts build`, {stdio: 'inherit'})
       if (variant === 'final') {
@@ -65,8 +65,8 @@ ${path}/*       ${path}/index.html        200
     '✅  all variants have been built, moving them to build and creating redirects file',
   )
 
-  const redirectContents = `${redirects.join('\n\n')}\n\n${getRedirect('')}`
-  fs.writeFileSync('public/_redirects', redirectContents)
   spawnSync('mv node_modules/.cache/build/* build/')
+  const redirectContents = `${redirects.join('\n\n')}\n\n${getRedirect('')}`
+  fs.writeFileSync('build/_redirects', redirectContents)
   console.log('✅  all done. Ready to deploy')
 }
