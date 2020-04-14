@@ -28,6 +28,13 @@ function go() {
 
   spawnSync('mkdir -p node_modules/.cache/build')
 
+  const getRedirect = path =>
+    `
+${path}/        ${path}/list              302!
+${path}/*       ${path}/index.html        200
+  `.trim()
+
+  let redirects = []
   for (const variant of variants) {
     const dirname = typeof variant === 'number' ? `extra-${variant}` : variant
     console.log(`▶️  Starting build for "${dirname}"`)
@@ -45,6 +52,7 @@ function go() {
         })
       }
       console.log(`✅  finished build for "${dirname}"`)
+      redirects.push(getRedirect(`/${dirname}`))
     } catch (error) {
       console.log(`🚨  error building for "${dirname}"`)
       throw error
@@ -53,7 +61,12 @@ function go() {
 
   updateHomepage()
 
-  console.log('✅  all variants have been built, moving them to build')
+  console.log(
+    '✅  all variants have been built, moving them to build and creating redirects file',
+  )
+
+  const redirectContents = `${redirects.join('\n\n')}\n\n${getRedirect('')}`
+  fs.writeFileSync('public/_redirects', redirectContents)
   spawnSync('mv node_modules/.cache/build/* build/')
   console.log('✅  all done. Ready to deploy')
 }
