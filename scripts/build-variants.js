@@ -19,7 +19,10 @@ function go() {
   const originalHomepage = pkg.homepage
 
   function updateHomepage(pathname = '') {
-    const newHomepage = originalHomepage + pathname
+    const url = new URL(originalHomepage)
+    // must end in "/"
+    url.pathname = pathname.endsWith('/') ? pathname : `${pathname}/`
+    const newHomepage = url.toString()
     fs.writeFileSync(
       'package.json',
       JSON.stringify({...pkg, homepage: newHomepage}, null, 2) + '\n',
@@ -28,45 +31,50 @@ function go() {
 
   spawnSync('mkdir -p node_modules/.cache/build')
 
-  const getRedirect = path =>
-    `
-${path}/        ${path}/list              302!
-${path}/*       ${path}/index.html        200
-  `.trim()
+  function getRedirect(baseRoute) {
+    baseRoute = baseRoute.endsWith('/') ? baseRoute : `${baseRoute}/`
+    return `
+${baseRoute}        ${baseRoute}list              302!
+${baseRoute}*       ${baseRoute}index.html        200
+    `.trim()
+  }
 
   let redirects = []
-  for (const variant of variants) {
-    const dirname = typeof variant === 'number' ? `extra-${variant}` : variant
-    console.log(`▶️  Starting build for "${dirname}"`)
+
+  function buildVariant(
+    variant,
+    {dirname = typeof variant === 'number' ? `extra-${variant}` : variant} = {},
+  ) {
+    console.log(`▶️  Starting build for "${variant}" in "${dirname}"`)
     try {
-      updateHomepage(`${dirname}/`)
+      updateHomepage(dirname)
       spawnSync(`node ./scripts/swap ${variant}`, {stdio: 'inherit'})
       spawnSync(`react-scripts build`, {stdio: 'inherit'})
-      if (variant === 'final') {
-        spawnSync(`cp -r build node_modules/.cache/build/${dirname}`, {
-          stdio: 'inherit',
-        })
-      } else {
+      if (dirname) {
         spawnSync(`mv build node_modules/.cache/build/${dirname}`, {
           stdio: 'inherit',
         })
       }
-      console.log(`✅  finished build for "${dirname}"`)
-      redirects.push(getRedirect(`/${dirname}`))
+      console.log(`✅  finished build for "${variant}" in "${dirname}"`)
+      redirects.push(getRedirect(dirname))
     } catch (error) {
-      console.log(`🚨  error building for "${dirname}"`)
+      console.log(`🚨  error building for "${variant}" in "${dirname}"`)
       throw error
     }
   }
 
-  updateHomepage()
+  for (const variant of variants) {
+    buildVariant(variant)
+  }
+
+  // build the final as the main thing with the homepage set to the root
+  buildVariant('final', {dirname: '', baseRoute: '/'})
 
   console.log(
     '✅  all variants have been built, moving them to build and creating redirects file',
   )
 
   spawnSync('mv node_modules/.cache/build/* build/')
-  const redirectContents = `${redirects.join('\n\n')}\n\n${getRedirect('')}`
-  fs.writeFileSync('build/_redirects', redirectContents)
+  fs.writeFileSync('build/_redirects', redirects.join('\n\n'))
   console.log('✅  all done. Ready to deploy')
 }
