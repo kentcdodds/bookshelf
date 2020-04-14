@@ -4,6 +4,8 @@ import {ReactQueryConfigProvider} from 'react-query'
 import {homepage} from '../../package.json'
 import {AuthProvider} from './auth-context'
 
+const fullUrl = new URL(homepage)
+
 const queryConfig = {
   useErrorBoundary: true,
   refetchAllOnWindowFocus: false,
@@ -12,7 +14,7 @@ const queryConfig = {
 function AppProviders({children}) {
   return (
     <ReactQueryConfigProvider config={queryConfig}>
-      <Router basename={homepage}>
+      <Router basename={fullUrl.pathname}>
         <AuthProvider>{children}</AuthProvider>
       </Router>
     </ReactQueryConfigProvider>
