@@ -1,19 +1,7 @@
-const cp = require('child_process')
 const fs = require('fs')
 const glob = require('glob')
 const pkg = require('../package.json')
-
-const spawnSync = command => {
-  let result
-  try {
-    result = cp.spawnSync(command, {shell: true, stdio: 'inherit'})
-  } catch (error) {
-    throw new Error(
-      `${error.message}\n\nERROR CODE: ${error.status}\n\nSTDERR:\n${error.stderr}\n\nSTDOUT:\n${error.stdout}`,
-    )
-  }
-  return result.toString().trim()
-}
+const {spawnSync} = require('./utils')
 
 const branch = spawnSync('git rev-parse --abbrev-ref HEAD')
 if (branch === 'master') {
@@ -55,11 +43,17 @@ function go() {
     console.log(`▶️  Starting build for "${dirname}"`)
     try {
       updateHomepage(dirname)
-      spawnSync(`node ./scripts/swap ${variant} && npm run build`)
+      spawnSync(`node ./scripts/swap ${variant} && npm run build`, {
+        stdio: 'inherit',
+      })
       if (variant === 'final') {
-        spawnSync(`cp -r build node_modules/.cache/build/${dirname}`)
+        spawnSync(`cp -r build node_modules/.cache/build/${dirname}`, {
+          stdio: 'inherit',
+        })
       } else {
-        spawnSync(`mv build node_modules/.cache/build/${dirname}`)
+        spawnSync(`mv build node_modules/.cache/build/${dirname}`, {
+          stdio: 'inherit',
+        })
       }
       console.log(`✅  finished build for "${dirname}"`)
     } catch (error) {

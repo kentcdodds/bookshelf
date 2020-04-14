@@ -43,6 +43,7 @@
     "cypress-hmr-restarter": "^1.0.2",
     "eslint-plugin-cypress": "^2.10.3",
     "husky": "^4.2.5",
+    "inquirer": "^7.1.0",
     "is-ci-cli": "^2.0.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "npm-run-all": "^4.1.5",
@@ -53,8 +54,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "postbuild": "node ./scripts/build-variants.js",
+    "build": "node ./scripts/build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:coverage": "npm run test -- --watchAll false --coverage",
     "test:debug": "node --inspect-brk ./node_modules/react-scripts/scripts/test.js --env=jest-environment-jsdom-sixteen --watch --runInBand",
