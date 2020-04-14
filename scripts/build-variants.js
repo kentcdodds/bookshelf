@@ -1,7 +1,6 @@
 const fs = require('fs')
-const glob = require('glob')
 const pkg = require('../package.json')
-const {spawnSync} = require('./utils')
+const {spawnSync, getExtraCreditTitles} = require('./utils')
 
 const branch = spawnSync('git rev-parse --abbrev-ref HEAD')
 if (branch === 'master') {
@@ -11,20 +10,11 @@ if (branch === 'master') {
 }
 
 function go() {
-  function getExtraCreditNumberFromFilename(line) {
-    const m = line.match(/\.extra-(?<number>\d+).js$/)
-    if (!m) {
-      return null
-    }
-    return Number(m.groups.number)
-  }
-
-  const ecNumbersAll = glob
-    .sync('./src/**/*.extra-*')
-    .map(ecFile => getExtraCreditNumberFromFilename(ecFile))
-  const ecNumbers = new Set(ecNumbersAll)
-
-  const variants = ['exercise', ...ecNumbers, 'final']
+  const variants = [
+    'exercise',
+    ...getExtraCreditTitles().map((x, i) => i + 1),
+    'final',
+  ]
 
   const originalHomepage = pkg.homepage
 
@@ -43,9 +33,8 @@ function go() {
     console.log(`▶️  Starting build for "${dirname}"`)
     try {
       updateHomepage(dirname)
-      spawnSync(`node ./scripts/swap ${variant} && npm run build`, {
-        stdio: 'inherit',
-      })
+      spawnSync(`node ./scripts/swap ${variant}`, {stdio: 'inherit'})
+      spawnSync(`react-scripts build`, {stdio: 'inherit'})
       if (variant === 'final') {
         spawnSync(`cp -r build node_modules/.cache/build/${dirname}`, {
           stdio: 'inherit',
