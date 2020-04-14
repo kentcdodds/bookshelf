@@ -42,10 +42,10 @@ ${baseRoute}*       ${baseRoute}index.html        200
 
   let redirects = []
 
-  function buildVariant(
-    variant,
-    {dirname = typeof variant === 'number' ? `extra-${variant}` : variant} = {},
-  ) {
+  const getDirname = variant =>
+    typeof variant === 'number' ? `extra-${variant}` : variant
+
+  function buildVariant(variant, {dirname = getDirname(variant)} = {}) {
     console.log(`▶️  Starting build for "${variant}" in "${dirname}"`)
     try {
       updateHomepage(dirname)
@@ -74,8 +74,10 @@ ${baseRoute}*       ${baseRoute}index.html        200
   console.log(
     '✅  all variants have been built, moving them to build and creating redirects file',
   )
-
-  spawnSync('mv node_modules/.cache/build/* build/')
+  for (const variant of variants) {
+    const dirname = getDirname(variant)
+    spawnSync(`mv node_modules/.cache/build/${dirname} build/${dirname}`)
+  }
   fs.writeFileSync('build/_redirects', redirects.join('\n\n'))
   console.log('✅  all done. Ready to deploy')
 }
