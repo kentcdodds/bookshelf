@@ -11,7 +11,12 @@ import {
   FormGroup,
   ErrorMessage,
 } from './components/lib'
-import {Modal, ModalDismissButton} from './components/modal'
+import {
+  Modal,
+  ModalDismissButton,
+  ModalContents,
+  ModalOpenButton,
+} from './components/modal'
 import {Logo} from './components/logo'
 import {Input} from './components/lib'
 import {useAuth} from './context/auth-context'
@@ -102,27 +107,31 @@ function UnauthenticatedApp() {
           gridGap: '0.75rem',
         }}
       >
-        <Modal
-          aria-label="Login form"
-          button={<Button variant="primary">Login</Button>}
-        >
-          {circleDismissButton}
-          <h3 css={{textAlign: 'center', fontSize: '2em'}}>Login</h3>
-          <LoginForm
-            onSubmit={login}
-            submitButton={<Button variant="primary">Login</Button>}
-          />
+        <Modal>
+          <ModalOpenButton>
+            <Button variant="primary">Login</Button>
+          </ModalOpenButton>
+          <ModalContents aria-label="Login form">
+            {circleDismissButton}
+            <h3 css={{textAlign: 'center', fontSize: '2em'}}>Login</h3>
+            <LoginForm
+              onSubmit={login}
+              submitButton={<Button variant="primary">Login</Button>}
+            />
+          </ModalContents>
         </Modal>
-        <Modal
-          aria-label="Registration form"
-          button={<Button variant="secondary">Register</Button>}
-        >
-          {circleDismissButton}
-          <h3 css={{textAlign: 'center', fontSize: '2em'}}>Register</h3>
-          <LoginForm
-            onSubmit={register}
-            submitButton={<Button variant="secondary">Register</Button>}
-          />
+        <Modal>
+          <ModalOpenButton>
+            <Button variant="secondary">Register</Button>
+          </ModalOpenButton>
+          <ModalContents aria-label="Registration form">
+            {circleDismissButton}
+            <h3 css={{textAlign: 'center', fontSize: '2em'}}>Register</h3>
+            <LoginForm
+              onSubmit={register}
+              submitButton={<Button variant="secondary">Register</Button>}
+            />
+          </ModalContents>
         </Modal>
       </div>
     </div>

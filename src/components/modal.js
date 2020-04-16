@@ -9,24 +9,31 @@ const callAll = (...fns) => (...args) => fns.forEach(fn => fn && fn(...args))
 
 const ModalContext = React.createContext()
 
-function Modal({button, ...props}) {
+function Modal(props) {
   const [isOpen, setIsOpen] = React.useState(false)
 
-  return (
-    <ModalContext.Provider value={setIsOpen}>
-      {React.cloneElement(button, {
-        onClick: callAll(() => setIsOpen(true), button.props.onClick),
-      })}
-      <Dialog isOpen={isOpen} onDismiss={() => setIsOpen(false)} {...props} />
-    </ModalContext.Provider>
-  )
+  return <ModalContext.Provider value={[isOpen, setIsOpen]} {...props} />
 }
 
 function ModalDismissButton({children: child}) {
-  const setIsOpen = React.useContext(ModalContext)
+  const [, setIsOpen] = React.useContext(ModalContext)
   return React.cloneElement(child, {
     onClick: callAll(() => setIsOpen(false), child.props.onClick),
   })
 }
 
-export {Modal, ModalDismissButton}
+function ModalOpenButton({children: child}) {
+  const [, setIsOpen] = React.useContext(ModalContext)
+  return React.cloneElement(child, {
+    onClick: callAll(() => setIsOpen(true), child.props.onClick),
+  })
+}
+
+function ModalContents(props) {
+  const [isOpen, setIsOpen] = React.useContext(ModalContext)
+  return (
+    <Dialog isOpen={isOpen} onDismiss={() => setIsOpen(false)} {...props} />
+  )
+}
+
+export {Modal, ModalDismissButton, ModalOpenButton, ModalContents}
