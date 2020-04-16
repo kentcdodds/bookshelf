@@ -5,6 +5,7 @@ import {jsx} from '@emotion/core'
 import React from 'react'
 import VisuallyHidden from '@reach/visually-hidden'
 import {
+  Input,
   CircleButton,
   Button,
   Spinner,
@@ -18,7 +19,6 @@ import {
   ModalOpenButton,
 } from './components/modal'
 import {Logo} from './components/logo'
-import {Input} from './components/lib'
 import {useAuth} from './context/auth-context'
 import {useAsync} from './utils/use-async'
 
