@@ -272,8 +272,9 @@ the exercise and instruction.
 At the end of the workshop, please go to this URL to give overall feedback.
 Thank you!
 
-- Part 1: https://kcd.im/bra-ws-feedback
-- Part 2: https://kcd.im/braa-ws-feedback
+- Part 1: https://kcd.im/bra1-ws-feedback
+- Part 2: https://kcd.im/bra2-ws-feedback
+- Part 3: https://kcd.im/bra3-ws-feedback
 
 ## Contributors
 
