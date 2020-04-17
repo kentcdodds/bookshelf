@@ -51,7 +51,7 @@ ${baseRoute}*       ${baseRoute}index.html        200
       updateHomepage(dirname)
       spawnSync(`node ./scripts/swap ${variant}`, {stdio: 'inherit'})
       spawnSync(`react-scripts build`, {stdio: 'inherit'})
-      spawnSync(`npx start-server-and-test serve http://localhost:8811 cy:run`)
+      spawnSync(`npm run test:coverage`)
       if (dirname) {
         spawnSync(`mv build node_modules/.cache/build/${dirname}`, {
           stdio: 'inherit',
