@@ -1,3 +1,4 @@
+import './test/jest-expect-message'
 import '@testing-library/jest-dom/extend-expect'
 import {queryCache} from 'react-query'
 import {fetchMock} from './test/fetch-mock'
