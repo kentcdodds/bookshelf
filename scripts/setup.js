@@ -1,5 +1,8 @@
 var spawnSync = require('child_process').spawnSync
 
+// disable Scarf analytics
+process.env.SCARF_ANALYTICS = false
+
 var styles = {
   // got these from playing around with what I found from:
   // https://github.com/istanbuljs/istanbuljs/blob/0f328fd0896417ccb2085f4b7888dd8e167ba3fa/packages/istanbul-lib-report/lib/file-writer.js#L84-L96
