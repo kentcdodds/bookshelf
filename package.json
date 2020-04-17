@@ -29,7 +29,7 @@
     "react-dom": "16.13.1",
     "react-error-boundary": "^1.2.5",
     "react-icons": "^3.9.0",
-    "react-query": "^1.2.6",
+    "react-query": "^1.2.7",
     "react-query-devtools": "^1.1.2",
     "react-router": "^6.0.0-alpha.3",
     "react-router-dom": "^6.0.0-alpha.3",
