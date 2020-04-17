@@ -11,7 +11,7 @@ function spawnSync(command, options) {
     return result.stdout.toString().trim()
   } else {
     throw new Error(
-      `\n\nERROR CODE: ${result.status}\n\nSTDERR:\n${result.stderr}\n\nSTDOUT:\n${result.stdout}`,
+      `\n\nError executing command: ${command}\n\nERROR CODE: ${result.status}\n\nSTDERR:\n${result.stderr}\n\nSTDOUT:\n${result.stdout}`,
     )
   }
 }
