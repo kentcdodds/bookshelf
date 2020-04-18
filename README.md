@@ -163,9 +163,9 @@ a complete authority.
 - 😴 Logistics
 - 💪 07. Context
 - 😴 10 Minutes
-- 💪 08. Code Splitting
+- 💪 08. Flexible Component
 - 🌮 30 Minutes
-- 💪 09. Flexible Component
+- 💪 09. Code Splitting
 - 😴 10 Minutes
 - 💪 10. Performance Profiling
 - ❓ Q&A
