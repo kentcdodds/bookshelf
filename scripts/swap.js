@@ -55,38 +55,39 @@ async function go() {
   console.log(`Changing used files to those matching "${match}"`)
 
   function getMasterFileContents({master, final, exercise, extras}) {
-    let chosenLine
-    if (match === 'exercise') chosenLine = exercise.exportLine
-    if (match === 'final') chosenLine = final.exportLine
+    let uncommentedLines
+    if (match === 'exercise') uncommentedLines = exercise.exportLines
+    if (match === 'final') uncommentedLines = final.exportLines
     if (Number.isFinite(desiredECNumber)) {
       for (let num = desiredECNumber; num > 0; num--) {
         for (let num = desiredECNumber; num >= 0; num--) {
           if (num === 0) {
-            chosenLine = final.exportLine
+            uncommentedLines = final.exportLines
           } else {
             const extra = extras.find(e => e.number === num)
             if (extra) {
-              chosenLine = extra.exportLine
+              uncommentedLines = extra.exportLines
             }
           }
-          if (chosenLine) break
+          if (uncommentedLines) break
         }
       }
     }
-    if (!chosenLine) {
+    if (!uncommentedLines) {
       throw new Error(
         `No variant found to enable for "${match}" in "${master}"`,
       )
     }
-    const l = i => (i === chosenLine ? i : `// ${i}`)
+    const l = i =>
+      i === uncommentedLines ? i.join('\n') : `// ${i.join('\n// ')}`
     const extrasLines = extras
-      .map(({exportLine, title}) => `// 💯 ${title}\n${l(exportLine)}`)
+      .map(({exportLines, title}) => `// 💯 ${title}\n${l(exportLines)}`)
       .join('\n\n')
     return (
       `
-${l(final.exportLine)}
+${l(final.exportLines)}
 
-${l(exercise.exportLine)}
+${l(exercise.exportLines)}
 
 ${extrasLines}
       `.trim() + '\n'

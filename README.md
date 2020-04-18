@@ -165,9 +165,9 @@ a complete authority.
 - 😴 10 Minutes
 - 💪 08. Flexible Component
 - 🌮 30 Minutes
-- 💪 09. Code Splitting
+- 💪 09. Performance
 - 😴 10 Minutes
-- 💪 10. Performance Profiling
+- 💪 10. Production Monitoring
 - ❓ Q&A
 
 ### Questions

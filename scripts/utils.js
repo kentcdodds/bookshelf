@@ -38,13 +38,18 @@ function getVariants() {
   const filesByMaster = {}
   for (const file of files) {
     const {dir, name, base, ext} = path.parse(file)
-    const exportLine = `export * from './${name}'`
+    const contents = fs.readFileSync(file).toString()
+    const hasDefaultExport = /^export default /m.test(contents)
+    const exportLines = [
+      `export * from './${name}'`,
+      hasDefaultExport ? `export {default} from '${name}'` : null,
+    ].filter(Boolean)
     const number = getExtraCreditNumberFromFilename(base)
     const master = path.join(dir, name.replace(/\..*$/, ext))
 
     filesByMaster[master] = filesByMaster[master] || {extras: []}
 
-    const info = {exportLine, number, title: extraCreditTitles[number - 1]}
+    const info = {exportLines, number, title: extraCreditTitles[number - 1]}
 
     if (base.includes('.final')) filesByMaster[master].final = info
     if (base.includes('.exercise')) filesByMaster[master].exercise = info
