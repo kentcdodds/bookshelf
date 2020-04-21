@@ -78,7 +78,7 @@ async function startExtraCredit() {
 
   function getVariantDisplayName(variant) {
     if (variant === 'final') return 'Final'
-    return `Extra Credit ${variant + 1}: ${extraCreditTitles[variant]}`
+    return `Extra Credit ${variant}: ${extraCreditTitles[variant - 1]}`
   }
 
   const {variant} = await inquirer.prompt([
@@ -89,25 +89,23 @@ async function startExtraCredit() {
       choices: [
         {name: 'Final', value: 'final'},
         ...Array.from({length: maxExtra}, (v, i) => ({
-          name: getVariantDisplayName(i),
-          value: i,
+          name: getVariantDisplayName(i + 1),
+          value: i + 1,
         })),
       ],
     },
   ])
 
   for (const {extras, exercise, final} of Object.values(variants)) {
-    if (variant === 'final') {
+    const availableECs = extras.map(e => e.number).filter(n => n < variant)
+    const maxEC = Math.max(1, ...availableECs)
+    const maxExtra = extras.find(e => e.number === maxEC)
+
+    if (variant === 'final' || (!maxExtra && !final)) {
       // reset the exercise to the original state
       spawnSync(`git checkout -- ${exercise.file}`)
     } else {
-      let newExerciseFile = exercise.file
-      if (variant === 0) {
-        newExerciseFile = final.file
-      } else {
-        newExerciseFile = extras[variant - 1].file
-      }
-      const newExerciseContents = fs.readFileSync(newExerciseFile, {
+      const newExerciseContents = fs.readFileSync((maxExtra || final).file, {
         encoding: 'utf-8',
       })
       fs.writeFileSync(exercise.file, newExerciseContents)
