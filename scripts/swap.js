@@ -54,10 +54,17 @@ async function go() {
 
   console.log(`Changing used files to those matching "${match}"`)
 
-  function getMasterFileContents({master, final, exercise, extras}) {
+  function getMasterFileContents({
+    master,
+    exercise,
+    final = {exportLines: null},
+    extras,
+  }) {
     let uncommentedLines
     if (match === 'exercise') uncommentedLines = exercise.exportLines
-    if (match === 'final') uncommentedLines = final.exportLines
+    if (match === 'final') {
+      uncommentedLines = final.exportLines || exercise.exportLines
+    }
     if (Number.isFinite(desiredECNumber)) {
       for (let num = desiredECNumber; num > 0; num--) {
         for (let num = desiredECNumber; num >= 0; num--) {
@@ -78,16 +85,23 @@ async function go() {
         `No variant found to enable for "${match}" in "${master}"`,
       )
     }
-    const l = i =>
-      i === uncommentedLines ? i.join('\n') : `// ${i.join('\n// ')}`
+    const l = lines =>
+      lines
+        ? lines === uncommentedLines
+          ? lines.join('\n')
+          : `// ${lines.join('\n// ')}`
+        : ''
     const extrasLines = extras
-      .map(({exportLines, title}) => `// 💯 ${title}\n${l(exportLines)}`)
+      .map(
+        ({exportLines, title}) =>
+          `// 💯 ${title}\n${l(exportLines) || '// no extra credit'}`,
+      )
       .join('\n\n')
     return (
       `
-${l(final.exportLines)}
+${l(final.exportLines) || '// no final'}
 
-${l(exercise.exportLines)}
+${l(exercise.exportLines) || '// no exercise'}
 
 ${extrasLines}
       `.trim() + '\n'
