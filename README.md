@@ -1,8 +1,8 @@
-# Build a ReactJS App - Bookshelf
+# Build a React App - Bookshelf
 
 👋 hi there! My name is [Kent C. Dodds](https://kentcdodds.com) and this is the
 source material for
-[Build a ReactJS App](https://kentcdodds.com/workshops/build-react-apps)!
+[Build a React App](https://kentcdodds.com/workshops/build-react-apps-1)!
 
 [![Travis Build Status][build-badge]][build]
 [![AppVeyor Build Status][win-build-badge]][win-build]
@@ -19,7 +19,7 @@ following things to prepare.
 
 - 📺 only necessary if the workshop is remote via Zoom
 - 👋 specific to the material for this workshop
-- 3️⃣ Only needed to prepare for part 2 of this workshop
+- 3️⃣ Only needed to prepare for part 3 of this workshop
 
 - [ ] 👋 Setup the project (follow the setup instructions below) (~5 minutes)
 - [ ] 📺 Install and setup [Zoom](https://zoom.us) on the computer you will be
@@ -117,18 +117,20 @@ a complete authority.
 
 - 🏡 Utah
 - 👩 👧 👦 👦 👦 🐕
-- 🏢 kentcdodds.com
-- 🐦/🐙 @kentcdodds
-- 🏆 testingjavascript.com
-- 🥚 kcd.im/egghead
-- 🥋 kcd.im/fem
-- 💌 kcd.im/news
-- 📝 kcd.im/blog
-- 📺 kcd.im/devtips
-- 💻 kcd.im/coding
-- 📽 kcd.im/youtube
-- 🎙 kcd.im/3-mins
-- ❓ kcd.im/ama
+- 🏢 https://kentcdodds.com
+- 🐦 https://twitter.com/kentcdodds
+- 🐙 https://github.com/kentcdodds
+- 🏆 https://TestingJavaScript.com
+- 👨‍🚀 https://EpicReact.Dev
+- 🥚 https://kcd.im/egghead
+- 🥋 https://kcd.im/fem
+- 💌 https://kcd.im/news
+- 📝 https://kcd.im/blog
+- 📺 https://kcd.im/devtips
+- 💻 https://kcd.im/coding
+- 📽 https://kcd.im/youtube
+- 🎙 https://kcd.im/3-mins
+- ❓ https://kcd.im/ama
 
 ### Schedule
 
