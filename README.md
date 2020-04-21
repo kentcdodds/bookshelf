@@ -167,7 +167,7 @@ a complete authority.
 - 🌮 30 Minutes
 - 💪 09. Performance
 - 😴 10 Minutes
-- 💪 10. Production Monitoring
+- 💪 10. Render as you fetch
 - ❓ Q&A
 
 ### Questions
