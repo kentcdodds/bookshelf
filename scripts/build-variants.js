@@ -50,7 +50,7 @@ ${baseRoute}*       ${baseRoute}index.html        200
     try {
       updateHomepage(dirname)
       spawnSync(`node ./scripts/swap ${variant}`, {stdio: 'inherit'})
-      spawnSync(`react-scripts build`, {stdio: 'inherit'})
+      spawnSync(`npx react-scripts build --profile`, {stdio: 'inherit'})
       if (variant !== 'exercise') {
         spawnSync(`npm run test:coverage`, {stdio: 'inherit'})
       }

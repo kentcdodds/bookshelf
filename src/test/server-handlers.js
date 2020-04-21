@@ -114,6 +114,11 @@ const handlers = [
     listItemsDB.remove(listItemId)
     return res(ctx.json({success: true}))
   }),
+
+  rest.post(`${apiUrl}/profile`, async (req, res, ctx) => {
+    // here's where we'd actually send the report to some real data store.
+    return res(ctx.json({success: true}))
+  }),
 ].map(handler => {
   return {
     ...handler,
