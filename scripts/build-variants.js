@@ -35,7 +35,6 @@ function go() {
     baseRoute = baseRoute.endsWith('/') ? baseRoute : `${baseRoute}/`
     baseRoute = baseRoute.startsWith('/') ? baseRoute : `/${baseRoute}`
     return `
-${baseRoute}        ${baseRoute}list              302!
 ${baseRoute}*       ${baseRoute}index.html        200
     `.trim()
   }

@@ -2,17 +2,11 @@
 /** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
-import {Link} from 'react-router-dom'
-import {useListItem} from 'utils/list-items'
 import * as mq from 'styles/media-queries'
 import * as colors from 'styles/colors'
-import {StatusButtons} from './status-buttons'
-import {Rating} from './rating'
 
 function BookRow({book}) {
   const {title, author, coverImageUrl} = book
-  const listItem = useListItem(book.id)
-
   const id = `book-row-book-${book.id}`
 
   return (
@@ -24,7 +18,7 @@ function BookRow({book}) {
         position: 'relative',
       }}
     >
-      <Link
+      <div
         aria-labelledby={id}
         to={`/book/${book.id}`}
         css={{
@@ -71,7 +65,6 @@ function BookRow({book}) {
               >
                 {title}
               </h2>
-              {listItem?.finishDate ? <Rating listItem={listItem} /> : null}
             </div>
             <div css={{marginLeft: 10}}>
               <div
@@ -88,19 +81,6 @@ function BookRow({book}) {
           </div>
           <small>{book.synopsis.substring(0, 500)}...</small>
         </div>
-      </Link>
-      <div
-        css={{
-          marginLeft: '20px',
-          position: 'absolute',
-          color: colors.gray80,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-around',
-          height: '100%',
-        }}
-      >
-        <StatusButtons book={book} />
       </div>
     </div>
   )

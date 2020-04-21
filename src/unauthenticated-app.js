@@ -19,7 +19,6 @@ import {
   ModalOpenButton,
 } from './components/modal'
 import {Logo} from './components/logo'
-import {useAuth} from './context/auth-context'
 import {useAsync} from './utils/use-async'
 
 function LoginForm({onSubmit, submitButton}) {
@@ -84,9 +83,7 @@ const circleDismissButton = (
   </div>
 )
 
-function UnauthenticatedApp() {
-  const {login, register} = useAuth()
-
+function UnauthenticatedApp({login, register}) {
   return (
     <div
       css={{
@@ -138,4 +135,4 @@ function UnauthenticatedApp() {
   )
 }
 
-export default UnauthenticatedApp
+export {UnauthenticatedApp}
