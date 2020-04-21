@@ -14,9 +14,10 @@ const actions = {
   startExtraCredit,
 }
 
+const currentBranch = spawnSync('git rev-parse --abbrev-ref HEAD')
+
 async function go() {
-  const branch = spawnSync('git rev-parse --abbrev-ref HEAD')
-  if (branch === 'master') {
+  if (currentBranch === 'master') {
     // if we're on master then you can't do anything else
     await changeExercise()
     return
@@ -51,12 +52,14 @@ async function changeExercise() {
       name: 'branch',
       message: `Which exercise do you want to start working on?`,
       type: 'list',
+      default: currentBranch,
       choices: getExerciseBranches().map(b => ({
         name: getDisplayName(b),
         value: b,
       })),
     },
   ])
+  spawnSync('git add -A')
   spawnSync('git reset --hard HEAD')
   spawnSync(`git checkout ${branch}`)
   spawnSync('node ./scripts/swap exercise')
