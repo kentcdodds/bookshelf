@@ -49,7 +49,12 @@ function getVariants() {
 
     filesByMaster[master] = filesByMaster[master] || {extras: []}
 
-    const info = {exportLines, number, title: extraCreditTitles[number - 1]}
+    const info = {
+      exportLines,
+      number,
+      title: extraCreditTitles[number - 1],
+      file,
+    }
 
     if (base.includes('.final')) filesByMaster[master].final = info
     if (base.includes('.exercise')) filesByMaster[master].exercise = info

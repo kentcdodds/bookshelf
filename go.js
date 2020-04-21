@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const fs = require('fs')
 const inquirer = require('inquirer')
 const {
   spawnSync,
@@ -72,21 +73,44 @@ async function startExtraCredit() {
 
   const extraCreditTitles = getExtraCreditTitles()
 
-  const {extraCreditNumber} = await inquirer.prompt([
+  function getVariantDisplayName(variant) {
+    if (variant === 'final') return 'Final'
+    return `Extra Credit ${variant + 1}: ${extraCreditTitles[variant]}`
+  }
+
+  const {variant} = await inquirer.prompt([
     {
-      name: 'extraCreditNumber',
-      message: `Which extra credit do you want to work on?`,
+      name: 'variant',
+      message: `Which part do you want to work on?`,
       type: 'list',
       choices: [
+        {name: 'Final', value: 'final'},
         ...Array.from({length: maxExtra}, (v, i) => ({
-          name: `Extra Credit ${i + 1}: ${extraCreditTitles[i]}`,
-          value: i + 1,
+          name: getVariantDisplayName(i),
+          value: i,
         })),
       ],
     },
   ])
 
-  console.log(extraCreditNumber)
+  for (const {extras, exercise, final} of Object.values(variants)) {
+    if (variant === 'final') {
+      // reset the exercise to the original state
+      spawnSync(`git checkout -- ${exercise.file}`)
+    } else {
+      let newExerciseFile = exercise.file
+      if (variant === 0) {
+        newExerciseFile = final.file
+      } else {
+        newExerciseFile = extras[variant - 1].file
+      }
+      const newExerciseContents = fs.readFileSync(newExerciseFile, {
+        encoding: 'utf-8',
+      })
+      fs.writeFileSync(exercise.file, newExerciseContents)
+    }
+  }
+  console.log(`✅  Ready to start working on ${getVariantDisplayName(variant)}`)
 }
 
 go()
