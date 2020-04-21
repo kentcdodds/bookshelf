@@ -109,6 +109,28 @@ however _sometimes_ you can accomplish the task and the tests still fail if you
 implement things differently than I do in my solution, so don't look to them as
 a complete authority.
 
+## Working through the exercises
+
+To get started, run:
+
+```shell
+node go
+```
+
+This will allow you to choose which exercise you want to work on. From there,
+open the `INSTRUCTIONS.md` file and follow the instructions there.
+
+If you'd like to work on an extra credit, but you want to skip the preceding
+steps, you can run `node go` again:
+
+```shell
+node go
+```
+
+This will let you choose the next exercise or you can choose which part of the
+exercise you'd like to work on. This will update your `exercise` files to the
+correct version for you to work on that extra credit.
+
 ## Workshop Outline
 
 > Snuggle up next to the 🔥 with a good 📚
