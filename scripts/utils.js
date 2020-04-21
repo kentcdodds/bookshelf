@@ -58,4 +58,16 @@ function getVariants() {
   return filesByMaster
 }
 
-module.exports = {spawnSync, getVariants, getExtraCreditTitles}
+function getExerciseBranches() {
+  const branches = spawnSync(
+    `git for-each-ref --format='%(refname:short)'`,
+  ).split('\n')
+  return branches.filter(b => b.startsWith('exercises/'))
+}
+
+module.exports = {
+  spawnSync,
+  getVariants,
+  getExtraCreditTitles,
+  getExerciseBranches,
+}

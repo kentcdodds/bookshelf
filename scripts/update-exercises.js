@@ -1,5 +1,5 @@
 const {username} = require('os').userInfo()
-const {spawnSync} = require('./utils')
+const {spawnSync, getExerciseBranches} = require('./utils')
 
 const branch = spawnSync('git rev-parse --abbrev-ref HEAD')
 if (branch === 'master' && username === 'kentcdodds') {
@@ -13,10 +13,7 @@ if (branch === 'master' && username === 'kentcdodds') {
 function updateExercises() {
   console.log('▶️  Updating exercise branches')
   const masterCommit = spawnSync('git rev-parse master')
-  const branches = spawnSync(
-    `git for-each-ref --format='%(refname:short)'`,
-  ).split('\n')
-  const exerciseBranches = branches.filter(b => b.startsWith('exercises/'))
+  const exerciseBranches = getExerciseBranches()
   exerciseBranches.forEach(branch => {
     const didUpdate = updateExerciseBranch(branch, masterCommit)
     console.log(`  ✅  ${branch} is up to date.`)
