@@ -98,7 +98,7 @@ async function startExtraCredit() {
 
   for (const {extras, exercise, final} of Object.values(variants)) {
     const availableECs = extras.map(e => e.number).filter(n => n < variant)
-    const maxEC = Math.max(1, ...availableECs)
+    const maxEC = Math.max(...availableECs)
     const maxExtra = extras.find(e => e.number === maxEC)
 
     if (variant === 'final' || (!maxExtra && !final)) {

@@ -50,36 +50,25 @@ async function go() {
     )
   }
 
-  const desiredECNumber = Number(match)
-
   console.log(`Changing used files to those matching "${match}"`)
 
-  function getMasterFileContents({
-    master,
-    exercise,
-    final = {exportLines: null},
-    extras,
-  }) {
+  function getMasterFileContents({master, exercise, final, extras}) {
     let uncommentedLines
-    if (match === 'exercise') uncommentedLines = exercise.exportLines
-    if (match === 'final') {
-      uncommentedLines = final.exportLines || exercise.exportLines
+    if (match === 'exercise') {
+      uncommentedLines = exercise.exportLines
+    } else if (match === 'final') {
+      uncommentedLines = final ? final.exportLines : exercise.exportLines
+    } else if (Number.isFinite(Number(match))) {
+      const availableECs = extras
+        .map(e => e.number)
+        .filter(n => n <= Number(match))
+      const maxEC = Math.max(...availableECs)
+      const maxExtra = extras.find(e => e.number === maxEC)
+      uncommentedLines = (maxExtra || final || exercise).exportLines
+    } else {
+      console.log('this should not happen...', match)
     }
-    if (Number.isFinite(desiredECNumber)) {
-      for (let num = desiredECNumber; num > 0; num--) {
-        for (let num = desiredECNumber; num >= 0; num--) {
-          if (num === 0) {
-            uncommentedLines = final.exportLines
-          } else {
-            const extra = extras.find(e => e.number === num)
-            if (extra) {
-              uncommentedLines = extra.exportLines
-            }
-          }
-          if (uncommentedLines) break
-        }
-      }
-    }
+
     if (!uncommentedLines) {
       throw new Error(
         `No variant found to enable for "${match}" in "${master}"`,
@@ -99,7 +88,7 @@ async function go() {
       .join('\n\n')
     return (
       `
-${l(final.exportLines) || '// no final'}
+${l((final || {}).exportLines) || '// no final'}
 
 ${l(exercise.exportLines) || '// no exercise'}
 
