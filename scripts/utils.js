@@ -42,7 +42,7 @@ function getVariants() {
     const hasDefaultExport = /^export default /m.test(contents)
     const exportLines = [
       `export * from './${name}'`,
-      hasDefaultExport ? `export {default} from '${name}'` : null,
+      hasDefaultExport ? `export {default} from './${name}'` : null,
     ].filter(Boolean)
     const number = getExtraCreditNumberFromFilename(base)
     const master = path.join(dir, name.replace(/\..*$/, ext))
