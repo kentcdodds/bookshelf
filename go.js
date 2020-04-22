@@ -53,16 +53,21 @@ async function changeExercise() {
       message: `Which exercise do you want to start working on?`,
       type: 'list',
       default: currentBranch,
-      choices: getExerciseBranches().map(b => ({
-        name: getDisplayName(b),
-        value: b,
-      })),
+      choices: [
+        {name: 'Return to master', value: 'master'},
+        ...getExerciseBranches().map(b => ({
+          name: getDisplayName(b),
+          value: b,
+        })),
+      ],
     },
   ])
   spawnSync('git add -A')
   spawnSync('git reset --hard HEAD')
   spawnSync(`git checkout ${branch}`)
-  spawnSync('node ./scripts/swap exercise')
+  if (branch.startsWith('exercises/')) {
+    spawnSync('node ./scripts/swap exercise')
+  }
   console.log(`✅  Ready to start work in ${branch}`)
 }
 
