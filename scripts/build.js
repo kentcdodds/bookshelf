@@ -1,6 +1,7 @@
 const {spawnSync} = require('./utils')
 
-const branch = spawnSync('git rev-parse --abbrev-ref HEAD')
+const branch =
+  process.env.BRANCH || spawnSync('git rev-parse --abbrev-ref HEAD')
 
 if (branch.startsWith('exercise/')) {
   spawnSync('node ./scripts/build-variants', {stdio: 'inherit'})
