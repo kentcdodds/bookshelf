@@ -10,7 +10,7 @@ async function client(endpoint, customConfig = {}) {
   // 🐨 get the user's token from localStorage
   // 💰 window.localStorage.getItem(localStorageKey)
 
-  // 🐨 create a default headers object here with the 'content-type' set to 'applicaiton/json'
+  // 🐨 create a default headers object here with the 'content-type' set to 'application/json'
   // 🐨 if there's a token, then add an Authorization header to `Bearer ${token}`
   // 💰 feel free to peek at the final if you need some help understanding the goals here.
 
