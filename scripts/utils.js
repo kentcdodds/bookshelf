@@ -40,10 +40,14 @@ function getVariants() {
     const {dir, name, base, ext} = path.parse(file)
     const contents = fs.readFileSync(file).toString()
     const hasDefaultExport = /^export default /m.test(contents)
-    const exportLines = [
+    const hasCJSExport = /^module.exports /m.test(contents)
+    let exportLines = [
       `export * from './${name}'`,
       hasDefaultExport ? `export {default} from './${name}'` : null,
     ].filter(Boolean)
+    if (hasCJSExport) {
+      exportLines = [`module.exports = require('./${name}')`]
+    }
     const number = getExtraCreditNumberFromFilename(base)
     const master = path.join(dir, name.replace(/\..*$/, ext))
 
