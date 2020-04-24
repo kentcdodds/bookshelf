@@ -1,4 +1,4 @@
-import {client, localStorageKey} from './api-client'
+import {client, logout, localStorageKey} from './api-client'
 
 function handleUserResponse({user: {token, ...user}}) {
   window.localStorage.setItem(localStorageKey, token)
@@ -21,10 +21,6 @@ function register({username, password}) {
   return client('register', {body: {username, password}}).then(
     handleUserResponse,
   )
-}
-
-function logout() {
-  window.localStorage.removeItem(localStorageKey)
 }
 
 function getToken() {
