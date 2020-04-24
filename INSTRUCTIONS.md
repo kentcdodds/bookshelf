@@ -148,7 +148,7 @@ const doSomething = () => somethingAsync().then(data => setData(data))
 
 You'll use this for the `login` and `register`.
 
-When in `isLoading` and `isPending` state, you can render the `FullPageSpinner`
+When in `isIdle` and `isPending` state, you can render the `FullPageSpinner`
 from `components/lib`. If you end up in `isError` state then you can render
 this:
 
