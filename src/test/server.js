@@ -16,9 +16,12 @@ async function startServer() {
     }
     throw new Error('This app requires service worker support (over HTTPS).')
   }
-  await composeMocks(...handlers).start(
-    fullUrl.pathname + 'mockServiceWorker.js',
-  )
+  await composeMocks(...handlers).start({
+    quiet: true,
+    serviceWorker: {
+      url: fullUrl.pathname + 'mockServiceWorker.js',
+    },
+  })
 }
 
 window.__bookshelf_serverReady = startServer()

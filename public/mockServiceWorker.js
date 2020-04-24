@@ -7,7 +7,7 @@
 /* eslint-disable */
 /* tslint:disable */
 
-const INTEGRITY_CHECKSUM = '874336b2b901d48e917e961411e8161e'
+const INTEGRITY_CHECKSUM = 'dcff59cce1b1cf75d9d30c0b6a63fdba'
 const bypassHeaderName = 'x-msw-bypass'
 
 let clients = {}
@@ -69,6 +69,12 @@ self.addEventListener('fetch', async function (event) {
   const { clientId, request } = event
   const requestClone = request.clone()
   const getOriginalResponse = () => fetch(requestClone)
+
+  // Opening the DevTools triggers the "only-if-cached" request
+  // that cannot be handled by the worker. Bypass such requests.
+  if (request.cache === 'only-if-cached' && request.mode !== 'same-origin') {
+    return
+  }
 
   event.respondWith(
     new Promise(async (resolve) => {
