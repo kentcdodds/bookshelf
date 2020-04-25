@@ -224,7 +224,7 @@ can use:
   borderLeft: `5px solid ${colors.indigo}`,
   background: colors.gray10,
   ':hover': {
-    background: colors.gray10,
+    background: colors.gray20,
   },
 }
 ```
