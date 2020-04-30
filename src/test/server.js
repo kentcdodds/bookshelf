@@ -1,4 +1,4 @@
-import {composeMocks} from 'msw'
+import {setupWorker} from 'msw'
 import {handlers} from './server-handlers'
 import {homepage} from '../../package.json'
 
@@ -16,7 +16,7 @@ async function startServer() {
     }
     throw new Error('This app requires service worker support (over HTTPS).')
   }
-  await composeMocks(...handlers).start({
+  await setupWorker(...handlers).start({
     quiet: true,
     serviceWorker: {
       url: fullUrl.pathname + 'mockServiceWorker.js',
