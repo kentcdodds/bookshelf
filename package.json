@@ -22,7 +22,7 @@
     "faker": "^4.1.0",
     "history": "^5.0.0-beta.5",
     "match-sorter": "^4.1.0",
-    "msw": "^0.15.4",
+    "msw": "^0.15.6",
     "node-match-path": "^0.4.2",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
