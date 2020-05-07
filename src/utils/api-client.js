@@ -31,7 +31,7 @@ async function client(endpoint, {body, ...customConfig} = {}) {
         logout()
         // refresh the page for them
         window.location.assign(window.location)
-        return
+        return Promise.reject({message: 'Please re-authenticate.'})
       }
       const data = await r.json()
       if (r.ok) {
