@@ -7,7 +7,7 @@
 /* eslint-disable */
 /* tslint:disable */
 
-const INTEGRITY_CHECKSUM = 'dcff59cce1b1cf75d9d30c0b6a63fdba'
+const INTEGRITY_CHECKSUM = 'bab591b83525b541a130e3ef84be89b8'
 const bypassHeaderName = 'x-msw-bypass'
 
 let clients = {}
@@ -136,7 +136,7 @@ self.addEventListener('fetch', async function (event) {
         case 'MOCK_SUCCESS': {
           setTimeout(
             resolve.bind(this, createResponse(clientMessage)),
-            clientMessage.delay,
+            clientMessage.payload.delay,
           )
           break
         }
