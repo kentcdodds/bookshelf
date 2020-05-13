@@ -26,7 +26,7 @@ function ListItemList({filterListItems, noListItems, noFilteredListItems}) {
   return (
     <Profiler
       id="List Item List"
-      data={{listItemCount: filteredListItems.length}}
+      metadata={{listItemCount: filteredListItems.length}}
     >
       <BookListUL>
         {filteredListItems.map(listItem => (
