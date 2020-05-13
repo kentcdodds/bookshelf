@@ -6,6 +6,7 @@ import {ReactQueryConfigProvider} from 'react-query'
 import {AuthProvider} from 'context/auth-context'
 import {buildUser} from './generate'
 import * as usersDB from './data/users'
+import * as booksDB from './data/books'
 
 jest.mock('context/auth-context')
 
@@ -62,6 +63,11 @@ async function waitForElementToBeRemoved(...args) {
   }
 }
 
+function getRandomBook() {
+  const books = booksDB.query('')
+  return books[Math.floor(Math.random() * books.length)]
+}
+
 export {default as userEvent} from '@testing-library/user-event'
 export * from '@testing-library/react'
-export {render, loginAsUser, waitForElementToBeRemoved}
+export {render, loginAsUser, waitForElementToBeRemoved, getRandomBook}
