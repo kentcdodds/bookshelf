@@ -6,7 +6,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {FaTools} from 'react-icons/fa'
 import {Tooltip} from '@reach/tooltip'
-import './dev-tools.css'
 import * as reactQuery from 'react-query'
 // pulling the development thing directly because I'm not worried about
 // bundle size since this won't be loaded in prod unless the query string/localStorage key is set
@@ -157,23 +156,23 @@ function FailureRate() {
 }
 
 function EnableDevTools() {
-  const [enableDevToos, setEnableDevToos] = useLocalStorageState(
+  const [enableDevTools, setEnableDevTools] = useLocalStorageState(
     'dev-tools',
     process.env.NODE_ENV === 'development',
   )
 
-  const handleChange = event => setEnableDevToos(event.target.checked)
+  const handleChange = event => setEnableDevTools(event.target.checked)
 
   return (
     <div>
       <input
         css={{marginRight: 6}}
-        checked={enableDevToos}
+        checked={enableDevTools}
         type="checkbox"
         onChange={handleChange}
-        id="enableDevToos"
+        id="enableDevTools"
       />
-      <label htmlFor="enableDevToos">Enable DevTools by default</label>
+      <label htmlFor="enableDevTools">Enable DevTools by default</label>
     </div>
   )
 }
