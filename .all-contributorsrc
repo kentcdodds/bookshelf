@@ -127,6 +127,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "hd4ng",
+      "name": "Huy Dang",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/29898753?v=4",
+      "profile": "https://github.com/hd4ng",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
