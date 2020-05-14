@@ -17,7 +17,7 @@ function ls(key, defaultVal) {
   const lsVal = window.localStorage.getItem(key)
   let val
   if (lsVal) {
-    val = Number(val)
+    val = Number(lsVal)
   }
   return Number.isFinite(val) ? val : defaultVal
 }
