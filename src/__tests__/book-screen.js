@@ -3,8 +3,7 @@ import {
   render,
   fireEvent,
   screen,
-  waitForElementToBeRemoved,
-  within,
+  waitForLoadingToFinish,
   act,
   userEvent,
   loginAsUser,
@@ -30,14 +29,7 @@ async function renderBookScreen({user, book, listItem, route} = {}) {
     route = `/book/${book.id}`
   }
 
-  const utils = render(<App />, {route})
-
-  await waitForElementToBeRemoved(
-    () =>
-      screen.queryByLabelText(/loading/i) ||
-      screen.queryByRole('heading', {name: 'Loading...'}),
-    {timeout: 4000},
-  )
+  const utils = await render(<App />, {user, route})
 
   return {
     ...utils,
@@ -71,9 +63,7 @@ test('can create a list item for the book', async () => {
   userEvent.click(addToListButton)
   expect(addToListButton).toBeDisabled()
 
-  await waitForElementToBeRemoved(() =>
-    within(addToListButton).getByLabelText(/loading/i),
-  )
+  await waitForLoadingToFinish()
 
   await screen.findByLabelText(/mark as read/i)
   await screen.findByLabelText(/remove from list/i)
@@ -92,9 +82,7 @@ test('can remove a list item for the book', async () => {
   fireEvent.click(removeFromListButton)
   expect(removeFromListButton).toBeDisabled()
 
-  await waitForElementToBeRemoved(() =>
-    within(removeFromListButton).getByLabelText(/loading/i),
-  )
+  await waitForLoadingToFinish()
 
   screen.getByLabelText(/add to list/i)
 
@@ -128,9 +116,7 @@ test('can mark a list item as read', async () => {
   fireEvent.click(markAsReadButton)
   expect(markAsReadButton).toBeDisabled()
 
-  await waitForElementToBeRemoved(() =>
-    within(markAsReadButton).getByLabelText(/loading/i),
-  )
+  await waitForLoadingToFinish()
 
   screen.getByLabelText(/unmark as read/i)
   screen.getByLabelText(/remove from list/i)
@@ -157,7 +143,7 @@ test('can edit a note', async () => {
   act(() => jest.runAllTimers())
   jest.useRealTimers()
 
-  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
+  await waitForLoadingToFinish()
   expect(notesTextarea.value).toBe(newNotes)
 
   expect(listItemsDB.read(listItem.id)).toMatchObject({
@@ -216,7 +202,7 @@ describe('console errors', () => {
     act(() => jest.runAllTimers())
     jest.useRealTimers()
 
-    await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
+    await waitForLoadingToFinish()
     expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
       `"There was an error: __test_error_message__"`,
     )

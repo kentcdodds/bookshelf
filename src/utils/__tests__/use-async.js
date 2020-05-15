@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, act} from 'test/app-test-utils'
+import {render, act} from '@testing-library/react'
 import {useAsync} from '../use-async'
 
 function Test({children, ...props}) {
