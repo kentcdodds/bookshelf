@@ -7,7 +7,7 @@
 /* eslint-disable */
 /* tslint:disable */
 
-const INTEGRITY_CHECKSUM = '75d7287903aaaa67d9048cf39fb65a3c'
+const INTEGRITY_CHECKSUM = 'afd14c5ce43f3be6b59aad899f6e498b'
 const bypassHeaderName = 'x-msw-bypass'
 
 let clients = {}
@@ -181,7 +181,9 @@ If you wish to mock an error response, please refer to this guide: https://redd.
 function serializeHeaders(headers) {
   const reqHeaders = {}
   headers.forEach((value, name) => {
-    reqHeaders[name] = value
+    reqHeaders[name] = reqHeaders[name]
+      ? [].concat(reqHeaders[name]).concat(value)
+      : value
   })
   return reqHeaders
 }
