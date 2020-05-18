@@ -22,7 +22,7 @@ async function renderBookScreen({user, book, listItem, route} = {}) {
   if (book === undefined) {
     book = await booksDB.create(buildBook())
   }
-  if (listItem === undefined) {
+  if (listItem == null) {
     listItem = await listItemsDB.create(buildListItem({owner: user, book}))
   }
   if (route === undefined) {
@@ -39,7 +39,15 @@ async function renderBookScreen({user, book, listItem, route} = {}) {
   }
 }
 
-test('renders all the book information', async () => {
+beforeEach(() => {
+  jest.spyOn(window, 'fetch')
+})
+
+afterEach(() => {
+  window.fetch.mockRestore()
+})
+
+test.only('renders all the book information', async () => {
   const {book} = await renderBookScreen({listItem: null})
 
   screen.getByText(book.title)

@@ -50,10 +50,10 @@ const handlers = [
   }),
 
   rest.get(`${apiUrl}/books`, async (req, res, ctx) => {
-    if (!req.query.has('query')) {
+    if (!req.url.searchParams.has('query')) {
       return ctx.fetch(req)
     }
-    const query = req.query.get('query')
+    const query = req.url.searchParams.get('query')
 
     let matchingBooks = []
     if (query) {
@@ -143,7 +143,7 @@ const handlers = [
 
 function shouldFail(req) {
   if (JSON.stringify(req.body)?.includes('FAIL')) return true
-  if (req.query.toString()?.includes('FAIL')) return true
+  if (req.url.searchParams.toString()?.includes('FAIL')) return true
   if (process.env.NODE_ENV === 'test') return false
   const failureRate = Number(
     window.localStorage.getItem('__bookshelf_failure_rate__') || 0,
