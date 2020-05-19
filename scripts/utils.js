@@ -74,9 +74,51 @@ function getExerciseBranches() {
   return branches.filter(b => b.startsWith('exercises/'))
 }
 
+function updateExerciseBranch(branch) {
+  const masterCommit = spawnSync('git rev-parse master')
+  spawnSync(`git checkout ${branch}`)
+  const exerciseCommit = spawnSync(`git rev-parse ${branch}`)
+  const parentCommit = spawnSync(`git rev-parse ${branch}^`)
+  if (masterCommit === parentCommit) {
+    return false
+  }
+  console.log(
+    `> The ${branch} exercise commit SHA: ${exerciseCommit} (save this in case something goes wrong).`,
+  )
+  spawnSync(`git reset --hard master`)
+  try {
+    const result = spawnSync(
+      `git cherry-pick ${exerciseCommit} --strategy-option theirs`,
+    )
+    if (!result.includes('error: could not apply')) {
+      return true
+    }
+  } catch (error) {
+    // let's try to fix things maybe... This might be a terrible idea though..
+  }
+  // the conflict is probably because files were deleted in the branch and we
+  // should delete them again. For some reason --strategy-option theres doesn't
+  // do this by default. 🤔
+  spawnSync(`git status | sed -n 's/deleted by them://p' | xargs git rm`)
+  const status = spawnSync('git status')
+  if (
+    status.includes('Changes not staged for commit') ||
+    status.includes('Unmerged')
+  ) {
+    console.error(
+      '❌  Merge conflict. Fix the conflict, then run the update-exercises script again to be sure you have everything up to date.',
+    )
+    throw status
+  }
+  spawnSync(`git cherry-pick --quit`)
+  spawnSync(`git commit -am "${branch}"`)
+  return true
+}
+
 module.exports = {
   spawnSync,
   getVariants,
   getExtraCreditTitles,
   getExerciseBranches,
+  updateExerciseBranch,
 }
