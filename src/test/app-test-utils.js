@@ -19,7 +19,7 @@ const queryConfig = {
 
 async function render(
   ui,
-  {route = '/', initialEntries = [route], user, ...renderOptions} = {},
+  {route = '/list', initialEntries = [route], user, ...renderOptions} = {},
 ) {
   // if you want to render the app unauthenticated then pass "null" as the user
   user = typeof user === 'undefined' ? await loginAsUser() : user
@@ -51,14 +51,16 @@ async function render(
 async function loginAsUser(user = buildUser()) {
   await usersDB.create(user)
   const authUser = usersDB.authenticate(user)
+  user = {...user, ...authUser}
   window.localStorage.setItem('__bookshelf_token__', authUser.token)
-  return {...user, ...authUser}
+  AuthProvider.__mock.mockValue.user = user
+  return user
 }
 
 // TODO: open an issue on DOM Testing Library to make this built-in...
 async function waitForElementToBeRemoved(...args) {
   try {
-    await waitForElementToBeRemoved(...args)
+    await rtl.waitForElementToBeRemoved(...args)
   } catch (error) {
     screen.debug()
     throw error
@@ -73,7 +75,7 @@ const waitForLoadingToFinish = () =>
       }
       if (
         screen.queryByLabelText(/loading/i) ||
-        screen.queryByRole('heading', {name: 'Loading...'})
+        screen.queryByText(/loading/i)
       ) {
         throw new Error('App loading indicators are still running')
       }

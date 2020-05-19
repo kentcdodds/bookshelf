@@ -14,6 +14,7 @@ const mockValue = {
 function MockAuthProvider(props) {
   return <MockAuthContext.Provider value={mockValue} {...props} />
 }
+MockAuthProvider.__mock = {mockValue}
 
 function useMockAuth() {
   const context = React.useContext(MockAuthContext)
