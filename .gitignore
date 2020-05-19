@@ -27,3 +27,7 @@ dev-tools.local.js
 public/exercise
 public/final
 public/extra-*
+
+# Allow people to make ignored files anywhere
+*.ignored.*
+ignored/
