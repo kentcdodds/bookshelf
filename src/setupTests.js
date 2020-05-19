@@ -13,15 +13,17 @@ jest.mock('./test/server', () => {})
 
 const mockServer = setupServer(...handlers)
 
-beforeEach(() => {
-  // enable API mocking in test runs using the same request handlers
-  // as for the client-side mocking.
-  mockServer.listen()
-})
+// enable API mocking in test runs using the same request handlers
+// as for the client-side mocking.
+beforeAll(() => mockServer.listen())
+afterAll(() => mockServer.close())
 
+// allow tests to mock the implementation of window.fetch
+beforeEach(() => jest.spyOn(window, 'fetch'))
+afterEach(() => window.fetch.mockRestore())
+
+// general cleanup
 afterEach(() => {
-  mockServer.close()
   window.localStorage.clear()
   queryCache.clear()
-  jest.clearAllMocks()
 })

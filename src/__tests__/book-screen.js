@@ -39,14 +39,6 @@ async function renderBookScreen({user, book, listItem, route} = {}) {
   }
 }
 
-beforeEach(() => {
-  jest.spyOn(window, 'fetch')
-})
-
-afterEach(() => {
-  window.fetch.mockRestore()
-})
-
 test('renders all the book information', async () => {
   const {book} = await renderBookScreen({listItem: null})
 

@@ -14,12 +14,7 @@ const defaultConfig = {
 
 const defaultResponse = {ok: true, json: () => Promise.resolve()}
 
-beforeEach(() => {
-  jest.spyOn(window, 'fetch')
-})
-
 afterEach(() => {
-  window.fetch.mockRestore()
   window.localStorage.removeItem(localStorageKey)
 })
 
