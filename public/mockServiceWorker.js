@@ -7,7 +7,7 @@
 /* eslint-disable */
 /* tslint:disable */
 
-const INTEGRITY_CHECKSUM = '75d7287903aaaa67d9048cf39fb65a3c'
+const INTEGRITY_CHECKSUM = 'e6b416d66cdb446c2c36c6309940107d'
 const bypassHeaderName = 'x-msw-bypass'
 
 let clients = {}
@@ -107,10 +107,9 @@ self.addEventListener('fetch', async function (event) {
       }
 
       const reqHeaders = serializeHeaders(request.headers)
-      const body = await request
-        .json()
-        .catch(() => request.text())
-        .catch(() => null)
+      const body = request.headers.get('content-type')?.includes('json')
+        ? await request.json()
+        : await request.text()
 
       const rawClientMessage = await sendToClient(client, {
         type: 'REQUEST',
@@ -181,7 +180,9 @@ If you wish to mock an error response, please refer to this guide: https://redd.
 function serializeHeaders(headers) {
   const reqHeaders = {}
   headers.forEach((value, name) => {
-    reqHeaders[name] = value
+    reqHeaders[name] = reqHeaders[name]
+      ? [].concat(reqHeaders[name]).concat(value)
+      : value
   })
   return reqHeaders
 }

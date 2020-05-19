@@ -2,8 +2,7 @@ import React from 'react'
 import * as rtl from '@testing-library/react'
 import {screen, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {Router} from 'react-router-dom'
-import {createMemoryHistory} from 'history'
+import {MemoryRouter as Router} from 'react-router-dom'
 import {ReactQueryConfigProvider, queryCache} from 'react-query'
 import {AuthProvider} from 'context/auth-context'
 import {buildUser} from './generate'
@@ -20,13 +19,7 @@ const queryConfig = {
 
 async function render(
   ui,
-  {
-    route = '/',
-    initialEntries = [route],
-    history = createMemoryHistory({initialEntries}),
-    user,
-    ...renderOptions
-  } = {},
+  {route = '/', initialEntries = [route], user, ...renderOptions} = {},
 ) {
   // if you want to render the app unauthenticated then pass "null" as the user
   user = typeof user === 'undefined' ? await loginAsUser() : user
@@ -34,7 +27,7 @@ async function render(
   function Wrapper({children}) {
     return (
       <ReactQueryConfigProvider config={queryConfig}>
-        <Router history={history}>
+        <Router initialEntries={initialEntries}>
           <AuthProvider>{children}</AuthProvider>
         </Router>
       </ReactQueryConfigProvider>
@@ -47,10 +40,6 @@ async function render(
       ...renderOptions,
     }),
     user,
-    // adding `history` to the returned utilities to allow us
-    // to reference it in our tests (just try to avoid using
-    // this to test implementation details).
-    history,
   }
 
   // wait for react-query to settle before allowing the test to continue

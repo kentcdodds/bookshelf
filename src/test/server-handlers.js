@@ -50,10 +50,10 @@ const handlers = [
   }),
 
   rest.get(`${apiUrl}/books`, async (req, res, ctx) => {
-    if (!req.query.has('query')) {
+    if (!req.url.searchParams.has('query')) {
       return ctx.fetch(req)
     }
-    const query = req.query.get('query')
+    const query = req.url.searchParams.get('query')
 
     let matchingBooks = []
     if (query) {
@@ -124,6 +124,13 @@ const handlers = [
     ...handler,
     async resolver(req, res, ctx) {
       try {
+        try {
+          req.body =
+            typeof req.body === 'string' ? JSON.parse(req.body) : req.body
+        } catch (error) {
+          // https://github.com/kentcdodds/bookshelf/pull/57#issuecomment-631094130
+          // ignore the error
+        }
         const result = await handler.resolver(req, res, ctx)
         if (shouldFail(req)) {
           throw new Error('Random failure (for testing purposes). Try again.')
@@ -143,7 +150,7 @@ const handlers = [
 
 function shouldFail(req) {
   if (JSON.stringify(req.body)?.includes('FAIL')) return true
-  if (req.query.toString()?.includes('FAIL')) return true
+  if (req.url.searchParams.toString()?.includes('FAIL')) return true
   if (process.env.NODE_ENV === 'test') return false
   const failureRate = Number(
     window.localStorage.getItem('__bookshelf_failure_rate__') || 0,

@@ -24,12 +24,12 @@ window.__bookshelf.purgeUsers = () => {
 function validateUserForm({username, password}) {
   if (!username) {
     const error = new Error('A username is required')
-    error.code = 400
+    error.status = 400
     throw error
   }
   if (!password) {
     const error = new Error('A password is required')
-    error.code = 400
+    error.status = 400
     throw error
   }
 }
@@ -39,7 +39,7 @@ function authenticate({username, password}) {
   const id = hash(username)
   const user = users[id] || {}
   if (user.passwordHash === hash(password)) {
-    return {...user, token: btoa(user.id)}
+    return {...sanitizeUser(user), token: btoa(user.id)}
   }
   const error = new Error('Invalid username or password')
   error.status = 400
@@ -63,8 +63,12 @@ function create({username, password}) {
 
 function read(id) {
   validateUser(id)
-  const {passwordHash, ...user} = users[id]
-  return user
+  return sanitizeUser(users[id])
+}
+
+function sanitizeUser(user) {
+  const {passwordHash, ...rest} = user
+  return rest
 }
 
 function update(id, updates) {

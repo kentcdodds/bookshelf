@@ -1,7 +1,8 @@
 import './test/jest-expect-message'
 import '@testing-library/jest-dom/extend-expect'
 import {queryCache} from 'react-query'
-import {fetchMock} from './test/fetch-mock'
+import {setupServer} from 'msw/node'
+import {handlers} from './test/server-handlers'
 
 // make debug output for TestingLibrary Errors larger
 process.env.DEBUG_PRINT_LIMIT = 15000
@@ -10,15 +11,19 @@ process.env.DEBUG_PRINT_LIMIT = 15000
 // it wouldn't work anyway
 jest.mock('./test/server', () => {})
 
-// instead, we'll use the same handlers we use for the service worker
-// as a mock fetch
-beforeEach(() => {
-  jest.spyOn(window, 'fetch').mockImplementation(fetchMock)
-})
+const mockServer = setupServer(...handlers)
 
+// enable API mocking in test runs using the same request handlers
+// as for the client-side mocking.
+beforeAll(() => mockServer.listen())
+afterAll(() => mockServer.close())
+
+// allow tests to mock the implementation of window.fetch
+beforeEach(() => jest.spyOn(window, 'fetch'))
+afterEach(() => window.fetch.mockRestore())
+
+// general cleanup
 afterEach(() => {
-  window.fetch.mockRestore()
   window.localStorage.clear()
   queryCache.clear()
-  jest.clearAllMocks()
 })

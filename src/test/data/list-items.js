@@ -111,11 +111,9 @@ function hash(str) {
 }
 
 function required(key) {
-  return () => {
-    const error = new Error(`${key} is required`)
-    error.status = 400
-    throw error
-  }
+  const error = new Error(`${key} is required`)
+  error.status = 400
+  throw error
 }
 
 export {authorize, create, read, update, remove, readMany, readByOwner}
