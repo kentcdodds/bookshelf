@@ -5,6 +5,7 @@ import {jsx} from '@emotion/core'
 import React from 'react'
 import Tooltip from '@reach/tooltip'
 import {FaSearch, FaTimes} from 'react-icons/fa'
+import * as colors from 'styles/colors'
 import {useBookSearch, refetchBookSearchQuery} from 'utils/books'
 import {BookRow} from 'components/book-row'
 import {BookListUL, Spinner, Input} from 'components/lib'
@@ -48,7 +49,7 @@ function DiscoverBooksScreen() {
                 {isLoading ? (
                   <Spinner />
                 ) : isError ? (
-                  <FaTimes aria-label="error" css={{color: 'red'}} />
+                  <FaTimes aria-label="error" css={{color: colors.danger}} />
                 ) : (
                   <FaSearch aria-label="search" />
                 )}
@@ -58,7 +59,7 @@ function DiscoverBooksScreen() {
         </form>
 
         {isError ? (
-          <div css={{color: 'red'}}>
+          <div css={{color: colors.danger}}>
             <p>There was an error:</p>
             <pre>{error.message}</pre>
           </div>
