@@ -128,7 +128,7 @@ const handlers = [
           req.body =
             typeof req.body === 'string' ? JSON.parse(req.body) : req.body
         } catch (error) {
-          // https://github.com/kentcdodds/bookshelf/pull/57#issuecomment-631057729
+          // https://github.com/kentcdodds/bookshelf/pull/57#issuecomment-631094130
           // ignore the error
         }
         const result = await handler.resolver(req, res, ctx)

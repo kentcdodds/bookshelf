@@ -7,7 +7,7 @@
 /* eslint-disable */
 /* tslint:disable */
 
-const INTEGRITY_CHECKSUM = 'afd14c5ce43f3be6b59aad899f6e498b'
+const INTEGRITY_CHECKSUM = 'e6b416d66cdb446c2c36c6309940107d'
 const bypassHeaderName = 'x-msw-bypass'
 
 let clients = {}
@@ -107,10 +107,9 @@ self.addEventListener('fetch', async function (event) {
       }
 
       const reqHeaders = serializeHeaders(request.headers)
-      const body = await request
-        .json()
-        .catch(() => request.text())
-        .catch(() => null)
+      const body = request.headers.get('content-type')?.includes('json')
+        ? await request.json()
+        : await request.text()
 
       const rawClientMessage = await sendToClient(client, {
         type: 'REQUEST',
