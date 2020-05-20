@@ -124,13 +124,6 @@ const handlers = [
     ...handler,
     async resolver(req, res, ctx) {
       try {
-        try {
-          req.body =
-            typeof req.body === 'string' ? JSON.parse(req.body) : req.body
-        } catch (error) {
-          // https://github.com/kentcdodds/bookshelf/pull/57#issuecomment-631094130
-          // ignore the error
-        }
         const result = await handler.resolver(req, res, ctx)
         if (shouldFail(req)) {
           throw new Error('Random failure (for testing purposes). Try again.')
