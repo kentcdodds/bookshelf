@@ -3,6 +3,9 @@ import {waitForElementToBeRemoved, screen, within} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {buildUser} from 'test/generate'
 
+// this is a pretty comprehensive test and CI is pretty slow...
+jest.setTimeout(25000)
+
 test('can login and use the book search', async () => {
   // setup
   const root = document.createElement('div')
