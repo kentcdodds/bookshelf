@@ -3,10 +3,6 @@ import {waitForElementToBeRemoved, screen, within} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {buildUser} from 'test/generate'
 
-beforeAll(() => {
-  document.body.focus()
-})
-
 test('can login and use the book search', async () => {
   // setup
   const div = document.createElement('div')
@@ -28,9 +24,7 @@ test('can login and use the book search', async () => {
 
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
 
-  const discoverLink = screen.getAllByRole('link', {name: /discover/i})[0]
-  discoverLink.focus()
-  userEvent.click(discoverLink)
+  userEvent.click(screen.getAllByRole('link', {name: /discover/i})[0])
 
   const searchInput = screen.getByPlaceholderText(/search/i)
   await userEvent.type(searchInput, 'voice of war')
