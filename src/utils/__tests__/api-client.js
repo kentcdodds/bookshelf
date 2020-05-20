@@ -5,12 +5,7 @@ jest.mock('react-query')
 
 const url = endpoint => `${process.env.REACT_APP_API_URL}/${endpoint}`
 
-const defaultConfig = {
-  method: 'GET',
-  headers: {
-    'content-type': 'application/json',
-  },
-}
+const defaultConfig = {method: 'GET', headers: {}}
 
 const defaultResponse = {ok: true, json: () => Promise.resolve()}
 
@@ -63,6 +58,9 @@ test('when body is provided, it is stringified and the method defaults to POST',
     ...defaultConfig,
     method: 'POST',
     body: JSON.stringify(body),
+    headers: {
+      'content-type': 'application/json',
+    },
   })
 })
 
