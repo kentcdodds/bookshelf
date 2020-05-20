@@ -5,10 +5,11 @@ import {buildUser} from 'test/generate'
 
 test('can login and use the book search', async () => {
   // setup
-  const div = document.createElement('div')
-  div.setAttribute('id', 'root')
-  document.body.appendChild(div)
-  require('../index')
+  const root = document.createElement('div')
+  root.id = 'root'
+  document.body.append(root)
+
+  require('..')
 
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
 
@@ -47,6 +48,6 @@ test('can login and use the book search', async () => {
   expect(searchInput).not.toBeInTheDocument()
 
   // cleanup
-  ReactDOM.unmountComponentAtNode(div)
-  document.body.removeChild(div)
+  ReactDOM.unmountComponentAtNode(root)
+  document.body.removeChild(root)
 })
