@@ -8,7 +8,7 @@ async function client(endpoint, {body, ...customConfig} = {}) {
   await window.__bookshelf_serverReady
 
   const token = window.localStorage.getItem(localStorageKey)
-  const headers = {'content-type': 'application/json'}
+  const headers = {}
   if (token) {
     headers.Authorization = `Bearer ${token}`
   }
@@ -22,6 +22,7 @@ async function client(endpoint, {body, ...customConfig} = {}) {
   }
   if (body) {
     config.body = JSON.stringify(body)
+    config.headers['content-type'] = 'application/json'
   }
 
   return window
