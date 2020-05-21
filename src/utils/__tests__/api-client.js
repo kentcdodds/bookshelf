@@ -59,7 +59,7 @@ test('when body is provided, it is stringified and the method defaults to POST',
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
     },
   })
 })
