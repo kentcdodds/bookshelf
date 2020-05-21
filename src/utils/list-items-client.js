@@ -1,7 +1,7 @@
 import {client} from './api-client'
 
 function create(listItemData) {
-  return client('list-items', {body: listItemData})
+  return client('list-items', {data: listItemData})
 }
 
 function read() {
@@ -11,7 +11,7 @@ function read() {
 function update(listItemId, updates) {
   return client(`list-items/${listItemId}`, {
     method: 'PUT',
-    body: updates,
+    data: updates,
   })
 }
 

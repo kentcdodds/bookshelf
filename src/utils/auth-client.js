@@ -14,11 +14,11 @@ function getUser() {
 }
 
 function login({username, password}) {
-  return client('login', {body: {username, password}}).then(handleUserResponse)
+  return client('login', {data: {username, password}}).then(handleUserResponse)
 }
 
 function register({username, password}) {
-  return client('register', {body: {username, password}}).then(
+  return client('register', {data: {username, password}}).then(
     handleUserResponse,
   )
 }

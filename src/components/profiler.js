@@ -11,7 +11,7 @@ function sendProfileQueue() {
   }
   const queueToSend = [...queue]
   queue = []
-  return client('profile', {body: queueToSend})
+  return client('profile', {data: queueToSend})
 }
 
 // By wrapping the Profile like this, we can set the onRender to whatever

@@ -51,13 +51,13 @@ test('allows for config overrides', async () => {
 })
 
 test('when body is provided, it is stringified and the method defaults to POST', async () => {
-  const body = {a: 'b'}
+  const data = {a: 'b'}
   window.fetch.mockResolvedValueOnce(defaultResponse)
-  await client('foo', {body})
+  await client('foo', {data})
   expect(window.fetch).toHaveBeenCalledWith(url('foo'), {
     ...defaultConfig,
     method: 'POST',
-    body: JSON.stringify(body),
+    body: JSON.stringify(data),
     headers: {
       'content-type': 'application/json',
     },
