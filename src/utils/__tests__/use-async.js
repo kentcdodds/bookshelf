@@ -1,17 +1,5 @@
-import React from 'react'
-import {render, act} from '@testing-library/react'
+import {renderHook, act} from '@testing-library/react-hooks'
 import {useAsync} from '../use-async'
-
-function Test({children, ...props}) {
-  children(useAsync())
-  return null
-}
-
-function testHook(props) {
-  const returnValue = {}
-  render(<Test {...props}>{val => Object.assign(returnValue, val)}</Test>)
-  return returnValue
-}
 
 function deferred() {
   let resolve, reject
@@ -39,13 +27,13 @@ const defaultState = {
 
 test('calling run with a promise which resolves', async () => {
   const {promise, resolve} = deferred()
-  const state = testHook()
-  expect(state).toEqual(defaultState)
+  const {result} = renderHook(() => useAsync())
+  expect(result.current).toEqual(defaultState)
   let p
   act(() => {
-    p = state.run(promise)
+    p = result.current.run(promise)
   })
-  expect(state).toEqual({
+  expect(result.current).toEqual({
     ...defaultState,
     isIdle: false,
     isLoading: true,
@@ -56,7 +44,7 @@ test('calling run with a promise which resolves', async () => {
     resolve(resolvedValue)
     await p
   })
-  expect(state).toEqual({
+  expect(result.current).toEqual({
     ...defaultState,
     data: resolvedValue,
     isIdle: false,
@@ -65,19 +53,19 @@ test('calling run with a promise which resolves', async () => {
     status: 'resolved',
   })
 
-  act(() => state.reset())
-  expect(state).toEqual(defaultState)
+  act(() => result.current.reset())
+  expect(result.current).toEqual(defaultState)
 })
 
 test('calling run with a promise which rejects', async () => {
   const {promise, reject} = deferred()
-  const state = testHook()
-  expect(state).toEqual(defaultState)
+  const {result} = renderHook(() => useAsync())
+  expect(result.current).toEqual(defaultState)
   let p
   act(() => {
-    p = state.run(promise)
+    p = result.current.run(promise)
   })
-  expect(state).toEqual({
+  expect(result.current).toEqual({
     ...defaultState,
     isIdle: false,
     isLoading: true,
@@ -90,7 +78,7 @@ test('calling run with a promise which rejects', async () => {
       /* ignore erorr */
     })
   })
-  expect(state).toEqual({
+  expect(result.current).toEqual({
     ...defaultState,
     status: 'rejected',
     isIdle: false,
@@ -103,11 +91,10 @@ test('calling run with a promise which rejects', async () => {
 test('No state updates happen if the component is unmounted while pending', async () => {
   jest.spyOn(console, 'error')
   const {promise, resolve} = deferred()
-  let run
-  const {unmount} = render(<Test>{val => (run = val.run)}</Test>)
+  const {result, unmount} = renderHook(() => useAsync())
   let p
   act(() => {
-    p = run(promise)
+    p = result.current.run(promise)
   })
   unmount()
   await act(async () => {
@@ -122,7 +109,8 @@ test('No state updates happen if the component is unmounted while pending', asyn
 })
 
 test('calling "run" without a promise results in an early error', () => {
-  expect(() => testHook().run()).toThrowErrorMatchingInlineSnapshot(
+  const {result} = renderHook(() => useAsync())
+  expect(() => result.current.run()).toThrowErrorMatchingInlineSnapshot(
     `"The argument passed to useAsync().run must be a promise. Maybe a function that's passed isn't returning anything?"`,
   )
 })
