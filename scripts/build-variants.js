@@ -55,9 +55,9 @@ ${baseRoute}*       ${baseRoute}index.html        200
         spawnSync(`npm run test:coverage`, {stdio: 'inherit'})
       }
       if (dirname) {
-        spawnSync(`mv build node_modules/.cache/build/${dirname}`, {
-          stdio: 'inherit',
-        })
+        const dirPath = `node_modules/.cache/build/${dirname}`
+        spawnSync(`rm -rf ${dirPath}`, {stdio: 'inherit'})
+        spawnSync(`mv build ${dirPath}`, {stdio: 'inherit'})
       }
       console.log(`✅  finished build for "${variant}" in "${dirname}"`)
       redirects.push(getRedirect(dirname))
