@@ -171,8 +171,9 @@ describe('console errors', () => {
 
     expect(
       (await screen.findByRole('alert')).textContent,
-    ).toMatchInlineSnapshot(`"There was an error: __test_error__"`)
-    expect(console.error).toHaveBeenCalled()
+    ).toMatchInlineSnapshot(
+      `"Uh oh... There's a problem. Try refreshing the app.__test_error__"`,
+    )
   })
 
   test('shows an error message when the book fails to load', async () => {

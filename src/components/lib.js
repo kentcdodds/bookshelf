@@ -144,6 +144,7 @@ function ErrorMessage({error, variant = 'stacked', ...props}) {
 function FullPageErrorFallback({error}) {
   return (
     <div
+      role="alert"
       css={{
         color: colors.danger,
         height: '100vh',

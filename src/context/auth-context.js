@@ -11,8 +11,6 @@ import {FullPageSpinner, FullPageErrorFallback} from 'components/lib'
 const AuthContext = React.createContext()
 AuthContext.displayName = 'AuthContext'
 
-const appDataPromise = bootstrapAppData()
-
 function AuthProvider(props) {
   const {
     data,
@@ -27,7 +25,7 @@ function AuthProvider(props) {
   } = useAsync()
 
   React.useLayoutEffect(() => {
-    run(appDataPromise)
+    run(bootstrapAppData())
   }, [run])
 
   const login = React.useCallback(

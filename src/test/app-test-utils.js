@@ -9,8 +9,6 @@ import {buildUser} from './generate'
 import * as usersDB from './data/users'
 import * as booksDB from './data/books'
 
-jest.mock('context/auth-context')
-
 const queryConfig = {
   retry: 0,
   useErrorBoundary: true,
@@ -53,7 +51,7 @@ async function loginAsUser(user = buildUser()) {
   const authUser = usersDB.authenticate(user)
   user = {...user, ...authUser}
   window.localStorage.setItem('__bookshelf_token__', authUser.token)
-  AuthProvider.__mock.mockValue.user = user
+  // AuthProvider.__mock.mockValue.user = user
   return user
 }
 
