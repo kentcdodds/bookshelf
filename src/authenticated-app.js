@@ -4,7 +4,6 @@ import {jsx} from '@emotion/core'
 
 import {Routes, Route, Link as RouterLink, useMatch} from 'react-router-dom'
 import {ErrorBoundary} from 'react-error-boundary'
-import {homepage} from '../package.json'
 import {Button, ErrorMessage, FullPageErrorFallback} from './components/lib'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
@@ -146,14 +145,10 @@ function Nav(params) {
     </nav>
   )
 }
-const fullUrl = new URL(homepage)
-const basename = fullUrl.pathname.endsWith('/')
-  ? fullUrl.pathname.slice(0, fullUrl.pathname.length - 1)
-  : fullUrl.pathname
 
 function AppRoutes() {
   return (
-    <Routes basename={basename}>
+    <Routes>
       <Route path="/list" element={<ReadingListScreen />} />
       <Route path="/finished" element={<FinishedScreen />} />
       <Route path="/discover" element={<DiscoverBooksScreen />} />
