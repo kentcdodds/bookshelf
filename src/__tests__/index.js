@@ -14,7 +14,9 @@ test('can login and use the book search', async () => {
 
   require('..')
 
-  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
+  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i), {
+    timeout: 6000,
+  })
 
   const user = buildUser()
 
@@ -26,7 +28,9 @@ test('can login and use the book search', async () => {
 
   userEvent.click(modal.getByRole('button', {name: /register/i}))
 
-  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
+  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i), {
+    timeout: 6000,
+  })
 
   userEvent.click(screen.getAllByRole('link', {name: /discover/i})[0])
 
@@ -34,7 +38,9 @@ test('can login and use the book search', async () => {
   await userEvent.type(searchInput, 'voice of war')
 
   userEvent.click(screen.getByLabelText(/search/i))
-  await waitForElementToBeRemoved(() => screen.getAllByLabelText(/loading/i))
+  await waitForElementToBeRemoved(() => screen.getAllByLabelText(/loading/i), {
+    timeout: 6000,
+  })
 
   userEvent.click(screen.getByText(/voice of war/i))
 

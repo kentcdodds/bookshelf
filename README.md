@@ -20,6 +20,7 @@ following things to prepare.
 - 📺 only necessary if the workshop is remote via Zoom
 - 👋 specific to the material for this workshop
 - 3️⃣ Only needed to prepare for part 3 of this workshop
+- 4️⃣ Only needed to prepare for part 4 of this workshop
 
 - [ ] 👋 Setup the project (follow the setup instructions below) (~5 minutes)
 - [ ] 📺 Install and setup [Zoom](https://zoom.us) on the computer you will be
@@ -41,10 +42,16 @@ following things to prepare.
       have the equivalent basic experience of using hooks. You should be
       experienced with `useState`, `useEffect`, and `useRef`.
 - [ ] 👋 3️⃣ Go through my
-      [Advanced React Hooks](https://kentcdodds.com/workshops/advanced-react-hooks),
+      [Advanced React Hooks Workshop](https://kentcdodds.com/workshops/advanced-react-hooks),
       or have the equivalent basic experience of using advanced hooks. You
       should be experienced with `useContext`, `useReducer`, `useMemo`, and
       `useCallback`.
+- [ ] 👋 4️⃣ Go through my
+      [Testing React Apps Workshop](https://kentcdodds.com/workshops/testing-react-apps),
+      [TestingJavaScript.com](https://testingjavascript.com), or have the
+      equivalent experience testing React components with
+      [Jest](https://jestjs.io/) and
+      [React Testing Library](https://testing-library.com/react).
 
 The more prepared you are for the workshop, the better it will go for you.
 
@@ -194,6 +201,18 @@ correct version for you to work on that extra credit.
 - 💪 10. Render as you fetch
 - ❓ Q&A
 
+#### Part 4
+
+- 😴 Logistics
+- 💪 11. Unit Testing
+- 😴 10 Minutes
+- 💪 12. Testing Hooks and Components
+- 🌮 30 Minutes
+- 💪 13. Integration Testing
+- 😴 10 Minutes
+- 💪 14. E2E Testing
+- ❓ Q&A
+
 ### Questions
 
 Please do ask! Interrupt me. If you have an unrelated question, please ask on
@@ -331,6 +350,7 @@ Thanks goes to these wonderful people
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the
