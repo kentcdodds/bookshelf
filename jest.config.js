@@ -43,8 +43,8 @@ module.exports = {
     'src/**/*.js',
     '!<rootDir>/node_modules/**/*',
     '!<rootDir>/src/test/**/*',
-    '!<rootDir>/src/setupProxy.js',
-    '!<rootDir>/src/setupTests.js',
+    '!<rootDir>/src/setupProxy*',
+    '!<rootDir>/src/setupTests*',
     '!<rootDir>/src/dev-tools/**/*',
   ],
   watchPlugins: [
