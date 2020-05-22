@@ -21,6 +21,11 @@ async function go() {
       .map(e => e.number),
   )
 
+  if (!Object.keys(variants).length) {
+    console.log(`There are no variants needing a swap.`)
+    return
+  }
+
   const extraCreditTitles = getExtraCreditTitles()
 
   if (!match) {
