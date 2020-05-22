@@ -1,6 +1,6 @@
 const fs = require('fs')
 const pkg = require('../package.json')
-const {spawnSync, getExtraCreditTitles, hasVariants} = require('./utils')
+const {spawnSync, getExtraCreditTitles} = require('./utils')
 
 const branch = spawnSync('git rev-parse --abbrev-ref HEAD')
 if (branch === 'master') {
@@ -10,16 +10,11 @@ if (branch === 'master') {
 }
 
 function go() {
-  let variants
-  if (!hasVariants()) {
-    variants = []
-  } else {
-    variants = [
-      'exercise',
-      ...getExtraCreditTitles().map((x, i) => i + 1),
-      'final',
-    ]
-  }
+  const variants = [
+    'exercise',
+    ...getExtraCreditTitles().map((x, i) => i + 1),
+    'final',
+  ]
 
   const originalHomepage = pkg.homepage
 

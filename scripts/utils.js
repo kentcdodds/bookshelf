@@ -32,16 +32,9 @@ function getExtraCreditTitles() {
     .map(l => l.replace(/^.*💯/, '').trim())
 }
 
-function hasVariants() {
-  return Boolean(Object.keys(getVariants()).length)
-}
-
 function getVariants() {
   const extraCreditTitles = getExtraCreditTitles()
-  const files = glob
-    .sync('./src/**/*.+(exercise|final|extra-)*.js')
-    // test exercises don't have a "master" exporting file
-    .filter(file => !file.includes('__tests__'))
+  const files = glob.sync('./src/**/*.+(exercise|final|extra-)*.js')
   const filesByMaster = {}
   for (const file of files) {
     const {dir, name, base, ext} = path.parse(file)
@@ -125,7 +118,6 @@ function updateExerciseBranch(branch) {
 module.exports = {
   spawnSync,
   getVariants,
-  hasVariants,
   getExtraCreditTitles,
   getExerciseBranches,
   updateExerciseBranch,
