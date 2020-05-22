@@ -4,14 +4,8 @@ import {client, localStorageKey} from '../api-client'
 jest.mock('react-query')
 
 const url = endpoint => `${process.env.REACT_APP_API_URL}/${endpoint}`
-
 const defaultConfig = {method: 'GET', headers: {}}
-
 const defaultResponse = {ok: true, json: () => Promise.resolve()}
-
-afterEach(() => {
-  window.localStorage.removeItem(localStorageKey)
-})
 
 test('calls fetch at the endpoint with the arguments for GET requests', async () => {
   window.fetch.mockResolvedValueOnce(defaultResponse)
