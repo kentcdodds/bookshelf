@@ -4,18 +4,26 @@ import userEvent from '@testing-library/user-event'
 import {Modal, ModalContents, ModalOpenButton} from '../modal'
 
 test('can be opened and closed', () => {
+  const label = 'Modal Label'
+  const title = 'Modal Title'
   render(
     <Modal>
       <ModalOpenButton>
         <button>Open</button>
       </ModalOpenButton>
-      <ModalContents aria-label="Modal Label" title="Modal Title">
+      <ModalContents aria-label={label} title={title}>
         <div>Modal Content</div>
       </ModalContents>
     </Modal>,
   )
   userEvent.click(screen.getByRole('button', {name: 'Open'}))
-  const modal = within(screen.getByRole('dialog'))
-  modal.getByRole('heading', {name: 'Modal Title'})
-  userEvent.click(modal.getByRole('button', {name: /close/i}))
+
+  const modal = screen.getByRole('dialog')
+  expect(modal).toHaveAttribute('aria-label', label)
+  const inModal = within(screen.getByRole('dialog'))
+  expect(inModal.getByRole('heading', {name: title})).toBeInTheDocument()
+
+  userEvent.click(inModal.getByRole('button', {name: /close/i}))
+
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 })
