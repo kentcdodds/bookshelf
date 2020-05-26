@@ -12,15 +12,35 @@ function useSafeDispatch(dispatch) {
   )
 }
 
-const initialState = {status: 'idle', data: null, error: null}
-
-function useAsync() {
+// Example usage:
+// const {data, error, status, run} = useAsync()
+// React.useEffect(() => {
+//   run(fetchPokemon(pokemonName))
+// }, [pokemonName, run])
+const defaultInitialState = {status: 'idle', data: null, error: null}
+function useAsync(initialState) {
+  const initialStateRef = React.useRef({
+    ...defaultInitialState,
+    ...initialState,
+  })
   const [{status, data, error}, setState] = React.useReducer(
     (s, a) => ({...s, ...a}),
-    initialState,
+    initialStateRef.current,
   )
 
   const safeSetState = useSafeDispatch(setState)
+
+  const setData = React.useCallback(
+    data => safeSetState({data, status: 'resolved'}),
+    [safeSetState],
+  )
+  const setError = React.useCallback(
+    error => safeSetState({error, status: 'rejected'}),
+    [safeSetState],
+  )
+  const reset = React.useCallback(() => safeSetState(initialStateRef.current), [
+    safeSetState,
+  ])
 
   const run = React.useCallback(
     promise => {
@@ -32,27 +52,17 @@ function useAsync() {
       safeSetState({status: 'pending'})
       return promise.then(
         data => {
-          safeSetState({data, status: 'resolved'})
+          setData(data)
           return data
         },
         error => {
-          safeSetState({status: 'rejected', error})
+          setError(error)
           return error
         },
       )
     },
-    [safeSetState],
+    [safeSetState, setData, setError],
   )
-
-  const setData = React.useCallback(data => safeSetState({data}), [
-    safeSetState,
-  ])
-  const setError = React.useCallback(error => safeSetState({error}), [
-    safeSetState,
-  ])
-  const reset = React.useCallback(() => safeSetState(initialState), [
-    safeSetState,
-  ])
 
   return {
     // using the same names that react-query uses for convenience
