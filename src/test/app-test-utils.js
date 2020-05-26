@@ -51,7 +51,6 @@ async function loginAsUser(user = buildUser()) {
   const authUser = usersDB.authenticate(user)
   user = {...user, ...authUser}
   window.localStorage.setItem('__bookshelf_token__', authUser.token)
-  // AuthProvider.__mock.mockValue.user = user
   return user
 }
 
@@ -65,8 +64,8 @@ async function waitForElementToBeRemoved(...args) {
   }
 }
 
-const waitForLoadingToFinish = () =>
-  waitFor(
+function waitForLoadingToFinish() {
+  return waitFor(
     () => {
       if (queryCache.isFetching) {
         throw new Error('The react-query queryCache is still fetching')
@@ -80,6 +79,7 @@ const waitForLoadingToFinish = () =>
     },
     {timeout: 4000},
   )
+}
 
 function getRandomBook() {
   const books = booksDB.query('')
