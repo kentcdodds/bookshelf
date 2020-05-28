@@ -39,7 +39,7 @@ function LoginForm({onSubmit, submitButton}) {
     >
       <FormGroup>
         <label htmlFor="username">Username</label>
-        <Input id="username" />
+        <Input id="username" type="text" />
       </FormGroup>
       <FormGroup>
         <label htmlFor="password">Password</label>

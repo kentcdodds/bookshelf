@@ -34,7 +34,7 @@ function getExtraCreditTitles() {
 
 function getVariants() {
   const extraCreditTitles = getExtraCreditTitles()
-  const files = glob.sync('./src/**/*.+(exercise|final|extra-)*.js')
+  const files = glob.sync('./+(src|cypress)/**/*.+(exercise|final|extra-)*.js')
   const filesByMaster = {}
   for (const file of files) {
     const {dir, name, base, ext} = path.parse(file)

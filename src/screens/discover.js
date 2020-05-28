@@ -33,6 +33,7 @@ function DiscoverBooksScreen() {
           <Input
             placeholder="Search books..."
             id="search"
+            type="search"
             css={{width: '100%'}}
           />
           <Tooltip label="Search Books">
@@ -90,7 +91,7 @@ function DiscoverBooksScreen() {
           >
             <BookListUL css={{marginTop: 20}}>
               {books.map(book => (
-                <li key={book.id}>
+                <li key={book.id} aria-label={book.title}>
                   <BookRow key={book.id} book={book} />
                 </li>
               ))}

@@ -23,12 +23,13 @@ function loadDevTools(callback) {
     }
   }
 
-  // the default to on if in development
-  if (process.env.NODE_ENV === 'development') {
-    return go()
-  } else {
-    return callback()
-  }
+  // the default is off in Cypress
+  if (window.Cypress) return callback()
+
+  // the default is on in development
+  if (process.env.NODE_ENV === 'development') return go()
+
+  return callback()
 
   function go() {
     // use a dynamic import so the dev-tools code isn't bundled with the regular

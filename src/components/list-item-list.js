@@ -30,7 +30,7 @@ function ListItemList({filterListItems, noListItems, noFilteredListItems}) {
     >
       <BookListUL>
         {filteredListItems.map(listItem => (
-          <li key={listItem.id}>
+          <li key={listItem.id} aria-label={listItem.book.title}>
             <BookRow book={listItem.book} />
           </li>
         ))}
