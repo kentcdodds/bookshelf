@@ -11,14 +11,15 @@ function deferred() {
 }
 
 const defaultState = {
+  status: 'idle',
   data: null,
+  error: null,
+
   isIdle: true,
   isLoading: false,
   isError: false,
   isSuccess: false,
 
-  error: null,
-  status: 'idle',
   run: expect.any(Function),
   reset: expect.any(Function),
   setData: expect.any(Function),
@@ -27,23 +28,23 @@ const defaultState = {
 
 const pendingState = {
   ...defaultState,
+  status: 'pending',
   isIdle: false,
   isLoading: true,
-  status: 'pending',
 }
 
 const resolvedState = {
   ...defaultState,
+  status: 'resolved',
   isIdle: false,
   isSuccess: true,
-  status: 'resolved',
 }
 
 const rejectedState = {
   ...defaultState,
+  status: 'rejected',
   isIdle: false,
   isError: true,
-  status: 'rejected',
 }
 
 test('calling run with a promise which resolves', async () => {

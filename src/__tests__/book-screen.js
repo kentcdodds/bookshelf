@@ -15,7 +15,7 @@ import * as listItemsDB from 'test/data/list-items'
 import {formatDate} from 'utils/misc'
 import {App} from 'app'
 
-async function renderBookScreen({user, book, listItem, route} = {}) {
+async function renderBookScreen({user, book, listItem} = {}) {
   if (user === undefined) {
     user = await loginAsUser()
   }
@@ -25,9 +25,7 @@ async function renderBookScreen({user, book, listItem, route} = {}) {
   if (listItem === undefined) {
     listItem = await listItemsDB.create(buildListItem({owner: user, book}))
   }
-  if (route === undefined) {
-    route = `/book/${book.id}`
-  }
+  const route = `/book/${book.id}`
 
   const utils = await render(<App />, {user, route})
 
@@ -42,13 +40,12 @@ async function renderBookScreen({user, book, listItem, route} = {}) {
 test('renders all the book information', async () => {
   const {book} = await renderBookScreen({listItem: null})
 
-  screen.getByText(book.title)
-  screen.getByText(book.author)
-  screen.getByText(book.publisher)
-  screen.getByText(book.synopsis)
-  screen.getByLabelText(/add to list/i)
+  expect(screen.getByText(book.title)).toBeInTheDocument()
+  expect(screen.getByText(book.author)).toBeInTheDocument()
+  expect(screen.getByText(book.publisher)).toBeInTheDocument()
+  expect(screen.getByText(book.synopsis)).toBeInTheDocument()
+  expect(screen.getByLabelText(/add to list/i)).toBeInTheDocument()
 
-  expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/remove from list/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/mark as read/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/mark as unread/i)).not.toBeInTheDocument()
@@ -65,12 +62,12 @@ test('can create a list item for the book', async () => {
 
   await waitForLoadingToFinish()
 
-  await screen.findByLabelText(/mark as read/i)
-  await screen.findByLabelText(/remove from list/i)
+  expect(await screen.findByLabelText(/mark as read/i)).toBeInTheDocument()
+  expect(await screen.findByLabelText(/remove from list/i)).toBeInTheDocument()
   expect(screen.queryByLabelText(/add to list/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/unmark as read/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/1 star/i)).not.toBeInTheDocument()
-  screen.getByLabelText(/notes/i)
+  expect(screen.getByLabelText(/notes/i)).toBeInTheDocument()
   const startDateNode = screen.getByLabelText(/start date/i)
   expect(startDateNode).toHaveTextContent(formatDate(Date.now()))
 })
@@ -79,14 +76,13 @@ test('can remove a list item for the book', async () => {
   await renderBookScreen()
 
   const removeFromListButton = screen.getByLabelText(/remove from list/i)
-  fireEvent.click(removeFromListButton)
+  userEvent.click(removeFromListButton)
   expect(removeFromListButton).toBeDisabled()
 
   await waitForLoadingToFinish()
 
-  screen.getByLabelText(/add to list/i)
+  expect(screen.getByLabelText(/add to list/i)).toBeInTheDocument()
 
-  expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/remove from list/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/mark as read/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/mark as unread/i)).not.toBeInTheDocument()
@@ -95,40 +91,29 @@ test('can remove a list item for the book', async () => {
 })
 
 test('can mark a list item as read', async () => {
-  const user = await loginAsUser()
-  const book = await booksDB.create(buildBook())
+  const {listItem} = await renderBookScreen()
+
+  // set the listItem to be unread in the DB
   const startDate = 1551052800000
-  const listItem = await listItemsDB.create(
-    buildListItem({
-      owner: user,
-      book,
-      finishDate: null,
-      startDate,
-    }),
-  )
-  await renderBookScreen({
-    user,
-    book,
-    listItem,
-  })
+  await listItemsDB.update(listItem.id, {finishDate: null, startDate})
 
   const markAsReadButton = screen.getByLabelText(/mark as read/i)
-  fireEvent.click(markAsReadButton)
+  userEvent.click(markAsReadButton)
   expect(markAsReadButton).toBeDisabled()
 
   await waitForLoadingToFinish()
 
-  screen.getByLabelText(/unmark as read/i)
-  screen.getByLabelText(/remove from list/i)
+  expect(screen.getByLabelText(/unmark as read/i)).toBeInTheDocument()
+  expect(screen.getByLabelText(/remove from list/i)).toBeInTheDocument()
 
   expect(screen.queryByLabelText(/add to list/i)).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/^mark as read/i)).not.toBeInTheDocument()
-  screen.getByLabelText(/notes/i)
+  expect(screen.getByLabelText(/notes/i)).toBeInTheDocument()
   const startAndFinishNode = screen.getByLabelText(/start and finish date/i)
   expect(startAndFinishNode).toHaveTextContent(
     `${formatDate(startDate)} — ${formatDate(Date.now())}`,
   )
-  screen.getByLabelText(/1 star/i)
+  expect(screen.getByLabelText(/1 star/i)).toBeInTheDocument()
 })
 
 test('can edit a note', async () => {
@@ -161,23 +146,8 @@ describe('console errors', () => {
   })
 
   test('shows an error message when the book fails to load', async () => {
-    const testError = '__test_error__'
-
-    window.fetch.mockRejectedValue({
-      status: 500,
-      message: testError,
-    })
-    await renderBookScreen()
-
-    expect(
-      (await screen.findByRole('alert')).textContent,
-    ).toMatchInlineSnapshot(
-      `"Uh oh... There's a problem. Try refreshing the app.__test_error__"`,
-    )
-  })
-
-  test('shows an error message when the book fails to load', async () => {
-    await renderBookScreen({route: '/book/BAD_ID'})
+    const book = {id: 'BAD_ID'}
+    await renderBookScreen({listItem: null, book})
 
     expect(
       (await screen.findByRole('alert')).textContent,

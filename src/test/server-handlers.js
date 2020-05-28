@@ -44,7 +44,10 @@ const handlers = [
     try {
       user = usersDB.authenticate(userFields)
     } catch (error) {
-      return res(ctx.status(400), ctx.json({message: error.message}))
+      return res(
+        ctx.status(400),
+        ctx.json({status: 400, message: error.message}),
+      )
     }
     return res(ctx.json({user}))
   }),
@@ -74,7 +77,10 @@ const handlers = [
     const {bookId} = req.params
     const book = booksDB.read(bookId)
     if (!book) {
-      return res(ctx.status(404), ctx.json({message: 'Book not found'}))
+      return res(
+        ctx.status(404),
+        ctx.json({status: 404, message: 'Book not found'}),
+      )
     }
     return res(ctx.json({book}))
   }),
@@ -126,13 +132,14 @@ const handlers = [
       try {
         const result = await handler.resolver(req, res, ctx)
         if (shouldFail(req)) {
-          throw new Error('Random failure (for testing purposes). Try again.')
+          throw new Error('Request failure (for testing purposes).')
         }
         return result
       } catch (error) {
+        const status = error.status || 500
         return res(
-          ctx.status(error.status || 500),
-          ctx.json({message: error.message || 'Unknown Error'}),
+          ctx.status(status),
+          ctx.json({status, message: error.message || 'Unknown Error'}),
         )
       } finally {
         await sleep()
