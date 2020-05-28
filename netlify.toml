@@ -1,0 +1,5 @@
+[build]
+  command = "npm run setup"
+  publish = "build"
+[[plugins]]
+  package = "netlify-plugin-cypress"

@@ -47,6 +47,7 @@
     "is-ci-cli": "^2.0.0",
     "jest": "^26.0.1",
     "jest-watch-typeahead": "^0.6.0",
+    "netlify-plugin-cypress": "^1.3.10",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
     "react-test-renderer": "^16.13.1",
@@ -65,16 +66,14 @@
     "cy:install": "cypress install",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "test:e2e": "is-ci \"test:e2e:run\" \"test:e2e:dev\"",
-    "pretest:e2e:run": "npm-run-all --parallel build cy:install",
+    "test:e2e": "cross-env BROWSER=none start-server-and-test start http://localhost:3000 cy:open",
     "test:e2e:run": "start-server-and-test serve http://localhost:8811 cy:run",
-    "test:e2e:dev": "cross-env BROWSER=none start-server-and-test start http://localhost:3000 cy:open",
     "serve": "serve --no-clipboard --single --listen 8811 build",
     "lint": "eslint . --cache-location node_modules/.cache/eslint",
     "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\"",
     "setup": "node ./scripts/setup && node ./scripts/track-branches.js",
     "validate-exercises": "node ./scripts/validate-exercises",
-    "validate": "npm run validate-exercises && npm-run-all --parallel lint test:coverage test:e2e:run"
+    "validate": "npm run validate-exercises && npm-run-all --parallel lint test:coverage build"
   },
   "eslintConfig": {
     "extends": "react-app"
