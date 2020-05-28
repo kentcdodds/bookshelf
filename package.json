@@ -44,6 +44,7 @@
     "eslint-plugin-cypress": "^2.11.1",
     "husky": "^4.2.5",
     "inquirer": "^7.1.0",
+    "is-ci": "^2.0.0",
     "is-ci-cli": "^2.0.0",
     "jest": "^26.0.1",
     "jest-watch-typeahead": "^0.6.0",
