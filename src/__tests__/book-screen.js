@@ -12,7 +12,9 @@ import faker from 'faker'
 import {buildBook, buildListItem} from 'test/generate'
 import * as booksDB from 'test/data/books'
 import * as listItemsDB from 'test/data/list-items'
+import {server, rest} from 'test/server'
 import {formatDate} from 'utils/misc'
+import {apiURL} from 'utils/api-client'
 import {App} from 'app'
 
 async function renderBookScreen({user, book, listItem} = {}) {
@@ -162,10 +164,14 @@ describe('console errors', () => {
     const notesTextarea = screen.getByLabelText(/notes/i)
 
     const testErrorMessage = '__test_error_message__'
-    window.fetch.mockRejectedValue({
-      status: 500,
-      message: testErrorMessage,
-    })
+    server.use(
+      rest.put(`${apiURL}/list-items/:listItemId`, async (req, res, ctx) => {
+        return res(
+          ctx.status(400),
+          ctx.json({status: 400, message: testErrorMessage}),
+        )
+      }),
+    )
 
     // using fake timers to skip debounce time
     jest.useFakeTimers()
