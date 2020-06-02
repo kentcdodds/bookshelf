@@ -4,23 +4,6 @@ import {client, localStorageKey, apiURL} from '../api-client'
 
 jest.mock('react-query')
 
-const defaultResult = {mockValue: 'VALUE'}
-
-function setup({endpoint = 'test-endpoint'} = {}) {
-  const request = {}
-  server.use(
-    rest.get(`${apiURL}/${endpoint}`, async (req, res, ctx) => {
-      Object.assign(request, req)
-      return res(ctx.json(defaultResult))
-    }),
-    rest.post(`${apiURL}/${endpoint}`, async (req, res, ctx) => {
-      Object.assign(request, req)
-      return res(ctx.json(request.body))
-    }),
-  )
-  return {endpoint, request}
-}
-
 test('calls fetch at the endpoint with the arguments for GET requests', async () => {
   const endpoint = 'test-endpoint'
   const mockResult = {mockValue: 'VALUE'}
@@ -66,14 +49,13 @@ test('allows for config overrides', async () => {
   )
 
   const customConfig = {
-    credentials: 'omit',
+    mode: 'cors',
     headers: {'Content-Type': 'fake-type'},
   }
 
   await client(endpoint, customConfig)
 
-  // TODO: this should pass but it's not...
-  // expect(request.credentials).toBe(customConfig.credentials)
+  expect(request.mode).toBe(customConfig.mode)
   expect(request.headers.get('Content-Type')).toBe(
     customConfig.headers['Content-Type'],
   )
