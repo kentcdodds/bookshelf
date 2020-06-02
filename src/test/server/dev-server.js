@@ -1,6 +1,6 @@
 import {setupWorker} from 'msw'
 import {handlers} from './server-handlers'
-import {homepage} from '../../package.json'
+import {homepage} from '../../../package.json'
 
 const fullUrl = new URL(homepage)
 
@@ -18,15 +18,20 @@ if (!navigator.serviceWorker) {
   throw new Error('This app requires service worker support (over HTTPS).')
 }
 
-const serverReady = server.start({
-  quiet: true,
-  serviceWorker: {
-    url: fullUrl.pathname + 'mockServiceWorker.js',
-  },
-})
+const originalFetch = window.fetch
+
+const serverReady = server
+  .start({
+    quiet: true,
+    serviceWorker: {
+      url: fullUrl.pathname + 'mockServiceWorker.js',
+    },
+  })
+  .then(() => {
+    window.fetch = originalFetch
+  })
 
 // ensure that the real window.fetch is not called until the server is ready
-const originalFetch = window.fetch
 window.fetch = async (...args) => {
   await serverReady
   // now that the server is ready, we can restore the original fetch
@@ -35,4 +40,4 @@ window.fetch = async (...args) => {
 }
 
 export * from 'msw'
-export {server, serverReady}
+export {server}

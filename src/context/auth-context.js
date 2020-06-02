@@ -24,7 +24,7 @@ function AuthProvider(props) {
     setData,
   } = useAsync()
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     run(bootstrapAppData())
   }, [run])
 

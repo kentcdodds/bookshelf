@@ -175,7 +175,7 @@ describe('console errors', () => {
 
     // using fake timers to skip debounce time
     jest.useFakeTimers()
-    fireEvent.change(notesTextarea, {target: {value: newNotes}})
+    userEvent.type(notesTextarea, newNotes, {allAtOnce: true})
     act(() => jest.runAllTimers())
     jest.useRealTimers()
 

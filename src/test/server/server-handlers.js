@@ -1,7 +1,7 @@
 import {rest} from 'msw'
-import * as booksDB from './data/books'
-import * as usersDB from './data/users'
-import * as listItemsDB from './data/list-items'
+import * as booksDB from 'test/data/books'
+import * as usersDB from 'test/data/users'
+import * as listItemsDB from 'test/data/list-items'
 
 let sleep
 if (process.env.NODE_ENV === 'test') {
