@@ -7,11 +7,6 @@ async function client(
   endpoint,
   {data, headers: customHeaders, ...customConfig} = {},
 ) {
-  // Ignore this... It's the *only* thing we need to do thanks to the way we
-  // handle fetch requests with the service worker. In your apps you shouldn't
-  // need to have something like this.
-  await window.__bookshelf_serverReady
-
   const token = window.localStorage.getItem(localStorageKey)
 
   const config = {

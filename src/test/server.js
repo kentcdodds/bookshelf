@@ -18,12 +18,21 @@ if (!navigator.serviceWorker) {
   throw new Error('This app requires service worker support (over HTTPS).')
 }
 
-window.__bookshelf_serverReady = server.start({
+const serverReady = server.start({
   quiet: true,
   serviceWorker: {
     url: fullUrl.pathname + 'mockServiceWorker.js',
   },
 })
 
+// ensure that the real window.fetch is not called until the server is ready
+const originalFetch = window.fetch
+window.fetch = async (...args) => {
+  await serverReady
+  // now that the server is ready, we can restore the original fetch
+  window.fetch = originalFetch
+  return originalFetch(...args)
+}
+
 export * from 'msw'
-export {server}
+export {server, serverReady}
