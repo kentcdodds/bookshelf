@@ -5,15 +5,19 @@ const pkg = require(path.join(process.cwd(), 'package.json'))
 const {homepage: projectHomepage} = pkg
 
 const branch = spawnSync('git rev-parse --abbrev-ref HEAD')
-const exerciseNumber = branch.match(/^exercises\/(\d+)/)[1]
+const exerciseNumberRegex = /^exercises\/(\d+)/
+const exerciseNumber = exerciseNumberRegex.test(branch)
+  ? branch.match(exerciseNumberRegex)[1]
+  : null
+if (exerciseNumber) {
+  const contents = fs.readFileSync('INSTRUCTIONS.md', {encoding: 'utf-8'})
+  const newContents = [contents]
+    .map(getLinesWithProdDeploys)
+    .map(getLinesWithUpdatedFeedbackLink)[0]
 
-const contents = fs.readFileSync('INSTRUCTIONS.md', {encoding: 'utf-8'})
-const newContents = [contents]
-  .map(getLinesWithProdDeploys)
-  .map(getLinesWithUpdatedFeedbackLink)[0]
-
-if (contents !== newContents) {
-  fs.writeFileSync('INSTRUCTIONS.md', newContents)
+  if (contents !== newContents) {
+    fs.writeFileSync('INSTRUCTIONS.md', newContents)
+  }
 }
 
 function getLinesWithProdDeploys(contents) {
