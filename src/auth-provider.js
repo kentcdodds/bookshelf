@@ -3,14 +3,11 @@
 
 const localStorageKey = '__bookshelf_token__'
 
-let token = null
-
 async function getToken() {
   // if we were a real auth provider, this is where we would make a request
   // to retrieve the user's token. (It's a bit more complicated than that...
   // but you're probably not an auth provider so you don't need to worry about it).
-  token = window.localStorage.getItem(localStorageKey)
-  return token
+  return window.localStorage.getItem(localStorageKey)
 }
 
 function handleUserResponse({user}) {
@@ -28,10 +25,7 @@ function register({username, password}) {
 
 async function logout() {
   window.localStorage.removeItem(localStorageKey)
-  token = null
 }
-
-export {getToken, login, register, logout, localStorageKey}
 
 // an auth provider wouldn't use your client, they'd have their own
 // so that's why we're not just re-using the client
@@ -53,3 +47,5 @@ async function client(endpoint, data) {
     }
   })
 }
+
+export {getToken, login, register, logout, localStorageKey}
