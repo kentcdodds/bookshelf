@@ -1,5 +1,4 @@
 /** @jsx jsx */
-/** @jsxFrag React.Fragment */
 import {jsx} from '@emotion/core'
 
 import React from 'react'
