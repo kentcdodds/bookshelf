@@ -71,7 +71,7 @@ function BookScreen() {
               {listItem ? <ListItemTimeframe listItem={listItem} /> : null}
             </div>
             <br />
-            <p>{synopsis}</p>
+            <p css={{whiteSpace: 'pre-line'}}>{synopsis}</p>
           </div>
         </div>
         {!book.loadingBook && listItem ? (

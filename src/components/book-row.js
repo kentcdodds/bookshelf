@@ -85,7 +85,9 @@ function BookRow({book}) {
               <small>{book.publisher}</small>
             </div>
           </div>
-          <small>{book.synopsis.substring(0, 500)}...</small>
+          <small css={{whiteSpace: 'pre-line'}}>
+            {book.synopsis.substring(0, 500)}...
+          </small>
         </div>
       </Link>
       <div
