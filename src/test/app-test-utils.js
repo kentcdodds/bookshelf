@@ -2,7 +2,7 @@ import {queryCache} from 'react-query'
 import {render as rtlRender, screen, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {AppProviders} from 'context'
-import {localStorageKey} from 'utils/api-client'
+import {localStorageKey} from 'auth-provider'
 import {buildUser} from './generate'
 import * as usersDB from './data/users'
 

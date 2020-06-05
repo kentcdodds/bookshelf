@@ -27,7 +27,19 @@ const apiUrl = process.env.REACT_APP_API_URL
 const handlers = [
   rest.get(`${apiUrl}/me`, async (req, res, ctx) => {
     const user = getUser(req)
-    return res(ctx.json({user}))
+    const token = getToken(req)
+    return res(ctx.json({user: {...user, token}}))
+  }),
+
+  rest.get(`${apiUrl}/bootstrap`, async (req, res, ctx) => {
+    const user = getUser(req)
+    const token = getToken(req)
+    const lis = listItemsDB.readByOwner(user.id)
+    const listItemsAndBooks = lis.map(listItem => ({
+      ...listItem,
+      book: booksDB.read(listItem.bookId),
+    }))
+    return res(ctx.json({user: {...user, token}, listItems: listItemsAndBooks}))
   }),
 
   rest.post(`${apiUrl}/login`, async (req, res, ctx) => {

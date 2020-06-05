@@ -18,9 +18,8 @@ test('calls fetch at the endpoint with the arguments for GET requests', async ()
   expect(result).toEqual(mockResult)
 })
 
-test('adds auth token when a token is in localStorage', async () => {
+test('adds auth token when a token is provided', async () => {
   const token = 'FAKE_TOKEN'
-  window.localStorage.setItem(localStorageKey, token)
 
   let request
   const endpoint = 'test-endpoint'
@@ -32,7 +31,7 @@ test('adds auth token when a token is in localStorage', async () => {
     }),
   )
 
-  await client(endpoint)
+  await client(endpoint, {token})
 
   expect(request.headers.get('Authorization')).toBe(`Bearer ${token}`)
 })

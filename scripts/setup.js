@@ -43,9 +43,3 @@ if (result.status === 0) {
 } else {
   process.exit(result.status)
 }
-
-/*
-eslint
-  no-var: "off",
-  "vars-on-top": "off",
-*/

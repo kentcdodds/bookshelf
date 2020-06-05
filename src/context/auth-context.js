@@ -2,10 +2,23 @@
 import {jsx} from '@emotion/core'
 
 import React from 'react'
-import {bootstrapAppData} from 'utils/bootstrap'
-import * as authClient from 'utils/auth'
+import {queryCache} from 'react-query'
+import * as auth from 'auth-provider'
+import {client} from 'utils/api-client'
 import {useAsync} from 'utils/use-async'
 import {FullPageSpinner, FullPageErrorFallback} from 'components/lib'
+
+async function bootstrapAppData() {
+  let appData = {user: null, listItems: []}
+
+  const token = await auth.getToken()
+
+  if (token) {
+    appData = await client('bootstrap', {token})
+  }
+  queryCache.setQueryData('list-items', appData.listItems)
+  return appData
+}
 
 const AuthContext = React.createContext()
 AuthContext.displayName = 'AuthContext'
@@ -24,19 +37,20 @@ function AuthProvider(props) {
   } = useAsync()
 
   React.useEffect(() => {
-    run(bootstrapAppData())
+    const appDataPromise = bootstrapAppData()
+    run(appDataPromise)
   }, [run])
 
   const login = React.useCallback(
-    form => authClient.login(form).then(user => setData({user})),
+    form => auth.login(form).then(user => setData({user})),
     [setData],
   )
   const register = React.useCallback(
-    form => authClient.register(form).then(user => setData({user})),
+    form => auth.register(form).then(user => setData({user})),
     [setData],
   )
   const logout = React.useCallback(() => {
-    authClient.logout()
+    auth.logout()
     setData(null)
   }, [setData])
 
@@ -72,4 +86,13 @@ function useAuth() {
   return context
 }
 
-export {AuthProvider, useAuth}
+function useClient() {
+  const {user} = useAuth()
+  const token = user?.token
+  return React.useCallback(
+    (endpoint, config) => client(endpoint, {...config, token}),
+    [token],
+  )
+}
+
+export {AuthProvider, useAuth, useClient}

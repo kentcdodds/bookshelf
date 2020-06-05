@@ -1,20 +1,18 @@
 import {useQuery, useMutation, queryCache} from 'react-query'
 import {setQueryDataForBook} from './books'
-import * as listItemsClient from './list-items-client'
+import {useClient} from 'context/auth-context'
 
 function useListItem(bookId, options) {
   const listItems = useListItems(options)
   return listItems?.find(li => li.bookId === bookId) ?? null
 }
 
-function readListItems() {
-  return listItemsClient.read().then(d => d.listItems)
-}
-
 function useListItems({onSuccess, ...options} = {}) {
+  const client = useClient()
+
   const {data: listItems} = useQuery({
     queryKey: 'list-items',
-    queryFn: readListItems,
+    queryFn: () => client('list-items').then(data => data.listItems),
     onSuccess: async listItems => {
       await onSuccess?.(listItems)
       for (const listItem of listItems) {
@@ -47,15 +45,26 @@ function onUpdateMutation(newItem) {
 }
 
 function useUpdateListItem(options) {
-  return useMutation(updates => listItemsClient.update(updates.id, updates), {
-    onMutate: onUpdateMutation,
-    ...defaultMutationOptions,
-    ...options,
-  })
+  const client = useClient()
+
+  return useMutation(
+    updates =>
+      client(`list-items/${updates.id}`, {
+        method: 'PUT',
+        data: updates,
+      }),
+    {
+      onMutate: onUpdateMutation,
+      ...defaultMutationOptions,
+      ...options,
+    },
+  )
 }
 
 function useRemoveListItem(options) {
-  return useMutation(({id}) => listItemsClient.remove(id), {
+  const client = useClient()
+
+  return useMutation(({id}) => client(`list-items/${id}`, {method: 'DELETE'}), {
     onMutate: removedItem => {
       const previousItems = queryCache.getQueryData('list-items')
 
@@ -71,7 +80,9 @@ function useRemoveListItem(options) {
 }
 
 function useCreateListItem(options) {
-  return useMutation(({bookId}) => listItemsClient.create({bookId}), {
+  const client = useClient()
+
+  return useMutation(({bookId}) => client('list-items', {data: {bookId}}), {
     ...defaultMutationOptions,
     ...options,
   })
@@ -84,8 +95,3 @@ export {
   useRemoveListItem,
   useCreateListItem,
 }
-
-/*
-eslint
-  no-unused-expressions: "off",
-*/
