@@ -1,13 +1,12 @@
 import {queryCache} from 'react-query'
-const localStorageKey = '__bookshelf_token__'
-
+import * as auth from './auth'
 const apiURL = process.env.REACT_APP_API_URL
 
 async function client(
   endpoint,
   {data, headers: customHeaders, ...customConfig} = {},
 ) {
-  const token = window.localStorage.getItem(localStorageKey)
+  const token = await auth.getToken()
 
   const config = {
     method: data ? 'POST' : 'GET',
@@ -36,9 +35,9 @@ async function client(
   })
 }
 
-function logout() {
+async function logout() {
   queryCache.clear()
-  window.localStorage.removeItem(localStorageKey)
+  await auth.logout()
 }
 
-export {client, localStorageKey, logout, apiURL}
+export {client, logout, apiURL}

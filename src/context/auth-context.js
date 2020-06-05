@@ -3,7 +3,7 @@ import {jsx} from '@emotion/core'
 
 import React from 'react'
 import {bootstrapAppData} from 'utils/bootstrap'
-import * as authClient from 'utils/auth-client'
+import * as authClient from 'utils/auth'
 import {useAsync} from 'utils/use-async'
 import {FullPageSpinner, FullPageErrorFallback} from 'components/lib'
 
