@@ -1,5 +1,5 @@
 import {renderHook, act} from '@testing-library/react-hooks'
-import {useAsync} from '../use-async'
+import {useAsync} from '../hooks'
 
 function deferred() {
   let resolve, reject
