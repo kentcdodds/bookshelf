@@ -17,6 +17,10 @@ import {formatDate} from 'utils/misc'
 import {apiURL} from 'utils/api-client'
 import {App} from 'app'
 
+afterEach(() => {
+  jest.useRealTimers()
+})
+
 async function renderBookScreen({user, book, listItem} = {}) {
   if (user === undefined) {
     user = await loginAsUser()
