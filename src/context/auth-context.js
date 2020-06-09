@@ -9,15 +9,15 @@ import {useAsync} from 'utils/hooks'
 import {FullPageSpinner, FullPageErrorFallback} from 'components/lib'
 
 async function bootstrapAppData() {
-  let appData = {user: null, listItems: []}
+  let user = null
 
   const token = await auth.getToken()
-
   if (token) {
-    appData = await client('bootstrap', {token})
+    const data = await client('bootstrap', {token})
+    queryCache.setQueryData('list-items', data.listItems)
+    user = data.user
   }
-  queryCache.setQueryData('list-items', appData.listItems)
-  return appData
+  return user
 }
 
 const AuthContext = React.createContext()
@@ -25,7 +25,7 @@ AuthContext.displayName = 'AuthContext'
 
 function AuthProvider(props) {
   const {
-    data,
+    data: user,
     status,
     error,
     isLoading,
@@ -42,19 +42,17 @@ function AuthProvider(props) {
   }, [run])
 
   const login = React.useCallback(
-    form => auth.login(form).then(user => setData({user})),
+    form => auth.login(form).then(user => setData(user)),
     [setData],
   )
   const register = React.useCallback(
-    form => auth.register(form).then(user => setData({user})),
+    form => auth.register(form).then(user => setData(user)),
     [setData],
   )
   const logout = React.useCallback(() => {
     auth.logout()
     setData(null)
   }, [setData])
-
-  const user = data?.user
 
   const value = React.useMemo(() => ({user, login, logout, register}), [
     login,
