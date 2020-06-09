@@ -21,7 +21,7 @@ afterAll(() => server.close())
 afterEach(() => server.resetHandlers())
 
 // general cleanup
-afterEach(() => {
-  auth.logout()
+afterEach(async () => {
   queryCache.clear()
+  await auth.logout()
 })

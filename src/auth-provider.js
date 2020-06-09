@@ -1,7 +1,7 @@
 // pretend this is firebase, netlify, or auth0's code.
 // you shouldn't have to implement something like this in your own app
 
-const localStorageKey = '__bookshelf_token__'
+const localStorageKey = '__auth_provider_token__'
 
 async function getToken() {
   // if we were a real auth provider, this is where we would make a request
@@ -29,7 +29,7 @@ async function logout() {
 
 // an auth provider wouldn't use your client, they'd have their own
 // so that's why we're not just re-using the client
-const apiURL = process.env.REACT_APP_API_URL
+const authURL = process.env.REACT_APP_AUTH_URL
 
 async function client(endpoint, data) {
   const config = {
@@ -38,7 +38,7 @@ async function client(endpoint, data) {
     headers: {'Content-Type': 'application/json'},
   }
 
-  return window.fetch(`${apiURL}/${endpoint}`, config).then(async response => {
+  return window.fetch(`${authURL}/${endpoint}`, config).then(async response => {
     const data = await response.json()
     if (response.ok) {
       return data

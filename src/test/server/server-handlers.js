@@ -23,8 +23,31 @@ function ls(key, defaultVal) {
 }
 
 const apiUrl = process.env.REACT_APP_API_URL
+const authUrl = process.env.REACT_APP_AUTH_URL
 
 const handlers = [
+  rest.post(`${authUrl}/login`, async (req, res, ctx) => {
+    const {username, password} = req.body
+    const user = usersDB.authenticate({username, password})
+    return res(ctx.json({user}))
+  }),
+
+  rest.post(`${authUrl}/register`, async (req, res, ctx) => {
+    const {username, password} = req.body
+    const userFields = {username, password}
+    usersDB.create(userFields)
+    let user
+    try {
+      user = usersDB.authenticate(userFields)
+    } catch (error) {
+      return res(
+        ctx.status(400),
+        ctx.json({status: 400, message: error.message}),
+      )
+    }
+    return res(ctx.json({user}))
+  }),
+
   rest.get(`${apiUrl}/me`, async (req, res, ctx) => {
     const user = getUser(req)
     const token = getToken(req)
@@ -40,28 +63,6 @@ const handlers = [
       book: booksDB.read(listItem.bookId),
     }))
     return res(ctx.json({user: {...user, token}, listItems: listItemsAndBooks}))
-  }),
-
-  rest.post(`${apiUrl}/login`, async (req, res, ctx) => {
-    const {username, password} = req.body
-    const user = usersDB.authenticate({username, password})
-    return res(ctx.json({user}))
-  }),
-
-  rest.post(`${apiUrl}/register`, async (req, res, ctx) => {
-    const {username, password} = req.body
-    const userFields = {username, password}
-    usersDB.create(userFields)
-    let user
-    try {
-      user = usersDB.authenticate(userFields)
-    } catch (error) {
-      return res(
-        ctx.status(400),
-        ctx.json({status: 400, message: error.message}),
-      )
-    }
-    return res(ctx.json({user}))
   }),
 
   rest.get(`${apiUrl}/books`, async (req, res, ctx) => {
