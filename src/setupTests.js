@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom/extend-expect'
 import {configure} from '@testing-library/react'
 import {queryCache} from 'react-query'
+import * as auth from 'auth-provider'
 import {server} from 'test/server'
 
 // set the location to the /list route as we auto-redirect users to that route
@@ -21,6 +22,6 @@ afterEach(() => server.resetHandlers())
 
 // general cleanup
 afterEach(() => {
-  window.localStorage.clear()
+  auth.logout()
   queryCache.clear()
 })

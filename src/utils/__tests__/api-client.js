@@ -1,8 +1,10 @@
 import {queryCache} from 'react-query'
+import * as auth from 'auth-provider'
 import {server, rest} from 'test/server'
-import {client, localStorageKey, apiURL} from '../api-client'
+import {client, apiURL} from '../api-client'
 
 jest.mock('react-query')
+jest.mock('auth-provider')
 
 test('calls fetch at the endpoint with the arguments for GET requests', async () => {
   const endpoint = 'test-endpoint'
@@ -87,7 +89,7 @@ test('automatically logs the user out if a request returns a 401', async () => {
   expect(error.message).toMatchInlineSnapshot(`"Please re-authenticate."`)
 
   expect(queryCache.clear).toHaveBeenCalledTimes(1)
-  expect(window.localStorage.getItem(localStorageKey)).toBe(null)
+  expect(auth.logout).toHaveBeenCalledTimes(1)
 })
 
 test(`correctly rejects the promise if there's an error`, async () => {
