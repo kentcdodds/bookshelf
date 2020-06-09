@@ -63,7 +63,7 @@
     "build": "node ./scripts/build",
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "test:coverage": "jest",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --watch --runInBand",
     "cy:install": "cypress install",
     "cy:run": "cypress run",
