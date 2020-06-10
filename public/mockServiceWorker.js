@@ -107,7 +107,7 @@ self.addEventListener('fetch', async function (event) {
       }
 
       const reqHeaders = serializeHeaders(request.headers)
-      const body = request.headers.get('content-type')?.includes('json')
+      const body = request.headers.get('Content-Type')?.includes('json')
         ? await request.json()
         : await request.text()
 
