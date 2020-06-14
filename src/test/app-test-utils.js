@@ -1,6 +1,6 @@
 import {queryCache} from 'react-query'
 import {render as rtlRender, screen, waitFor} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import {userEvent} from '@testing-library/react'
 import * as auth from 'auth-provider'
 import {buildUser} from 'test/generate'
 import * as usersDB from 'test/data/users'
