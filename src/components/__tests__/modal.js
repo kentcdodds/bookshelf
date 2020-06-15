@@ -1,5 +1,6 @@
 import React from 'react'
-import {render, screen, within, userEvent} from '@testing-library/react'
+import {render, screen, within} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import {Modal, ModalContents, ModalOpenButton} from '../modal'
 
 test('can be opened and closed', async () => {
