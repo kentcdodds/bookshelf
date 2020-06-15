@@ -82,8 +82,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run validate",
-      "post-commit": "node ./scripts/update-exercises.js"
+      "pre-commit": "npm run validate"
     }
   },
   "browserslist": {
