@@ -59,7 +59,7 @@ test('can create a list item for the book', async () => {
   await renderBookScreen({listItem: null})
 
   const addToListButton = screen.getByLabelText(/add to list/i)
-  await userEvent.click(addToListButton)
+  userEvent.click(addToListButton)
   expect(addToListButton).toBeDisabled()
 
   await waitForLoadingToFinish()
@@ -78,7 +78,7 @@ test('can remove a list item for the book', async () => {
   await renderBookScreen()
 
   const removeFromListButton = screen.getByLabelText(/remove from list/i)
-  await userEvent.click(removeFromListButton)
+  userEvent.click(removeFromListButton)
   expect(removeFromListButton).toBeDisabled()
 
   await waitForLoadingToFinish()
@@ -100,7 +100,7 @@ test('can mark a list item as read', async () => {
   await listItemsDB.update(listItem.id, {finishDate: null, startDate})
 
   const markAsReadButton = screen.getByLabelText(/mark as read/i)
-  await userEvent.click(markAsReadButton)
+  userEvent.click(markAsReadButton)
   expect(markAsReadButton).toBeDisabled()
 
   await waitForLoadingToFinish()

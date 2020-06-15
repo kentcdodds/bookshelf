@@ -16,14 +16,14 @@ test('can be opened and closed', async () => {
       </ModalContents>
     </Modal>,
   )
-  await userEvent.click(screen.getByRole('button', {name: 'Open'}))
+  userEvent.click(screen.getByRole('button', {name: 'Open'}))
 
   const modal = screen.getByRole('dialog')
   expect(modal).toHaveAttribute('aria-label', label)
   const inModal = within(screen.getByRole('dialog'))
   expect(inModal.getByRole('heading', {name: title})).toBeInTheDocument()
 
-  await userEvent.click(inModal.getByRole('button', {name: /close/i}))
+  userEvent.click(inModal.getByRole('button', {name: /close/i}))
 
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 })
