@@ -41,14 +41,17 @@ function waitForLoadingToFinish() {
         throw new Error('The react-query queryCache is still fetching')
       }
       if (
-        screen.queryByLabelText(/loading/i) ||
-        screen.queryByText(/loading/i)
+        screen.queryAllByLabelText(/loading/i).length ||
+        screen.queryAllByText(/loading/i).length
       ) {
         throw new Error('App loading indicators are still running')
       }
     },
     {timeout: 4000},
-  )
+  ).catch(e => {
+    screen.debug()
+    return Promise.reject(e)
+  })
 }
 
 export * from '@testing-library/react'
