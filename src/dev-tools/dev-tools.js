@@ -1,5 +1,7 @@
 /** @jsx jsx */
 import {jsx, Global} from '@emotion/core'
+import * as colors from 'styles/colors'
+import * as mq from 'styles/media-queries'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -42,19 +44,49 @@ function install() {
       <div
         css={{
           position: 'fixed',
-          bottom: 0,
+          bottom: -15,
           left: 0,
           right: 0,
+          label: {
+            margin: 0,
+            color: 'rgb(216, 221, 227)',
+          },
+          'input, select': {
+            background: 'rgb(20, 36, 55)',
+            border: '2px solid rgb(28, 46, 68)',
+            borderRadius: 5,
+            color: 'white',
+            fontWeight: '600',
+            padding: '5px',
+            '::placeholder': {
+              color: 'rgba(255,255,255,0.3)',
+            },
+            ':focus': {
+              outlineColor: colors.indigo,
+              borderColor: colors.indigo,
+              outline: '1px',
+            },
+          },
+          button: {
+            borderRadius: 5,
+            background: colors.indigo,
+            ':hover': {
+              background: colors.indigoDarken10,
+            },
+            border: 0,
+            color: colors.gray,
+          },
         }}
       >
         <div
           ref={rootRef}
           css={[
             {
-              background: 'black',
+              background: 'rgb(11, 21, 33)',
               opacity: '0',
               color: 'white',
               padding: '20px',
+              boxSizing: 'content-box',
               height: '60px',
               width: '100%',
               transition: 'all 0.3s',
@@ -72,37 +104,65 @@ function install() {
           <Tooltip label="Toggle Persist DevTools">
             <button
               css={{
-                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
                 fontSize: '1.2rem',
                 border: 'none',
+                padding: '10px 20px',
                 background: 'none',
-                marginBottom: 10,
+                marginTop: -60,
+                position: 'absolute',
+                backgroundColor: 'rgb(11,21,33) !important',
+                overflow: 'hidden',
+                svg: {
+                  width: 20,
+                  marginRight: 8,
+                  color: persist ? 'white' : 'rgba(255,255,255,0.7)',
+                },
+                '::before': {
+                  content: '""',
+                  position: 'absolute',
+                  height: 4,
+                  width: '100%',
+                  left: 0,
+                  top: 0,
+                  background: persist ? colors.yellow : 'transparent',
+                },
               }}
               onClick={toggleShow}
             >
-              <FaTools />{' '}
-              <span
-                css={{
-                  fontWeight: persist ? 'bold' : 'normal',
-                }}
-              >
-                Bookshelf DevTools
-              </span>
+              <FaTools />
+              Bookshelf DevTools
             </button>
           </Tooltip>
           {show ? (
             <div>
-              <div css={{display: 'flex', flexWrap: 'wrap'}}>
-                <div>
+              <div
+                css={{
+                  display: 'grid',
+                  gridTemplateColumns: '350px auto',
+                  [mq.small]: {
+                    gridTemplateColumns: '1fr',
+                  },
+                }}
+              >
+                <div
+                  css={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr',
+                    gridTemplateRows: 'repeat(auto-fill, minmax(40px, 40px) )',
+                    gridGap: '0.5rem',
+                    marginRight: '1.5rem',
+                  }}
+                >
                   <ClearLocalStorage />
                   <EnableDevTools />
                   <FailureRate />
                   <RequestMinTime />
                   <RequestVarTime />
                 </div>
-                <div>
-                  <RequestFailUI />
-                </div>
+
+                <RequestFailUI />
               </div>
               <ReactQueryDevtoolsPanel />
             </div>
@@ -143,7 +203,14 @@ function FailureRate() {
   const handleChange = event => setFailureRate(Number(event.target.value) / 100)
 
   return (
-    <div>
+    <div
+      css={{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
+    >
       <label htmlFor="failureRate">Request Failure Percentage: </label>
       <input
         css={{marginLeft: 6}}
@@ -168,7 +235,13 @@ function EnableDevTools() {
   const handleChange = event => setEnableDevTools(event.target.checked)
 
   return (
-    <div>
+    <div
+      css={{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
       <input
         css={{marginRight: 6}}
         checked={enableDevTools}
@@ -190,7 +263,14 @@ function RequestMinTime() {
   const handleChange = event => setMinTime(Number(event.target.value))
 
   return (
-    <div>
+    <div
+      css={{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
+    >
       <label htmlFor="minTime">Request min time (ms): </label>
       <input
         css={{marginLeft: 6}}
@@ -215,7 +295,14 @@ function RequestVarTime() {
   const handleChange = event => setVarTime(Number(event.target.value))
 
   return (
-    <div>
+    <div
+      css={{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
+    >
       <label htmlFor="varTime">Request variable time (ms): </label>
       <input
         css={{marginLeft: 6}}
@@ -251,14 +338,55 @@ function RequestFailUI() {
   }
 
   return (
-    <div>
-      <strong>Request failures:</strong>
-      <div css={{display: 'flex', flexWrap: 'wrap'}}>
-        <form onSubmit={handleSubmit}>
-          <div>
+    <div
+      css={{
+        borderLeft: '1px solid rgb(20,36,55)',
+        paddingLeft: '1.5rem',
+        [mq.small]: {
+          border: 'none',
+          paddingLeft: 0,
+          paddingTop: '1.5rem',
+        },
+      }}
+    >
+      <span
+        css={{
+          fontSize: 15,
+          fontWeight: 600,
+          color: colors.indigoLighten80,
+          textTransform: 'uppercase',
+          letterSpacing: 1,
+        }}
+      >
+        Request failures:
+      </span>
+      <div
+        css={{
+          display: 'flex',
+          width: '100%',
+        }}
+      >
+        <form
+          onSubmit={handleSubmit}
+          css={{
+            display: 'grid',
+            gridTemplateRows: 'repeat(auto-fill, minmax(40px, 85px) )',
+            maxWidth: 300,
+            width: '100%',
+            marginRight: '1rem',
+          }}
+        >
+          <div
+            css={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
             <label htmlFor="requestMethod">Method:</label>
             <select id="requestMethod" required>
-              <option></option>
+              <option>Select</option>
               <option value="ALL">ALL</option>
               <option value="GET">GET</option>
               <option value="POST">POST</option>
@@ -266,9 +394,13 @@ function RequestFailUI() {
               <option value="DELETE">DELETE</option>
             </select>
           </div>
-          <div>
-            <label htmlFor="urlMatch">URL Match:</label>
+          <div css={{width: '100%'}}>
+            <label css={{display: 'block'}} htmlFor="urlMatch">
+              URL Match:
+            </label>
             <input
+              autoComplete="off"
+              css={{width: '100%', marginTop: 4}}
               id="urlMatch"
               type="text"
               required
@@ -276,14 +408,47 @@ function RequestFailUI() {
             />
           </div>
           <div>
-            <button type="submit">Add</button>
+            <button css={{padding: '6px 16px'}} type="submit">
+              + Add
+            </button>
           </div>
         </form>
-        <ul>
+        <ul
+          css={{
+            listStyle: 'none',
+            margin: 0,
+            padding: 0,
+            width: '100%',
+            maxWidth: 300,
+            paddingBottom: '2rem',
+          }}
+        >
           {failConfig.map(({requestMethod, urlMatch}, index) => (
-            <li key={index}>
+            <li
+              key={index}
+              css={{
+                padding: '6px 10px',
+                borderRadius: 5,
+                margin: '5px 0',
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                background: 'rgb(20,36,55)',
+              }}
+            >
               {requestMethod}: {urlMatch}{' '}
-              <button onClick={() => handleRemoveClick(index)}>Remove</button>
+              <button
+                css={{
+                  opacity: 0.6,
+                  ':hover': {opacity: 1},
+                  fontSize: 13,
+                  background: 'rgb(11, 20, 33) !important',
+                }}
+                onClick={() => handleRemoveClick(index)}
+              >
+                Remove
+              </button>
             </li>
           ))}
         </ul>
