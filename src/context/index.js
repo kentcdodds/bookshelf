@@ -13,9 +13,6 @@ const queryConfig = {
       else return false
     },
   },
-  mutation: {
-    useErrorBoundary: true,
-  },
 }
 
 function AppProviders({children}) {

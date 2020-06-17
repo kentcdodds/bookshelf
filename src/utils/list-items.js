@@ -28,8 +28,6 @@ const defaultMutationOptions = {
   onError: (err, variables, recover) =>
     typeof recover === 'function' ? recover() : null,
   onSettled: () => queryCache.invalidateQueries('list-items'),
-  useErrorBoundary: false,
-  throwOnError: true,
 }
 
 function onUpdateMutation(newItem) {
