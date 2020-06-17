@@ -103,7 +103,9 @@ function ListItemTimeframe({listItem}) {
 }
 
 function NotesTextarea({listItem}) {
-  const [mutate, {error, isLoading}] = useUpdateListItem({throwOnError: false})
+  const [mutate, {error, isError, isLoading}] = useUpdateListItem({
+    throwOnError: false,
+  })
   const debouncedMutate = React.useCallback(debounceFn(mutate, {wait: 300}), [])
 
   function handleNotesChange(e) {
@@ -125,7 +127,7 @@ function NotesTextarea({listItem}) {
         >
           Notes
         </label>
-        {error ? (
+        {isError ? (
           <ErrorMessage
             variant="inline"
             error={error}
