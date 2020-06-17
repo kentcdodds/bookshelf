@@ -12,7 +12,7 @@ import {Profiler} from 'components/profiler'
 
 function DiscoverBooksScreen() {
   const [query, setQuery] = React.useState('')
-  const [hasSearched, setHasSearched] = React.useState()
+  const [queried, setQueried] = React.useState()
   const {books, error, isLoading, isError, isSuccess} = useBookSearch(query)
   const refetchBookSearchQuery = useRefetchBookSearchQuery()
 
@@ -22,7 +22,7 @@ function DiscoverBooksScreen() {
 
   function handleSearchClick(event) {
     event.preventDefault()
-    setHasSearched(true)
+    setQueried(true)
     setQuery(event.target.elements.search.value)
   }
 
@@ -67,7 +67,7 @@ function DiscoverBooksScreen() {
         ) : null}
       </div>
       <div>
-        {hasSearched ? null : (
+        {queried ? null : (
           <div css={{marginTop: 20, fontSize: '1.2em', textAlign: 'center'}}>
             <p>Welcome to the discover page.</p>
             <p>Here, let me load a few books for you...</p>
@@ -97,7 +97,7 @@ function DiscoverBooksScreen() {
               ))}
             </BookListUL>
           </Profiler>
-        ) : hasSearched ? (
+        ) : queried ? (
           <div css={{marginTop: 20, fontSize: '1.2em', textAlign: 'center'}}>
             {isLoading ? (
               <div css={{width: '100%', margin: 'auto'}}>
