@@ -103,7 +103,7 @@ function ListItemTimeframe({listItem}) {
 }
 
 function NotesTextarea({listItem}) {
-  const [mutate, {status, error}] = useUpdateListItem({throwOnError: false})
+  const [mutate, {error, isLoading}] = useUpdateListItem({throwOnError: false})
   const debouncedMutate = React.useCallback(debounceFn(mutate, {wait: 300}), [])
 
   function handleNotesChange(e) {
@@ -132,7 +132,7 @@ function NotesTextarea({listItem}) {
             css={{fontSize: '0.7em'}}
           />
         ) : null}
-        {status === 'loading' ? <Spinner /> : null}
+        {isLoading ? <Spinner /> : null}
       </div>
       <Textarea
         id="notes"
