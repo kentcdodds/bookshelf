@@ -1,4 +1,4 @@
-const {getVariants} = require('./utils')
+const {spawnSync, getVariants} = require('./utils')
 
 const variants = getVariants()
 
@@ -22,6 +22,14 @@ function getFilesForVariant() {
     .filter(({before, after}) => before && after)
 }
 
-for (const {before, after} of getFilesForVariant()) {
-  console.log(`git diff --no-index "${before}" "${after}"`)
+const files = getFilesForVariant()
+const commands = files.map(
+  ({before, after}) =>
+    `diff -u "${before}" "${after}" | delta --theme="night-owlish" --paging=never`,
+)
+
+console.log(commands.join('\n'), '\n\n')
+
+for (const cmd of commands) {
+  spawnSync(cmd, {stdio: 'inherit'})
 }
