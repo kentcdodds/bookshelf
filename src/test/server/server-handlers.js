@@ -1,4 +1,5 @@
 import {rest} from 'msw'
+import {match} from 'node-match-path'
 import * as booksDB from 'test/data/books'
 import * as usersDB from 'test/data/users'
 import * as listItemsDB from 'test/data/list-items'
@@ -167,7 +168,37 @@ function shouldFail(req) {
   const failureRate = Number(
     window.localStorage.getItem('__bookshelf_failure_rate__') || 0,
   )
-  return Math.random() < failureRate
+  if (Math.random() < failureRate) return true
+  if (requestMatchesFailConfig(req)) return true
+
+  return false
+}
+
+function requestMatchesFailConfig(req) {
+  function configMatches({requestMethod, urlMatch}) {
+    console.log({
+      requestMethod,
+      urlMatch,
+      'req.method': req.method,
+      'req.url.pathname': req.url.pathname,
+      'match(urlMatch, req.url.pathname)': match(urlMatch, req.url.pathname),
+      "requestMethod === 'ALL' || req.method === requestMethod":
+        requestMethod === 'ALL' || req.method === requestMethod,
+    })
+    return (
+      (requestMethod === 'ALL' || req.method === requestMethod) &&
+      match(urlMatch, req.url.pathname).matches
+    )
+  }
+  try {
+    const failConfig = JSON.parse(
+      window.localStorage.getItem('__bookshelf_request_fail_config__') || '[]',
+    )
+    if (failConfig.some(configMatches)) return true
+  } catch (error) {
+    window.localStorage.removeItem('__bookshelf_request_fail_config__')
+  }
+  return false
 }
 
 const getToken = req => req.headers.get('Authorization')?.replace('Bearer ', '')

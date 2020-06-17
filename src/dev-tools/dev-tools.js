@@ -92,12 +92,17 @@ function install() {
           </Tooltip>
           {show ? (
             <div>
-              <div>
-                <ClearLocalStorage />
-                <EnableDevTools />
-                <FailureRate />
-                <RequestMinTime />
-                <RequestVarTime />
+              <div css={{display: 'flex', flexWrap: 'wrap'}}>
+                <div>
+                  <ClearLocalStorage />
+                  <EnableDevTools />
+                  <FailureRate />
+                  <RequestMinTime />
+                  <RequestVarTime />
+                </div>
+                <div>
+                  <RequestFailUI />
+                </div>
               </div>
               <ReactQueryDevtoolsPanel />
             </div>
@@ -222,6 +227,67 @@ function RequestVarTime() {
         onChange={handleChange}
         id="varTime"
       />
+    </div>
+  )
+}
+
+function RequestFailUI() {
+  const [failConfig, setFailConfig] = useLocalStorageState(
+    '__bookshelf_request_fail_config__',
+    [],
+  )
+
+  function handleRemoveClick(index) {
+    setFailConfig(c => [...c.slice(0, index), ...c.slice(index + 1)])
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    const {
+      requestMethod: {value: requestMethod},
+      urlMatch: {value: urlMatch},
+    } = event.target.elements
+    setFailConfig(c => [...c, {requestMethod, urlMatch}])
+  }
+
+  return (
+    <div>
+      <strong>Request failures:</strong>
+      <div css={{display: 'flex', flexWrap: 'wrap'}}>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="requestMethod">Method:</label>
+            <select id="requestMethod" required>
+              <option></option>
+              <option value="ALL">ALL</option>
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="urlMatch">URL Match:</label>
+            <input
+              id="urlMatch"
+              type="text"
+              required
+              placeholder="/api/list-items/:listItemId"
+            />
+          </div>
+          <div>
+            <button type="submit">Add</button>
+          </div>
+        </form>
+        <ul>
+          {failConfig.map(({requestMethod, urlMatch}, index) => (
+            <li key={index}>
+              {requestMethod}: {urlMatch}{' '}
+              <button onClick={() => handleRemoveClick(index)}>Remove</button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
