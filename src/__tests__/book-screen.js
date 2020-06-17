@@ -14,8 +14,9 @@ import * as booksDB from 'test/data/books'
 import * as listItemsDB from 'test/data/list-items'
 import {server, rest} from 'test/server'
 import {formatDate} from 'utils/misc'
-import {apiURL} from 'utils/api-client'
 import {App} from 'app'
+
+const apiURL = process.env.REACT_APP_API_URL
 
 async function renderBookScreen({user, book, listItem} = {}) {
   if (user === undefined) {

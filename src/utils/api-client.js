@@ -19,7 +19,8 @@ async function client(
 
   return window.fetch(`${apiURL}/${endpoint}`, config).then(async response => {
     if (response.status === 401) {
-      logout()
+      queryCache.clear()
+      await auth.logout()
       // refresh the page for them
       window.location.assign(window.location)
       return Promise.reject({message: 'Please re-authenticate.'})
@@ -33,9 +34,4 @@ async function client(
   })
 }
 
-async function logout() {
-  queryCache.clear()
-  await auth.logout()
-}
-
-export {client, logout, apiURL}
+export {client}

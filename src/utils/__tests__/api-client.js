@@ -1,7 +1,9 @@
 import {queryCache} from 'react-query'
 import * as auth from 'auth-provider'
 import {server, rest} from 'test/server'
-import {client, apiURL} from '../api-client'
+import {client} from '../api-client'
+
+const apiURL = process.env.REACT_APP_API_URL
 
 jest.mock('react-query')
 jest.mock('auth-provider')
