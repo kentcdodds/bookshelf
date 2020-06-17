@@ -143,11 +143,10 @@ const handlers = [
     ...handler,
     async resolver(req, res, ctx) {
       try {
-        const result = await handler.resolver(req, res, ctx)
         if (shouldFail(req)) {
           throw new Error('Request failure (for testing purposes).')
         }
-        return result
+        return handler.resolver(req, res, ctx)
       } catch (error) {
         const status = error.status || 500
         return res(
