@@ -4,13 +4,18 @@ import {ReactQueryConfigProvider} from 'react-query'
 import {AuthProvider} from './auth-context'
 
 const queryConfig = {
-  retry(failureCount, error) {
-    if (error.status === 404) return false
-    else if (failureCount < 2) return true
-    else return false
+  queries: {
+    useErrorBoundary: true,
+    refetchOnWindowFocus: false,
+    retry(failureCount, error) {
+      if (error.status === 404) return false
+      else if (failureCount < 2) return true
+      else return false
+    },
   },
-  useErrorBoundary: true,
-  refetchAllOnWindowFocus: false,
+  mutation: {
+    useErrorBoundary: true,
+  },
 }
 
 function AppProviders({children}) {

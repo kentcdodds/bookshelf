@@ -27,7 +27,7 @@ function useListItems({onSuccess, ...options} = {}) {
 const defaultMutationOptions = {
   onError: (err, variables, recover) =>
     typeof recover === 'function' ? recover() : null,
-  onSettled: () => queryCache.refetchQueries('list-items'),
+  onSettled: () => queryCache.invalidateQueries('list-items'),
   useErrorBoundary: false,
   throwOnError: true,
 }
