@@ -1,16 +1,19 @@
 /** @jsx jsx */
 import {jsx, Global} from '@emotion/core'
-import * as colors from 'styles/colors'
-import * as mq from 'styles/media-queries'
+
+import '@reach/tabs/styles.css'
+import '@reach/tooltip/styles.css'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {FaTools} from 'react-icons/fa'
 import {Tooltip} from '@reach/tooltip'
+import {Tabs, TabList, TabPanels, TabPanel, Tab} from '@reach/tabs'
 import * as reactQuery from 'react-query'
 // pulling the development thing directly because I'm not worried about
 // bundle size since this won't be loaded in prod unless the query string/localStorage key is set
 import {ReactQueryDevtoolsPanel} from 'react-query-devtools/dist/react-query-devtools.development'
+import * as colors from 'styles/colors'
 
 function install() {
   // add some things to window to make it easier to debug
@@ -29,7 +32,15 @@ function install() {
   function DevTools() {
     const rootRef = React.useRef()
     const [hovering, setHovering] = React.useState(false)
-    const [persist, setPersist] = React.useState(false)
+    const [persist, setPersist] = useLocalStorageState(
+      '__bookshelf_devtools_persist__',
+      false,
+    )
+    const [tabIndex, setTabIndex] = useLocalStorageState(
+      '__bookshelf_devtools_tab_index__',
+      0,
+    )
+
     const show = persist || hovering
     const toggleShow = () => setPersist(v => !v)
     React.useEffect(() => {
@@ -67,7 +78,7 @@ function install() {
               outline: '1px',
             },
           },
-          button: {
+          'button:not([data-reach-tab])': {
             borderRadius: 5,
             background: colors.indigo,
             ':hover': {
@@ -75,6 +86,17 @@ function install() {
             },
             border: 0,
             color: colors.gray,
+          },
+          '[data-reach-tab]': {
+            border: 0,
+            ':focus': {
+              outline: 'none',
+            },
+          },
+          '[data-reach-tab][data-selected]': {
+            background: 'rgb(11, 21, 33)',
+            borderBottom: '3px solid white',
+            marginBottom: -3,
           },
         }}
       >
@@ -85,7 +107,6 @@ function install() {
               background: 'rgb(11, 21, 33)',
               opacity: '0',
               color: 'white',
-              padding: '20px',
               boxSizing: 'content-box',
               height: '60px',
               width: '100%',
@@ -110,7 +131,8 @@ function install() {
                 border: 'none',
                 padding: '10px 20px',
                 background: 'none',
-                marginTop: -60,
+                marginTop: -40,
+                marginLeft: 20,
                 position: 'absolute',
                 backgroundColor: 'rgb(11,21,33) !important',
                 overflow: 'hidden',
@@ -136,36 +158,34 @@ function install() {
             </button>
           </Tooltip>
           {show ? (
-            <div>
+            <Tabs
+              css={{padding: 20}}
+              index={tabIndex}
+              onChange={i => setTabIndex(i)}
+            >
+              <TabList css={{marginBottom: 20}}>
+                <Tab>Controls</Tab>
+                <Tab>Request Failures</Tab>
+                <Tab>React Query</Tab>
+              </TabList>
               <div
                 css={{
-                  display: 'grid',
-                  gridTemplateColumns: '350px auto',
-                  [mq.small]: {
-                    gridTemplateColumns: '1fr',
-                  },
+                  border: '1px solid rgb(28,46,68)',
+                  margin: '0px -20px 20px -20px',
                 }}
-              >
-                <div
-                  css={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr',
-                    gridTemplateRows: 'repeat(auto-fill, minmax(40px, 40px) )',
-                    gridGap: '0.5rem',
-                    marginRight: '1.5rem',
-                  }}
-                >
-                  <ClearLocalStorage />
-                  <EnableDevTools />
-                  <FailureRate />
-                  <RequestMinTime />
-                  <RequestVarTime />
-                </div>
-
-                <RequestFailUI />
-              </div>
-              <ReactQueryDevtoolsPanel />
-            </div>
+              />
+              <TabPanels css={{height: '100%'}}>
+                <TabPanel>
+                  <ControlsPanel />
+                </TabPanel>
+                <TabPanel>
+                  <RequestFailUI />
+                </TabPanel>
+                <TabPanel>
+                  <ReactQueryDevtoolsPanel />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
           ) : null}
         </div>
         {show ? (
@@ -184,6 +204,26 @@ function install() {
   const devToolsRoot = document.createElement('div')
   document.body.appendChild(devToolsRoot)
   ReactDOM.render(<DevTools />, devToolsRoot)
+}
+
+function ControlsPanel() {
+  return (
+    <div
+      css={{
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gridTemplateRows: 'repeat(auto-fill, minmax(40px, 40px) )',
+        gridGap: '0.5rem',
+        marginRight: '1.5rem',
+      }}
+    >
+      <EnableDevTools />
+      <FailureRate />
+      <RequestMinTime />
+      <RequestVarTime />
+      <ClearLocalStorage />
+    </div>
+  )
 }
 
 function ClearLocalStorage() {
@@ -330,129 +370,111 @@ function RequestFailUI() {
 
   function handleSubmit(event) {
     event.preventDefault()
-    const {
-      requestMethod: {value: requestMethod},
-      urlMatch: {value: urlMatch},
-    } = event.target.elements
-    setFailConfig(c => [...c, {requestMethod, urlMatch}])
+    const {requestMethod, urlMatch} = event.target.elements
+    setFailConfig(c => [
+      ...c,
+      {requestMethod: requestMethod.value, urlMatch: urlMatch.value},
+    ])
+    requestMethod.value = ''
+    urlMatch.value = ''
   }
 
   return (
     <div
       css={{
-        borderLeft: '1px solid rgb(20,36,55)',
-        paddingLeft: '1.5rem',
-        [mq.small]: {
-          border: 'none',
-          paddingLeft: 0,
-          paddingTop: '1.5rem',
-        },
+        display: 'flex',
+        width: '100%',
       }}
     >
-      <span
+      <form
+        onSubmit={handleSubmit}
         css={{
-          fontSize: 15,
-          fontWeight: 600,
-          color: colors.indigoLighten80,
-          textTransform: 'uppercase',
-          letterSpacing: 1,
-        }}
-      >
-        Request failures:
-      </span>
-      <div
-        css={{
-          display: 'flex',
+          display: 'grid',
+          gridTemplateRows: 'repeat(auto-fill, minmax(50px, 60px) )',
+          maxWidth: 300,
           width: '100%',
+          marginRight: '1rem',
+          gridGap: 10,
         }}
       >
-        <form
-          onSubmit={handleSubmit}
+        <div
           css={{
-            display: 'grid',
-            gridTemplateRows: 'repeat(auto-fill, minmax(40px, 85px) )',
-            maxWidth: 300,
             width: '100%',
-            marginRight: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
         >
-          <div
+          <label htmlFor="requestMethod">Method:</label>
+          <select id="requestMethod" required>
+            <option value="">Select</option>
+            <option value="ALL">ALL</option>
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+          </select>
+        </div>
+        <div css={{width: '100%'}}>
+          <label css={{display: 'block'}} htmlFor="urlMatch">
+            URL Match:
+          </label>
+          <input
+            autoComplete="off"
+            css={{width: '100%', marginTop: 4}}
+            id="urlMatch"
+            type="text"
+            required
+            placeholder="/api/list-items/:listItemId"
+          />
+        </div>
+        <div>
+          <button css={{padding: '6px 16px'}} type="submit">
+            + Add
+          </button>
+        </div>
+      </form>
+      <ul
+        css={{
+          listStyle: 'none',
+          margin: 0,
+          padding: 0,
+          width: '100%',
+          paddingBottom: '2rem',
+        }}
+      >
+        {failConfig.map(({requestMethod, urlMatch}, index) => (
+          <li
+            key={index}
             css={{
+              padding: '6px 10px',
+              borderRadius: 5,
+              margin: '5px 0',
               width: '100%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
+              background: 'rgb(20,36,55)',
             }}
           >
-            <label htmlFor="requestMethod">Method:</label>
-            <select id="requestMethod" required>
-              <option>Select</option>
-              <option value="ALL">ALL</option>
-              <option value="GET">GET</option>
-              <option value="POST">POST</option>
-              <option value="PUT">PUT</option>
-              <option value="DELETE">DELETE</option>
-            </select>
-          </div>
-          <div css={{width: '100%'}}>
-            <label css={{display: 'block'}} htmlFor="urlMatch">
-              URL Match:
-            </label>
-            <input
-              autoComplete="off"
-              css={{width: '100%', marginTop: 4}}
-              id="urlMatch"
-              type="text"
-              required
-              placeholder="/api/list-items/:listItemId"
-            />
-          </div>
-          <div>
-            <button css={{padding: '6px 16px'}} type="submit">
-              + Add
-            </button>
-          </div>
-        </form>
-        <ul
-          css={{
-            listStyle: 'none',
-            margin: 0,
-            padding: 0,
-            width: '100%',
-            maxWidth: 300,
-            paddingBottom: '2rem',
-          }}
-        >
-          {failConfig.map(({requestMethod, urlMatch}, index) => (
-            <li
-              key={index}
+            <div css={{display: 'flex', flexWrap: 'wrap'}}>
+              <strong css={{minWidth: 70}}>{requestMethod}:</strong>
+              <span css={{marginLeft: 10, whiteSpace: 'pre'}}>{urlMatch}</span>
+            </div>
+            <button
               css={{
-                padding: '6px 10px',
-                borderRadius: 5,
-                margin: '5px 0',
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                background: 'rgb(20,36,55)',
+                opacity: 0.6,
+                ':hover': {opacity: 1},
+                fontSize: 13,
+                background: 'rgb(11, 20, 33) !important',
               }}
+              onClick={() => handleRemoveClick(index)}
             >
-              {requestMethod}: {urlMatch}{' '}
-              <button
-                css={{
-                  opacity: 0.6,
-                  ':hover': {opacity: 1},
-                  fontSize: 13,
-                  background: 'rgb(11, 20, 33) !important',
-                }}
-                onClick={() => handleRemoveClick(index)}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+              Remove
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
@@ -475,6 +497,8 @@ function useLocalStorageState(
     }
     return typeof defaultValue === 'function' ? defaultValue() : defaultValue
   })
+
+  React.useDebugValue(`${key}: ${serialize(state)}`)
 
   const prevKeyRef = React.useRef(key)
 

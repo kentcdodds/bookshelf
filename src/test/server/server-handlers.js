@@ -147,7 +147,8 @@ const handlers = [
         if (shouldFail(req)) {
           throw new Error('Request failure (for testing purposes).')
         }
-        return handler.resolver(req, res, ctx)
+        const result = await handler.resolver(req, res, ctx)
+        return result
       } catch (error) {
         const status = error.status || 500
         return res(
@@ -176,15 +177,6 @@ function shouldFail(req) {
 
 function requestMatchesFailConfig(req) {
   function configMatches({requestMethod, urlMatch}) {
-    console.log({
-      requestMethod,
-      urlMatch,
-      'req.method': req.method,
-      'req.url.pathname': req.url.pathname,
-      'match(urlMatch, req.url.pathname)': match(urlMatch, req.url.pathname),
-      "requestMethod === 'ALL' || req.method === requestMethod":
-        requestMethod === 'ALL' || req.method === requestMethod,
-    })
     return (
       (requestMethod === 'ALL' || req.method === requestMethod) &&
       match(urlMatch, req.url.pathname).matches

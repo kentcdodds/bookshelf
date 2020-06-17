@@ -12,6 +12,7 @@
     "@emotion/styled": "^10.0.27",
     "@reach/dialog": "^0.10.4",
     "@reach/menu-button": "^0.10.4",
+    "@reach/tabs": "^0.10.4",
     "@reach/tooltip": "^0.10.4",
     "@reach/visually-hidden": "^0.10.4",
     "bootstrap": "^4.5.0",
