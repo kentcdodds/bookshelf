@@ -423,7 +423,6 @@ function RequestFailUI() {
             autoComplete="off"
             css={{width: '100%', marginTop: 4}}
             id="urlMatch"
-            type="text"
             required
             placeholder="/api/list-items/:listItemId"
           />
