@@ -61,7 +61,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "node ./scripts/build",
+    "build": "react-scripts build --profile",
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:watch": "jest --watch",
     "test:coverage": "jest",
