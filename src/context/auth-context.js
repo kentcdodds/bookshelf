@@ -14,7 +14,9 @@ async function bootstrapAppData() {
   const token = await auth.getToken()
   if (token) {
     const data = await client('bootstrap', {token})
-    queryCache.setQueryData('list-items', data.listItems)
+    queryCache.setQueryData('list-items', data.listItems, {
+      staleTime: 500,
+    })
     user = data.user
   }
   return user
