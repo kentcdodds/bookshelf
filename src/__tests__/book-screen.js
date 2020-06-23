@@ -151,30 +151,26 @@ test('can mark a list item as read', async () => {
   ).not.toBeInTheDocument()
 })
 
-describe('fake timers', () => {
+test('can edit a note', async () => {
   // using fake timers to skip debounce time
-  beforeEach(() => jest.useFakeTimers())
-  afterEach(() => jest.useRealTimers())
+  jest.useFakeTimers()
+  const {listItem} = await renderBookScreen()
 
-  test('can edit a note', async () => {
-    const {listItem} = await renderBookScreen()
+  const newNotes = faker.lorem.words()
+  const notesTextarea = screen.getByRole('textbox', {name: /notes/i})
 
-    const newNotes = faker.lorem.words()
-    const notesTextarea = screen.getByRole('textbox', {name: /notes/i})
+  userEvent.clear(notesTextarea)
+  userEvent.type(notesTextarea, newNotes)
 
-    userEvent.clear(notesTextarea)
-    userEvent.type(notesTextarea, newNotes)
+  // wait for the loading spinner to show up
+  await screen.findByLabelText(/loading/i, undefined, {timeout: 500})
+  // wait for the loading spinner to go away
+  await waitForLoadingToFinish({timeout: 500})
 
-    // wait for the loading spinner to show up
-    await screen.findByLabelText(/loading/i)
-    // wait for the loading spinner to go away
-    await waitForLoadingToFinish()
+  expect(notesTextarea.value).toBe(newNotes)
 
-    expect(notesTextarea.value).toBe(newNotes)
-
-    expect(listItemsDB.read(listItem.id)).toMatchObject({
-      notes: newNotes,
-    })
+  expect(listItemsDB.read(listItem.id)).toMatchObject({
+    notes: newNotes,
   })
 })
 
@@ -187,7 +183,7 @@ describe('console errors', () => {
     console.error.mockRestore()
   })
 
-  test.skip('shows an error message when the book fails to load', async () => {
+  test('shows an error message when the book fails to load', async () => {
     const book = {id: 'BAD_ID'}
     await renderBookScreen({listItem: null, book})
 
@@ -198,6 +194,8 @@ describe('console errors', () => {
   })
 
   test('note update failures are displayed', async () => {
+    // using fake timers to skip debounce time
+    jest.useFakeTimers()
     await renderBookScreen()
 
     const newNotes = faker.lorem.words()
@@ -213,14 +211,11 @@ describe('console errors', () => {
       }),
     )
 
-    // using fake timers to skip debounce time
-    jest.useFakeTimers()
     userEvent.type(notesTextarea, newNotes)
     // wait for the loading spinner to show up
     await screen.findByLabelText(/loading/i)
     // wait for the loading spinner to go away
     await waitForLoadingToFinish()
-    jest.useRealTimers()
 
     expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
       `"There was an error: __test_error_message__"`,

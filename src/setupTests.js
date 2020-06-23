@@ -23,6 +23,9 @@ beforeAll(() => server.listen())
 afterAll(() => server.close())
 afterEach(() => server.resetHandlers())
 
+// real times is a good default between every test
+beforeEach(() => jest.useRealTimers())
+
 // general cleanup
 afterEach(async () => {
   queryCache.clear()
