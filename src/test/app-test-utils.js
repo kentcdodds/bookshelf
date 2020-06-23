@@ -35,17 +35,20 @@ async function loginAsUser(userProperties) {
 }
 
 function waitForLoadingToFinish() {
-  return waitFor(() => {
-    if (queryCache.isFetching) {
-      throw new Error('The react-query queryCache is still fetching')
-    }
-    if (
-      screen.queryAllByLabelText(/loading/i).length ||
-      screen.queryAllByText(/loading/i).length
-    ) {
-      throw new Error('App loading indicators are still running')
-    }
-  }).catch(e => {
+  return waitFor(
+    () => {
+      if (queryCache.isFetching) {
+        throw new Error('The react-query queryCache is still fetching')
+      }
+      if (
+        screen.queryAllByLabelText(/loading/i).length ||
+        screen.queryAllByText(/loading/i).length
+      ) {
+        throw new Error('App loading indicators are still running')
+      }
+    },
+    {timeout: 4000},
+  ).catch(e => {
     screen.debug()
     return Promise.reject(e)
   })
