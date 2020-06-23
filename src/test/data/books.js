@@ -1,21 +1,23 @@
-import allBooks from './books-data.json'
+import booksData from './books-data.json'
 import matchSorter from 'match-sorter'
 
+let books = [...booksData]
+
 function create(book) {
-  allBooks.push(book)
+  books.push(book)
   return book
 }
 
 function read(bookId) {
-  return allBooks.find(book => book.id === bookId)
+  return books.find(book => book.id === bookId)
 }
 
 function readManyNotInList(ids) {
-  return allBooks.filter(book => !ids.includes(book.id))
+  return books.filter(book => !ids.includes(book.id))
 }
 
 function query(search) {
-  return matchSorter(allBooks, search, {
+  return matchSorter(books, search, {
     keys: [
       'title',
       'author',
@@ -25,4 +27,8 @@ function query(search) {
   })
 }
 
-export {create, query, read, readManyNotInList}
+async function reset() {
+  books = [...booksData]
+}
+
+export {create, query, read, readManyNotInList, reset}

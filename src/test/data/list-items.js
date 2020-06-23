@@ -1,6 +1,6 @@
 import * as booksDB from './books'
 const listItemsKey = '__bookshelf_list_items__'
-const listItems = {}
+let listItems = {}
 const persist = () =>
   window.localStorage.setItem(listItemsKey, JSON.stringify(listItems))
 const load = () =>
@@ -116,4 +116,9 @@ function required(key) {
   throw error
 }
 
-export {authorize, create, read, update, remove, readMany, readByOwner}
+async function reset() {
+  listItems = {}
+  persist()
+}
+
+export {authorize, create, read, update, remove, readMany, readByOwner, reset}

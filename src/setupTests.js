@@ -3,6 +3,9 @@ import {configure} from '@testing-library/react'
 import {queryCache} from 'react-query'
 import * as auth from 'auth-provider'
 import {server} from 'test/server'
+import * as usersDB from 'test/data/users'
+import * as listItemsDB from 'test/data/list-items'
+import * as booksDB from 'test/data/books'
 
 // set the location to the /list route as we auto-redirect users to that route
 window.history.pushState({}, 'Home page', '/list')
@@ -23,5 +26,10 @@ afterEach(() => server.resetHandlers())
 // general cleanup
 afterEach(async () => {
   queryCache.clear()
-  await auth.logout()
+  await Promise.all([
+    auth.logout(),
+    usersDB.reset(),
+    booksDB.reset(),
+    listItemsDB.reset(),
+  ])
 })

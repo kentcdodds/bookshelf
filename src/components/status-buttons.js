@@ -67,7 +67,7 @@ function StatusButtons({book}) {
       {listItem ? (
         Boolean(listItem.finishDate) ? (
           <TooltipButton
-            label="Unmark as read"
+            label="Mark as unread"
             highlight={colors.yellow}
             onClick={() => mutate({id: listItem.id, finishDate: null})}
             icon={<FaBook />}

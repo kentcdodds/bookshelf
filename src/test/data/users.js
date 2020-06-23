@@ -1,5 +1,5 @@
 const usersKey = '__bookshelf_users__'
-const users = {}
+let users = {}
 const persist = () =>
   window.localStorage.setItem(usersKey, JSON.stringify(users))
 const load = () =>
@@ -104,4 +104,9 @@ function hash(str) {
   return String(hash >>> 0)
 }
 
-export {authenticate, create, read, update, remove}
+async function reset() {
+  users = {}
+  persist()
+}
+
+export {authenticate, create, read, update, remove, reset}

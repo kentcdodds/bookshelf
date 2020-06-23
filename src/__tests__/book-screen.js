@@ -1,18 +1,16 @@
 import React from 'react'
 import {
   render,
-  fireEvent,
   screen,
   waitForLoadingToFinish,
-  act,
   userEvent,
   loginAsUser,
 } from 'test/app-test-utils'
 import faker from 'faker'
+import {server, rest} from 'test/server'
 import {buildBook, buildListItem} from 'test/generate'
 import * as booksDB from 'test/data/books'
 import * as listItemsDB from 'test/data/list-items'
-import {server, rest} from 'test/server'
 import {formatDate} from 'utils/misc'
 import {App} from 'app'
 
@@ -43,53 +41,87 @@ async function renderBookScreen({user, book, listItem} = {}) {
 test('renders all the book information', async () => {
   const {book} = await renderBookScreen({listItem: null})
 
-  expect(screen.getByText(book.title)).toBeInTheDocument()
+  expect(screen.getByRole('heading', {name: book.title})).toBeInTheDocument()
   expect(screen.getByText(book.author)).toBeInTheDocument()
   expect(screen.getByText(book.publisher)).toBeInTheDocument()
   expect(screen.getByText(book.synopsis)).toBeInTheDocument()
-  expect(screen.getByLabelText(/add to list/i)).toBeInTheDocument()
+  expect(screen.getByRole('img', {name: /book cover/i})).toHaveAttribute(
+    'src',
+    book.coverImageUrl,
+  )
+  expect(screen.getByRole('button', {name: /add to list/i})).toBeInTheDocument()
 
-  expect(screen.queryByLabelText(/remove from list/i)).not.toBeInTheDocument()
-  expect(screen.queryByLabelText(/mark as read/i)).not.toBeInTheDocument()
-  expect(screen.queryByLabelText(/mark as unread/i)).not.toBeInTheDocument()
-  expect(screen.queryByLabelText(/notes/i)).not.toBeInTheDocument()
+  expect(
+    screen.queryByRole('button', {name: /remove from list/i}),
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByRole('button', {name: /mark as read/i}),
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByRole('button', {name: /mark as unread/i}),
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByRole('textbox', {name: /notes/i}),
+  ).not.toBeInTheDocument()
+  expect(screen.queryByRole('radio', {name: /star/i})).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/start date/i)).not.toBeInTheDocument()
 })
 
 test('can create a list item for the book', async () => {
   await renderBookScreen({listItem: null})
 
-  const addToListButton = screen.getByLabelText(/add to list/i)
+  const addToListButton = screen.getByRole('button', {name: /add to list/i})
   userEvent.click(addToListButton)
   expect(addToListButton).toBeDisabled()
 
   await waitForLoadingToFinish()
 
-  expect(await screen.findByLabelText(/mark as read/i)).toBeInTheDocument()
-  expect(await screen.findByLabelText(/remove from list/i)).toBeInTheDocument()
-  expect(screen.queryByLabelText(/add to list/i)).not.toBeInTheDocument()
-  expect(screen.queryByLabelText(/unmark as read/i)).not.toBeInTheDocument()
-  expect(screen.queryByLabelText(/1 star/i)).not.toBeInTheDocument()
-  expect(screen.getByLabelText(/notes/i)).toBeInTheDocument()
+  expect(
+    screen.getByRole('button', {name: /mark as read/i}),
+  ).toBeInTheDocument()
+  expect(
+    screen.getByRole('button', {name: /remove from list/i}),
+  ).toBeInTheDocument()
+  expect(screen.getByRole('textbox', {name: /notes/i})).toBeInTheDocument()
+
   const startDateNode = screen.getByLabelText(/start date/i)
   expect(startDateNode).toHaveTextContent(formatDate(Date.now()))
+
+  expect(
+    screen.queryByRole('button', {name: /add to list/i}),
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByRole('button', {name: /mark as unread/i}),
+  ).not.toBeInTheDocument()
+  expect(screen.queryByRole('radio', {name: /star/i})).not.toBeInTheDocument()
 })
 
 test('can remove a list item for the book', async () => {
   await renderBookScreen()
 
-  const removeFromListButton = screen.getByLabelText(/remove from list/i)
+  const removeFromListButton = screen.getByRole('button', {
+    name: /remove from list/i,
+  })
   userEvent.click(removeFromListButton)
   expect(removeFromListButton).toBeDisabled()
 
   await waitForLoadingToFinish()
 
-  expect(screen.getByLabelText(/add to list/i)).toBeInTheDocument()
+  expect(screen.getByRole('button', {name: /add to list/i})).toBeInTheDocument()
 
-  expect(screen.queryByLabelText(/remove from list/i)).not.toBeInTheDocument()
-  expect(screen.queryByLabelText(/mark as read/i)).not.toBeInTheDocument()
-  expect(screen.queryByLabelText(/mark as unread/i)).not.toBeInTheDocument()
-  expect(screen.queryByLabelText(/notes/i)).not.toBeInTheDocument()
+  expect(
+    screen.queryByRole('button', {name: /remove from list/i}),
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByRole('button', {name: /mark as read/i}),
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByRole('button', {name: /mark as unread/i}),
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByRole('textbox', {name: /notes/i}),
+  ).not.toBeInTheDocument()
+  expect(screen.queryByRole('radio', {name: /star/i})).not.toBeInTheDocument()
   expect(screen.queryByLabelText(/start date/i)).not.toBeInTheDocument()
 })
 
@@ -97,45 +129,52 @@ test('can mark a list item as read', async () => {
   const {listItem} = await renderBookScreen()
 
   // set the listItem to be unread in the DB
-  const startDate = 1551052800000
-  await listItemsDB.update(listItem.id, {finishDate: null, startDate})
+  await listItemsDB.update(listItem.id, {finishDate: null})
 
-  const markAsReadButton = screen.getByLabelText(/mark as read/i)
+  const markAsReadButton = screen.getByRole('button', {name: /mark as read/i})
   userEvent.click(markAsReadButton)
   expect(markAsReadButton).toBeDisabled()
 
   await waitForLoadingToFinish()
+  expect(
+    screen.getByRole('button', {name: /mark as unread/i}),
+  ).toBeInTheDocument()
+  expect(screen.getAllByRole('radio', {name: /star/i})).toHaveLength(5)
 
-  expect(screen.getByLabelText(/unmark as read/i)).toBeInTheDocument()
-  expect(screen.getByLabelText(/remove from list/i)).toBeInTheDocument()
-
-  expect(screen.queryByLabelText(/add to list/i)).not.toBeInTheDocument()
-  expect(screen.queryByLabelText(/^mark as read/i)).not.toBeInTheDocument()
-  expect(screen.getByLabelText(/notes/i)).toBeInTheDocument()
-  const startAndFinishNode = screen.getByLabelText(/start and finish date/i)
-  expect(startAndFinishNode).toHaveTextContent(
-    `${formatDate(startDate)} — ${formatDate(Date.now())}`,
+  const startAndFinishDateNode = screen.getByLabelText(/start and finish date/i)
+  expect(startAndFinishDateNode).toHaveTextContent(
+    `${formatDate(listItem.startDate)} — ${formatDate(Date.now())}`,
   )
-  expect(screen.getByLabelText(/1 star/i)).toBeInTheDocument()
+
+  expect(
+    screen.queryByRole('button', {name: /mark as read/i}),
+  ).not.toBeInTheDocument()
 })
 
-test('can edit a note', async () => {
-  const {listItem} = await renderBookScreen()
-
-  const newNotes = faker.lorem.words()
-  const notesTextarea = screen.getByLabelText(/notes/i)
-
+describe('fake timers', () => {
   // using fake timers to skip debounce time
-  jest.useFakeTimers()
-  fireEvent.change(notesTextarea, {target: {value: newNotes}})
-  act(() => jest.runAllTimers())
-  jest.useRealTimers()
+  beforeEach(() => jest.useFakeTimers())
+  afterEach(() => jest.useRealTimers())
 
-  await waitForLoadingToFinish()
-  expect(notesTextarea.value).toBe(newNotes)
+  test('can edit a note', async () => {
+    const {listItem} = await renderBookScreen()
 
-  expect(listItemsDB.read(listItem.id)).toMatchObject({
-    notes: newNotes,
+    const newNotes = faker.lorem.words()
+    const notesTextarea = screen.getByRole('textbox', {name: /notes/i})
+
+    userEvent.clear(notesTextarea)
+    userEvent.type(notesTextarea, newNotes)
+
+    // wait for the loading spinner to show up
+    await screen.findByLabelText(/loading/i)
+    // wait for the loading spinner to go away
+    await waitForLoadingToFinish()
+
+    expect(notesTextarea.value).toBe(newNotes)
+
+    expect(listItemsDB.read(listItem.id)).toMatchObject({
+      notes: newNotes,
+    })
   })
 })
 
@@ -148,7 +187,7 @@ describe('console errors', () => {
     console.error.mockRestore()
   })
 
-  test('shows an error message when the book fails to load', async () => {
+  test.skip('shows an error message when the book fails to load', async () => {
     const book = {id: 'BAD_ID'}
     await renderBookScreen({listItem: null, book})
 
@@ -162,7 +201,7 @@ describe('console errors', () => {
     await renderBookScreen()
 
     const newNotes = faker.lorem.words()
-    const notesTextarea = screen.getByLabelText(/notes/i)
+    const notesTextarea = screen.getByRole('textbox', {name: /notes/i})
 
     const testErrorMessage = '__test_error_message__'
     server.use(
@@ -177,10 +216,12 @@ describe('console errors', () => {
     // using fake timers to skip debounce time
     jest.useFakeTimers()
     userEvent.type(notesTextarea, newNotes)
-    act(() => jest.runAllTimers())
+    // wait for the loading spinner to show up
+    await screen.findByLabelText(/loading/i)
+    // wait for the loading spinner to go away
+    await waitForLoadingToFinish()
     jest.useRealTimers()
 
-    await waitForLoadingToFinish()
     expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
       `"There was an error: __test_error_message__"`,
     )
