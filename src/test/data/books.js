@@ -3,20 +3,20 @@ import matchSorter from 'match-sorter'
 
 let books = [...booksData]
 
-function create(book) {
+async function create(book) {
   books.push(book)
   return book
 }
 
-function read(bookId) {
+async function read(bookId) {
   return books.find(book => book.id === bookId)
 }
 
-function readManyNotInList(ids) {
+async function readManyNotInList(ids) {
   return books.filter(book => !ids.includes(book.id))
 }
 
-function query(search) {
+async function query(search) {
   return matchSorter(books, search, {
     keys: [
       'title',

@@ -31,7 +31,7 @@ async function render(ui, {route = '/list', user, ...renderOptions} = {}) {
 async function loginAsUser(userProperties) {
   const user = buildUser(userProperties)
   await usersDB.create(user)
-  const authUser = usersDB.authenticate(user)
+  const authUser = await usersDB.authenticate(user)
   window.localStorage.setItem(auth.localStorageKey, authUser.token)
   return authUser
 }

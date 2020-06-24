@@ -169,7 +169,7 @@ test('can edit a note', async () => {
 
   expect(notesTextarea.value).toBe(newNotes)
 
-  expect(listItemsDB.read(listItem.id)).toMatchObject({
+  expect(await listItemsDB.read(listItem.id)).toMatchObject({
     notes: newNotes,
   })
 })

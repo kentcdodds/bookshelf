@@ -29,17 +29,17 @@ const authUrl = process.env.REACT_APP_AUTH_URL
 const handlers = [
   rest.post(`${authUrl}/login`, async (req, res, ctx) => {
     const {username, password} = req.body
-    const user = usersDB.authenticate({username, password})
+    const user = await usersDB.authenticate({username, password})
     return res(ctx.json({user}))
   }),
 
   rest.post(`${authUrl}/register`, async (req, res, ctx) => {
     const {username, password} = req.body
     const userFields = {username, password}
-    usersDB.create(userFields)
+    await usersDB.create(userFields)
     let user
     try {
-      user = usersDB.authenticate(userFields)
+      user = await usersDB.authenticate(userFields)
     } catch (error) {
       return res(
         ctx.status(400),
@@ -50,19 +50,21 @@ const handlers = [
   }),
 
   rest.get(`${apiUrl}/me`, async (req, res, ctx) => {
-    const user = getUser(req)
+    const user = await getUser(req)
     const token = getToken(req)
     return res(ctx.json({user: {...user, token}}))
   }),
 
   rest.get(`${apiUrl}/bootstrap`, async (req, res, ctx) => {
-    const user = getUser(req)
+    const user = await getUser(req)
     const token = getToken(req)
-    const lis = listItemsDB.readByOwner(user.id)
-    const listItemsAndBooks = lis.map(listItem => ({
-      ...listItem,
-      book: booksDB.read(listItem.bookId),
-    }))
+    const lis = await listItemsDB.readByOwner(user.id)
+    const listItemsAndBooks = await Promise.all(
+      lis.map(async listItem => ({
+        ...listItem,
+        book: await booksDB.read(listItem.bookId),
+      })),
+    )
     return res(ctx.json({user: {...user, token}, listItems: listItemsAndBooks}))
   }),
 
@@ -74,13 +76,16 @@ const handlers = [
 
     let matchingBooks = []
     if (query) {
-      matchingBooks = booksDB.query(query)
+      matchingBooks = await booksDB.query(query)
     } else {
       if (getToken(req)) {
+        const user = await getUser(req)
+        const allBooks = await getBooksNotInUsersList(user.id)
         // return a random assortment of 10 books not already in the user's list
-        matchingBooks = getBooksNotInUsersList(getUser(req).id).slice(0, 10)
+        matchingBooks = allBooks.slice(0, 10)
       } else {
-        matchingBooks = booksDB.readManyNotInList([]).slice(0, 10)
+        const allBooks = await booksDB.readManyNotInList([])
+        matchingBooks = allBooks.slice(0, 10)
       }
     }
 
@@ -89,7 +94,7 @@ const handlers = [
 
   rest.get(`${apiUrl}/books/:bookId`, async (req, res, ctx) => {
     const {bookId} = req.params
-    const book = booksDB.read(bookId)
+    const book = await booksDB.read(bookId)
     if (!book) {
       return res(
         ctx.status(404),
@@ -100,38 +105,43 @@ const handlers = [
   }),
 
   rest.get(`${apiUrl}/list-items`, async (req, res, ctx) => {
-    const user = getUser(req)
-    const lis = listItemsDB.readByOwner(user.id)
-    const listItemsAndBooks = lis.map(listItem => ({
-      ...listItem,
-      book: booksDB.read(listItem.bookId),
-    }))
+    const user = await getUser(req)
+    const lis = await listItemsDB.readByOwner(user.id)
+    const listItemsAndBooks = await Promise.all(
+      lis.map(async listItem => ({
+        ...listItem,
+        book: await booksDB.read(listItem.bookId),
+      })),
+    )
     return res(ctx.json({listItems: listItemsAndBooks}))
   }),
 
   rest.post(`${apiUrl}/list-items`, async (req, res, ctx) => {
-    const user = getUser(req)
+    const user = await getUser(req)
     const {bookId} = req.body
-    const listItem = listItemsDB.create({ownerId: user.id, bookId: bookId})
-    const book = booksDB.read(bookId)
+    const listItem = await listItemsDB.create({
+      ownerId: user.id,
+      bookId: bookId,
+    })
+    const book = await booksDB.read(bookId)
     return res(ctx.json({listItem: {...listItem, book}}))
   }),
 
   rest.put(`${apiUrl}/list-items/:listItemId`, async (req, res, ctx) => {
-    const user = getUser(req)
+    const user = await getUser(req)
     const {listItemId} = req.params
     const updates = req.body
-    listItemsDB.authorize(user.id, listItemId)
-    const updatedListItem = listItemsDB.update(listItemId, updates)
-    const book = booksDB.read(updatedListItem.bookId)
+    await listItemsDB.authorize(user.id, listItemId)
+    const updatedListItem = await listItemsDB.update(listItemId, updates)
+    const book = await booksDB.read(updatedListItem.bookId)
     return res(ctx.json({listItem: {...updatedListItem, book}}))
   }),
 
   rest.delete(`${apiUrl}/list-items/:listItemId`, async (req, res, ctx) => {
-    const user = getUser(req)
+    const user = await getUser(req)
     const {listItemId} = req.params
-    listItemsDB.authorize(user.id, listItemId)
-    listItemsDB.remove(listItemId)
+    await listItemsDB.authorize(user.id, listItemId)
+    await listItemsDB.remove(listItemId)
     return res(ctx.json({success: true}))
   }),
 
@@ -195,7 +205,7 @@ function requestMatchesFailConfig(req) {
 
 const getToken = req => req.headers.get('Authorization')?.replace('Bearer ', '')
 
-function getUser(req) {
+async function getUser(req) {
   const token = getToken(req)
   if (!token) {
     const error = new Error('A token must be provided')
@@ -210,14 +220,16 @@ function getUser(req) {
     error.status = 401
     throw error
   }
-  return usersDB.read(userId)
+  const user = await usersDB.read(userId)
+  return user
 }
 
-function getBooksNotInUsersList(userId) {
-  const bookIdsInUsersList = listItemsDB
-    .readByOwner(userId)
-    .map(li => li.bookId)
-  return booksDB.readManyNotInList(bookIdsInUsersList)
+async function getBooksNotInUsersList(userId) {
+  const bookIdsInUsersList = (await listItemsDB.readByOwner(userId)).map(
+    li => li.bookId,
+  )
+  const books = await booksDB.readManyNotInList(bookIdsInUsersList)
+  return books
 }
 
 export {handlers}

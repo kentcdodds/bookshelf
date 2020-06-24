@@ -34,7 +34,7 @@ function validateUserForm({username, password}) {
   }
 }
 
-function authenticate({username, password}) {
+async function authenticate({username, password}) {
   validateUserForm({username, password})
   const id = hash(username)
   const user = users[id] || {}
@@ -46,7 +46,7 @@ function authenticate({username, password}) {
   throw error
 }
 
-function create({username, password}) {
+async function create({username, password}) {
   validateUserForm({username, password})
   const id = hash(username)
   const passwordHash = hash(password)
@@ -59,9 +59,10 @@ function create({username, password}) {
   }
   users[id] = {id, username, passwordHash}
   persist()
+  return read(id)
 }
 
-function read(id) {
+async function read(id) {
   validateUser(id)
   return sanitizeUser(users[id])
 }
@@ -71,7 +72,7 @@ function sanitizeUser(user) {
   return rest
 }
 
-function update(id, updates) {
+async function update(id, updates) {
   validateUser(id)
   Object.assign(users[id], updates)
   persist()
@@ -79,7 +80,7 @@ function update(id, updates) {
 }
 
 // this would be called `delete` except that's a reserved word in JS :-(
-function remove(id) {
+async function remove(id) {
   validateUser(id)
   delete users[id]
   persist()

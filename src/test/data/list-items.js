@@ -25,8 +25,8 @@ window.__bookshelf.purgeListItems = () => {
   persist()
 }
 
-function authorize(userId, listItemId) {
-  const listItem = read(listItemId)
+async function authorize(userId, listItemId) {
+  const listItem = await read(listItemId)
   if (listItem.ownerId !== userId) {
     const error = new Error('User is not authorized to view that list')
     error.status = 403
@@ -34,7 +34,7 @@ function authorize(userId, listItemId) {
   }
 }
 
-function create({
+async function create({
   bookId = required('bookId'),
   ownerId = required('ownerId'),
   rating = -1,
@@ -50,7 +50,7 @@ function create({
     error.status = 400
     throw error
   }
-  const book = booksDB.read(bookId)
+  const book = await booksDB.read(bookId)
   if (!book) {
     const error = new Error(`No book found with the ID of ${bookId}`)
     error.status = 400
@@ -61,12 +61,12 @@ function create({
   return read(id)
 }
 
-function read(id) {
+async function read(id) {
   validateListItem(id)
   return listItems[id]
 }
 
-function update(id, updates) {
+async function update(id, updates) {
   validateListItem(id)
   Object.assign(listItems[id], updates)
   persist()
@@ -74,20 +74,22 @@ function update(id, updates) {
 }
 
 // this would be called `delete` except that's a reserved word in JS :-(
-function remove(id) {
+async function remove(id) {
   validateListItem(id)
   delete listItems[id]
   persist()
 }
 
-function readMany(userId, listItemIds) {
-  return listItemIds.map(id => {
-    authorize(userId, id)
-    return read(id)
-  })
+async function readMany(userId, listItemIds) {
+  return Promise.all(
+    listItemIds.map(id => {
+      authorize(userId, id)
+      return read(id)
+    }),
+  )
 }
 
-function readByOwner(userId) {
+async function readByOwner(userId) {
   return Object.values(listItems).filter(li => li.ownerId === userId)
 }
 
