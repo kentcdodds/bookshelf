@@ -2,7 +2,7 @@
   "name": "bookshelf",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://bookshelf.lol/",
+  "homepage": "https://exercises-06-cache-management.bookshelf.lol/",
   "engines": {
     "node": ">=12",
     "npm": ">=6"
@@ -76,7 +76,7 @@
     "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\"",
     "setup": "node ./scripts/setup && node ./scripts/track-branches.js",
     "validate-exercises": "node ./scripts/validate-exercises",
-    "validate": "npm run validate-exercises && npm-run-all --parallel lint test:coverage build"
+    "validate": "npm run validate-exercises && npm-run-all --parallel lint test:coverage && node ./scripts/build"
   },
   "eslintConfig": {
     "extends": "react-app"
