@@ -2,6 +2,7 @@ import React from 'react'
 import {
   render,
   screen,
+  act,
   waitForLoadingToFinish,
   userEvent,
   loginAsUser,
@@ -163,9 +164,12 @@ test('can edit a note', async () => {
   userEvent.type(notesTextarea, newNotes)
 
   // wait for the loading spinner to show up
-  await screen.findByLabelText(/loading/i, undefined, {timeout: 500})
+  await screen.findByLabelText(/loading/i)
   // wait for the loading spinner to go away
-  await waitForLoadingToFinish({timeout: 500})
+  await waitForLoadingToFinish()
+  // TODO: other tests fail when I remove this next line
+  // figure out why and remove it.
+  act(() => jest.advanceTimersByTime(1))
 
   expect(notesTextarea.value).toBe(newNotes)
 

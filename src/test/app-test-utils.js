@@ -1,4 +1,3 @@
-import {queryCache} from 'react-query'
 import {render as rtlRender, screen, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as auth from 'auth-provider'
@@ -37,9 +36,6 @@ async function loginAsUser(userProperties) {
 function waitForLoadingToFinish() {
   return waitFor(
     () => {
-      if (queryCache.isFetching) {
-        throw new Error('The react-query queryCache is still fetching')
-      }
       if (
         screen.queryAllByLabelText(/loading/i).length ||
         screen.queryAllByText(/loading/i).length

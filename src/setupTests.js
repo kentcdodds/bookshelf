@@ -7,6 +7,9 @@ import * as usersDB from 'test/data/users'
 import * as listItemsDB from 'test/data/list-items'
 import * as booksDB from 'test/data/books'
 
+// we don't need the profiler in tests
+jest.mock('components/profiler')
+
 // set the location to the /list route as we auto-redirect users to that route
 window.history.pushState({}, 'Home page', '/list')
 
