@@ -167,9 +167,6 @@ test('can edit a note', async () => {
   await screen.findByLabelText(/loading/i)
   // wait for the loading spinner to go away
   await waitForLoadingToFinish()
-  // TODO: other tests fail when I remove this next line
-  // figure out why and remove it.
-  act(() => jest.advanceTimersByTime(1))
 
   expect(notesTextarea.value).toBe(newNotes)
 

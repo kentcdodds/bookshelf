@@ -26,7 +26,8 @@ beforeAll(() => server.listen())
 afterAll(() => server.close())
 afterEach(() => server.resetHandlers())
 
-// real times is a good default between every test
+// real times is a good default to start, individual tests can
+// enable fake timers if they need.
 beforeEach(() => jest.useRealTimers())
 
 // general cleanup
