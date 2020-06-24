@@ -1,4 +1,8 @@
-import {render as rtlRender, screen, waitFor} from '@testing-library/react'
+import {
+  render as rtlRender,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as auth from 'auth-provider'
 import {buildUser} from 'test/generate'
@@ -28,27 +32,18 @@ async function loginAsUser(userProperties) {
   const user = buildUser(userProperties)
   await usersDB.create(user)
   const authUser = usersDB.authenticate(user)
-  const fullUser = {...user, ...authUser}
   window.localStorage.setItem(auth.localStorageKey, authUser.token)
-  return fullUser
+  return authUser
 }
 
-function waitForLoadingToFinish() {
-  return waitFor(
-    () => {
-      if (
-        screen.queryAllByLabelText(/loading/i).length ||
-        screen.queryAllByText(/loading/i).length
-      ) {
-        throw new Error('App loading indicators are still running')
-      }
-    },
+const waitForLoadingToFinish = () =>
+  waitForElementToBeRemoved(
+    () => [
+      ...screen.queryAllByLabelText(/loading/i),
+      ...screen.queryAllByText(/loading/i),
+    ],
     {timeout: 4000},
-  ).catch(e => {
-    screen.debug()
-    return Promise.reject(e)
-  })
-}
+  )
 
 export * from '@testing-library/react'
 export {render, userEvent, loginAsUser, waitForLoadingToFinish}

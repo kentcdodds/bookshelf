@@ -2,7 +2,6 @@ import React from 'react'
 import {
   render,
   screen,
-  act,
   waitForLoadingToFinish,
   userEvent,
   loginAsUser,
