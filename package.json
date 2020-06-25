@@ -39,7 +39,7 @@
     "@testing-library/jest-dom": "^5.10.1",
     "@testing-library/react": "10.4.3",
     "@testing-library/react-hooks": "^3.3.0",
-    "@testing-library/user-event": "^12.0.8",
+    "@testing-library/user-event": "^12.0.9",
     "cross-env": "^7.0.2",
     "cypress": "^4.9.0",
     "cypress-hmr-restarter": "^1.2.1",
