@@ -4,6 +4,19 @@
 source material for
 [Build a React App](https://kentcdodds.com/workshops/build-react-apps-1)!
 
+<div align="center">
+  <a href="https://epicreact.dev">
+    <h2>EpicReact.Dev</h2>
+    <img
+      width="500"
+      alt="Learn React from Start to Finish"
+      src="https://kentcdodds.com/images/epicreact-promo/er-1.gif"
+    />
+  </a>
+</div>
+
+<hr />
+
 [![Travis Build Status][build-badge]][build]
 [![AppVeyor Build Status][win-build-badge]][win-build]
 [![GPL-3.0 License][license-badge]][license]
@@ -356,13 +369,6 @@ Thanks goes to these wonderful people
 This project follows the
 [all-contributors](https://github.com/kentcdodds/all-contributors)
 specification. Contributions of any kind welcome!
-
-## License
-
-This material is available for private, non-commercial use under the
-[GPL version 3](http://www.gnu.org/licenses/gpl-3.0-standalone.html). If you
-would like to use this material to conduct your own workshop, please contact me
-at me@kentcdodds.com
 
 <!-- prettier-ignore-start -->
 [npm]: https://www.npmjs.com/
