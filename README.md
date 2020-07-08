@@ -378,7 +378,7 @@ specification. Contributions of any kind welcome!
 [build-badge]: https://img.shields.io/travis/kentcdodds/bookshelf.svg?style=flat-square&logo=travis
 [build]: https://travis-ci.org/kentcdodds/bookshelf
 [license-badge]: https://img.shields.io/badge/license-GPL%203.0%20License-blue.svg?style=flat-square
-[license]: https://github.com/kentcdodds/bookshelf/blob/master/README.md#license
+[license]: https://github.com/kentcdodds/react-fundamentals/blob/master/LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [prs]: http://makeapullrequest.com
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
