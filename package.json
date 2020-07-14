@@ -37,7 +37,7 @@
   "devDependencies": {
     "@testing-library/cypress": "^6.0.0",
     "@testing-library/jest-dom": "^5.11.0",
-    "@testing-library/react": "10.4.5",
+    "@testing-library/react": "10.4.6",
     "@testing-library/react-hooks": "^3.3.0",
     "@testing-library/user-event": "^12.0.11",
     "cross-env": "^7.0.2",
@@ -45,7 +45,7 @@
     "cypress-hmr-restarter": "^1.2.1",
     "eslint-plugin-cypress": "^2.11.1",
     "husky": "^4.2.5",
-    "inquirer": "^7.3.1",
+    "inquirer": "^7.3.2",
     "is-ci": "^2.0.0",
     "is-ci-cli": "^2.1.2",
     "jest": "^26.1.0",
