@@ -57,10 +57,8 @@ function App({tweetId}) {
 
 📜 here are the docs:
 
-- `useQuery`:
-  https://github.com/tannerlinsley/react-query/blob/5de7214fa242931abc52890112ee12e3e7ff36e7/README.md#usequery
-- `useMutation`:
-  https://github.com/tannerlinsley/react-query/blob/5de7214fa242931abc52890112ee12e3e7ff36e7/README.md#usemutation
+- `useQuery`: https://react-query.tanstack.com/docs/guides/queries
+- `useMutation`: https://react-query.tanstack.com/docs/guides/mutations
 
 That should be enough to get you going.
 
