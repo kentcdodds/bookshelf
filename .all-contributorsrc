@@ -136,6 +136,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "Buuntu",
+      "name": "Gabriel Abud",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7684770?v=4",
+      "profile": "https://gabrielabud.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
