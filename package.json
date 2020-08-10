@@ -61,6 +61,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:cli": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build --profile",
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:watch": "jest --watch",
@@ -69,7 +70,7 @@
     "cy:install": "cypress install",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "test:e2e": "cross-env BROWSER=none start-server-and-test start http://localhost:3000 cy:open",
+    "test:e2e": "start-server-and-test start:cli http://localhost:3000 cy:open",
     "test:e2e:run": "start-server-and-test serve http://localhost:8811 cy:run",
     "serve": "serve --no-clipboard --single --listen 8811 build",
     "lint": "eslint . --cache-location node_modules/.cache/eslint",
