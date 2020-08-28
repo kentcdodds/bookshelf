@@ -4,23 +4,25 @@ import {jsx} from '@emotion/core'
 import React from 'react'
 import Tooltip from '@reach/tooltip'
 import {FaSearch, FaTimes} from 'react-icons/fa'
-import * as colors from 'styles/colors'
-import {useBookSearch, useRefetchBookSearchQuery} from 'utils/books'
+import {Input, BookListUL, Spinner} from 'components/lib'
 import {BookRow} from 'components/book-row'
-import {BookListUL, Spinner, Input} from 'components/lib'
-import {Profiler} from 'components/profiler'
+import {client} from 'utils/api-client'
+import * as colors from 'styles/colors'
+import {useAsync} from 'utils/hooks'
 
-function DiscoverBooksScreen() {
-  const [query, setQuery] = React.useState('')
-  const [queried, setQueried] = React.useState()
-  const {books, error, isLoading, isError, isSuccess} = useBookSearch(query)
-  const refetchBookSearchQuery = useRefetchBookSearchQuery()
+function DiscoverBooksScreen({user}) {
+  const {data, error, run, isLoading, isError, isSuccess} = useAsync()
+  const [query, setQuery] = React.useState()
+  const [queried, setQueried] = React.useState(false)
 
   React.useEffect(() => {
-    return () => refetchBookSearchQuery()
-  }, [refetchBookSearchQuery])
+    if (!queried) {
+      return
+    }
+    run(client(`books?query=${encodeURIComponent(query)}`, {token: user.token}))
+  }, [query, queried, run, user.token])
 
-  function handleSearchClick(event) {
+  function handleSearchSubmit(event) {
     event.preventDefault()
     setQueried(true)
     setQuery(event.target.elements.search.value)
@@ -28,90 +30,55 @@ function DiscoverBooksScreen() {
 
   return (
     <div>
-      <div>
-        <form onSubmit={handleSearchClick}>
-          <Input
-            placeholder="Search books..."
-            id="search"
-            type="search"
-            css={{width: '100%'}}
-          />
-          <Tooltip label="Search Books">
-            <label htmlFor="search">
-              <button
-                type="submit"
-                css={{
-                  border: '0',
-                  position: 'relative',
-                  marginLeft: '-35px',
-                  background: 'transparent',
-                }}
-              >
-                {isLoading ? (
-                  <Spinner />
-                ) : isError ? (
-                  <FaTimes aria-label="error" css={{color: colors.danger}} />
-                ) : (
-                  <FaSearch aria-label="search" />
-                )}
-              </button>
-            </label>
-          </Tooltip>
-        </form>
+      <form onSubmit={handleSearchSubmit}>
+        <Input
+          placeholder="Search books..."
+          id="search"
+          css={{width: '100%'}}
+        />
+        <Tooltip label="Search Books">
+          <label htmlFor="search">
+            <button
+              type="submit"
+              css={{
+                border: '0',
+                position: 'relative',
+                marginLeft: '-35px',
+                background: 'transparent',
+              }}
+            >
+              {isLoading ? (
+                <Spinner />
+              ) : isError ? (
+                <FaTimes aria-label="error" css={{color: colors.danger}} />
+              ) : (
+                <FaSearch aria-label="search" />
+              )}
+            </button>
+          </label>
+        </Tooltip>
+      </form>
 
-        {isError ? (
-          <div css={{color: colors.danger}}>
-            <p>There was an error:</p>
-            <pre>{error.message}</pre>
-          </div>
-        ) : null}
-      </div>
-      <div>
-        {queried ? null : (
-          <div css={{marginTop: 20, fontSize: '1.2em', textAlign: 'center'}}>
-            <p>Welcome to the discover page.</p>
-            <p>Here, let me load a few books for you...</p>
-            {isLoading ? (
-              <div css={{width: '100%', margin: 'auto'}}>
-                <Spinner />
-              </div>
-            ) : isSuccess && books.length ? (
-              <p>Here you go! Find more books with the search bar above.</p>
-            ) : isSuccess && !books.length ? (
-              <p>
-                Hmmm... I couldn't find any books to suggest for you. Sorry.
-              </p>
-            ) : null}
-          </div>
-        )}
-        {books.length ? (
-          <Profiler
-            id="Discover Books Screen Book List"
-            metadata={{query, bookCount: books.length}}
-          >
-            <BookListUL css={{marginTop: 20}}>
-              {books.map(book => (
-                <li key={book.id} aria-label={book.title}>
-                  <BookRow key={book.id} book={book} />
-                </li>
-              ))}
-            </BookListUL>
-          </Profiler>
-        ) : queried ? (
-          <div css={{marginTop: 20, fontSize: '1.2em', textAlign: 'center'}}>
-            {isLoading ? (
-              <div css={{width: '100%', margin: 'auto'}}>
-                <Spinner />
-              </div>
-            ) : (
-              <p>
-                Hmmm... I couldn't find any books with the query "{query}."
-                Please try another.
-              </p>
-            )}
-          </div>
-        ) : null}
-      </div>
+      {isError ? (
+        <div css={{color: colors.danger}}>
+          <p>There was an error:</p>
+          <pre>{error.message}</pre>
+        </div>
+      ) : null}
+
+      {isSuccess ? (
+        data?.books?.length ? (
+          <BookListUL css={{marginTop: 20}}>
+            {data.books.map(book => (
+              <li key={book.id}>
+                <BookRow key={book.id} book={book} />
+              </li>
+            ))}
+          </BookListUL>
+        ) : (
+          <p>No books found. Try another search.</p>
+        )
+      ) : null}
     </div>
   )
 }
