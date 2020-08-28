@@ -1,11 +1,17 @@
-# Build a React App - Bookshelf
+<div>
+  <h1 align="center"><a href="https://epicreact.dev">Build an Epic React App 🚀 EpicReact.Dev</a></h1>
+  <strong>
+    Building a full React application
+  </strong>
+  <p>
+    The React and JavaScript ecosystem is full of tools and libraries to help
+    you build your applications. In this (huge) workshop we’ll build an
+    application from scratch using widely supported and proven tools and
+    techniques. We’ll cover everything about building frontend React
+    applications, from the absolute basics to the tricky parts you'll run into
+    building real world React apps and how to create great abstractions.
+  </p>
 
-👋 hi there! My name is [Kent C. Dodds](https://kentcdodds.com) and this is the
-source material for
-[Build a React App](https://kentcdodds.com/workshops/build-react-apps-1)!
-
-<div align="center">
-  <h2><a href="https://epicreact.dev">EpicReact.Dev</a></h2>
   <a href="https://epicreact.dev">
     <img
       alt="Learn React from Start to Finish"
@@ -16,56 +22,19 @@ source material for
 
 <hr />
 
-[![Travis Build Status][build-badge]][build]
+<!-- prettier-ignore-start -->
+[![Build Status][build-badge]][build]
 [![AppVeyor Build Status][win-build-badge]][win-build]
-[![GPL-3.0 License][license-badge]][license]
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors)
-[![PRs Welcome][prs-badge]][prs] [![Code of Conduct][coc-badge]][coc]
+[![GPL 3.0 License][license-badge]][license]
+[![Code of Conduct][coc-badge]][coc]
+<!-- prettier-ignore-end -->
 
-## Pre-Workshop Instructions/Requirements
+## Prerequisites
 
-**NOTE: This repository is used for a multi-part workshop**
-
-In order for us to maximize our efforts during the workshop, please complete the
-following things to prepare.
-
-- 📺 only necessary if the workshop is remote via Zoom
-- 👋 specific to the material for this workshop
-- 3️⃣ Only needed to prepare for part 3 of this workshop
-- 4️⃣ Only needed to prepare for part 4 of this workshop
-
-- [ ] 👋 Setup the project (follow the setup instructions below) (~5 minutes)
-- [ ] 📺 Install and setup [Zoom](https://zoom.us) on the computer you will be
-      using (~5 minutes)
-- [ ] 📺 Watch
-      [Use Zoom for KCD Workshops](https://egghead.io/lessons/egghead-use-zoom-for-kcd-workshops)
-      (~8 minutes).
-- [ ] Watch
-      [How to get the bookshelf app setup](https://www.youtube.com/watch?v=8p-0aTkoD14)
-      (~18 minutes). Please do NOT skip this step.
-- [ ] 👋 Watch [The Beginner's Guide to React](https://kcd.im/beginner-react)
-      (available free on Egghead.io), or have the equivalent experience (147
-      minutes)
-- [ ] 👋 Watch my talk
-      [Why React Hooks](https://www.youtube.com/watch?v=zWsZcBiwgVE&list=PLV5CVI1eNcJgNqzNwcs4UKrlJdhfDjshf)
-      (35 minutes)
-- [ ] 👋 Go through my
-      [Learn React Hooks Workshop](https://kentcdodds.com/workshops/hooks), or
-      have the equivalent basic experience of using hooks. You should be
-      experienced with `useState`, `useEffect`, and `useRef`.
-- [ ] 👋 3️⃣ Go through my
-      [Advanced React Hooks Workshop](https://kentcdodds.com/workshops/advanced-react-hooks),
-      or have the equivalent basic experience of using advanced hooks. You
-      should be experienced with `useContext`, `useReducer`, `useMemo`, and
-      `useCallback`.
-- [ ] 👋 4️⃣ Go through my
-      [Testing React Apps Workshop](https://kentcdodds.com/workshops/testing-react-apps),
-      [TestingJavaScript.com](https://testingjavascript.com), or have the
-      equivalent experience testing React components with
-      [Jest](https://jestjs.io/) and
-      [React Testing Library](https://testing-library.com/react).
-
-The more prepared you are for the workshop, the better it will go for you.
+- You'll want experience with React before going through this material. The
+  lessons get progressively more advanced. Once you hit something your
+  unfamiliar with, that's you queue to go back and review the other parts of
+  EpicReact.Dev.
 
 ## System Requirements
 
@@ -96,6 +65,10 @@ git clone https://github.com/kentcdodds/bookshelf.git
 cd bookshelf
 npm run setup --silent
 ```
+
+This may take a few minutes. **It will ask you for your email.** This is
+optional and just automatically adds your email to the links in the project to
+make filling out some forms easier.
 
 If you get any errors, please read through them and see if you can find out what
 the problem is. If you can't work it out on your own then please [file an
@@ -149,92 +122,6 @@ node go
 This will let you choose the next exercise or you can choose which part of the
 exercise you'd like to work on. This will update your `exercise` files to the
 correct version for you to work on that extra credit.
-
-## Workshop Outline
-
-> Snuggle up next to the 🔥 with a good 📚
-
-👋 I'm Kent C. Dodds
-
-- 🏡 Utah
-- 👩 👧 👦 👦 👦 🐕
-- 🏢 https://kentcdodds.com
-- 🐦 https://twitter.com/kentcdodds
-- 🐙 https://github.com/kentcdodds
-- 🏆 https://TestingJavaScript.com
-- 👨‍🚀 https://EpicReact.Dev
-- 🥚 https://kcd.im/egghead
-- 🥋 https://kcd.im/fem
-- 💌 https://kcd.im/news
-- 📝 https://kcd.im/blog
-- 📺 https://kcd.im/devtips
-- 💻 https://kcd.im/coding
-- 📽 https://kcd.im/youtube
-- 🎙 https://kcd.im/3-mins
-- ❓ https://kcd.im/ama
-
-### Schedule
-
-> This workshop is a bit different from my other workshops. The exercises are
-> much longer and you'll have more time to complete them. We'll also be taking
-> breaks mid-exercise, wherever there's a need. So consider this schedule to be
-> very loose.
-
-#### Part 1
-
-- 😴 Logistics
-- 💪 01. Bootstrap
-- 😴 10 Minutes
-- 💪 02. Styles
-- 🌮 30 Minutes
-- 💪 03. Data Fetching
-- 😴 10 Minutes
-- ❓ Q&A
-
-#### Part 2
-
-- 😴 Logistics
-- 💪 04. Authentication
-- 😴 10 Minutes
-- 💪 05. Routing
-- 🌮 30 Minutes
-- 💪 06. Cache Management
-- ❓ Q&A
-
-#### Part 3
-
-- 😴 Logistics
-- 💪 07. Context
-- 😴 10 Minutes
-- 💪 08. Flexible Component
-- 🌮 30 Minutes
-- 💪 09. Performance
-- 😴 10 Minutes
-- 💪 10. Render as you fetch
-- ❓ Q&A
-
-#### Part 4
-
-- 😴 Logistics
-- 💪 11. Unit Testing
-- 😴 10 Minutes
-- 💪 12. Testing Hooks and Components
-- 🌮 30 Minutes
-- 💪 13. Integration Testing
-- 😴 10 Minutes
-- 💪 14. E2E Testing
-- ❓ Q&A
-
-### Questions
-
-Please do ask! Interrupt me. If you have an unrelated question, please ask on
-[my AMA](https://kcd.im/ama).
-
-### Zoom (for remote workshops)
-
-- Help us make this more human by keeping your video on if possible
-- Keep microphone muted unless speaking
-- Breakout rooms
 
 ### Exercises
 
@@ -319,18 +206,6 @@ window.__bookshelf.purgeListItems()
   - publisher: string
   - synopsis: string
 
-## Workshop Feedback
-
-Each exercise has an Elaboration and Feedback link. Please fill that out after
-the exercise and instruction.
-
-At the end of the workshop, please go to this URL to give overall feedback.
-Thank you!
-
-- Part 1: https://kcd.im/bra1-ws-feedback
-- Part 2: https://kcd.im/bra2-ws-feedback
-- Part 3: https://kcd.im/bra3-ws-feedback
-
 ## Contributors
 
 Thanks goes to these wonderful people
@@ -365,23 +240,34 @@ Thanks goes to these wonderful people
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the
 [all-contributors](https://github.com/kentcdodds/all-contributors)
 specification. Contributions of any kind welcome!
 
+## Workshop Feedback
+
+Each exercise has an Elaboration and Feedback link. Please fill that out after
+the exercise and instruction.
+
+At the end of the workshop, please go to this URL to give overall feedback.
+Thank you!
+
+- Part 1: https://kcd.im/bra1-ws-feedback
+- Part 2: https://kcd.im/bra2-ws-feedback
+- Part 3: https://kcd.im/bra3-ws-feedback
+- Part 4: https://kcd.im/bra4-ws-feedback
+
 <!-- prettier-ignore-start -->
 [npm]: https://www.npmjs.com/
 [node]: https://nodejs.org
 [git]: https://git-scm.com/
-[yarn]: https://yarnpkg.com/
 [build-badge]: https://img.shields.io/travis/kentcdodds/bookshelf.svg?style=flat-square&logo=travis
 [build]: https://travis-ci.org/kentcdodds/bookshelf
 [license-badge]: https://img.shields.io/badge/license-GPL%203.0%20License-blue.svg?style=flat-square
-[license]: https://github.com/kentcdodds/react-fundamentals/blob/master/LICENSE
-[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
-[prs]: http://makeapullrequest.com
+[license]: https://github.com/kentcdodds/bookshelf/blob/master/LICENSE
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
 [coc]: https://github.com/kentcdodds/bookshelf/blob/master/CODE_OF_CONDUCT.md
 [emojis]: https://github.com/kentcdodds/all-contributors#emoji-key
