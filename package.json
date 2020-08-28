@@ -65,7 +65,7 @@
     "build": "react-scripts build --profile",
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:watch": "jest --watch",
-    "test:coverage": "jest",
+    "test:coverage": "jest --watch=false --coverage",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --watch --runInBand",
     "cy:install": "cypress install",
     "cy:run": "cypress run",
