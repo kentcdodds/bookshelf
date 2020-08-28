@@ -27,7 +27,7 @@
     "react-dom": "16.13.1",
     "react-error-boundary": "^2.3.1",
     "react-icons": "^3.11.0",
-    "react-query": "2.10.1",
+    "react-query": "2.12.1",
     "react-query-devtools": "^2.4.4",
     "react-router": "^6.0.0-beta.0",
     "react-router-dom": "^6.0.0-beta.0",

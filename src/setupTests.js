@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect'
-import {configure} from '@testing-library/react'
+import {configure, act, waitFor} from '@testing-library/react'
 import {queryCache} from 'react-query'
 import * as auth from 'auth-provider'
 import {server} from 'test/server'
@@ -28,11 +28,20 @@ afterEach(() => server.resetHandlers())
 
 // real times is a good default to start, individual tests can
 // enable fake timers if they need.
-beforeEach(() => jest.useRealTimers())
+afterEach(async () => {
+  if (setTimeout._isMockFunction) {
+    act(() => jest.runOnlyPendingTimers())
+    jest.useRealTimers()
+  }
+})
 
 // general cleanup
 afterEach(async () => {
   queryCache.clear()
+  // this allows react-query to settle any scheduled work
+  // this is not a great solution, but is a good stopgap until a better one
+  // is developed: https://github.com/tannerlinsley/react-query/pull/909#issuecomment-683178702
+  await waitFor(() => {})
   await Promise.all([
     auth.logout(),
     usersDB.reset(),
