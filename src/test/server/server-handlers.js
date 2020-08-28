@@ -27,7 +27,13 @@ const apiUrl = process.env.REACT_APP_API_URL
 const authUrl = process.env.REACT_APP_AUTH_URL
 
 const handlers = [
-  rest.post(`${authUrl}/login`, async (req, res, ctx) => {
+  rest.get(`${apiUrl}/me`, async (req, res, ctx) => {
+    const user = getUser(req)
+    const token = getToken(req)
+    return res(ctx.json({user: {...user, token}}))
+  }),
+
+  rest.post(`${apiUrl}/login`, async (req, res, ctx) => {
     const {username, password} = req.body
     const user = await usersDB.authenticate({username, password})
     return res(ctx.json({user}))
