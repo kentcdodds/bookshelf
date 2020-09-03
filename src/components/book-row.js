@@ -94,6 +94,7 @@ function BookRow({book}) {
         css={{
           marginLeft: '20px',
           position: 'absolute',
+          right: -20,
           color: colors.gray80,
           display: 'flex',
           flexDirection: 'column',
