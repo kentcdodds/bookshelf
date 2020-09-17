@@ -33,7 +33,7 @@
 
 - You'll want experience with React before going through this material. The
   lessons get progressively more advanced. Once you hit something your
-  unfamiliar with, that's you queue to go back and review the other parts of
+  unfamiliar with, that's your queue to go back and review the other parts of
   EpicReact.Dev.
 
 ## System Requirements
