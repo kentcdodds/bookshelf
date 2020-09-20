@@ -16,7 +16,7 @@ notifications:
   email: false
 branches:
   only:
-    - master
+    - main
 script:
   - npm run setup
 after_success:

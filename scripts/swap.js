@@ -3,8 +3,8 @@ const inquirer = require('inquirer')
 const {spawnSync, getVariants, getExtraCreditTitles} = require('./utils')
 
 const branch = spawnSync('git rev-parse --abbrev-ref HEAD')
-if (branch === 'master') {
-  throw new Error('Cannot run swap on master as there are no exercises.')
+if (branch === 'main') {
+  throw new Error('Cannot run swap on main as there are no exercises.')
 }
 
 go()
@@ -57,7 +57,7 @@ async function go() {
 
   console.log(`Changing used files to those matching "${match}"`)
 
-  function getMasterFileContents({master, exercise, final, extras}) {
+  function getmainFileContents({main, exercise, final, extras}) {
     let uncommentedLines
     if (match === 'exercise') {
       uncommentedLines = exercise.exportLines
@@ -75,9 +75,7 @@ async function go() {
     }
 
     if (!uncommentedLines) {
-      throw new Error(
-        `No variant found to enable for "${match}" in "${master}"`,
-      )
+      throw new Error(`No variant found to enable for "${match}" in "${main}"`)
     }
     const l = lines =>
       lines
@@ -102,8 +100,8 @@ ${extrasLines}
     )
   }
 
-  for (const [master, {final, exercise, extras}] of Object.entries(variants)) {
-    const contents = getMasterFileContents({master, final, exercise, extras})
-    fs.writeFileSync(master, contents)
+  for (const [main, {final, exercise, extras}] of Object.entries(variants)) {
+    const contents = getmainFileContents({main, final, exercise, extras})
+    fs.writeFileSync(main, contents)
   }
 }

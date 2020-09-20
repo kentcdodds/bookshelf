@@ -3,8 +3,8 @@ const pkg = require('../package.json')
 const {spawnSync, getExtraCreditTitles} = require('./utils')
 
 const branch = spawnSync('git rev-parse --abbrev-ref HEAD')
-if (branch === 'master') {
-  console.log('Cannot run swap on master as there are no exercises.')
+if (branch === 'main') {
+  console.log('Cannot run swap on main as there are no exercises.')
 } else {
   go()
 }

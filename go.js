@@ -17,8 +17,8 @@ const actions = {
 const currentBranch = spawnSync('git rev-parse --abbrev-ref HEAD')
 
 async function go() {
-  if (currentBranch === 'master') {
-    // if we're on master then you can't do anything else
+  if (currentBranch === 'main') {
+    // if we're on main then you can't do anything else
     await changeExercise()
     return
   }
@@ -54,7 +54,7 @@ async function changeExercise() {
       type: 'list',
       default: currentBranch,
       choices: [
-        {name: 'Return to master', value: 'master'},
+        {name: 'Return to main', value: 'main'},
         ...getExerciseBranches().map(b => ({
           name: getDisplayName(b),
           value: b,
