@@ -27,19 +27,19 @@
     "react-dom": "^16.13.1",
     "react-error-boundary": "^3.0.2",
     "react-icons": "^3.11.0",
-    "react-query": "^2.15.4",
+    "react-query": "2.15.4",
     "react-query-devtools": "^2.4.7",
     "react-router": "^6.0.0-beta.0",
     "react-router-dom": "^6.0.0-beta.0",
-    "react-scripts": "^4.0.0-next.77",
+    "react-scripts": "^4.0.0-next.98",
     "stop-runaway-react-effects": "^2.0.0"
   },
   "devDependencies": {
-    "@testing-library/cypress": "^7.0.0",
+    "@testing-library/cypress": "^7.0.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",
     "@testing-library/react-hooks": "^3.4.1",
-    "@testing-library/user-event": "^12.1.5",
+    "@testing-library/user-event": "^12.1.6",
     "cross-env": "^7.0.2",
     "cypress": "^5.2.0",
     "cypress-hmr-restarter": "^1.2.2",
@@ -56,7 +56,7 @@
     "react-test-renderer": "^16.13.1",
     "resolve": "^1.17.0",
     "serve": "^11.3.2",
-    "start-server-and-test": "^1.11.3",
+    "start-server-and-test": "^1.11.4",
     "whatwg-fetch": "^3.4.1"
   },
   "scripts": {
