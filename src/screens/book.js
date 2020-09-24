@@ -104,10 +104,11 @@ function ListItemTimeframe({listItem}) {
 
 function NotesTextarea({listItem}) {
   const [mutate, {error, isError, isLoading}] = useUpdateListItem()
-  // this is one of the *very* rare exceptions where we know we're not
-  // going to end up in a stale closure, so we'll ignore exhaustive deps
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedMutate = React.useCallback(debounceFn(mutate, {wait: 300}), [])
+
+  const debouncedMutate = React.useCallback(
+    () => debounceFn(mutate, {wait: 300}),
+    [mutate],
+  )
 
   function handleNotesChange(e) {
     debouncedMutate({id: listItem.id, notes: e.target.value})
