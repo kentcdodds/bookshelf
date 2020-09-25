@@ -154,6 +154,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "calec",
+      "name": "calec",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/12165290?v=4",
+      "profile": "http://cale.xyz",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

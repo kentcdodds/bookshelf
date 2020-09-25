@@ -236,12 +236,12 @@ Thanks goes to these wonderful people
   <tr>
     <td align="center"><a href="https://gabrielabud.com"><img src="https://avatars3.githubusercontent.com/u/7684770?v=4" width="100px;" alt=""/><br /><sub><b>Gabriel Abud</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=Buuntu" title="Documentation">📖</a></td>
     <td align="center"><a href="https://kodyclemens.com"><img src="https://avatars0.githubusercontent.com/u/43357615?v=4" width="100px;" alt=""/><br /><sub><b>Kody Clemens</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=kodyclemens" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://cale.xyz"><img src="https://avatars3.githubusercontent.com/u/12165290?v=4" width="100px;" alt=""/><br /><sub><b>calec</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=calec" title="Documentation">📖</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the
