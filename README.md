@@ -32,8 +32,8 @@
 ## Prerequisites
 
 - You'll want experience with React before going through this material. The
-  lessons get progressively more advanced. Once you hit something your
-  unfamiliar with, that's your queue to go back and review the other parts of
+  lessons get progressively more advanced. Once you hit something you're
+  unfamiliar with, that's your cue to go back and review the other parts of
   EpicReact.Dev.
 
 ## System Requirements
@@ -110,7 +110,7 @@ node go
 ```
 
 This will allow you to choose which exercise you want to work on. From there,
-open the `INSTRUCTIONS.md` file and follow the instructions there.
+open the `INSTRUCTIONS.md` file and follow the instructions.
 
 If you'd like to work on an extra credit, but you want to skip the preceding
 steps, you can run `node go` again:
