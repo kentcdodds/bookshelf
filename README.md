@@ -206,6 +206,41 @@ window.__bookshelf.purgeListItems()
   - publisher: string
   - synopsis: string
 
+## Troubleshooting
+
+<details>
+  
+  <summary>Running "node go" does not list any branches</summary>
+  
+This means there was something wrong when you ran the setup. Try running:
+
+```
+node ./scripts/track-branches.js
+```
+
+If you're still not getting the branches, then you can do this manually:
+
+```
+git branch --track "exercises/01-bootstrap" "origin/exercises/01-bootstrap"
+git branch --track "exercises/02-styles" "origin/exercises/02-styles"
+git branch --track "exercises/03-data-fetching" "origin/exercises/03-data-fetching"
+git branch --track "exercises/04-authentication" "origin/exercises/04-authentication"
+git branch --track "exercises/05-routing" "origin/exercises/05-routing"
+git branch --track "exercises/06-cache-management" "origin/exercises/06-cache-management"
+git branch --track "exercises/07-context" "origin/exercises/07-context"
+git branch --track "exercises/08-compound-components" "origin/exercises/08-compound-components"
+git branch --track "exercises/09-performance" "origin/exercises/09-performance"
+git branch --track "exercises/10-render-as-you-fetch" "origin/exercises/10-render-as-you-fetch"
+git branch --track "exercises/11-unit-testing" "origin/exercises/11-unit-testing"
+git branch --track "exercises/12-testing-hooks-and-components" "origin/exercises/12-testing-hooks-and-components"
+git branch --track "exercises/13-integration-testing" "origin/exercises/13-integration-testing"
+git branch --track "exercises/14-e2e-testing" "origin/exercises/14-e2e-testing"
+
+git pull --all
+```
+
+</details>
+
 ## Contributors
 
 Thanks goes to these wonderful people
