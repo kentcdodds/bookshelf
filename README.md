@@ -39,7 +39,7 @@
 ## System Requirements
 
 - [git][git] v2.13 or greater
-- [NodeJS][node] v10.13 or greater
+- [NodeJS][node] `^10.13 || 12 || 14`
 - [npm][npm] v6 or greater
 
 All of these must be available in your `PATH`. To verify things are set up
@@ -278,6 +278,7 @@ Thanks goes to these wonderful people
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the

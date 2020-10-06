@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://bookshelf.lol/",
   "engines": {
-    "node": ">=12",
+    "node": "^10.13 || 12 || 14",
     "npm": ">=6"
   },
   "dependencies": {
