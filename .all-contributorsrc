@@ -172,6 +172,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "milamer",
+      "name": "Christian Schurr",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/12884134?v=4",
+      "profile": "https://github.com/milamer",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
