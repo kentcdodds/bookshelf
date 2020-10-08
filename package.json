@@ -84,7 +84,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run validate"
+      "pre-push": "node ./scripts/pre-push"
     }
   },
   "browserslist": {
@@ -99,5 +99,17 @@
       "Firefox ESR",
       "not ie < 11"
     ]
+  },
+  "description": "<div>   <h1 align=\"center\"><a href=\"https://epicreact.dev\">Build an Epic React App 🚀 EpicReact.Dev</a></h1>   <strong>     Building a full React application   </strong>   <p>     The React and JavaScript ecosystem is full of tools and libraries to help     you build your applications. In this (huge) workshop we’ll build an     application from scratch using widely supported and proven tools and     techniques. We’ll cover everything about building frontend React     applications, from the absolute basics to the tricky parts you'll run into     building real world React apps and how to create great abstractions.   </p>",
+  "main": "go.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kentcdodds/bookshelf.git"
+  },
+  "keywords": [],
+  "author": "Kent C. Dodds <me@kentcdodds.com> (https://kentcdodds.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kentcdodds/bookshelf/issues"
   }
 }
