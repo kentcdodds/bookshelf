@@ -1,8 +1,5 @@
 var spawnSync = require('child_process').spawnSync
 
-// disable Scarf analytics
-process.env.SCARF_ANALYTICS = false
-
 var styles = {
   // got these from playing around with what I found from:
   // https://github.com/istanbuljs/istanbuljs/blob/0f328fd0896417ccb2085f4b7888dd8e167ba3fa/packages/istanbul-lib-report/lib/file-writer.js#L84-L96
@@ -31,7 +28,7 @@ if (error) {
 }
 
 var command =
-  'npx -q "https://gist.github.com/kentcdodds/bb452ffe53a5caa3600197e1d8005733" --no-autofill'
+  'npx "git://gist.github.com/bb452ffe53a5caa3600197e1d8005733.git" -q'
 console.log(
   color('subtitle', '      Running the following command: ' + command),
 )
@@ -43,3 +40,9 @@ if (result.status === 0) {
 } else {
   process.exit(result.status)
 }
+
+/*
+eslint
+  no-var: "off",
+  "vars-on-top": "off",
+*/
