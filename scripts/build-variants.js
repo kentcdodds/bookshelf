@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const pkg = require('../package.json')
 const {spawnSync, getExtraCreditTitles} = require('./utils')
 
@@ -29,7 +30,10 @@ function go() {
     )
   }
 
-  spawnSync('mkdir -p node_modules/.cache/build')
+  const buildPath = path.join('node_modules', '.cache', 'build')
+  if (!fs.existsSync(buildPath)) {
+    fs.mkdirSync(buildPath, {recursive: true})
+  }
 
   function getRedirect(baseRoute) {
     baseRoute = baseRoute.endsWith('/') ? baseRoute : `${baseRoute}/`
@@ -55,9 +59,11 @@ ${baseRoute}*       ${baseRoute}index.html        200
         spawnSync(`npm run test:coverage`, {stdio: 'inherit'})
       }
       if (dirname) {
-        const dirPath = `node_modules/.cache/build/${dirname}`
-        spawnSync(`rm -rf ${dirPath}`, {stdio: 'inherit'})
-        spawnSync(`mv build ${dirPath}`, {stdio: 'inherit'})
+        const dirPath = path.join('node_modules', '.cache', 'build', dirname)
+        if (fs.existsSync(dirPath)) {
+          fs.rmdirSync(dirPath, {recursive: true})
+        }
+        fs.renameSync('build', dirPath)
       }
       console.log(`✅  finished build for "${variant}" in "${dirname}"`)
       redirects.push(getRedirect(dirname))
@@ -79,7 +85,9 @@ ${baseRoute}*       ${baseRoute}index.html        200
   )
   for (const variant of variants) {
     const dirname = getDirname(variant)
-    spawnSync(`mv node_modules/.cache/build/${dirname} build/${dirname}`)
+    const oldPath = path.join('node_modules', '.cache', 'build', dirname)
+    const newPath = path.join('build', dirname)
+    fs.renameSync(oldPath, newPath)
   }
   fs.writeFileSync('build/_redirects', redirects.join('\n\n'))
   console.log('✅  all done. Ready to deploy')

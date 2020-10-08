@@ -69,7 +69,7 @@ function getVariants() {
 
 function getExerciseBranches() {
   const branches = spawnSync(
-    `git for-each-ref --format='%(refname:short)'`,
+    `git for-each-ref --format="%(refname:short)"`,
   ).split('\n')
   return branches.filter(b => b.startsWith('exercises/'))
 }
