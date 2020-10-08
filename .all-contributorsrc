@@ -181,6 +181,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "b2m9",
+      "name": "Bob Massarczyk",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8492232?v=4",
+      "profile": "http://www.b2m9.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

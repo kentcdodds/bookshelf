@@ -278,6 +278,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="http://cale.xyz"><img src="https://avatars3.githubusercontent.com/u/12165290?v=4" width="100px;" alt=""/><br /><sub><b>calec</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=calec" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/emzoumpo"><img src="https://avatars2.githubusercontent.com/u/2103443?v=4" width="100px;" alt=""/><br /><sub><b>Emmanouil Zoumpoulakis</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=emzoumpo" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/milamer"><img src="https://avatars2.githubusercontent.com/u/12884134?v=4" width="100px;" alt=""/><br /><sub><b>Christian Schurr</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=milamer" title="Code">💻</a></td>
+    <td align="center"><a href="http://www.b2m9.com"><img src="https://avatars1.githubusercontent.com/u/8492232?v=4" width="100px;" alt=""/><br /><sub><b>Bob Massarczyk</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=b2m9" title="Documentation">📖</a></td>
   </tr>
 </table>
 
