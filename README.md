@@ -67,7 +67,7 @@ should be able to just run a few commands to get set up:
 ```
 git clone https://github.com/kentcdodds/bookshelf.git
 cd bookshelf
-npm run setup --silent
+node setup
 ```
 
 This may take a few minutes.
