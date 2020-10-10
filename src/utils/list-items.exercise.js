@@ -30,7 +30,7 @@ function useListItem(bookId, user) {
 const defaultMutationOptions = {
   onError: (err, variables, recover) =>
     typeof recover === 'function' ? recover() : null,
-  onSettled: () => queryCache.refetchQueries('list-items'),
+  onSettled: () => queryCache.invalidateQueries('list-items'),
 }
 
 // 💣 remove the user argument here
