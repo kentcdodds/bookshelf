@@ -5,6 +5,25 @@ Thanks for being willing to contribute!
 **Working on your first Pull Request?** You can learn how from this _free_
 series [How to Contribute to an Open Source Project on GitHub][egghead]
 
+## READ THIS PLEASE
+
+Due to the way this project works, each of the exercises is self-contained in a
+branch that starts with `exercises/` which is _only one commit_ off of master.
+This is critically important for the tooling that we have to make it easy to
+manage the exercises over time.
+
+Unfortunately, because of this requirement, it's impossible to merge PRs that
+are made to exercise branches (because it's impossible to maintain the
+one-commit requirement).
+
+So, if you want to make a change to one of the `exercises/` branches, you're
+welcome to open a pull request, but I will have to apply any needed changes
+myself and will close your PR (though I will still add you to the contributors
+table).
+
+If your changes are to the `main` branch, then the pull request workflow is
+normal.
+
 ## Project setup
 
 1.  Fork and clone the repo
