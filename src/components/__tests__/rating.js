@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import {buildBook, buildListItem} from 'test/generate'
 import * as booksDB from 'test/data/books'
 import * as listItemsDB from 'test/data/list-items'
-import {Rating} from '../Rating'
+import {Rating} from '../rating'
 
 async function renderRating({rating = 0} = {}) {
   const book = await booksDB.create(buildBook())
