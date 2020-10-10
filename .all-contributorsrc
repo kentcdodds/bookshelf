@@ -190,6 +190,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "deepak-chandani",
+      "name": "Deepak Chandani",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/15975603?v=4",
+      "profile": "https://radiant-sands-51546.herokuapp.com/profile/deepak.chandani",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
