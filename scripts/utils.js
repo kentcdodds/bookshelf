@@ -73,7 +73,7 @@ function getExerciseBranches() {
   ).split('\n')
   return branches
     .filter(b => b.startsWith('origin/exercises/'))
-    .map(b => b.replace('origin/'))
+    .map(b => b.replace('origin/'), '')
 }
 
 function updateExerciseBranch(branch) {
