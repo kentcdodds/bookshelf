@@ -75,7 +75,7 @@
     "serve": "serve --no-clipboard --single --listen 8811 build",
     "lint": "eslint . --cache-location node_modules/.cache/eslint",
     "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\"",
-    "setup": "node setup && node ./scripts/track-branches.js",
+    "setup": "node setup",
     "validate-exercises": "node ./scripts/validate-exercises",
     "validate": "npm run validate-exercises && npm-run-all --parallel lint test:coverage build"
   },
