@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, screen, loginAsUser, waitFor} from 'test/app-test-utils'
+import {render, screen, loginAsUser} from 'test/app-test-utils'
 import userEvent from '@testing-library/user-event'
 import {buildBook, buildListItem} from 'test/generate'
 import * as booksDB from 'test/data/books'
@@ -23,9 +23,11 @@ test('it updates the rating', async () => {
 
   userEvent.click(firstStar)
 
-  expect(screen.getByLabelText('1 star')).toBeChecked()
   let updatedListItem
   do {
     updatedListItem = await listItemsDB.read(listItem.id)
-  } while (updateListItem.rating !== 1)
+  } while (updatedListItem.rating !== 1)
+
+  rerender(<Rating listItem={updatedListItem} />)
+  expect(screen.getByLabelText('1 star')).toBeChecked()
 })
