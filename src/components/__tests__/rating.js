@@ -18,7 +18,7 @@ async function renderRating({rating = 0} = {}) {
 }
 
 test('it updates the rating', async () => {
-  const {listItem, rerender} = await renderRating()
+  const {listItem} = await renderRating()
   const firstStar = screen.getByLabelText('1 star')
 
   userEvent.click(firstStar)
@@ -27,7 +27,30 @@ test('it updates the rating', async () => {
   do {
     updatedListItem = await listItemsDB.read(listItem.id)
   } while (updatedListItem.rating !== 1)
-
-  rerender(<Rating listItem={updatedListItem} />)
-  expect(screen.getByLabelText('1 star')).toBeChecked()
 })
+
+test(`it shows the correct rating for 0 stars`, async () => {
+  await renderRating()
+
+  expect(screen.getByLabelText('1 star')).not.toBeChecked()
+  expect(screen.getByLabelText('2 stars')).not.toBeChecked()
+  expect(screen.getByLabelText('3 stars')).not.toBeChecked()
+  expect(screen.getByLabelText('4 stars')).not.toBeChecked()
+  expect(screen.getByLabelText('5 stars')).not.toBeChecked()
+})
+
+test.each`
+  rating | selectedLabel
+  ${1}   | ${'1 star'}
+  ${2}   | ${'2 stars'}
+  ${3}   | ${'3 stars'}
+  ${4}   | ${'4 stars'}
+  ${5}   | ${'5 stars'}
+`(
+  `it shows the correct rating for $selectedLabel`,
+  async ({rating, selectedLabel}) => {
+    await renderRating({rating})
+
+    expect(screen.getByLabelText(selectedLabel)).toBeChecked()
+  },
+)
