@@ -23,10 +23,10 @@ test('it updates the rating', async () => {
 
   userEvent.click(firstStar)
 
-  let updatedListItem
-  do {
-    updatedListItem = await listItemsDB.read(listItem.id)
-  } while (updatedListItem.rating !== 1)
+  await waitFor(async () => {
+    const updatedListItem = await listItemsDB.read(listItem.id)
+    expect(updatedListItem.rating).toBe(1)
+  })
 })
 
 test(`it shows the correct rating for 0 stars`, async () => {
