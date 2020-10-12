@@ -23,9 +23,9 @@ test('it updates the rating', async () => {
 
   userEvent.click(firstStar)
 
-  // needed because of react-query
-  await waitFor(() => {})
-  const updatedListItem = await listItemsDB.read(listItem.id)
-  rerender(<Rating listItem={updatedListItem} />)
   expect(screen.getByLabelText('1 star')).toBeChecked()
+  let updatedListItem
+  do {
+    updatedListItem = await listItemsDB.read(listItem.id)
+  } while (updateListItem.rating !== 1)
 })
