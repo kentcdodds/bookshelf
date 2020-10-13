@@ -26,7 +26,7 @@ import {Dialog as ReachDialog} from '@reach/dialog'
 //   background: '#3f51b5',
 //   color: 'white',
 
-// Button variant="secondary" (in addition tot he above styles)
+// Button variant="secondary" (in addition to the above styles)
 //   background: '#f1f2f7',
 //   color: '#434449',
 
