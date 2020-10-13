@@ -217,6 +217,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "komisz",
+      "name": "komisz",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/45998348?v=4",
+      "profile": "https://github.com/komisz",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
