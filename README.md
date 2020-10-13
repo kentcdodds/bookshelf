@@ -296,6 +296,7 @@ Thanks goes to these wonderful people
   <tr>
     <td align="center"><a href="http://frontendwizard.dev"><img src="https://avatars1.githubusercontent.com/u/1124448?v=4" width="100px;" alt=""/><br /><sub><b>Juliano Farias</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=frontendwizard" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/RobbertWolfs"><img src="https://avatars2.githubusercontent.com/u/12511178?v=4" width="100px;" alt=""/><br /><sub><b>Robbert Wolfs</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=RobbertWolfs" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/komisz"><img src="https://avatars3.githubusercontent.com/u/45998348?v=4" width="100px;" alt=""/><br /><sub><b>komisz</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/issues?q=author%3Akomisz" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
