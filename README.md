@@ -293,11 +293,13 @@ Thanks goes to these wonderful people
     <td align="center"><a href="http://www.b2m9.com"><img src="https://avatars1.githubusercontent.com/u/8492232?v=4" width="100px;" alt=""/><br /><sub><b>Bob Massarczyk</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=b2m9" title="Documentation">📖</a></td>
     <td align="center"><a href="https://radiant-sands-51546.herokuapp.com/profile/deepak.chandani"><img src="https://avatars0.githubusercontent.com/u/15975603?v=4" width="100px;" alt=""/><br /><sub><b>Deepak Chandani</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=deepak-chandani" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="http://frontendwizard.dev"><img src="https://avatars1.githubusercontent.com/u/1124448?v=4" width="100px;" alt=""/><br /><sub><b>Juliano Farias</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=frontendwizard" title="Tests">⚠️</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the
