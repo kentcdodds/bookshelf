@@ -239,7 +239,7 @@ client('http://example.com/pets', {
 //  - method: 'POST'
 //  - body: '{"name": "Fluffy", "type": "cat"}'
 //  - headers:
-//    - 'Content-Type': 'applicaiton/json'
+//    - 'Content-Type': 'application/json'
 //    - Authorization: 'Bearer THE_USER_TOKEN'
 ```
 
