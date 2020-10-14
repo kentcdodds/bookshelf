@@ -213,7 +213,7 @@ For more on why we prefer server-side redirects over client-side, read
 
 This isn't quite as useful right now, but when we've got several other links in
 the nav, it will be helpful to orient users if we have some indication as to
-which link the use is currently viewing. Our designer has given us this CSS you
+which link the user is currently viewing. Our designer has given us this CSS you
 can use:
 
 ```javascript
