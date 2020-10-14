@@ -66,7 +66,7 @@ window.fetch('http://example.com/pets', {headers})
 
 In a React application you manage user authenticated state the same way you
 manage any state: `useState` + `useEffect` (for making the request). When the
-user providers a username and password, you make a request and if the request is
+user provides a username and password, you make a request and if the request is
 successful, you can then use that token to make additional authenticated
 requests. Often, in addition to the token, the server will also respond with the
 user's information which you can store in state and use it to display the user's
