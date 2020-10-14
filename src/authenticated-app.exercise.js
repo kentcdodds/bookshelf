@@ -105,7 +105,7 @@ function Nav() {
               🐨 Once the NavLink has been updated to use a Router Link,
                 change from the href prop to a "to" prop
           */}
-          <NavLink href="/disclver">Discover</NavLink>
+          <NavLink href="/discover">Discover</NavLink>
         </li>
       </ul>
     </nav>
