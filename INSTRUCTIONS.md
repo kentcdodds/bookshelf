@@ -61,7 +61,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/dog/:dogId" element={<Dog />} />
-        <Rout path="*" element={<YouLost />} />
+        <Route path="*" element={<YouLost />} />
       </Routes>
     </div>
   )
