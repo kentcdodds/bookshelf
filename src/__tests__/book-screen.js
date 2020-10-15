@@ -153,8 +153,7 @@ test('can mark a list item as read', async () => {
 
 test('can edit a note', async () => {
   // using fake timers to skip debounce time
-  // TODO: fix this so we can use fake timers without breaking stuff
-  // jest.useFakeTimers()
+  jest.useFakeTimers()
   const {listItem} = await renderBookScreen()
 
   const newNotes = faker.lorem.words()

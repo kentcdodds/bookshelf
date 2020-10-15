@@ -26,26 +26,24 @@ beforeAll(() => server.listen({onUnhandledRequest: 'error'}))
 afterAll(() => server.close())
 afterEach(() => server.resetHandlers())
 
-// real times is a good default to start, individual tests can
-// enable fake timers if they need.
-afterEach(async () => {
-  if (setTimeout._isMockFunction) {
-    act(() => jest.runOnlyPendingTimers())
-    jest.useRealTimers()
-  }
-})
-
 // general cleanup
 afterEach(async () => {
   queryCache.clear()
-  // this allows react-query to settle any scheduled work
-  // this is not a great solution, but is a good stopgap until a better one
-  // is developed: https://github.com/tannerlinsley/react-query/pull/909#issuecomment-683178702
-  await waitFor(() => {})
   await Promise.all([
     auth.logout(),
     usersDB.reset(),
     booksDB.reset(),
     listItemsDB.reset(),
   ])
+})
+
+// real times is a good default to start, individual tests can
+// enable fake timers if they need.
+// it's important this comes last here because jest runs afterEach callbacks
+// in reverse order and we want this to be run first.
+afterEach(async () => {
+  if (setTimeout._isMockFunction) {
+    act(() => jest.runOnlyPendingTimers())
+    jest.useRealTimers()
+  }
 })
