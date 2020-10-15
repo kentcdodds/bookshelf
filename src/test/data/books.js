@@ -1,5 +1,5 @@
 import booksData from './books-data.json'
-import matchSorter from 'match-sorter'
+import {matchSorter} from 'match-sorter'
 
 let books = [...booksData]
 
