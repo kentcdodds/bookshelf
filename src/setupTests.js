@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect'
-import {configure, act, waitFor} from '@testing-library/react'
+import {configure, act} from '@testing-library/react'
 import {queryCache} from 'react-query'
 import * as auth from 'auth-provider'
 import {server} from 'test/server'
@@ -38,9 +38,12 @@ afterEach(async () => {
 })
 
 // real times is a good default to start, individual tests can
-// enable fake timers if they need.
+// enable fake timers if they need, and if they have, then we should
+// run all the pending timers (in `act` because this can trigger state updates)
+// then we'll switch back to realTimers.
 // it's important this comes last here because jest runs afterEach callbacks
-// in reverse order and we want this to be run first.
+// in reverse order and we want this to be run first so we get back to real timers
+// before any other cleanup
 afterEach(async () => {
   if (setTimeout._isMockFunction) {
     act(() => jest.runOnlyPendingTimers())
