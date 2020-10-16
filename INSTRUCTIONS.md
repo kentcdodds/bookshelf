@@ -13,7 +13,7 @@ But if we're mindful of the kinds of abstractions we create, then we can make
 something that is truly easy to use and maintain, are bug free, and not so big
 our users pay the download penalty.
 
-Give my talk a watch more more on this concept:
+Give my talk a watch for more on this concept:
 [Simply React](https://www.youtube.com/watch?v=AiJ8tRRH0f8&list=PLV5CVI1eNcJgNqzNwcs4UKrlJdhfDjshf)
 
 ## Exercise
