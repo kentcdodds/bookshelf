@@ -132,14 +132,14 @@ function UnauthenticatedApp() {
         */}
         <LoginFormModal
           onSubmit={login}
-          modalTitle="Login"
+          modalTitleText="Login"
           modalLabelText="Login form"
           submitButton={<Button variant="primary">Login</Button>}
           openButton={<Button variant="primary">Login</Button>}
         />
         <LoginFormModal
           onSubmit={register}
-          modalTitle="Register"
+          modalTitleText="Register"
           modalLabelText="Registration form"
           submitButton={<Button variant="secondary">Register</Button>}
           openButton={<Button variant="secondary">Register</Button>}
