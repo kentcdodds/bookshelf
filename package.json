@@ -77,7 +77,7 @@
     "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\"",
     "setup": "node setup",
     "validate-exercises": "node ./scripts/validate-exercises",
-    "validate": "npm run validate-exercises && npm-run-all --parallel lint test:coverage && node ./scripts/build"
+    "validate": "npm run validate-exercises && node ./scripts/swap 2 && npm-run-all --parallel lint test:coverage && node ./scripts/swap final && node ./scripts/build"
   },
   "eslintConfig": {
     "extends": "react-app"
