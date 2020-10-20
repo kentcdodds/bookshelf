@@ -5,7 +5,9 @@ import * as usersDB from 'test/data/users'
 import * as listItemsDB from 'test/data/list-items'
 
 let sleep
-if (process.env.NODE_ENV === 'test') {
+if (process.env.CI) {
+  sleep = () => Promise.resolve()
+} else if (process.env.NODE_ENV === 'test') {
   sleep = () => Promise.resolve()
 } else {
   sleep = (
