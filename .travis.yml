@@ -1,6 +1,6 @@
 sudo: false
 language: node_js
-node_js: 12
+node_js: 14
 install: echo "Installation happens in the setup script"
 addons:
   apt:
@@ -17,7 +17,5 @@ notifications:
 branches:
   only:
     - main
-script:
-  - npm run setup
-after_success:
-  - npx codecov
+script: npm run setup
+after_script: npx codecov@3
