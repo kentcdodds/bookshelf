@@ -16,7 +16,7 @@ State can be lumped into two buckets:
 A great deal of complexity comes when people attempt to lump these two distinct
 types of state together. When this is done, UI state which should not be global
 is made global because Server cache state is typically global so it naturally
-causes us to just make everything global. It's further complected by the fact
+causes us to just make everything global. It's further complicated by the fact
 that caching is one of the hardest problems in software development in general.
 
 We can drastically simplify our UI state management if we split out the server
