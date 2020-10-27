@@ -75,7 +75,7 @@ async function startExtraCredit() {
   const variants = getVariants()
   const maxExtra = Math.max(
     ...Object.values(variants)
-      .flatMap(v => v.extras)
+      .reduce((acc, v) => [...acc, ...v.extras], [])
       .map(e => e.number),
   )
 
