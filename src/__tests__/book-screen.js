@@ -126,10 +126,12 @@ test('can remove a list item for the book', async () => {
 })
 
 test('can mark a list item as read', async () => {
-  const {listItem} = await renderBookScreen()
-
-  // set the listItem to be unread in the DB
-  await listItemsDB.update(listItem.id, {finishDate: null})
+  const user = await loginAsUser()
+  const book = await booksDB.create(buildBook())
+  const listItem = await listItemsDB.create(
+    buildListItem({owner: user, book, finishDate: null}),
+  )
+  await renderBookScreen({user, book, listItem})
 
   const markAsReadButton = screen.getByRole('button', {name: /mark as read/i})
   userEvent.click(markAsReadButton)
