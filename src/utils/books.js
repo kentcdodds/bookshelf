@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {useQuery, queryCache} from 'react-query'
 import {useClient} from 'context/auth-context'
 import bookPlaceholderSvg from 'assets/book-placeholder.svg'

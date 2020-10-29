@@ -4,7 +4,7 @@ import {jsx, Global} from '@emotion/core'
 import '@reach/tabs/styles.css'
 import '@reach/tooltip/styles.css'
 
-import React from 'react'
+import * as React from 'react'
 import ReactDOM from 'react-dom'
 import {FaTools} from 'react-icons/fa'
 import {Tooltip} from '@reach/tooltip'

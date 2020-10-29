@@ -1,6 +1,6 @@
 import {loadDevTools} from './dev-tools/load'
 import './bootstrap'
-import React from 'react'
+import * as React from 'react'
 import ReactDOM from 'react-dom'
 import {Profiler} from 'components/profiler'
 import {App} from './app'

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {render, screen, waitFor, loginAsUser} from 'test/app-test-utils'
 import userEvent from '@testing-library/user-event'
 import {buildBook, buildListItem} from 'test/generate'
