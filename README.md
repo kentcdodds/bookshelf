@@ -298,6 +298,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://github.com/RobbertWolfs"><img src="https://avatars2.githubusercontent.com/u/12511178?v=4" width="100px;" alt=""/><br /><sub><b>Robbert Wolfs</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=RobbertWolfs" title="Documentation">📖</a> <a href="https://github.com/kentcdodds/bookshelf/commits?author=RobbertWolfs" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/komisz"><img src="https://avatars3.githubusercontent.com/u/45998348?v=4" width="100px;" alt=""/><br /><sub><b>komisz</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/issues?q=author%3Akomisz" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://michaeldeboey.be"><img src="https://avatars3.githubusercontent.com/u/6643991?v=4" width="100px;" alt=""/><br /><sub><b>Michaël De Boey</b></sub></a><br /><a href="#projectManagement-MichaelDeBoey" title="Project Management">📆</a> <a href="https://github.com/kentcdodds/bookshelf/commits?author=MichaelDeBoey" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/marcosvega91"><img src="https://avatars2.githubusercontent.com/u/5365582?v=4" width="100px;" alt=""/><br /><sub><b>Marco Moretti</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=marcosvega91" title="Code">💻</a></td>
   </tr>
 </table>
 
