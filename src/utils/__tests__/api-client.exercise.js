@@ -25,8 +25,8 @@ test.todo('calls fetch at the endpoint with the arguments for GET requests')
 // 🐨 call the client (don't forget that it's asynchronous)
 // 🐨 assert that the resolved value from the client call is correct
 
-test.todo('adds auth token when a token is in localStorage')
-// 🐨 set the localStorage value to anything you want
+test.todo('adds auth token when a token is provided')
+// 🐨 create a fake token to anything you want
 // 🐨 create a "request" variable with let
 // 🐨 create a server handler to handle a test request you'll be making
 // 🐨 inside the server handler, assign "request" to "req" so we can use that
@@ -36,7 +36,7 @@ test.todo('adds auth token when a token is in localStorage')
 //         request = req
 //         ... etc...
 //
-// 🐨 call the client (it's async)
+// 🐨 call the client (it's async) with the token
 // 🐨 verify that `request.headers.get('Authorization')` is correct (it should include the token)
 
 test.todo('allows for config overrides')
