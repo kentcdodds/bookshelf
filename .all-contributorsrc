@@ -257,6 +257,15 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "p10ns11y",
+      "name": "Peramanathan Sathyamoorthy",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/9104920?v=4",
+      "profile": "http://twitter.com/peramanathan",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
