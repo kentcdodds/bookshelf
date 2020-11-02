@@ -266,6 +266,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "wbeuil",
+      "name": "William BEUIL",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8110579?v=4",
+      "profile": "http://wbeuil.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
