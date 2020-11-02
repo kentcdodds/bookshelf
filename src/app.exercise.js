@@ -16,7 +16,7 @@ function App() {
 
   // 🐨 create a logout function that calls auth.logout() and sets the user to null
 
-  // 🐨 if there's a user, then render then AuthenitcatedApp with the user and logout
+  // 🐨 if there's a user, then render then AuthenticatedApp with the user and logout
   // 🐨 if there's not a user, then render the UnauthenticatedApp with login and register
 
   return <UnauthenticatedApp />
