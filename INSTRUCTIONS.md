@@ -172,7 +172,7 @@ solve this loading state issue.
 She mentions you'll need to know that you can set the data directly:
 
 ```javascript
-const {data, error, isIdle, isLoading, isSuccess, isError} = useAsync()
+const {data, error, isIdle, isLoading, isSuccess, isError, setData} = useAsync()
 
 const doSomething = () => somethingAsync().then(data => setData(data))
 ```
