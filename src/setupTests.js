@@ -45,7 +45,7 @@ afterEach(async () => {
 // in reverse order and we want this to be run first so we get back to real timers
 // before any other cleanup
 afterEach(() => {
-  if (setTimeout._isMockFunction) {
+  if (jest.isMockFunction(setTimeout)) {
     act(() => jest.runOnlyPendingTimers())
     jest.useRealTimers()
   }
