@@ -302,6 +302,9 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://vk.com/vasilii_kovalev"><img src="https://avatars0.githubusercontent.com/u/10310491?v=4" width="100px;" alt=""/><br /><sub><b>Vasilii Kovalev</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=vasilii-kovalev" title="Code">💻</a> <a href="https://github.com/kentcdodds/bookshelf/commits?author=vasilii-kovalev" title="Documentation">📖</a></td>
     <td align="center"><a href="http://twitter.com/peramanathan"><img src="https://avatars2.githubusercontent.com/u/9104920?v=4" width="100px;" alt=""/><br /><sub><b>Peramanathan Sathyamoorthy</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=p10ns11y" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="http://wbeuil.com"><img src="https://avatars1.githubusercontent.com/u/8110579?v=4" width="100px;" alt=""/><br /><sub><b>William BEUIL</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=wbeuil" title="Code">💻</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
