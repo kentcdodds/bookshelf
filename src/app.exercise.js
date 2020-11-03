@@ -4,7 +4,7 @@ import {jsx} from '@emotion/core'
 import * as React from 'react'
 import * as auth from 'auth-provider'
 // React Router DOM exposes a context provider that all the React Router
-// components use to implicitely access the router data. We need to wrap our
+// components use to implicitly access the router data. We need to wrap our
 // AuthenticatedApp in the router
 // 🐨 import the BrowserRouter from 'react-router-dom'
 import {FullPageSpinner} from './components/lib'
