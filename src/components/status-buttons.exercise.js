@@ -7,8 +7,8 @@ import {
   FaPlusCircle,
   FaMinusCircle,
   FaBook,
+  FaTimesCircle,
 } from 'react-icons/fa'
-import {FaTimesCircle} from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
 // 🐨 you'll need useQuery, useMutation, and queryCache from 'react-query'
 // 🐨 you'll also need client from 'utils/api-client'
@@ -69,7 +69,7 @@ function StatusButtons({user, book}) {
   // the mutate function should call the list-items/:listItemId endpoint with a DELETE
 
   // 🐨 call useMutation here and assign the mutate function to "create"
-  // the mutate function should call the list-items/:listItemId endpoint with a POST
+  // the mutate function should call the list-items endpoint with a POST
   // and the bookId the listItem is being created for.
 
   return (
@@ -89,7 +89,7 @@ function StatusButtons({user, book}) {
             label="Mark as read"
             highlight={colors.green}
             // 🐨 add an onClick here that calls update with the data we want to update
-            // 💰 to mark a list item as unread, set the finishDate
+            // 💰 to mark a list item as read, set the finishDate
             // {id: listItem.id, finishDate: Date.now()}
             icon={<FaCheckCircle />}
           />
