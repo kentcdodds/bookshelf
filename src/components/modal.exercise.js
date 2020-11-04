@@ -21,7 +21,7 @@
 
 // we need this set of compound components to be structurally flexible
 // meaning we don't have control over the structure of the components. But
-// we still want to have implicitely shared state, so...
+// we still want to have implicitly shared state, so...
 // 🐨 create a ModalContext here with React.createContext
 
 // 🐨 create a Modal component that manages the isOpen state (via useState)
@@ -38,7 +38,7 @@
 // 🐨 create a ModalOpenButton component which is effectively the same thing as
 // ModalDismissButton except the onClick sets isOpen to true
 
-// 🐨 create a ModalContent component which renders the Dialog.
+// 🐨 create a ModalContents component which renders the Dialog.
 // Set the isOpen prop and the onDismiss prop should set isOpen to close
 // 💰 be sure to forward along the rest of the props (especially children).
 
