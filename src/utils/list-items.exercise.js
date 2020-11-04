@@ -1,6 +1,6 @@
 // 🐨 we're going to use React hooks in here now so we'll need React
 import {useQuery, useMutation, queryCache} from 'react-query'
-// 🐨 get AuthContext from ./context/auth-context
+// 🐨 get AuthContext from context/auth-context
 import {setQueryDataForBook} from './books'
 import {client} from './api-client'
 
