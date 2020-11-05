@@ -1,10 +1,6 @@
-function proxy(app) {
-  app.get(/^\/$/, (req, res) => res.redirect('/list'))
+// no final
 
-  // https://twitter.com/kentcdodds/status/1299182472412958722
-  // if you can figure out how we can avoid this that'd be great
-  // it's only necessary for the "test:e2e" script
-  app.head(/^\/list$/, (req, res) => res.status(200).end())
-}
+module.exports = require('./setupProxy.exercise')
 
-module.exports = proxy
+// 💯 handle URL redirects
+// module.exports = require('./setupProxy.extra-1')
