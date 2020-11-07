@@ -199,6 +199,7 @@ the data. So you're going to want these:
 ```javascript
 import * as usersDB from 'test/data/users'
 import * as booksDB from 'test/data/books'
+import * as listItemsDB from 'test/data/list-items'
 ```
 
 To create an authenticated user, do this:
@@ -225,6 +226,7 @@ As a part of this, you'll want to cleanup the databases, you can do this with
 ```javascript
 await usersDB.reset()
 await booksDB.reset()
+await listItemsDB.reset()
 ```
 
 **Files:**
@@ -242,9 +244,8 @@ to use:
 
 You'll do mostly the same stuff in the first part of the test (the "arrange"
 portion), and once the app is ready to go, then click on the "Add to list"
-button, wait for the app to settle again (queryCache should no longer be
-fetching and loading indicators should be gone), then verify the right elements
-appear on the screen now that this book has a list item.
+button, wait for the app to settle again (loading indicators should be gone),
+then verify the right elements appear on the screen now that this book has a list item.
 
 > 💰 It may be a good idea to pull the app up and see what changes when you're
 > on the book screen and add a book to your reading list. That's what you're
