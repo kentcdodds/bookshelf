@@ -42,7 +42,8 @@ Here's a quick example of how to test a component with React Testing Library:
 
 ```javascript
 import * as React from 'react'
-import {render, screen, userEvent} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import {MyComponent} from '../my-component'
 
 test('renders click me button', () => {
