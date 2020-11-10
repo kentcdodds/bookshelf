@@ -65,11 +65,11 @@ const Box = styled.div(props => {
 // or with the string form:
 
 const Box = styled.div`
-  color: ${props => (props.variant === 'tall' ? '150px' : '80px')};
+  height: ${props => (props.variant === 'tall' ? '150px' : '80px')};
 `
 
 // then you can do:
-// <Button >
+// <Box >
 ```
 
 There's lot more you can do with creating styled components, but that should get
