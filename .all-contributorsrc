@@ -275,6 +275,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "andrewli-ca",
+      "name": "Andrew Li",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/9060674?v=4",
+      "profile": "http://andrewli.ca",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
