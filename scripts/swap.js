@@ -17,7 +17,7 @@ async function go() {
   const variants = getVariants()
   const maxExtra = Math.max(
     ...Object.values(variants)
-      .flatMap(v => v.extras)
+      .reduce((m, v) => [...m, ...v.extras], [])
       .map(e => e.number),
   )
 
