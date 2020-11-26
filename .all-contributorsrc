@@ -284,6 +284,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "tonykhaov",
+      "name": "Tony Khaov",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/53958746?v=4",
+      "profile": "https://github.com/tonykhaov",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

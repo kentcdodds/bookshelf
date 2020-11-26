@@ -312,12 +312,12 @@ Thanks goes to these wonderful people
   <tr>
     <td align="center"><a href="http://wbeuil.com"><img src="https://avatars1.githubusercontent.com/u/8110579?v=4" width="100px;" alt=""/><br /><sub><b>William BEUIL</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=wbeuil" title="Code">💻</a></td>
     <td align="center"><a href="http://andrewli.ca"><img src="https://avatars2.githubusercontent.com/u/9060674?v=4" width="100px;" alt=""/><br /><sub><b>Andrew Li</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=andrewli-ca" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/tonykhaov"><img src="https://avatars1.githubusercontent.com/u/53958746?v=4" width="100px;" alt=""/><br /><sub><b>Tony Khaov</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=tonykhaov" title="Documentation">📖</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the
