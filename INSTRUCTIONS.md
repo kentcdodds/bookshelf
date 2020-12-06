@@ -112,7 +112,7 @@ credit will really simplify things for you!
 
 How are you enjoying all this repetition? No? Yeah, I'm not a big fan either.
 Here's where React hooks come in really handy! Let's make a few custom hooks.
-Here are a few ides:
+Here are a few ideas:
 
 - `useBook(bookId, user)`
 - `useBookSearch(query, user)`
