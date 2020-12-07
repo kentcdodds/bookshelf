@@ -313,6 +313,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="http://wbeuil.com"><img src="https://avatars1.githubusercontent.com/u/8110579?v=4" width="100px;" alt=""/><br /><sub><b>William BEUIL</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=wbeuil" title="Code">💻</a></td>
     <td align="center"><a href="http://andrewli.ca"><img src="https://avatars2.githubusercontent.com/u/9060674?v=4" width="100px;" alt=""/><br /><sub><b>Andrew Li</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=andrewli-ca" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/tonykhaov"><img src="https://avatars1.githubusercontent.com/u/53958746?v=4" width="100px;" alt=""/><br /><sub><b>Tony Khaov</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=tonykhaov" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/degeens"><img src="https://avatars2.githubusercontent.com/u/33414262?v=4" width="100px;" alt=""/><br /><sub><b>Stijn Geens</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=degeens" title="Documentation">📖</a></td>
   </tr>
 </table>
 
