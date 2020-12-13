@@ -311,6 +311,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "michaljuris",
+      "name": "Michal Juriš",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/391000?v=4",
+      "profile": "https://github.com/michaljuris",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
