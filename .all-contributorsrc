@@ -302,6 +302,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "andresgallego",
+      "name": "Andrés Gallego",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1014950?v=4",
+      "profile": "https://github.com/andresgallego",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
