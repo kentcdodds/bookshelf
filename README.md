@@ -318,6 +318,9 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://github.com/michaljuris"><img src="https://avatars1.githubusercontent.com/u/391000?v=4" width="100px;" alt=""/><br /><sub><b>Michal Juriš</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/issues?q=author%3Amichaljuris" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/jkmuka"><img src="https://avatars2.githubusercontent.com/u/6767449?v=4" width="100px;" alt=""/><br /><sub><b>jkmuka</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/issues?q=author%3Ajkmuka" title="Bug reports">🐛</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/raqib-rasheed"><img src="https://avatars0.githubusercontent.com/u/71254614?v=4" width="100px;" alt=""/><br /><sub><b>raqib-rasheed</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/issues?q=author%3Araqib-rasheed" title="Bug reports">🐛</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
