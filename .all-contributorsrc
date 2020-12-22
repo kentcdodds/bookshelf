@@ -338,6 +338,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "Luke-kb",
+      "name": "Luke-kb",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7802494?v=4",
+      "profile": "https://github.com/Luke-kb",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
