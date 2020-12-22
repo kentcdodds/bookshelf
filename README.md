@@ -320,6 +320,7 @@ Thanks goes to these wonderful people
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/raqib-rasheed"><img src="https://avatars0.githubusercontent.com/u/71254614?v=4" width="100px;" alt=""/><br /><sub><b>raqib-rasheed</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/issues?q=author%3Araqib-rasheed" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/Luke-kb"><img src="https://avatars2.githubusercontent.com/u/7802494?v=4" width="100px;" alt=""/><br /><sub><b>Luke-kb</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=Luke-kb" title="Documentation">📖</a></td>
   </tr>
 </table>
 
