@@ -1,5 +1,5 @@
 <div>
-  <h1 align="center"><a href="https://epicreact.dev">Build an Epic React App 🚀 EpicReact.Dev</a></h1>
+  <h1 align="center"><a href="https://epicreact.dev/app">Build an Epic React App 🚀 EpicReact.Dev</a></h1>
   <strong>
     Building a full React application
   </strong>
