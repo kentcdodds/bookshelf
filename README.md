@@ -323,6 +323,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://github.com/Luke-kb"><img src="https://avatars2.githubusercontent.com/u/7802494?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Luke-kb</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=Luke-kb" title="Documentation">📖</a></td>
     <td align="center"><a href="http://peter.hozak.info/"><img src="https://avatars0.githubusercontent.com/u/1087670?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Peter Hozák</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=Aprillion" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/cxc421"><img src="https://avatars3.githubusercontent.com/u/18439296?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Chris Chuang</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=cxc421" title="Code">💻</a> <a href="https://github.com/kentcdodds/bookshelf/issues?q=author%3Acxc421" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://valentin-hervieu.fr"><img src="https://avatars2.githubusercontent.com/u/2678610?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Valentin Hervieu</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=ValentinH" title="Documentation">📖</a></td>
   </tr>
 </table>
 
