@@ -64,8 +64,8 @@ function App({tweetId}) {
 
 📜 here are the docs:
 
-- `useQuery`: https://react-query.tanstack.com/docs/guides/queries
-- `useMutation`: https://react-query.tanstack.com/docs/guides/mutations
+- `useQuery`: https://react-query-v2.tanstack.com/docs/guides/queries
+- `useMutation`: https://react-query-v2.tanstack.com/docs/guides/mutations
 
 That should be enough to get you going.
 
@@ -176,7 +176,7 @@ if the failure count is greater than 2.
 https://reactjs.org/docs/error-boundaries.html
 
 📜 Learn more about query config:
-https://react-query.tanstack.com/docs/api#reactqueryconfigprovider
+https://react-query-v2.tanstack.com/docs/api#reactqueryconfigprovider
 
 ```javascript
 const queryConfig = {
@@ -333,8 +333,8 @@ component.
 📜 You'll want to use `react-query`'s `queryCache.prefetchQuery` and
 `queryCache.removeQueries` functions:
 
-- https://react-query.tanstack.com/docs/api#querycacheremovequeries
-- https://react-query.tanstack.com/docs/api#querycacheprefetchquery
+- https://react-query-v2.tanstack.com/docs/api#querycacheremovequeries
+- https://react-query-v2.tanstack.com/docs/api#querycacheprefetchquery
 
 **Files:**
 
@@ -383,8 +383,8 @@ book is: `['book', {bookId}]`.
 📜 Here are some docs you might find helpful:
 
 - `queryCache.setQueryData`:
-  https://react-query.tanstack.com/docs/api#querycachesetquerydata
-- `config.onSuccess`: https://react-query.tanstack.com/docs/api#usequery
+  https://react-query-v2.tanstack.com/docs/api#querycachesetquerydata
+- `config.onSuccess`: https://react-query-v2.tanstack.com/docs/api#usequery
 
 **Files:**
 
@@ -417,18 +417,18 @@ the notes textarea shows up instantly.
 about the following things:
 
 - `onMutate`, `onError` and `onSettled`:
-  https://react-query.tanstack.com/docs/api#usemutation (use `onMutate` to make
+  https://react-query-v2.tanstack.com/docs/api#usemutation (use `onMutate` to make
   your optimistic update, use `onError` to restore the original value, and use
   `onSettled` to trigger a refetch of all the `list-items` to be sure you have
   the very latest data). NOTE: What you return from `onMutate` will be the third
   argument received by `onError`.
 - `queryCache.invalidateQueries`:
-  https://react-query.tanstack.com/docs/api#querycacheinvalidatequeries
+  https://react-query-v2.tanstack.com/docs/api#querycacheinvalidatequeries
 - `queryCache.getQueryData`:
-  https://react-query.tanstack.com/docs/api#querycachegetquerydata (to get the
+  https://react-query-v2.tanstack.com/docs/api#querycachegetquerydata (to get the
   data you'll restore in the event of an error)
 - `queryCache.setQueryData`:
-  https://react-query.tanstack.com/docs/api#querycachesetquerydata (to set it to
+  https://react-query-v2.tanstack.com/docs/api#querycachesetquerydata (to set it to
   the optimistic version of the data and to restore the original data if there's
   an error)
 
