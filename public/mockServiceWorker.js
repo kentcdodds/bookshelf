@@ -7,7 +7,7 @@
 /* eslint-disable */
 /* tslint:disable */
 
-const INTEGRITY_CHECKSUM = '65d33ca82955e1c5928aed19d1bdf3f9'
+const INTEGRITY_CHECKSUM = 'dc3d39c97ba52ee7fff0d667f7bc098c'
 const bypassHeaderName = 'x-msw-bypass'
 
 let clients = {}
@@ -22,7 +22,17 @@ self.addEventListener('activate', async function (event) {
 
 self.addEventListener('message', async function (event) {
   const clientId = event.source.id
-  const client = await event.currentTarget.clients.get(clientId)
+
+  if (!clientId || !self.clients) {
+    return
+  }
+
+  const client = await self.clients.get(clientId)
+
+  if (!client) {
+    return
+  }
+
   const allClients = await self.clients.matchAll()
   const allClientIds = allClients.map((client) => client.id)
 
@@ -76,6 +86,7 @@ self.addEventListener('message', async function (event) {
 
 self.addEventListener('fetch', function (event) {
   const { clientId, request } = event
+  const requestId = uuidv4()
   const requestClone = request.clone()
   const getOriginalResponse = () => fetch(requestClone)
 
@@ -98,7 +109,7 @@ self.addEventListener('fetch', function (event) {
 
   event.respondWith(
     new Promise(async (resolve, reject) => {
-      const client = await event.target.clients.get(clientId)
+      const client = await self.clients.get(clientId)
 
       // Bypass mocking when the request client is not active.
       if (!client) {
@@ -125,6 +136,7 @@ self.addEventListener('fetch', function (event) {
       const rawClientMessage = await sendToClient(client, {
         type: 'REQUEST',
         payload: {
+          id: requestId,
           url: request.url,
           method: request.method,
           headers: reqHeaders,
@@ -186,14 +198,36 @@ If you wish to mock an error response, please refer to this guide: https://mswjs
           return resolve(createResponse(clientMessage))
         }
       }
-    }).catch((error) => {
-      console.error(
-        '[MSW] Failed to mock a "%s" request to "%s": %s',
-        request.method,
-        request.url,
-        error,
-      )
-    }),
+    })
+      .then(async (response) => {
+        const client = await self.clients.get(clientId)
+        const clonedResponse = response.clone()
+
+        sendToClient(client, {
+          type: 'RESPONSE',
+          payload: {
+            requestId,
+            type: clonedResponse.type,
+            ok: clonedResponse.ok,
+            status: clonedResponse.status,
+            statusText: clonedResponse.statusText,
+            body:
+              clonedResponse.body === null ? null : await clonedResponse.text(),
+            headers: serializeHeaders(clonedResponse.headers),
+            redirected: clonedResponse.redirected,
+          },
+        })
+
+        return response
+      })
+      .catch((error) => {
+        console.error(
+          '[MSW] Failed to mock a "%s" request to "%s": %s',
+          request.method,
+          request.url,
+          error,
+        )
+      }),
   )
 })
 
@@ -238,4 +272,12 @@ function ensureKeys(keys, obj) {
 
     return acc
   }, {})
+}
+
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0
+    const v = c == 'x' ? r : (r & 0x3) | 0x8
+    return v.toString(16)
+  })
 }
