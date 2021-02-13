@@ -325,6 +325,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://github.com/cxc421"><img src="https://avatars3.githubusercontent.com/u/18439296?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Chris Chuang</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=cxc421" title="Code">💻</a> <a href="https://github.com/kentcdodds/bookshelf/issues?q=author%3Acxc421" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://valentin-hervieu.fr"><img src="https://avatars2.githubusercontent.com/u/2678610?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Valentin Hervieu</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=ValentinH" title="Documentation">📖</a></td>
     <td align="center"><a href="http://triki.io"><img src="https://avatars.githubusercontent.com/u/6273120?v=4?s=100" width="100px;" alt=""/><br /><sub><b>~Sami Triki</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=SamiTriki" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/falldowngoboone"><img src="https://avatars.githubusercontent.com/u/3603771?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ryan Boone</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=falldowngoboone" title="Documentation">📖</a></td>
   </tr>
 </table>
 
