@@ -393,6 +393,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "juanlatorre",
+      "name": "Juan Latorre",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4494526?v=4",
+      "profile": "https://juanlatorre.cl/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
