@@ -72,11 +72,7 @@ const bookQueryConfig = {
 }
 
 function setQueryDataForBook(book) {
-  queryCache.setQueryData({
-    queryKey: ['book', {bookId: book.id}],
-    queryFn: book,
-    ...bookQueryConfig,
-  })
+  queryCache.setQueryData(['book', {bookId: book.id}], book, bookQueryConfig)
 }
 
 export {useBook, useBookSearch, refetchBookSearchQuery, setQueryDataForBook}
