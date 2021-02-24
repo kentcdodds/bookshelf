@@ -7,19 +7,22 @@ function useListItem(bookId, options) {
   return listItems?.find(li => li.bookId === bookId) ?? null
 }
 
-function useListItems({onSuccess, ...options} = {}) {
+function useListItems(options = {}) {
   const client = useClient()
 
   const {data: listItems} = useQuery({
     queryKey: 'list-items',
     queryFn: () => client('list-items').then(data => data.listItems),
-    onSuccess: async listItems => {
-      await onSuccess?.(listItems)
-      for (const listItem of listItems) {
-        setQueryDataForBook(listItem.book)
-      }
-    },
     ...options,
+    config: {
+      ...options.config,
+      onSuccess: async listItems => {
+        await options.config?.onSuccess?.(listItems)
+        for (const listItem of listItems) {
+          setQueryDataForBook(listItem.book)
+        }
+      },
+    },
   })
   return listItems ?? []
 }

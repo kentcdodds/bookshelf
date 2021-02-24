@@ -6,6 +6,7 @@ import {queryCache} from 'react-query'
 import * as auth from 'auth-provider'
 import {client} from 'utils/api-client'
 import {useAsync} from 'utils/hooks'
+import {setQueryDataForBook} from 'utils/books'
 import {FullPageSpinner, FullPageErrorFallback} from 'components/lib'
 
 async function bootstrapAppData() {
@@ -17,6 +18,9 @@ async function bootstrapAppData() {
     queryCache.setQueryData('list-items', data.listItems, {
       staleTime: 5000,
     })
+    for (const listItem of data.listItems) {
+      setQueryDataForBook(listItem.book)
+    }
     user = data.user
   }
   return user
