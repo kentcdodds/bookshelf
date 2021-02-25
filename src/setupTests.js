@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect'
-import {configure, act} from '@testing-library/react'
+import {configure, act, waitFor} from '@testing-library/react'
 import {queryCache} from 'react-query'
 import * as auth from 'auth-provider'
 import {server} from 'test/server'
@@ -44,7 +44,11 @@ afterEach(async () => {
 // it's important this comes last here because jest runs afterEach callbacks
 // in reverse order and we want this to be run first so we get back to real timers
 // before any other cleanup
-afterEach(() => {
+afterEach(async () => {
+  // waitFor is important here. If there are queries that are being fetched at
+  // the end of the test and we continue on to the next test before waiting for
+  // them to finalize, the tests can impact each other in strange ways.
+  await waitFor(() => expect(queryCache.isFetching).toBe(0))
   if (jest.isMockFunction(setTimeout)) {
     act(() => jest.runOnlyPendingTimers())
     jest.useRealTimers()
