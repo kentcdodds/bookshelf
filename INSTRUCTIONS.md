@@ -145,7 +145,7 @@ data.
 - `src/screens/book.js`
 - `src/components/list-item-list.js`,
 
-### 2. 💯 Wrap the <App /> in a <ReactQueryConfigProvider />
+### 2. 💯 Wrap the `<App />` in a `<ReactQueryConfigProvider />`
 
 [Production deploy](https://exercises-06-cache-management.bookshelf.lol/extra-2)
 
