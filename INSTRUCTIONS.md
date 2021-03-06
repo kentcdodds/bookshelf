@@ -1,5 +1,9 @@
 # Bookshelf Instructions
 
+## 📝 Your Notes
+
+Elaborate on your learnings here in `INSTRUCTIONS.md`
+
 ## Background
 
 Each exercise will have some background information to help orient you around
