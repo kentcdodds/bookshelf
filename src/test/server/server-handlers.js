@@ -152,26 +152,25 @@ const handlers = [
     return res(ctx.json({success: true}))
   }),
 ].map(handler => {
-  return {
-    ...handler,
-    async resolver(req, res, ctx) {
-      try {
-        if (shouldFail(req)) {
-          throw new Error('Request failure (for testing purposes).')
-        }
-        const result = await handler.resolver(req, res, ctx)
-        return result
-      } catch (error) {
-        const status = error.status || 500
-        return res(
-          ctx.status(status),
-          ctx.json({status, message: error.message || 'Unknown Error'}),
-        )
-      } finally {
-        await sleep()
+  const originalResolver = handler.resolver
+  handler.resolver = async function resolver(req, res, ctx) {
+    try {
+      if (shouldFail(req)) {
+        throw new Error('Request failure (for testing purposes).')
       }
-    },
+      const result = await originalResolver(req, res, ctx)
+      return result
+    } catch (error) {
+      const status = error.status || 500
+      return res(
+        ctx.status(status),
+        ctx.json({status, message: error.message || 'Unknown Error'}),
+      )
+    } finally {
+      await sleep()
+    }
   }
+  return handler
 })
 
 function shouldFail(req) {
