@@ -1,5 +1,4 @@
-npx npm-check-updates --upgrade --reject husky,react-query,react-query-devtools,debounce-fn,@emotion/core,@emotion/styled,inquirer
+npx npm-check-updates --upgrade --reject husky,react-query,react-query-devtools,debounce-fn,@emotion/core,@emotion/styled
 rm -rf node_modules package-lock.json
 npm install
 npm run validate
-
