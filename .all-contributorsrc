@@ -412,6 +412,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "hmttrp",
+      "name": "Hendrik Mittrop",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4592406?v=4",
+      "profile": "https://github.com/hmttrp",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
