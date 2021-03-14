@@ -67,7 +67,7 @@
     "start": "react-scripts start",
     "start:cli": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build --profile",
-    "test": "is-ci \"test:coverage\" \"test:watch\"",
+    "test": "is-ci-cli \"test:coverage\" \"test:watch\"",
     "test:watch": "jest --watch",
     "test:coverage": "jest --watch=false --coverage",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --watch --runInBand",
