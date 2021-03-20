@@ -421,6 +421,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "payapula",
+      "name": "payapula",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7134153?v=4",
+      "profile": "https://github.com/payapula",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
