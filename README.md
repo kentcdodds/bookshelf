@@ -332,6 +332,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://juanlatorre.cl/"><img src="https://avatars.githubusercontent.com/u/4494526?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Juan Latorre</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/issues?q=author%3Ajuanlatorre" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/Groszczu"><img src="https://avatars.githubusercontent.com/u/45833713?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Roch Goszczyński</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=Groszczu" title="Code">💻</a> <a href="https://github.com/kentcdodds/bookshelf/issues?q=author%3AGroszczu" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/hmttrp"><img src="https://avatars.githubusercontent.com/u/4592406?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hendrik Mittrop</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=hmttrp" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/payapula"><img src="https://avatars.githubusercontent.com/u/7134153?v=4?s=100" width="100px;" alt=""/><br /><sub><b>payapula</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=payapula" title="Documentation">📖</a></td>
   </tr>
 </table>
 
