@@ -2,7 +2,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.detectIndentation": true,
-  "editor.fontFamily": "'Dank Mono', Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "",
   "editor.fontLigatures": false,
   "editor.rulers": [80],
   "editor.snippetSuggestions": "top",
@@ -55,7 +55,7 @@
       "no-debugger": "off"
     }
   },
-  "workbench.colorTheme": "Night Owl",
+  "workbench.colorTheme": "Default Dark+",
   "workbench.iconTheme": "material-icon-theme",
   "breadcrumbs.enabled": true,
   "grunt.autoDetect": "off",

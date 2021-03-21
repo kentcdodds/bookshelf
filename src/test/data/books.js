@@ -1,5 +1,5 @@
-import booksData from './books-data.json'
-import {matchSorter} from 'match-sorter'
+import booksData from './books-data.json'// hard coded data to expose through api
+import { matchSorter } from 'match-sorter'
 
 let books = [...booksData]
 
@@ -22,7 +22,7 @@ async function query(search) {
       'title',
       'author',
       'publisher',
-      {threshold: matchSorter.rankings.CONTAINS, key: 'synopsis'},
+      { threshold: matchSorter.rankings.CONTAINS, key: 'synopsis' },
     ],
   })
 }
@@ -31,4 +31,4 @@ async function reset() {
   books = [...booksData]
 }
 
-export {create, query, read, readManyNotInList, reset}
+export { create, query, read, readManyNotInList, reset }

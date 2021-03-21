@@ -1,5 +1,5 @@
-import {rest} from 'msw'
-import {match} from 'node-match-path'
+import { rest } from 'msw'// to expose api
+import { match } from 'node-match-path'
 import * as booksDB from 'test/data/books'
 import * as usersDB from 'test/data/users'
 import * as listItemsDB from 'test/data/list-items'
@@ -30,14 +30,14 @@ const authUrl = process.env.REACT_APP_AUTH_URL
 
 const handlers = [
   rest.post(`${authUrl}/login`, async (req, res, ctx) => {
-    const {username, password} = req.body
-    const user = await usersDB.authenticate({username, password})
-    return res(ctx.json({user}))
+    const { username, password } = req.body
+    const user = await usersDB.authenticate({ username, password })
+    return res(ctx.json({ user }))
   }),
 
   rest.post(`${authUrl}/register`, async (req, res, ctx) => {
-    const {username, password} = req.body
-    const userFields = {username, password}
+    const { username, password } = req.body
+    const userFields = { username, password }
     await usersDB.create(userFields)
     let user
     try {
@@ -45,16 +45,16 @@ const handlers = [
     } catch (error) {
       return res(
         ctx.status(400),
-        ctx.json({status: 400, message: error.message}),
+        ctx.json({ status: 400, message: error.message }),
       )
     }
-    return res(ctx.json({user}))
+    return res(ctx.json({ user }))
   }),
 
   rest.get(`${apiUrl}/me`, async (req, res, ctx) => {
     const user = await getUser(req)
     const token = getToken(req)
-    return res(ctx.json({user: {...user, token}}))
+    return res(ctx.json({ user: { ...user, token } }))
   }),
 
   rest.get(`${apiUrl}/bootstrap`, async (req, res, ctx) => {
@@ -67,7 +67,7 @@ const handlers = [
         book: await booksDB.read(listItem.bookId),
       })),
     )
-    return res(ctx.json({user: {...user, token}, listItems: listItemsAndBooks}))
+    return res(ctx.json({ user: { ...user, token }, listItems: listItemsAndBooks }))
   }),
 
   rest.get(`${apiUrl}/books`, async (req, res, ctx) => {
@@ -91,19 +91,19 @@ const handlers = [
       }
     }
 
-    return res(ctx.json({books: matchingBooks}))
+    return res(ctx.json({ books: matchingBooks }))
   }),
 
   rest.get(`${apiUrl}/books/:bookId`, async (req, res, ctx) => {
-    const {bookId} = req.params
+    const { bookId } = req.params
     const book = await booksDB.read(bookId)
     if (!book) {
       return res(
         ctx.status(404),
-        ctx.json({status: 404, message: 'Book not found'}),
+        ctx.json({ status: 404, message: 'Book not found' }),
       )
     }
-    return res(ctx.json({book}))
+    return res(ctx.json({ book }))
   }),
 
   rest.get(`${apiUrl}/list-items`, async (req, res, ctx) => {
@@ -115,41 +115,41 @@ const handlers = [
         book: await booksDB.read(listItem.bookId),
       })),
     )
-    return res(ctx.json({listItems: listItemsAndBooks}))
+    return res(ctx.json({ listItems: listItemsAndBooks }))
   }),
 
   rest.post(`${apiUrl}/list-items`, async (req, res, ctx) => {
     const user = await getUser(req)
-    const {bookId} = req.body
+    const { bookId } = req.body
     const listItem = await listItemsDB.create({
       ownerId: user.id,
       bookId: bookId,
     })
     const book = await booksDB.read(bookId)
-    return res(ctx.json({listItem: {...listItem, book}}))
+    return res(ctx.json({ listItem: { ...listItem, book } }))
   }),
 
   rest.put(`${apiUrl}/list-items/:listItemId`, async (req, res, ctx) => {
     const user = await getUser(req)
-    const {listItemId} = req.params
+    const { listItemId } = req.params
     const updates = req.body
     await listItemsDB.authorize(user.id, listItemId)
     const updatedListItem = await listItemsDB.update(listItemId, updates)
     const book = await booksDB.read(updatedListItem.bookId)
-    return res(ctx.json({listItem: {...updatedListItem, book}}))
+    return res(ctx.json({ listItem: { ...updatedListItem, book } }))
   }),
 
   rest.delete(`${apiUrl}/list-items/:listItemId`, async (req, res, ctx) => {
     const user = await getUser(req)
-    const {listItemId} = req.params
+    const { listItemId } = req.params
     await listItemsDB.authorize(user.id, listItemId)
     await listItemsDB.remove(listItemId)
-    return res(ctx.json({success: true}))
+    return res(ctx.json({ success: true }))
   }),
 
   rest.post(`${apiUrl}/profile`, async (req, res, ctx) => {
     // here's where we'd actually send the report to some real data store.
-    return res(ctx.json({success: true}))
+    return res(ctx.json({ success: true }))
   }),
 ].map(handler => {
   const originalResolver = handler.resolver
@@ -164,7 +164,7 @@ const handlers = [
       const status = error.status || 500
       return res(
         ctx.status(status),
-        ctx.json({status, message: error.message || 'Unknown Error'}),
+        ctx.json({ status, message: error.message || 'Unknown Error' }),
       )
     } finally {
       await sleep()
@@ -187,7 +187,7 @@ function shouldFail(req) {
 }
 
 function requestMatchesFailConfig(req) {
-  function configMatches({requestMethod, urlMatch}) {
+  function configMatches({ requestMethod, urlMatch }) {
     return (
       (requestMethod === 'ALL' || req.method === requestMethod) &&
       match(urlMatch, req.url.pathname).matches
@@ -233,4 +233,4 @@ async function getBooksNotInUsersList(userId) {
   return books
 }
 
-export {handlers}
+export { handlers }
