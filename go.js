@@ -14,7 +14,7 @@ const actions = {
   startExtraCredit,
 }
 
-const currentBranch = spawnSync('git rev-parse --abbrev-ref HEAD')
+const currentBranch = spawnSync('git branch --show-current')
 
 async function go() {
   if (currentBranch === 'main') {
