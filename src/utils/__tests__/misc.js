@@ -1,5 +1,3 @@
-import {formatDate} from '../misc'
+export * from './misc.final'
 
-test('formatDate formats the date to look nice', () => {
-  expect(formatDate(new Date('October 18, 1988'))).toEqual('Oct 88')
-})
+// export * from './misc.exercise'
