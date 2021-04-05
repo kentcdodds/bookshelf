@@ -6,7 +6,6 @@ import {ErrorBoundary} from 'react-error-boundary'
 import {Button, ErrorMessage, FullPageErrorFallback} from './components/lib'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
-import {useAuth} from './context/auth-context'
 import {ReadingListScreen} from './screens/reading-list'
 import {FinishedScreen} from './screens/finished'
 import {DiscoverBooksScreen} from './screens/discover'
@@ -28,8 +27,7 @@ function ErrorFallback({error}) {
   )
 }
 
-function AuthenticatedApp() {
-  const {user, logout} = useAuth()
+function AuthenticatedApp({user, logout}) {
   return (
     <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
       <div
@@ -67,7 +65,7 @@ function AuthenticatedApp() {
         </div>
         <main css={{width: '100%'}}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <AppRoutes />
+            <AppRoutes user={user} />
           </ErrorBoundary>
         </main>
       </div>
@@ -110,7 +108,7 @@ function NavLink(props) {
   )
 }
 
-function Nav(params) {
+function Nav() {
   return (
     <nav
       css={{
@@ -145,16 +143,16 @@ function Nav(params) {
   )
 }
 
-function AppRoutes() {
+function AppRoutes({user}) {
   return (
     <Routes>
-      <Route path="/list" element={<ReadingListScreen />} />
-      <Route path="/finished" element={<FinishedScreen />} />
-      <Route path="/discover" element={<DiscoverBooksScreen />} />
-      <Route path="/book/:bookId" element={<BookScreen />} />
+      <Route path="/list" element={<ReadingListScreen user={user} />} />
+      <Route path="/finished" element={<FinishedScreen user={user} />} />
+      <Route path="/discover" element={<DiscoverBooksScreen user={user} />} />
+      <Route path="/book/:bookId" element={<BookScreen user={user} />} />
       <Route path="*" element={<NotFoundScreen />} />
     </Routes>
   )
 }
 
-export default AuthenticatedApp
+export {AuthenticatedApp}
