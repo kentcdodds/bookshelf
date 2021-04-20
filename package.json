@@ -13,7 +13,7 @@
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
     "@reach/dialog": "^0.15.0",
-    "@reach/menu-button": "^0.15.0",
+    "@reach/menu-button": "^0.15.1",
     "@reach/tabs": "^0.15.0",
     "@reach/tooltip": "^0.15.0",
     "@reach/visually-hidden": "^0.15.0",
@@ -37,11 +37,11 @@
     "stop-runaway-react-effects": "^2.0.0"
   },
   "devDependencies": {
-    "@testing-library/cypress": "^7.0.5",
+    "@testing-library/cypress": "^7.0.6",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/react-hooks": "^5.1.1",
-    "@testing-library/user-event": "^13.1.2",
+    "@testing-library/user-event": "^13.1.5",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "cross-env": "^7.0.3",
