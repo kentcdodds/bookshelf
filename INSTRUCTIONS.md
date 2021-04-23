@@ -5,7 +5,7 @@
 > that impact what you learn in EpicReact.dev. Eventually I will re-record
 > everything and update the repo, but until then, you can learn about the
 > differences in the
-> [React Query v3 Migration Guide](https://react-query-v2.tanstack.com/guides/migrating-to-react-query-3).
+> [React Query v3 Migration Guide](https://react-query.tanstack.com/guides/migrating-to-react-query-3).
 > You can find the V2 documentation
 > [here](https://github.com/tannerlinsley/react-query/tree/2.x/docs/src/pages/docs).
 
