@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {useQuery, queryCache} from 'react-query'
+import {useQuery, useQueryClient} from 'react-query'
 import {useClient} from 'context/auth-context'
 import bookPlaceholderSvg from 'assets/book-placeholder.svg'
 
@@ -22,26 +22,25 @@ const bookQueryConfig = {
   cacheTime: 1000 * 60 * 60,
 }
 
-const getBookSearchConfig = (client, query) => ({
+const getBookSearchConfig = (queryClient, client, query) => ({
   queryKey: ['bookSearch', {query}],
   queryFn: () =>
     client(`books?query=${encodeURIComponent(query)}`).then(data => data.books),
-  config: {
-    onSuccess(books) {
-      for (const book of books) {
-        queryCache.setQueryData(
-          ['book', {bookId: book.id}],
-          book,
-          bookQueryConfig,
-        )
-      }
-    },
+  onSuccess(books) {
+    for (const book of books) {
+      queryClient.setQueryData(
+        ['book', {bookId: book.id}],
+        book,
+        bookQueryConfig,
+      )
+    }
   },
 })
 
 function useBookSearch(query) {
   const client = useClient()
-  const result = useQuery(getBookSearchConfig(client, query))
+  const queryClient = useQueryClient()
+  const result = useQuery(getBookSearchConfig(queryClient, client, query))
   return {...result, books: result.data ?? loadingBooks}
 }
 
@@ -57,17 +56,20 @@ function useBook(bookId) {
 
 function useRefetchBookSearchQuery() {
   const client = useClient()
+  const queryClient = useQueryClient()
   return React.useCallback(
     async function refetchBookSearchQuery() {
-      queryCache.removeQueries('bookSearch')
-      await queryCache.prefetchQuery(getBookSearchConfig(client, ''))
+      queryClient.removeQueries('bookSearch')
+      await queryClient.prefetchQuery(
+        getBookSearchConfig(queryClient, client, ''),
+      )
     },
-    [client],
+    [client, queryClient],
   )
 }
 
-function setQueryDataForBook(book) {
-  queryCache.setQueryData(['book', {bookId: book.id}], book, bookQueryConfig)
+function setQueryDataForBook(queryClient, book) {
+  queryClient.setQueryData(['book', {bookId: book.id}], book, bookQueryConfig)
 }
 
 export {useBook, useBookSearch, useRefetchBookSearchQuery, setQueryDataForBook}

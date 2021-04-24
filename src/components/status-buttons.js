@@ -58,9 +58,9 @@ function TooltipButton({label, highlight, onClick, icon, ...rest}) {
 function StatusButtons({book}) {
   const listItem = useListItem(book.id)
 
-  const [mutate] = useUpdateListItem({throwOnError: true})
-  const [handleRemoveClick] = useRemoveListItem({throwOnError: true})
-  const [handleAddClick] = useCreateListItem({throwOnError: true})
+  const {mutateAsync: update} = useUpdateListItem()
+  const {mutateAsync: handleRemoveClick} = useRemoveListItem()
+  const {mutateAsync: handleAddClick} = useCreateListItem()
 
   return (
     <React.Fragment>
@@ -69,14 +69,14 @@ function StatusButtons({book}) {
           <TooltipButton
             label="Mark as unread"
             highlight={colors.yellow}
-            onClick={() => mutate({id: listItem.id, finishDate: null})}
+            onClick={() => update({id: listItem.id, finishDate: null})}
             icon={<FaBook />}
           />
         ) : (
           <TooltipButton
             label="Mark as read"
             highlight={colors.green}
-            onClick={() => mutate({id: listItem.id, finishDate: Date.now()})}
+            onClick={() => update({id: listItem.id, finishDate: Date.now()})}
             icon={<FaCheckCircle />}
           />
         )

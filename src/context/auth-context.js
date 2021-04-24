@@ -2,24 +2,24 @@
 import {jsx} from '@emotion/core'
 
 import * as React from 'react'
-import {queryCache} from 'react-query'
+import {useQueryClient} from 'react-query'
 import * as auth from 'auth-provider'
 import {client} from 'utils/api-client'
 import {useAsync} from 'utils/hooks'
 import {setQueryDataForBook} from 'utils/books'
 import {FullPageSpinner, FullPageErrorFallback} from 'components/lib'
 
-async function bootstrapAppData() {
+async function bootstrapAppData(queryClient) {
   let user = null
 
   const token = await auth.getToken()
   if (token) {
     const data = await client('bootstrap', {token})
-    queryCache.setQueryData('list-items', data.listItems, {
+    queryClient.setQueryData('list-items', data.listItems, {
       staleTime: 5000,
     })
     for (const listItem of data.listItems) {
-      setQueryDataForBook(listItem.book)
+      setQueryDataForBook(queryClient, listItem.book)
     }
     user = data.user
   }
@@ -42,10 +42,12 @@ function AuthProvider(props) {
     setData,
   } = useAsync()
 
+  const queryClient = useQueryClient()
+
   React.useEffect(() => {
-    const appDataPromise = bootstrapAppData()
+    const appDataPromise = bootstrapAppData(queryClient)
     run(appDataPromise)
-  }, [run])
+  }, [run, queryClient])
 
   const login = React.useCallback(
     form => auth.login(form).then(user => setData(user)),
@@ -57,9 +59,9 @@ function AuthProvider(props) {
   )
   const logout = React.useCallback(() => {
     auth.logout()
-    queryCache.clear()
+    queryClient.clear()
     setData(null)
-  }, [setData])
+  }, [setData, queryClient])
 
   const value = React.useMemo(() => ({user, login, logout, register}), [
     login,

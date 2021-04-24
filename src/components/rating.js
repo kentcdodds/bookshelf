@@ -21,7 +21,7 @@ const visuallyHiddenCSS = {
 function Rating({listItem}) {
   const [isTabbing, setIsTabbing] = React.useState(false)
 
-  const [mutate, {error, isError}] = useUpdateListItem()
+  const {mutate, error, isError} = useUpdateListItem()
 
   React.useEffect(() => {
     function handleKeyDown(event) {

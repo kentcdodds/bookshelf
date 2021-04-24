@@ -1,4 +1,3 @@
-import {queryCache} from 'react-query'
 import * as auth from 'auth-provider'
 import {server, rest} from 'test/server'
 import {client} from '../api-client'
@@ -90,7 +89,6 @@ test('automatically logs the user out if a request returns a 401', async () => {
 
   expect(error.message).toMatchInlineSnapshot(`"Please re-authenticate."`)
 
-  expect(queryCache.clear).toHaveBeenCalledTimes(1)
   expect(auth.logout).toHaveBeenCalledTimes(1)
 })
 
