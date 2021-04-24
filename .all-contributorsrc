@@ -439,6 +439,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "daganomri",
+      "name": "Omri Dagan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23617146?v=4",
+      "profile": "http://omridagan.dev",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
