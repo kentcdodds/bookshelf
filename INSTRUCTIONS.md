@@ -226,7 +226,7 @@ Call `auth.logout()` to delete the user's token from the Auth Provider and call
 
 [Production deploy](https://exercises-04-authentication.bookshelf.lol/extra-4)
 
-It won't be long before we need to actually starting sending data along with our
+It won't be long before we need to actually start sending data along with our
 requests, so let's enhance the `client` to support that use case as well.
 
 Here's how we should be able to use the `client` when this is all done:
