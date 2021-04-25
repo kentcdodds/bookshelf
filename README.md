@@ -335,6 +335,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://github.com/payapula"><img src="https://avatars.githubusercontent.com/u/7134153?v=4?s=100" width="100px;" alt=""/><br /><sub><b>payapula</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=payapula" title="Documentation">📖</a></td>
     <td align="center"><a href="https://jelte.tech"><img src="https://avatars.githubusercontent.com/u/35220102?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jelte Homminga</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=jeltehomminga" title="Documentation">📖</a></td>
     <td align="center"><a href="http://omridagan.dev"><img src="https://avatars.githubusercontent.com/u/23617146?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Omri Dagan</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=daganomri" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/justindomingue"><img src="https://avatars.githubusercontent.com/u/1284993?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Justin Domingue</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=justindomingue" title="Documentation">📖</a></td>
   </tr>
 </table>
 
