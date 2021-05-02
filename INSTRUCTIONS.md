@@ -337,7 +337,7 @@ so when they come back we have the search pre-cached and the response is
 immediate.
 
 To do this, you'll need a `refetchBookSearchQuery` function in the `books.js`
-util and a effect cleanup that calls this utility in the `discover.js`
+util and an effect cleanup that calls this utility in the `discover.js`
 component.
 
 📜 You'll want to use `react-query`'s `queryCache.prefetchQuery` and
