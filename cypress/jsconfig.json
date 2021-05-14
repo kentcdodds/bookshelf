@@ -1,0 +1,9 @@
+{
+  "extends": "../jsconfig.json",
+  "compilerOptions": {
+    // be explicit about types included
+    // to avoid clashing with Jest types
+    "types": ["cypress"]
+  },
+  "include": ["../node_modules/cypress", "./**/*.js"]
+}
