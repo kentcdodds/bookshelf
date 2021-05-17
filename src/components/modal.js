@@ -5,7 +5,10 @@ import * as React from 'react'
 import VisuallyHidden from '@reach/visually-hidden'
 import {Dialog, CircleButton} from './lib'
 
-const callAll = (...fns) => (...args) => fns.forEach(fn => fn && fn(...args))
+const callAll =
+  (...fns) =>
+  (...args) =>
+    fns.forEach(fn => fn && fn(...args))
 
 const ModalContext = React.createContext()
 
