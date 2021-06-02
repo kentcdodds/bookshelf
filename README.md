@@ -337,6 +337,9 @@ Thanks goes to these wonderful people
     <td align="center"><a href="http://omridagan.dev"><img src="https://avatars.githubusercontent.com/u/23617146?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Omri Dagan</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=daganomri" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/justindomingue"><img src="https://avatars.githubusercontent.com/u/1284993?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Justin Domingue</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=justindomingue" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://www.maferland.com"><img src="https://avatars.githubusercontent.com/u/5889721?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Marc-Antoine Ferland</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=maferland" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->
