@@ -457,6 +457,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "maferland",
+      "name": "Marc-Antoine Ferland",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5889721?v=4",
+      "profile": "https://www.maferland.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
