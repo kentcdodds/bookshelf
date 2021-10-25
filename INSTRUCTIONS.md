@@ -28,7 +28,7 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 import {
   BrowserRouter as Router,
-  Routes,
+  Switch,
   Route,
   useParams,
   Link,
@@ -67,12 +67,12 @@ function App() {
     <div>
       <h1>Welcome</h1>
       <Nav />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/dog/:dogId" element={<Dog />} />
-        <Route path="*" element={<YouLost />} />
-      </Routes>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/dog/:dogId" component={Dog} />
+        <Route path="*" component={YouLost} />
+      </Switch>
     </div>
   )
 }
