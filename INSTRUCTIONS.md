@@ -21,7 +21,7 @@ manual quality assurance testing either.
 So then you have the brilliant idea to automate the testing and you get to work.
 You start with simple scripts that you run in the app and you click around just
 like you would if you were manually testing. Your co-worker is amazed at how
-fast you get your manual tests all finished and they start doing it to.
+fast you get your manual tests all finished and they start doing it too.
 Eventually, you realize that some of the tests are really slow and you want to
 speed them up and test more granular things so when something fails you have a
 better idea of what's causing the failure.
