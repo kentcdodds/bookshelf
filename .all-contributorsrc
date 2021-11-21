@@ -475,6 +475,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "jansabbe",
+      "name": "jansabbe",
+      "avatar_url": "https://avatars.githubusercontent.com/u/648689?v=4",
+      "profile": "http://www.atrenko.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
