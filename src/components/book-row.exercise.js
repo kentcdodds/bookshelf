@@ -1,45 +1,41 @@
 /** @jsx jsx */
-import {jsx} from '@emotion/core'
+import { jsx } from "@emotion/core";
 
-// We're going to turn the entire book row into a link to the book page
-// 🐨 import the Link component from react-router-dom
-import * as mq from 'styles/media-queries'
-import * as colors from 'styles/colors'
+import { Link } from "react-router-dom";
+import * as mq from "styles/media-queries";
+import * as colors from "styles/colors";
 
-function BookRow({book}) {
-  const {title, author, coverImageUrl} = book
+function BookRow({ book }) {
+  const { title, author, coverImageUrl } = book;
 
-  const id = `book-row-book-${book.id}`
+  const id = `book-row-book-${book.id}`;
 
   return (
     <div
       css={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        position: 'relative',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        position: "relative",
       }}
     >
-      {/*
-          🐨 Turn this div into a Link
-          and add a to prop to make it direct to `/book/${book.id}`
-      */}
-      <div
+      <Link
+        to={`/book/${book.id}`}
         aria-labelledby={id}
         css={{
           minHeight: 270,
           flexGrow: 2,
-          display: 'grid',
-          gridTemplateColumns: '140px 1fr',
+          display: "grid",
+          gridTemplateColumns: "140px 1fr",
           gridGap: 20,
           border: `1px solid ${colors.gray20}`,
           color: colors.text,
-          padding: '1.25em',
-          borderRadius: '3px',
-          ':hover,:focus': {
-            textDecoration: 'none',
-            boxShadow: '0 5px 15px -5px rgba(0,0,0,.08)',
-            color: 'inherit',
+          padding: "1.25em",
+          borderRadius: "3px",
+          ":hover,:focus": {
+            textDecoration: "none",
+            boxShadow: "0 5px 15px -5px rgba(0,0,0,.08)",
+            color: "inherit",
           },
         }}
       >
@@ -54,29 +50,29 @@ function BookRow({book}) {
           <img
             src={coverImageUrl}
             alt={`${title} book cover`}
-            css={{maxHeight: '100%', width: '100%'}}
+            css={{ maxHeight: "100%", width: "100%" }}
           />
         </div>
-        <div css={{flex: 1}}>
-          <div css={{display: 'flex', justifyContent: 'space-between'}}>
-            <div css={{flex: 1}}>
+        <div css={{ flex: 1 }}>
+          <div css={{ display: "flex", justifyContent: "space-between" }}>
+            <div css={{ flex: 1 }}>
               <h2
                 id={id}
                 css={{
-                  fontSize: '1.25em',
-                  margin: '0',
+                  fontSize: "1.25em",
+                  margin: "0",
                   color: colors.indigo,
                 }}
               >
                 {title}
               </h2>
             </div>
-            <div css={{marginLeft: 10}}>
+            <div css={{ marginLeft: 10 }}>
               <div
                 css={{
-                  marginTop: '0.4em',
-                  fontStyle: 'italic',
-                  fontSize: '0.85em',
+                  marginTop: "0.4em",
+                  fontStyle: "italic",
+                  fontSize: "0.85em",
                 }}
               >
                 {author}
@@ -84,13 +80,13 @@ function BookRow({book}) {
               <small>{book.publisher}</small>
             </div>
           </div>
-          <small css={{whiteSpace: 'break-spaces', display: 'block'}}>
+          <small css={{ whiteSpace: "break-spaces", display: "block" }}>
             {book.synopsis.substring(0, 500)}...
           </small>
         </div>
-      </div>
+      </Link>
     </div>
-  )
+  );
 }
 
-export {BookRow}
+export { BookRow };
