@@ -55,6 +55,10 @@ If you have trouble with any of these, learn more about the PATH environment
 variable and how to fix it here for [windows][win-path] or
 [mac/linux][mac-path].
 
+## Demo
+
+Hosted on [https://bookshelf.lol](https://bookshelf.lol)
+
 ## Setup
 
 > If you want to commit and push your work as you go, you'll want to
