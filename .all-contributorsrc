@@ -484,6 +484,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "aswinckr",
+      "name": "Aswin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5960217?v=4",
+      "profile": "https://aswin.design/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
