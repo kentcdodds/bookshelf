@@ -53,5 +53,5 @@ Also, please watch the repo and respond to questions/bug reports/feature
 requests! Thanks!
 
 [egghead]:
-  https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github
+  https://app.egghead.io/playlists/how-to-contribute-to-an-open-source-project-on-github
 [issues]: https://github.com/kentcdodds/bookshelf/issues
