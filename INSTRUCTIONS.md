@@ -92,7 +92,7 @@ That should be enough to get you going on this exercise.
 
 As a fun exercise in routing on the web, you can read this blog post
 demonstrating how you might build your own React Router (version 4):
-https://tylermcginnis.com/build-your-own-react-router-v4/
+https://ui.dev/build-your-own-react-router/
 
 ## Exercise
 
