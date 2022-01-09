@@ -12,7 +12,7 @@ styles.
 
 Because we're using webpack, we can import css files directly into our
 application and utilize the cascading nature of CSS to our advantage for some
-situations
+situations.
 
 After developing production applications at scale, I've found great success
 using a library called [emotion 👩‍🎤](https://emotion.sh). This library uses an
