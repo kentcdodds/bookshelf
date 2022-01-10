@@ -502,6 +502,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "lucianoayres",
+      "name": "Luciano Ayres",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20209393?v=4",
+      "profile": "http://www.lucianoayres.com.br",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
