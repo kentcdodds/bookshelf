@@ -347,6 +347,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="http://www.atrenko.com"><img src="https://avatars.githubusercontent.com/u/648689?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jansabbe</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=jansabbe" title="Documentation">📖</a></td>
     <td align="center"><a href="https://aswin.design/"><img src="https://avatars.githubusercontent.com/u/5960217?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Aswin</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=aswinckr" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/iacopo87"><img src="https://avatars.githubusercontent.com/u/8019803?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Iacopo Pazzaglia</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=iacopo87" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://www.lucianoayres.com.br"><img src="https://avatars.githubusercontent.com/u/20209393?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Luciano Ayres</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=lucianoayres" title="Documentation">📖</a></td>
   </tr>
 </table>
 
