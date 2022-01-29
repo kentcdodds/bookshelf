@@ -511,6 +511,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "sadikaya",
+      "name": "Sadi Kaya",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2705775?v=4",
+      "profile": "https://github.com/sadikaya",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
