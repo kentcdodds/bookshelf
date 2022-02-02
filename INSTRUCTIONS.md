@@ -145,7 +145,7 @@ things) as the intermediary between the client that you're writing and the
 database and other services your application is using. Maybe you're working on
 both the frontend and the backend. Maybe you're on the same team as the backend
 devs. Maybe you're on completely different teams. Maybe you're using services
-and you're backend devs are at a completely different company.
+and their backend devs are at a completely different company.
 
 In any case, it's quite possible that you could be working on features in the
 frontend that don't have a backend ready. Or maybe you want to load your
