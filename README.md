@@ -350,6 +350,9 @@ Thanks goes to these wonderful people
     <td align="center"><a href="http://www.lucianoayres.com.br"><img src="https://avatars.githubusercontent.com/u/20209393?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Luciano Ayres</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=lucianoayres" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/sadikaya"><img src="https://avatars.githubusercontent.com/u/2705775?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sadi Kaya</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=sadikaya" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/rowinbot"><img src="https://avatars.githubusercontent.com/u/18468260?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rowin Hernández</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=rowinbot" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->
