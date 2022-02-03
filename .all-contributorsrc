@@ -520,6 +520,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "rowinbot",
+      "name": "Rowin Hernández",
+      "avatar_url": "https://avatars.githubusercontent.com/u/18468260?v=4",
+      "profile": "https://github.com/rowinbot",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
