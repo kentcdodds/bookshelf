@@ -16,7 +16,7 @@ jest.setTimeout(25000)
 
 function buildUser(overrides) {
   return {
-    id: faker.random.uuid(),
+    id: faker.datatype.uuid(),
     username: faker.internet.userName(),
     password: faker.internet.password(),
     ...overrides,
