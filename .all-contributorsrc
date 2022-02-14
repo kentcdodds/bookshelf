@@ -529,6 +529,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "arturopie",
+      "name": "Arturo Pie",
+      "avatar_url": "https://avatars.githubusercontent.com/u/762752?v=4",
+      "profile": "https://github.com/arturopie",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
