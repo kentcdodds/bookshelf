@@ -21,7 +21,7 @@ test('it updates the rating', async () => {
   const {listItem} = await renderRating()
   const firstStar = screen.getByLabelText('1 star')
 
-  userEvent.click(firstStar)
+  await userEvent.click(firstStar)
 
   await waitFor(async () => {
     const updatedListItem = await listItemsDB.read(listItem.id)

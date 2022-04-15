@@ -5,7 +5,7 @@ import '@reach/tabs/styles.css'
 import '@reach/tooltip/styles.css'
 
 import * as React from 'react'
-import ReactDOM from 'react-dom'
+import {createRoot} from 'react-dom/client'
 import {FaTools} from 'react-icons/fa'
 import {Tooltip} from '@reach/tooltip'
 import {Tabs, TabList, TabPanels, TabPanel, Tab} from '@reach/tabs'
@@ -203,7 +203,7 @@ function install() {
   // add dev tools UI to the page
   const devToolsRoot = document.createElement('div')
   document.body.appendChild(devToolsRoot)
-  ReactDOM.render(<DevTools />, devToolsRoot)
+  createRoot(devToolsRoot).render(<DevTools />)
 }
 
 function ControlsPanel() {
