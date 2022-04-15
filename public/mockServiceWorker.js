@@ -163,9 +163,31 @@ async function getResponse(event, client, requestId) {
     // Remove the bypass header to comply with the CORS preflight check.
     delete cleanRequestHeaders[bypassHeaderName]
 
-    const originalRequest = new Request(requestClone, {
-      headers: new Headers(cleanRequestHeaders),
-    })
+      const reqHeaders = serializeHeaders(request.headers)
+      const body = request.headers.get('Content-Type')?.includes('json')
+        ? await request.json()
+        : await request.text()
+
+      const rawClientMessage = await sendToClient(client, {
+        type: 'REQUEST',
+        payload: {
+          id: requestId,
+          url: request.url,
+          method: request.method,
+          headers: reqHeaders,
+          cache: request.cache,
+          mode: request.mode,
+          credentials: request.credentials,
+          destination: request.destination,
+          integrity: request.integrity,
+          redirect: request.redirect,
+          referrer: request.referrer,
+          referrerPolicy: request.referrerPolicy,
+          body,
+          bodyUsed: request.bodyUsed,
+          keepalive: request.keepalive,
+        },
+      })
 
     return fetch(originalRequest)
   }
