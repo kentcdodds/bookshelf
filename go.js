@@ -64,7 +64,7 @@ async function changeExercise() {
   ])
   spawnSync('git add -A')
   spawnSync('git reset --hard HEAD')
-  spawnSync(`git checkout ${branch}`)
+  spawnSync(`git checkout --track origin/${branch}`)
   if (branch.startsWith('exercises/')) {
     spawnSync('node ./scripts/swap exercise')
   }
