@@ -78,6 +78,7 @@ vscode:
     - formulahendry.auto-rename-tag
     - esbenp.prettier-vscode
     - ms-azuretools.vscode-docker
+    - shd101wyy.markdown-preview-enhanced
 
 ## The 'github' section defines configuration of continuous prebuilds
 ## for GitHub repositories when the GitHub application
