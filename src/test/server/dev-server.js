@@ -1,8 +1,8 @@
 import {setupWorker} from 'msw'
 import {handlers} from './server-handlers'
-import {homepage} from '../../../package.json'
+import pkg from '../../../package.json'
 
-const fullUrl = new URL(homepage)
+const fullUrl = new URL(pkg.homepage)
 
 const server = setupWorker(...handlers)
 
