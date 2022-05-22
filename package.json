@@ -37,6 +37,7 @@
     "stop-runaway-react-effects": "^2.0.0"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.17.12",
     "@testing-library/cypress": "^8.0.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
@@ -81,6 +82,11 @@
     "setup": "node setup",
     "validate-exercises": "node ./scripts/validate-exercises",
     "validate": "npm run validate-exercises && npm-run-all --parallel lint test:coverage build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
