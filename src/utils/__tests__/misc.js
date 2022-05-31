@@ -1,3 +1,3 @@
-export * from './misc.final'
+// export * from './misc.final'
 
-// export * from './misc.exercise'
+export * from './misc.exercise'
