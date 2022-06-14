@@ -1,8 +1,9 @@
 // 🐨 you'll need to import react and createRoot from react-dom up here
-import {React, createRoot} from 'react-dom'
+const React = require('react-dom');
+const createRoot = require('react-dom');
 
 // 🐨 you'll also need to import the Logo component from './components/logo'
-import Logo from './components/logo'
+const Logo = require('./components/logo');
 // 🐨 create an App component here and render the logo, the title ("Bookshelf"), a login button, and a register button.
 function App() {
     return (
@@ -12,8 +13,8 @@ function App() {
         <Welcome name="Edite" />
         <Button onClick={Login}/>
         <Button onClick={Register}/>
-
-      </div>
+        </div>
+     
     );
   }
 // 🐨 for fun, you can add event handlers for both buttons to alert that the button was clicked
