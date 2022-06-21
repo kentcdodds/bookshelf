@@ -1,19 +1,9 @@
-import * as React from 'react'
-import {useAuth} from './context/auth-context'
-import {FullPageSpinner} from './components/lib'
+export * from './app.final'
 
-const AuthenticatedApp = React.lazy(() =>
-  import(/* webpackPrefetch: true */ './authenticated-app'),
-)
-const UnauthenticatedApp = React.lazy(() => import('./unauthenticated-app'))
+// export * from './app.exercise'
 
-function App() {
-  const {user} = useAuth()
-  return (
-    <React.Suspense fallback={<FullPageSpinner />}>
-      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
-    </React.Suspense>
-  )
-}
+// 💯 Load the user's data on page load
+// export * from './app.extra-1'
 
-export {App}
+// 💯 Use `useAsync`
+// export * from './app.extra-2'
