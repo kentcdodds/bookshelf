@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const fs = require('fs')
-const inquirer = require('inquirer')
 const {
   spawnSync,
   getExerciseBranches,
@@ -23,7 +22,9 @@ async function go() {
     return
   }
 
-  const {action} = await inquirer.prompt([
+  const {action} = await (
+    await import('inquirer')
+  ).default.prompt([
     {
       name: 'action',
       message: `What do you want to do?`,
@@ -47,7 +48,9 @@ function getDisplayName(exerciseBranch) {
 }
 
 async function changeExercise() {
-  const {branch} = await inquirer.prompt([
+  const {branch} = await (
+    await import('inquirer')
+  ).default.prompt([
     {
       name: 'branch',
       message: `Which exercise do you want to start working on?`,
@@ -86,7 +89,9 @@ async function startExtraCredit() {
     return `Extra Credit ${variant}: ${extraCreditTitles[variant - 1]}`
   }
 
-  const {variant} = await inquirer.prompt([
+  const {variant} = await (
+    await import('inquirer')
+  ).default.prompt([
     {
       name: 'variant',
       message: `Which part do you want to work on?`,

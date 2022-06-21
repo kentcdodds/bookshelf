@@ -1,5 +1,4 @@
 const fs = require('fs')
-const inquirer = require('inquirer')
 const {spawnSync, getVariants, getExtraCreditTitles} = require('./utils')
 
 const branch = spawnSync('git rev-parse --abbrev-ref HEAD')
@@ -29,7 +28,9 @@ async function go() {
   const extraCreditTitles = getExtraCreditTitles()
 
   if (!match) {
-    const prompt = await inquirer.prompt([
+    const prompt = await (
+      await import('inquirer')
+    ).default.prompt([
       {
         name: 'matchVal',
         message: `Which modules do you want loaded?`,
