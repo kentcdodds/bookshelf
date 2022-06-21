@@ -4,7 +4,7 @@
   "private": true,
   "author": "Kent C. Dodds <me@kentcdodds.com> (https://kentcdodds.com/)",
   "license": "GPL-3.0-only",
-  "homepage": "https://bookshelf.lol/",
+  "homepage": "https://exercises-06-cache-management.bookshelf.lol/",
   "engines": {
     "node": ">=16",
     "npm": ">=8.16.0"
@@ -81,7 +81,7 @@
     "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\"",
     "setup": "node setup",
     "validate-exercises": "node ./scripts/validate-exercises",
-    "validate": "npm run validate-exercises && npm-run-all --parallel lint test:coverage build"
+    "validate": "npm run validate-exercises && npm-run-all --parallel lint test:coverage && node ./scripts/build"
   },
   "babel": {
     "presets": [
