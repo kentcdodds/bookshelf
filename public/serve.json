@@ -1,9 +1,1 @@
-{
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/list",
-      "type": 302
-    }
-  ]
-}
+{}
