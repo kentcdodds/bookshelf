@@ -1,4 +1,4 @@
-// 🐨 instead of React Testing Library, you'll use React Hooks Testing Library
+// 🐨 We'll use renderHook rather than render here
 // import {renderHook, act} from '@testing-library/react'
 // 🐨 Here's the thing you'll be testing:
 // import {useAsync} from '../hooks'
