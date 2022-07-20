@@ -357,6 +357,7 @@ Thanks goes to these wonderful people
   <tr>
     <td align="center"><a href="https://github.com/rowinbot"><img src="https://avatars.githubusercontent.com/u/18468260?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rowin Hernández</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=rowinbot" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/arturopie"><img src="https://avatars.githubusercontent.com/u/762752?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Arturo Pie</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=arturopie" title="Code">💻</a></td>
+    <td align="center"><a href="http://jasik.xyz"><img src="https://avatars.githubusercontent.com/u/10626596?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Caleb Jasik</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=jasikpark" title="Documentation">📖</a></td>
   </tr>
 </table>
 
