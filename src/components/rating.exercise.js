@@ -25,7 +25,7 @@ function Rating({listItem, user}) {
   //   and the updates as data. The mutate function will be called with the updates
   //   you can pass as data.
   // 💰 if you want to get the list-items cache updated after this query finishes
-  // the use the `onSettled` config option to queryCache.invalidateQueries('list-items')
+  // then use the `onSettled` config option to queryCache.invalidateQueries('list-items')
   const update = () => {}
 
   React.useEffect(() => {

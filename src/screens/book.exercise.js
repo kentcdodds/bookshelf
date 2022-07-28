@@ -137,7 +137,7 @@ function NotesTextarea({listItem, user}) {
   //   and the updates as data. The mutate function will be called with the updates
   //   you can pass as data.
   // 💰 if you want to get the list-items cache updated after this query finishes
-  // the use the `onSettled` config option to queryCache.invalidateQueries('list-items')
+  // then use the `onSettled` config option to queryCache.invalidateQueries('list-items')
   // 💣 DELETE THIS ESLINT IGNORE!! Don't ignore the exhaustive deps rule please
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const mutate = () => {}
