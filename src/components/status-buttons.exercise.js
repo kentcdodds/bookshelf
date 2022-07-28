@@ -57,7 +57,7 @@ function StatusButtons({user, book}) {
   const listItem = null
 
   // 💰 for all the mutations below, if you want to get the list-items cache
-  // updated after this query finishes the use the `onSettled` config option
+  // updated after this query finishes then use the `onSettled` config option
   // to queryCache.invalidateQueries('list-items')
 
   // 🐨 call useMutation here and assign the mutate function to "update"
