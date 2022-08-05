@@ -7,7 +7,7 @@
   "homepage": "https://bookshelf.lol/",
   "engines": {
     "node": "14 || 16 || 18",
-    "npm": ">=6"
+    "npm": ">=8.16.0"
   },
   "dependencies": {
     "@emotion/core": "^10.0.35",
