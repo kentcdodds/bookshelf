@@ -44,7 +44,7 @@
 
 - [git][git] v2.13 or greater
 - [NodeJS][node] `14 || 16 || 18`
-- [npm][npm] v6 or greater
+- [npm][npm] v8.16.0 or greater
 
 All of these must be available in your `PATH`. To verify things are set up
 properly, you can run this:
