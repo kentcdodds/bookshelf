@@ -1,5 +1,5 @@
 [build]
-  command = "npm run setup"
+  command = "npm run validate"
   publish = "build"
 [[plugins]]
   package = "netlify-plugin-cypress"
