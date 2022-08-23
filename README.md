@@ -359,6 +359,7 @@ Thanks goes to these wonderful people
     <td align="center"><a href="https://github.com/arturopie"><img src="https://avatars.githubusercontent.com/u/762752?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Arturo Pie</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=arturopie" title="Code">💻</a></td>
     <td align="center"><a href="http://jasik.xyz"><img src="https://avatars.githubusercontent.com/u/10626596?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Caleb Jasik</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=jasikpark" title="Documentation">📖</a></td>
     <td align="center"><a href="http://serverkhalilov.com"><img src="https://avatars.githubusercontent.com/u/16454623?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Server Khalilov</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=red17electro" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/AngadSethi"><img src="https://avatars.githubusercontent.com/u/58678541?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Angad Sethi</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=AngadSethi" title="Documentation">📖</a></td>
   </tr>
 </table>
 
