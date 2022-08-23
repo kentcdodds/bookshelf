@@ -186,7 +186,7 @@ if the failure count is greater than 2.
 https://reactjs.org/docs/error-boundaries.html
 
 📜 Learn more about query config:
-https://react-query-v2.tanstack.com/docs/api#reactqueryconfigprovider
+https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#reactqueryconfigprovider
 
 ```javascript
 const queryConfig = {
