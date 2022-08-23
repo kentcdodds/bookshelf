@@ -343,8 +343,8 @@ component.
 📜 You'll want to use `react-query`'s `queryCache.prefetchQuery` and
 `queryCache.removeQueries` functions:
 
-- https://react-query-v2.tanstack.com/docs/api#querycacheremovequeries
-- https://react-query-v2.tanstack.com/docs/api#querycacheprefetchquery
+- https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#querycacheremovequeries
+- https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#querycacheprefetchquery
 
 **Files:**
 
@@ -393,8 +393,8 @@ book is: `['book', {bookId}]`.
 📜 Here are some docs you might find helpful:
 
 - `queryCache.setQueryData`:
-  https://react-query-v2.tanstack.com/docs/api#querycachesetquerydata
-- `config.onSuccess`: https://react-query-v2.tanstack.com/docs/api#usequery
+  https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#querycachesetquerydata
+- `config.onSuccess`: https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#usequery
 
 **Files:**
 
@@ -427,18 +427,18 @@ the notes textarea shows up instantly.
 about the following things:
 
 - `onMutate`, `onError` and `onSettled`:
-  https://react-query-v2.tanstack.com/docs/api#usemutation (use `onMutate` to
+  https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#usemutation (use `onMutate` to
   make your optimistic update, use `onError` to restore the original value, and
   use `onSettled` to trigger a refetch of all the `list-items` to be sure you
   have the very latest data). NOTE: What you return from `onMutate` will be the
   third argument received by `onError`.
 - `queryCache.invalidateQueries`:
-  https://react-query-v2.tanstack.com/docs/api#querycacheinvalidatequeries
+  https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#querycacheinvalidatequeries
 - `queryCache.getQueryData`:
-  https://react-query-v2.tanstack.com/docs/api#querycachegetquerydata (to get
+  https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#querycachegetquerydata (to get
   the data you'll restore in the event of an error)
 - `queryCache.setQueryData`:
-  https://react-query-v2.tanstack.com/docs/api#querycachesetquerydata (to set it
+  https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#querycachesetquerydata (to set it
   to the optimistic version of the data and to restore the original data if
   there's an error)
 
