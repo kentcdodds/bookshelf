@@ -35,7 +35,7 @@ describe('smoke', () => {
     // 🐨 mark the book as read
     //
     // the radio buttons are fancy and the inputs themselves are visually hidden
-    // in favor of nice looking stars, so we have to the force option to click.
+    // in favor of nice looking stars, so we have to use the force option to click.
     // 📜 https://docs.cypress.io/api/commands/click.html#Arguments
     // 🐨 click the 5 star rating radio button
     //
