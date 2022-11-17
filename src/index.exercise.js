@@ -6,11 +6,12 @@ import {createRoot} from 'react-dom/client'
 import {Dialog} from '@reach/dialog'
 import {useState} from 'react'
 import '@reach/dialog/styles.css'
+
 // 🐨 create an App component here and render the logo, the title ("Bookshelf"), a login button, and a register button.
 // 🐨 for fun, you can add event handlers for both buttons to alert that the button was clicked
 
-function LoginForm({onSubmit, buttonText}) {
-  function handleSubmit(e) {
+function LoginForm({onSubmit, buttonTxt}) {
+  const handleSubmit = e => {
     e.preventDefault()
     const {username, password} = e.target.elements
 
@@ -31,7 +32,7 @@ function LoginForm({onSubmit, buttonText}) {
         <input id="password" type="password" />
       </div>
       <div>
-        <button type="submit">{buttonText}</button>
+        <button type="submit">{buttonTxt}</button>
       </div>
     </form>
   )
@@ -40,14 +41,12 @@ function LoginForm({onSubmit, buttonText}) {
 const App = () => {
   const [openModal, setOpenModal] = useState('none')
 
-  function login(formData) {
+  const login = formData => {
     console.log('login', formData)
-    setOpenModal('none')
   }
 
-  function register(formData) {
+  const register = formData => {
     console.log('register', formData)
-    setOpenModal('none')
   }
 
   return (
@@ -63,7 +62,7 @@ const App = () => {
           <button type="button" onClick={() => setOpenModal('none')}>
             close
           </button>
-          <LoginForm buttonText="Login" onSubmit={login} />
+          <LoginForm onSubmit={login} buttonTxt="Login" />
         </Dialog>
         <button type="button" onClick={() => setOpenModal('register')}>
           Register
@@ -76,7 +75,7 @@ const App = () => {
           <button type="button" onClick={() => setOpenModal('none')}>
             Close
           </button>
-          <LoginForm buttonText="Register" onSubmit={register} />
+          <LoginForm onSubmit={register} buttonTxt="Register" />
         </Dialog>
       </div>
     </div>
