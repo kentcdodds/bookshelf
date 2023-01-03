@@ -32,22 +32,20 @@ const Button = styled.button({
   lineHeight: '1',
   borderRadius: '3px',
 }, ({ variant = 'primary' }) => buttonVariants[variant]);
-// 🎨 here are a bunch of styles you can copy/paste if you want
-// Button:
 
-// Button variant="primary" (in addition to the above styles)
+const Input = styled.input({
+  borderRadius: '3px',
+  border: '1px solid #f1f1f4',
+  background: '#f1f2f7',
+  padding: '8px 12px',
+})
 
-// Button variant="secondary" (in addition to the above styles)
-
-// Input
-//   borderRadius: '3px',
-//   border: '1px solid #f1f1f4',
-//   background: '#f1f2f7',
-//   padding: '8px 12px',
+const FormGroup = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+})
 
 // FormGroup
-//   display: 'flex',
-//   flexDirection: 'column',
 
 // 💰 I'm giving a few of these to you:
 const CircleButton = styled.button({
@@ -77,4 +75,4 @@ const Dialog = styled(ReachDialog)({
   },
 })
 
-export { CircleButton, Dialog, Button }
+export { CircleButton, Dialog, Button, Input, FormGroup }
