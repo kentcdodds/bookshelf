@@ -1,28 +1,31 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { Dialog as ReachDialog } from '@reach/dialog'
+import * as colors from '../styles/colors';
+import * as mq from '../styles/media-queries';
+import { FaSpinner } from 'react-icons/fa';
+import { keyframes } from '@emotion/core';
 
-// 🐨 create a button styled component here called "Button"
-// make it look nice and allow it to support a "variant" prop which can be
-// either "primary" or "secondary".
-// 💰 don't forget to export it at the bottom!
-// 💰 In my final version, I style padding, border, lineHeight, and borderRadius
-//    the same for both types, and then change the background and color based
-//    on the given variant.
-// 🦉 remember, you don't have to make things look perfect or just like they
-// do in the final example. Just make sure you understand how to create the
-// styled component and accept a prop to change which styles apply.
+const spin = keyframes({
+  '0%': { transform: 'rotate(0deg)' },
+  '100%': { transform: 'rotate(360deg)' }
+});
 
-// 🐨 Feel free to create as many reusable styled components here as you'd like
-// 💰 in my finished version I have: Button, Input, CircleButton, Dialog, FormGroup
+const Spinner = styled(FaSpinner)({
+  animation: `${spin} 1s linear infinite`
+});
+
+Spinner.defaultProps = {
+  'aria-label': 'loading'
+}
 
 const buttonVariants = {
   primary: {
-    background: '#3f51b5',
-    color: 'white',
+    background: colors.indigo,
+    color: colors.base,
   },
   secondary: {
-    background: '#f1f2f7',
-    color: '#434449',
+    background: colors.gray,
+    color: colors.text,
   }
 }
 
@@ -45,9 +48,6 @@ const FormGroup = styled.div({
   flexDirection: 'column',
 })
 
-// FormGroup
-
-// 💰 I'm giving a few of these to you:
 const CircleButton = styled.button({
   borderRadius: '30px',
   padding: '0',
@@ -69,10 +69,10 @@ const Dialog = styled(ReachDialog)({
   paddingBottom: '3.5em',
   boxShadow: '0 10px 30px -5px rgba(0, 0, 0, 0.2)',
   margin: '20vh auto',
-  '@media (max-width: 991px)': {
+  [mq.small]: {
     width: '100%',
     margin: '10vh auto',
   },
 })
 
-export { CircleButton, Dialog, Button, Input, FormGroup }
+export { CircleButton, Dialog, Button, Input, FormGroup, Spinner }

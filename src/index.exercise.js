@@ -1,19 +1,12 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-// up here so you can use the css prop
-
-// 🐨 let's get a solid reset of global styles so everything looks a bit better
-// In this project we're using bootstrap-reboot which you can import from
 import 'bootstrap/dist/css/bootstrap-reboot.css'
-// 🦉 Note: you can definitely use regular styles to style React apps
-// and using any modern toolchain will allow you to simply import the CSS file
-// but CSS-in-JS is generally easier to maintain.
+
 import '@reach/dialog/styles.css'
 import * as React from 'react'
 import { createRoot } from 'react-dom/client'
-// 🐨 you'll need to import some new components that you'll be creating
-// in this file
-import { Button, Input, FormGroup } from './components/lib'
+
+import { Button, Input, FormGroup, Spinner } from './components/lib'
 import { Modal, ModalContents, ModalOpenButton } from './components/modal'
 import { Logo } from './components/logo'
 
@@ -48,7 +41,7 @@ function LoginForm({ onSubmit, submitButton }) {
         <label htmlFor="password">Password</label>
         <Input id="password" type="password" />
       </FormGroup>
-      <div>{React.cloneElement(submitButton, { type: 'submit' })}</div>
+      <div>{React.cloneElement(submitButton, { type: 'submit' })}<Spinner /></div>
     </form>
   )
 }
