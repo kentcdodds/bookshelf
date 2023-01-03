@@ -1,6 +1,6 @@
-export * from './lib.final'
+// export * from './lib.final'
 
-// export * from './lib.exercise'
+export * from './lib.exercise'
 
 // 💯 use the emotion macro
 // export * from './lib.extra-1'
