@@ -13,7 +13,7 @@ function useSafeDispatch(dispatch) {
 }
 
 // Example usage:
-// const {data, error, status, run} = useAsync()
+const {data, error, status, run} = useAsync()
 // React.useEffect(() => {
 //   run(fetchPokemon(pokemonName))
 // }, [pokemonName, run])
