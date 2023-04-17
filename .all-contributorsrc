@@ -574,6 +574,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "DiegoCardoso",
+      "name": "Diego Cardoso",
+      "avatar_url": "https://avatars.githubusercontent.com/u/262432?v=4",
+      "profile": "https://github.com/DiegoCardoso",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
