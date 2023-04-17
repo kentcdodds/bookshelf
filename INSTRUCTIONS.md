@@ -40,7 +40,7 @@ We can drastically simplify our UI state management if we split out the server
 cache into something separate.
 
 A fantastic solution for managing the server cache on the client is
-[`react-query`](https://react-query-v2.tanstack.com/). It is a set of React
+[`react-query`](https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/overview.md). It is a set of React
 hooks that allow you to query, cache, and mutate data on your server in a way
 that's flexible to support many use cases and optimizations but opinionated
 enough to provide a huge amount of value. And thanks to the power of hooks, we
@@ -74,8 +74,8 @@ function App({tweetId}) {
 
 📜 here are the docs:
 
-- `useQuery`: https://react-query-v2.tanstack.com/docs/guides/queries
-- `useMutation`: https://react-query-v2.tanstack.com/docs/guides/mutations
+- `useQuery`: https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#usequery
+- `useMutation`: https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#usemutation
 
 That should be enough to get you going.
 
