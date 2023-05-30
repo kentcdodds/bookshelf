@@ -6,7 +6,7 @@
   "license": "GPL-3.0-only",
   "homepage": "https://bookshelf.lol/",
   "engines": {
-    "node": "14 || 16 || 18",
+    "node": ">=16",
     "npm": ">=8.16.0"
   },
   "dependencies": {
