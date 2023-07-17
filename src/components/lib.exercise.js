@@ -17,18 +17,29 @@ import {Dialog as ReachDialog} from '@reach/dialog'
 
 // 🎨 here are a bunch of styles you can copy/paste if you want
 // Button:
-//   padding: '10px 15px',
-//   border: '0',
-//   lineHeight: '1',
-//   borderRadius: '3px',
+
+const buttonVariants = {
+  primary: {
+    background: '#3f51b5',
+    color: 'white',
+  },
+  secondary {
+    background: '#f1f2f7',
+    color: '#434449'
+  }
+}
+
+const Button = styled.button({
+  padding: '10px 15px',
+  border: '0',
+  lineHeight: '1',
+  borderRadius: '3px',
+},   ({variant = 'primary'}) => buttonVariants[variant])
 
 // Button variant="primary" (in addition to the above styles)
-//   background: '#3f51b5',
-//   color: 'white',
 
 // Button variant="secondary" (in addition to the above styles)
-//   background: '#f1f2f7',
-//   color: '#434449',
+,
 
 // Input
 //   borderRadius: '3px',
@@ -56,16 +67,17 @@ const CircleButton = styled.button({
   cursor: 'pointer',
 })
 
-const Dialog = styled(ReachDialog)({
-  maxWidth: '450px',
-  borderRadius: '3px',
-  paddingBottom: '3.5em',
-  boxShadow: '0 10px 30px -5px rgba(0, 0, 0, 0.2)',
-  margin: '20vh auto',
-  '@media (max-width: 991px)': {
-    width: '100%',
-    margin: '10vh auto',
-  },
-})
+const Dialog = styled(ReachDialog)(
+  {
+    maxWidth: '450px',
+    borderRadius: '3px',
+    paddingBottom: '3.5em',
+    boxShadow: '0 10px 30px -5px rgba(0, 0, 0, 0.2)',
+    margin: '20vh auto',
+    '@media (max-width: 991px)': {
+      width: '100%',
+      margin: '10vh auto',
+    },
+  })
 
-export {CircleButton, Dialog}
+export {Button, CircleButton, Dialog}
