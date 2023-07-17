@@ -4,7 +4,7 @@
   "private": true,
   "author": "Kent C. Dodds <me@kentcdodds.com> (https://kentcdodds.com/)",
   "license": "GPL-3.0-only",
-  "homepage": "https://exercises-01-bootstrap.bookshelf.lol/",
+  "homepage": "https://exercises-01-bootstrap.bookshelf.lol/exercise/",
   "engines": {
     "node": ">=16",
     "npm": ">=8.16.0"
