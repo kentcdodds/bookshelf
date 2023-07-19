@@ -1,6 +1,5 @@
-// no final
+function proxy(app) {
+  app.get(/^\/$/, (req, res) => res.redirect('/discover'))
+}
 
-module.exports = require('./setupProxy.exercise')
-
-// 💯 handle URL redirects
-// module.exports = require('./setupProxy.extra-1')
+module.exports = proxy
