@@ -2,8 +2,7 @@
 import {jsx} from '@emotion/core'
 
 import * as React from 'react'
-// we need to get the "bookId" param from the router
-// 🐨 import the useParams hook from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import {client} from 'utils/api-client'
 import * as mq from 'styles/media-queries'
 import {useAsync} from 'utils/hooks'
@@ -19,12 +18,7 @@ const loadingBook = {
 }
 
 function BookScreen({user}) {
-  // 🐨 use the useParams hook. This'll give you back an object with all the
-  // params you've specified in the route definition. You should be able to get
-  // the bookId from that.
-
-  // 💣 remove this, we're getting the bookId from useParams instead.
-  const bookId = '??'
+  const {bookId} = useParams()
   const {data, run} = useAsync()
 
   React.useEffect(() => {
