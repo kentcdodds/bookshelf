@@ -10,13 +10,15 @@ import {
   FaTimesCircle,
 } from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
-// 🐨 you'll need useQuery, useMutation, and queryCache from 'react-query'
-import {useMutation} from reactQuery
-import {client} from 'utils/api-client'
-import {useAsync} from 'utils/hooks'
+import {
+  useListItem,
+  useUpdateListItem,
+  useRemoveListItem,
+  useCreateListItem,
+} from 'utils/list-items'
 import * as colors from 'styles/colors'
+import {useAsync} from 'utils/hooks'
 import {CircleButton, Spinner} from './lib'
-import reactQuery from 'react-query'
 
 function TooltipButton({label, highlight, onClick, icon, ...rest}) {
   const {isLoading, isError, error, run} = useAsync()
@@ -49,11 +51,12 @@ function TooltipButton({label, highlight, onClick, icon, ...rest}) {
   )
 }
 
+function StatusButtons({user, book}) {
+  const listItem = useListItem(user, book.id)
 
-  const listItem = null
-const [create] = useMutation(
-  ({bookId}) => client('list-items', {data: {bookId}, token: user.token})
-)
+  const [update] = useUpdateListItem(user)
+  const [remove] = useRemoveListItem(user)
+  const [create] = useCreateListItem(user)
 
   return (
     <React.Fragment>
@@ -62,18 +65,14 @@ const [create] = useMutation(
           <TooltipButton
             label="Unmark as read"
             highlight={colors.yellow}
-            // 🐨 add an onClick here that calls update with the data we want to update
-            // 💰 to mark a list item as unread, set the finishDate to null
-            // {id: listItem.id, finishDate: null}
+            onClick={() => update({id: listItem.id, finishDate: null})}
             icon={<FaBook />}
           />
         ) : (
           <TooltipButton
             label="Mark as read"
             highlight={colors.green}
-            // 🐨 add an onClick here that calls update with the data we want to update
-            // 💰 to mark a list item as read, set the finishDate
-            // {id: listItem.id, finishDate: Date.now()}
+            onClick={() => update({id: listItem.id, finishDate: Date.now()})}
             icon={<FaCheckCircle />}
           />
         )
@@ -82,7 +81,7 @@ const [create] = useMutation(
         <TooltipButton
           label="Remove from list"
           highlight={colors.danger}
-          // 🐨 add an onClick here that calls remove
+          onClick={() => remove({id: listItem.id})}
           icon={<FaMinusCircle />}
         />
       ) : (
