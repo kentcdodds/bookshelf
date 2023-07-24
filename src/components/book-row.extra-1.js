@@ -11,6 +11,12 @@ import {Rating} from './rating'
 function BookRow({user, book}) {
   const {title, author, coverImageUrl} = book
 
+  const {data: listItems} = useQuery({
+    queryKey: 'list-items',
+    queryFn: () =>
+      client(`list-items`, {token: user.token}).then(data => data.listItems),
+  })
+
   const listItem = useListItem(user, book.id)
 
   const id = `book-row-book-${book.id}`
