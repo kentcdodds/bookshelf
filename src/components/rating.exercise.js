@@ -20,7 +20,6 @@ const visuallyHiddenCSS = {
 
 function Rating({listItem, user}) {
   const [isTabbing, setIsTabbing] = React.useState(false)
-
   const [update] = useMutation(
     updates =>
       client(`list-items/${updates.id}`, {
