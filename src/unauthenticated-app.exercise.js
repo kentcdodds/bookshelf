@@ -5,7 +5,7 @@ import * as React from 'react'
 import {Input, Button, Spinner, FormGroup, ErrorMessage} from './components/lib'
 import {Modal, ModalContents, ModalOpenButton} from './components/modal'
 import {Logo} from './components/logo'
-// 🐨 get AuthContext from ./context/auth-context
+import {AuthContext} from './context/auth-context'
 import {useAsync} from './utils/hooks'
 
 function LoginForm({onSubmit, submitButton}) {
