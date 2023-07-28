@@ -59,10 +59,8 @@ function LoginForm({onSubmit, submitButton}) {
   )
 }
 
-// you'll no longer receive the login and register functions as props
-// 💣 remove the props
-function UnauthenticatedApp({login, register}) {
-  // 🐨 get login and register from the AuthContext using useContext
+function UnauthenticatedApp() {
+  const {login, register} = React.useContext
   return (
     <div
       css={{

@@ -15,7 +15,7 @@ function DiscoverBooksScreen({user}) {
   const [query, setQuery] = React.useState('')
   const [queried, setQueried] = React.useState(false)
   // 💣 remove the user argument here
-  const {books, error, status} = useBookSearch(query, user)
+  const {books, error, status} = useBookSearch(query)
   // 🐨 use the new useRefetchBookSearchQuery to get the
   // refetchBookSearchQuery function which handles accessing the user
 
