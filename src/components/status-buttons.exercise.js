@@ -52,9 +52,7 @@ function TooltipButton({label, highlight, onClick, icon, ...rest}) {
   )
 }
 
-// 💣 remove user from the props
 function StatusButtons({book}) {
-  // 💣 remove the user from all these function calls
   const listItem = useListItem(book.id)
   const [update] = useUpdateListItem({throwOnError: true})
   const [remove] = useRemoveListItem({throwOnError: true})
