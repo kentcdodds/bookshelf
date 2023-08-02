@@ -90,12 +90,7 @@ function DiscoverBooksScreen() {
           <BookListUL css={{marginTop: 20}}>
             {books.map(book => (
               <li key={book.id} aria-label={book.title}>
-                <BookRow
-                  // 💣 remove the user prop here
-                  user={user}
-                  key={book.id}
-                  book={book}
-                />
+                <BookRow key={book.id} book={book} />
               </li>
             ))}
           </BookListUL>
