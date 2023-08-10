@@ -1,3 +1,5 @@
-export * from './misc.final'
+import {server} from 'test/server'
 
-// export * from './misc.exercise'
+beforeAll(() => server.listen())
+afterAll(() => server.close())
+afterEach(() => server.resetHandlers())
