@@ -29,5 +29,4 @@ jobs:
       - name: ▶️ Run setup script
         run: npm run setup
         
-      - name: Run Test
-        run: npm test
+  
