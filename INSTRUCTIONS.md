@@ -38,7 +38,7 @@ In this extra credit, get the `Dialog` component from `@reach/dialog` and make
 it open when the user clicks the Login or Register button. It's a fantastic
 component with a great API and fantastic accessibility characteristics.
 
-📜 https://reacttraining.com/reach-ui/dialog
+📜 https://reach.tech/dialog
 
 💰 as with everything, there are many ways to do this. For me, I actually render
 two individual dialogs and toggle which is open based on a `openModal` state
