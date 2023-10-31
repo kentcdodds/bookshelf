@@ -366,6 +366,7 @@ Thanks goes to these wonderful people
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/kmccoan"><img src="https://avatars.githubusercontent.com/u/4242047?v=4?s=100" width="100px;" alt="kmccoan"/><br /><sub><b>kmccoan</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=kmccoan" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://ehsan.tatasadi.com"><img src="https://avatars.githubusercontent.com/u/18641021?v=4?s=100" width="100px;" alt="Ehsan Tatasadi"/><br /><sub><b>Ehsan Tatasadi</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=tatasadi" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
