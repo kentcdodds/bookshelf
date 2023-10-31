@@ -397,7 +397,6 @@ Thank you!
 [npm]: https://www.npmjs.com/
 [node]: https://nodejs.org
 [git]: https://git-scm.com/
-[build-badge]: https://img.shields.io/github/workflow/status/kentcdodds/bookshelf/validate/main?logo=github&style=flat-square
 [build]: https://github.com/kentcdodds/bookshelf/actions?query=workflow%3Avalidate
 [license-badge]: https://img.shields.io/badge/license-GPL%203.0%20License-blue.svg?style=flat-square
 [license]: https://github.com/kentcdodds/bookshelf/blob/main/LICENSE
