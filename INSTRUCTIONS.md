@@ -11,7 +11,7 @@ user to share a link to another user who can use it to go directly to a piece of
 content on a given website is fantastic. Other platforms don't really have this.
 
 The de-facto standard library for routing React applications is
-[React Router](https://reacttraining.com/react-router). It's terrific.
+[React Router](https://reactrouter.com/). It's terrific.
 
 The idea behind routing on the web is you have some API that informs you of
 changes to the URL, then you react (no pun intended) to those changes by
