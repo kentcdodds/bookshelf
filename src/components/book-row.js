@@ -24,6 +24,8 @@ function BookRow({book}) {
       }}
     >
       <Link
+add
+
         aria-labelledby={id}
         to={`/book/${book.id}`}
         css={{
