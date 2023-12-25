@@ -68,6 +68,7 @@ function useRemoveListItem(options) {
       return () => queryCache.setQueryData('list-items', previousItems)
     },
     ...defaultMutationOptions,
+    ...options,
   })
 }
 
