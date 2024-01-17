@@ -7,7 +7,7 @@ Elaborate on your learnings here in `INSTRUCTIONS.md`
 ## Background
 
 There are many ways to style React applications, each approach comes with its
-own trade-offs, but ultimately all of them comes back stylesheets and inline
+own trade-offs, but ultimately all of them come back to stylesheets and inline
 styles.
 
 Because we're using webpack, we can import css files directly into our
