@@ -11,7 +11,7 @@ function loadDevTools(callback) {
     }
   }
 
-  // the check localStorage
+  // then check localStorage
   const localStorageValue = window.localStorage.getItem('dev-tools')
   const setInLocalStorage = localStorageValue != undefined
   const localStorageEnabled = localStorageValue === 'true'
