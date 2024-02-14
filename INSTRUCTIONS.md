@@ -50,7 +50,7 @@ import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {MyComponent} from '../my-component'
 
-test('renders click me button', () => {
+test('renders click me button', async () => {
   render(<MyComponent />)
   const button = screen.getByRole('button', {name: /click me/i})
   await userEvent.click(button)
