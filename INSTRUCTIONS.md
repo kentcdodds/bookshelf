@@ -24,7 +24,7 @@ This is called "Code splitting".
 
 📜 Here are some relevant docs from React
 
-- [Code-splitting in the React Docs](https://reactjs.org/docs/code-splitting.html)
+- [Code-splitting in the React Docs](https://react.dev/reference/react/lazy#suspense-for-code-splitting)
 
 This optimization is intended to improve what's called the
 ["Time to First Meaningful Paint"](https://web.dev/first-meaningful-paint/). The
