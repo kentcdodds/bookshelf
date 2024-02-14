@@ -31,7 +31,7 @@
 // 🐨 create a ModalDismissButton component that accepts children which will be
 // the button which we want to clone to set it's onClick prop to trigger the
 // modal to close
-// 📜 https://reactjs.org/docs/react-api.html#cloneelement
+// 📜 https://react.dev/reference/react/cloneElement
 // 💰 to get the setIsOpen function you'll need, you'll have to useContext!
 // 💰 keep in mind that the children prop will be a single child (the user's button)
 
