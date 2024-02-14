@@ -183,7 +183,7 @@ See if you can figure out how to make it not retry if the error status is 404 or
 if the failure count is greater than 2.
 
 📜 Learn more about error boundaries:
-https://reactjs.org/docs/error-boundaries.html
+https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary
 
 📜 Learn more about query config:
 https://github.com/TanStack/query/blob/2.x/docs/src/pages/docs/api.md#reactqueryconfigprovider
