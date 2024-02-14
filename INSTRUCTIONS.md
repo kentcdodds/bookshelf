@@ -19,7 +19,7 @@ provider could provide.
 
 📜 For a refresher on the APIs we'll be using:
 
-- https://reactjs.org/docs/hooks-reference.html#usecontext
+- https://react.dev/reference/react/useContext
 
 ## Exercise
 
