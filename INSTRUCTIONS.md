@@ -131,7 +131,7 @@ sure you don't miss that step. For more information on this, read
 
 With that in place, we can now tell React where we want to start collecting
 performance information. We're going to be using React's
-[`<Profiler />`](https://reactjs.org/docs/profiler.html) component to do this
+[`<Profiler />`](https://react.dev/reference/react/Profiler) component to do this
 performance measuring and reporting. You'll want to send the data for the
 profile in a `POST` request to `/profile` (`client('profile', {body: data}))`).
 Note that it is not necessary to send a `token` because this is not an
