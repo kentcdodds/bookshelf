@@ -12,6 +12,9 @@ import {FinishedScreen} from './screens/finished'
 import {DiscoverBooksScreen} from './screens/discover'
 import {BookScreen} from './screens/book'
 import {NotFoundScreen} from './screens/not-found'
+import { Logo } from 'components/logo'
+import './assets/customCss.css'
+import { RiLogoutBoxFill } from "react-icons/ri";
 
 function ErrorFallback({error}) {
   return (
@@ -32,6 +35,9 @@ function AuthenticatedApp() {
   const {user, logout} = useAuth()
   return (
     <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
+      <div className='leftLogo'>
+        <Logo /> <span>Bookshelf</span>
+      </div>
       <div
         css={{
           display: 'flex',
@@ -41,9 +47,12 @@ function AuthenticatedApp() {
           right: '10px',
         }}
       >
-        {user.username}
-        <Button variant="secondary" css={{marginLeft: '10px'}} onClick={logout}>
-          Logout
+        <div className='usernameLabel'>
+          {user.username}
+        </div>
+        
+         <Button className='logoutBtn' variant="secondary" css={{marginLeft: '10px'}} onClick={logout}>
+         <RiLogoutBoxFill /> Logout
         </Button>
       </div>
       <div
