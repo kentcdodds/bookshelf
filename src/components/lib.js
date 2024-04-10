@@ -60,6 +60,12 @@ const Button = styled.button(
     border: '0',
     lineHeight: '1',
     borderRadius: '3px',
+    transition: 'all 0.5s ease',
+    ':hover': {
+      color: colors.indigo,
+      background: colors.base,
+      border: `1px solid ${colors.indigo}`,
+    },
   },
   ({variant = 'primary'}) => buttonVariants[variant],
 )

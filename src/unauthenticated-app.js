@@ -65,45 +65,92 @@ function UnauthenticatedApp() {
     <div
       css={{
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
+        flexDirection: 'row',
+
         width: '100%',
         height: '100vh',
       }}
     >
-      <Logo width="80" height="80" />
-      <h1>Bookshelf</h1>
       <div
         css={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-          gridGap: '0.75rem',
+          background: '#e86c60',
+          width: '33.33%',
+          height: '100vh',
+          borderRight: '1px solid   #fff',
+          borderRightWidth: 5,
+          borderTopRightRadius: '150%',
+          borderBottomRightRadius: '50%',
+          '@media (max-width: 768px)': {
+            display: 'none',
+          },
+        }}
+      ></div>
+      <div
+        css={{
+          width: '33.33%',
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          '@media (max-width: 768px)': {
+            width: '100%',
+          },
         }}
       >
-        <Modal>
-          <ModalOpenButton>
-            <Button variant="primary">Login</Button>
-          </ModalOpenButton>
-          <ModalContents aria-label="Login form" title="Login">
-            <LoginForm
-              onSubmit={login}
-              submitButton={<Button variant="primary">Login</Button>}
-            />
-          </ModalContents>
-        </Modal>
-        <Modal>
-          <ModalOpenButton>
-            <Button variant="secondary">Register</Button>
-          </ModalOpenButton>
-          <ModalContents aria-label="Registration form" title="Register">
-            <LoginForm
-              onSubmit={register}
-              submitButton={<Button variant="secondary">Register</Button>}
-            />
-          </ModalContents>
-        </Modal>
+        {' '}
+        <Logo width="80" height="80" />
+        <h1
+          className="
+text-design-stroke"
+        >
+          Bookshelf
+        </h1>
+        <div
+          css={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+            gridGap: '0.75rem',
+          }}
+        >
+          <Modal>
+            <ModalOpenButton>
+              <Button variant="primary">Login</Button>
+            </ModalOpenButton>
+            <ModalContents aria-label="Login form" title="Login">
+              <LoginForm
+                onSubmit={login}
+                submitButton={<Button variant="primary">Login</Button>}
+              />
+            </ModalContents>
+          </Modal>
+          <Modal>
+            <ModalOpenButton>
+              <Button variant="secondary">Register</Button>
+            </ModalOpenButton>
+            <ModalContents aria-label="Registration form" title="Register">
+              <LoginForm
+                onSubmit={register}
+                submitButton={<Button variant="secondary">Register</Button>}
+              />
+            </ModalContents>
+          </Modal>
+        </div>
       </div>
+      <div
+        css={{
+          background: '#43a6dd',
+          width: '33.33%',
+          height: '100vh',
+          borderLeft: '1px solid #fff',
+          borderLeftWidth: 1,
+          borderTopLeftRadius: '50%',
+          borderBottomLeftRadius: '150%',
+          '@media (max-width: 768px)': {
+            display: 'none',
+          },
+        }}
+      ></div>
     </div>
   )
 }
