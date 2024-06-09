@@ -28,7 +28,7 @@ given application for different use cases. The first allows you to make a
 component that "carries its styles with it." The second allows you to apply
 styles to a component.
 
-NOTE: It's important to know that while emotion works just as well as it always
+NOTE: It's important to know that while emotion works just well as it always
 has in styling React apps (and the benefits are still there), there are newer
 approaches (specifically [tailwindcss](https://tailwindcss.com/)) which don't
 suffer from limitations in server rendering and runtime performance that some
