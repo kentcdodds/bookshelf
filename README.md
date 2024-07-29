@@ -244,31 +244,23 @@ window.__bookshelf.purgeListItems()
   
   <summary>Running "node go" does not list any branches</summary>
   
-This means there was something wrong when you ran the setup. Try running:
+This means there was something wrong when you ran the setup.
+
+> If you made your own fork of `bookshelf` through GitHub, you may have only got
+> the `main` branch -- that's the default option
+
+Add a new `upstream` remote
 
 ```
-node ./scripts/track-branches.js
+git remote add upstream https://github.com/kentcdodds/bookshelf.git
 ```
 
-If you're still not getting the branches, then you can do this manually:
+> You might get an `error: remote upstream already exists.` -- no problem!
+
+Track all the branches from that original repository
 
 ```
-git branch --track "exercises/01-bootstrap" "origin/exercises/01-bootstrap"
-git branch --track "exercises/02-styles" "origin/exercises/02-styles"
-git branch --track "exercises/03-data-fetching" "origin/exercises/03-data-fetching"
-git branch --track "exercises/04-authentication" "origin/exercises/04-authentication"
-git branch --track "exercises/05-routing" "origin/exercises/05-routing"
-git branch --track "exercises/06-cache-management" "origin/exercises/06-cache-management"
-git branch --track "exercises/07-context" "origin/exercises/07-context"
-git branch --track "exercises/08-compound-components" "origin/exercises/08-compound-components"
-git branch --track "exercises/09-performance" "origin/exercises/09-performance"
-git branch --track "exercises/10-render-as-you-fetch" "origin/exercises/10-render-as-you-fetch"
-git branch --track "exercises/11-unit-testing" "origin/exercises/11-unit-testing"
-git branch --track "exercises/12-testing-hooks-and-components" "origin/exercises/12-testing-hooks-and-components"
-git branch --track "exercises/13-integration-testing" "origin/exercises/13-integration-testing"
-git branch --track "exercises/14-e2e-testing" "origin/exercises/14-e2e-testing"
-
-git pull --all
+git push origin --tags "refs/remotes/upstream/*:refs/heads/*"
 ```
 
 </details>
