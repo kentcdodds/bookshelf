@@ -362,6 +362,7 @@ Thanks goes to these wonderful people
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/PM6"><img src="https://avatars.githubusercontent.com/u/12296209?v=4?s=100" width="100px;" alt="PM6"/><br /><sub><b>PM6</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=PM6" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/benjaminmatthews"><img src="https://avatars.githubusercontent.com/u/6886936?v=4?s=100" width="100px;" alt="benjaminmatthews"/><br /><sub><b>benjaminmatthews</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=benjaminmatthews" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://junagao.com"><img src="https://avatars.githubusercontent.com/u/615616?v=4?s=100" width="100px;" alt="juliane nagao"/><br /><sub><b>juliane nagao</b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=junagao" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Creeland"><img src="https://avatars.githubusercontent.com/u/518406?v=4?s=100" width="100px;" alt="Creeland A. Provinsal "/><br /><sub><b>Creeland A. Provinsal </b></sub></a><br /><a href="https://github.com/kentcdodds/bookshelf/commits?author=Creeland" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
