@@ -370,7 +370,7 @@ there.
 >
 > ```diff
 > - await userEvent.click(element)
-> + await fakeTimerUserEvent.click(elemenet)
+> + await fakeTimerUserEvent.click(element)
 > ```
 
 **Files:**
