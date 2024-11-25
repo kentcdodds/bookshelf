@@ -637,6 +637,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "McCambley",
+      "name": "Jake McCambley",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74033573?v=4",
+      "profile": "http://jakemccambley.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
