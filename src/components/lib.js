@@ -70,7 +70,7 @@ const inputStyles = {
   padding: '8px 12px',
 }
 
-const Input = styled.input({borderRadius: '3px'}, inputStyles)
+const Input = styled.input({borderRadius: '3px', borderRadius:'10px'}, inputStyles)
 const Textarea = styled.textarea(inputStyles)
 
 const Dialog = styled(ReachDialog)({
